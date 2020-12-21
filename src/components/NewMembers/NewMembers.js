@@ -173,7 +173,9 @@ export default class NewMembers extends Component {
             </View>
             {/* ======================= */}
             <View style={{marginTop: 20}}>
-              <Text style={{marginBottom: 12}}>Email Address</Text>
+              <Text style={{marginBottom: 12, fontFamily: 'Nunito-Regular'}}>
+                Email Address
+              </Text>
               <TextInput
                 keyboardType="email-address"
                 multiline
@@ -191,7 +193,9 @@ export default class NewMembers extends Component {
             </View>
             {/* =================================================================== */}
             <View style={{marginTop: 20}}>
-              <Text style={{marginBottom: 12}}>Contact Number</Text>
+              <Text style={{marginBottom: 12, fontFamily: 'Nunito-Regular'}}>
+                Contact Number
+              </Text>
               <TextInput
                 keyboardType="number-pad"
                 onChangeText={text => {
@@ -208,7 +212,9 @@ export default class NewMembers extends Component {
             </View>
             {/* =========================================================== */}
             <View style={{marginTop: 20}}>
-              <Text style={{marginBottom: 12}}>Home Address</Text>
+              <Text style={{marginBottom: 12, fontFamily: 'Nunito-Regular'}}>
+                Home Address
+              </Text>
               <TextInput
                 keyboardType="default"
                 onChangeText={text => {
@@ -229,7 +235,7 @@ export default class NewMembers extends Component {
               <Text
                 style={{
                   fontSize: 17,
-                  fontWeight: 'bold',
+                  fontFamily: 'Nunito-Bold',
                   marginBottom: 20,
                 }}>
                 Have you visited our church before?
@@ -237,7 +243,14 @@ export default class NewMembers extends Component {
             </View>
             <View style={{width: width / 9}}>
               <View style={{flexDirection: 'row'}}>
-                <Text style={{marginTop: 8, fontSize: 16}}>Yes</Text>
+                <Text
+                  style={{
+                    marginTop: 8,
+                    fontSize: 16,
+                    fontFamily: 'Nunito-Regular',
+                  }}>
+                  Yes
+                </Text>
                 <RadioButton
                   color="#000"
                   value="first"
@@ -248,7 +261,13 @@ export default class NewMembers extends Component {
                 />
               </View>
               <View style={{flexDirection: 'row'}}>
-                <Text style={{marginTop: 8, fontSize: 16, marginRight: 4}}>
+                <Text
+                  style={{
+                    marginTop: 8,
+                    fontSize: 16,
+                    marginRight: 4,
+                    fontFamily: 'Nunito-Regular',
+                  }}>
                   No
                 </Text>
                 <RadioButton
@@ -293,7 +312,7 @@ export default class NewMembers extends Component {
             </Picker>
             {/* =============================================================================== */}
             <View style={{marginTop: 20}}>
-              <Text style={{marginBottom: 14, fontWeight: 'bold'}}>
+              <Text style={{marginBottom: 14, fontFamily: 'Nunito-Bold'}}>
                 Anything you would like us to pray with you about?
               </Text>
               <TextInput
@@ -315,7 +334,13 @@ export default class NewMembers extends Component {
           <TouchableOpacity
             onPress={this.sentDataToDb}
             style={styles.Pressable}>
-            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 18}}>
+            <Text
+              style={{
+                color: '#fff',
+
+                fontSize: 18,
+                fontFamily: 'Nunito-Bold',
+              }}>
               Submit
             </Text>
           </TouchableOpacity>

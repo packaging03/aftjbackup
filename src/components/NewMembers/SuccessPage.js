@@ -28,7 +28,7 @@ const SuccessPage = ({navigation}) => {
             style={{
               marginTop: 20,
               marginBottom: 10,
-              fontWeight: 'bold',
+              fontFamily: 'Nunito-Bold',
               fontSize: 20,
               textAlign: 'center',
             }}>
@@ -45,6 +45,7 @@ const SuccessPage = ({navigation}) => {
                 justifyContent: 'center',
                 textAlign: 'center',
                 marginBottom: 30,
+                fontFamily: 'Nunito-Regular',
               }}>
               Your registration as a new member was successfull
             </Text>
@@ -53,9 +54,12 @@ const SuccessPage = ({navigation}) => {
             style={{
               // justifyContent: 'center',
               textAlign: 'center',
+              fontFamily: 'Nunito-Regular',
             }}>
             Click on the button below to have access to our
-            <Text style={{fontWeight: 'bold'}}> New Member Resources</Text>
+            <Text style={{fontFamily: 'Nunito-Bold'}}>
+              New Member Resources
+            </Text>
           </Text>
         </View>
         <Pressable
@@ -73,7 +77,7 @@ const SuccessPage = ({navigation}) => {
           <Text
             style={{
               textAlign: 'center',
-              fontWeight: 'bold',
+              fontFamily: 'Nunito-Bold',
               fontSize: 18,
               color: '#000',
             }}>
@@ -97,7 +101,7 @@ const SuccessPage = ({navigation}) => {
           <Text
             style={{
               textAlign: 'center',
-              fontWeight: 'bold',
+              fontFamily: 'Nunito-Bold',
               fontSize: 18,
               color: '#000',
             }}>
