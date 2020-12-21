@@ -1,13 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  Alert,
-  Platform,
-  PermissionsAndroid,
-} from 'react-native';
+import {StyleSheet, View, Dimensions, PermissionsAndroid} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import CurrentLocationButton from './CurrentLocationButton';
@@ -98,7 +91,7 @@ export default function GoogleMap({side}) {
         console.log(error.message);
       },
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         timeout: 30000,
         maximumAge: 1000,
       },
