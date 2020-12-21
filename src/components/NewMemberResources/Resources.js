@@ -7,7 +7,7 @@ const Resources = ({navigation}) => {
 
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
-
+    
     var ids = [];
             
     var x = 0;

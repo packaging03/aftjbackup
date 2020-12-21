@@ -7,38 +7,51 @@ import { WebView } from 'react-native-webview';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+var questionsandanswers;
 const Resource = ({route, navigation}) => {
 
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const ids = route.params.ids;
     var question = 0;
-    var questionid = [];
     var answers = []
+    
             
     const getData = async (id) => {
+
         try {
-        let response = await fetch('https://church.aftjdigital.com/api/retrieve/'+id+'/assessment');
-        let json = await response.json();
-        console.log(json.data);
-        setData(json.data);
-        var i;
-        for (i = 1; i <= data.length; i++) {
-            questionid.push(i);
+
+
+            let response = await fetch('https://church.aftjdigital.com/api/retrieve/'+id+'/assessment');
+            let json = await response.json();
+            // console.log(json.data.length);
+            setData(json.data);
+            setLoading(false);
             
-        }
-        console.log(questionid);
+            // console.log('number: '+json.data);
+            // console.log('number: '+questionsandanswers[0]);
+            
         setLoading(false);
         } catch (error) {
-          console.error(error.name);
+          
           if (error.message == 'Network request failed'){
-            Toast.show('Internet Connection Error', Toast.LONG);
+             Toast.show('Internet Connection Error', Toast.LONG);
           }
         }
     };
 
     useEffect(() => {
         getData(route.params.id);
+        questionsandanswers = data;
+        var i; var num = 0;
+        for (i = 0; i < questionsandanswers.length; i++) {
+            // console.log('hi');
+            num = num + 1;
+            questionsandanswers[i]["num"] = num;
+            // Object.assign(questionsandanswers[i], {num: ++i});
+            console.log('works: '+JSON.stringify(questionsandanswers[i]));
+            
+        }
         // console.log('id: '+ids.findIndex(2))
         //function to show auth alert call
        
@@ -68,16 +81,13 @@ const Resource = ({route, navigation}) => {
         const [isSelected2, setSelection2] = useState(false);
         const [isSelected3, setSelection3] = useState(false);
         const [isSelected4, setSelection4] = useState(false);
-        var well = 0;
-        const getId = (array)=>{
-            console.log('well'+questionid[++well]);
-            return questionid[++well];
-        }
+       
+        console.log('ids: '+ids);
         
         return (
           <View>
 
-            <Text style={styles.question}>Question {getId(questionid)} : {item.question}</Text>
+            <Text style={styles.question}>Question {item.num} : {item.question}</Text>
                 <View style={styles.option}>
                     <CheckBox
                         value={isSelected1}
@@ -100,7 +110,8 @@ const Resource = ({route, navigation}) => {
                         }}
                         style={styles.checkbox}
                         />
-                    <Text style={{...styles.text, width:'85%', marginLeft:-1}}>{item.option1}</Text>
+                    <Text 
+                    style={{...styles.text, width:'85%', marginLeft:-1}}>{item.option1}</Text>
 
                 </View>
                 <View style={styles.option}>
@@ -171,6 +182,38 @@ const Resource = ({route, navigation}) => {
         />
       );
 
+      const getHeader = () => {
+        return  <View>
+        <Text style={{
+                   fontFamily:'Nunito',
+                   fontWeight:'400',
+                   marginLeft:16,
+                   fontSize:16, marginBottom:8}}>Assessment</Text>
+               <Text style={styles.text}>Please take this assessment test when you are done with</Text>
+               <Text style={styles.text}>this Session in other for you to move to the next Session</Text>
+               <View
+                   style={{
+                   height: 1,
+                   width: '100%',
+                   marginTop:20,
+                   marginBottom:20,
+                   backgroundColor: '#CED0CE',
+                   }}
+               />
+
+   </View>
+       
+       
+    };
+
+    const getFooter = () => {
+        return <CustomButton onPress={() => submit()} buttonStyle={
+            { width:'100%', 
+            marginTop:20,
+            marginBottom:40
+            }}>Submit</CustomButton>
+    }
+
  
 
     return(
@@ -219,45 +262,27 @@ const Resource = ({route, navigation}) => {
                 </View>
                 </View>
 
-                <ScrollView style={{flex:1}}>
-                <View>
+                
+                <View style={{flex:1}}>
 
-                    <Text style={{
-                        fontFamily:'Nunito',
-                        fontWeight:'400',
-                        marginLeft:16,
-                        fontSize:16, marginBottom:8}}>Assessment</Text>
-                    <Text style={styles.text}>Please take this assessment test when you are done with</Text>
-                    <Text style={styles.text}>this Session in other for you to move to the next Session</Text>
-                    <View
-                        style={{
-                        height: 1,
-                        width: '100%',
-                        marginTop:20,
-                        marginBottom:20,
-                        backgroundColor: '#CED0CE',
-                        }}
-                    />
-
+                   
                     {isLoading ? (
                     <ActivityIndicator size="large" style={{marginTop: 50}} />
                     ) : (
                     <FlatList
-                        data={data}
+                        data={questionsandanswers}
                         ItemSeparatorComponent={renderSeparator}
                         renderItem={renderItem}
                         keyExtractor={item => item.id.toString()}
+                        ListHeaderComponent={getHeader}
+                        ListFooterComponent={getFooter}
                     />
                     )}
 
-                    <CustomButton onPress={() => submit()} buttonStyle={
-                        { width:'100%', 
-                        marginTop:10,
-                        marginBottom:40
-                        }}>Submit</CustomButton>
+                    
                 </View>
 
-                </ScrollView>
+                
         </View>
     )
 
