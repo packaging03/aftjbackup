@@ -59,7 +59,7 @@ const SuccessPage = ({navigation}) => {
           </Text>
         </View>
         <Pressable
-          onPress={() => alert('New Member Resources page under construction!')}
+          onPress={() => navigation.navigate('NM-Resources')}
           style={{
             marginTop: 35,
             alignSelf: 'center',

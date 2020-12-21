@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "#133",
 
     width: width - 0,
-    height: height - 40,
+    height: height - 25,
     marginBottom: 10,
     alignSelf: 'center',
     borderWidth: 1,
