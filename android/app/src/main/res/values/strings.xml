@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AFTj Church</string>
+    <string name="facebook_app_id">972036786587513</string>
+<string name="fb_login_protocol_scheme">fb972036786587513</string>
+</resources>
