@@ -16,11 +16,39 @@ const Resource = ({route, navigation}) => {
     const [currentVideo, setCurrentVideo] = useState(route.params.uri);
     var videos = route.params.videos;
     
-    const [questionsandanswers, setQuestionsAndAnswers] = useState(data);
     
     var answers = []
+    var obj = {};
 
     
+    const sendResults  = async(id, array) => {
+
+        fetch('https://church.aftjdigital.com/api/assessment'+id+'/validate', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              // 'Authorization': `bearer ${accessToken}`,
+              'Content-Type': 'application/json'
+          },
+            body: JSON.stringify({
+              
+              payload:array
+            
+            })
+          })
+          .then((response) => response.json())
+          .then((responseJson) =>{
+              console.log("Res:" + JSON.stringify(responseJson));
+             
+          })
+          .catch((error) => {
+            console.log("error:" + error);
+             
+            alert(error)
+        });
+
+
+    }
             
     async function getData(id) {
 
@@ -53,34 +81,50 @@ const Resource = ({route, navigation}) => {
     };
 
 
-    const setQuestionNums = () => {
-
-        
-    }
     useEffect(() => {
         getData(route.params.id);
-        setQuestionNums();
-
-        
-        // console.log('id: '+ids.findIndex(2))
-        //function to show auth alert call
-       
+      
     }, []);
+
 
     const submit = () => {
         
+        var array = [];
+        var answer = { };
+        
+        var i = 0;
+        for (i = 0; i < Object.keys(obj).length; i++) {
+
+            answer = {"questionId:": Object.keys(obj)[i], "answer": obj[Object.keys(obj)[0]]};
+            array.push(answer);
+            
+        }
+        sendResults(ids[item], array);
+        console.log('array: '+JSON.stringify(array));
         if (item === (ids.length - 1)){
+
+            
             navigation.navigate('NM-Confirmation');
             return;
-        }
-        console.log(item);
-        item = item + 1;
-        
-        getData(ids[item]);
-        setQuestionNums();
+            
+        }else{
 
-        var index = videos.indexOf(currentVideo) +  1;
-        setCurrentVideo(videos[index]);
+            console.log('anwer: '+ JSON.stringify(array));
+            console.log(item);
+            item = item + 1;
+            
+            getData(ids[item]);
+            // setQuestionNums();
+
+            var index = videos.indexOf(currentVideo) +  1;
+            setCurrentVideo(videos[index]);
+
+            
+        }
+
+        obj = [];
+       
+        
         // 
     }
         
@@ -107,7 +151,7 @@ const Resource = ({route, navigation}) => {
         return (
           <View>
 
-            <Text style={styles.question}>Question {item.num} : {item.question}</Text>
+            <Text style={{...styles.question, marginTop:15}}>Question {item.num} : {item.question}</Text>
                 <View style={styles.option}>
                     <CheckBox
                         value={isSelected1}
@@ -119,8 +163,11 @@ const Resource = ({route, navigation}) => {
                                 setSelection3(false);
                                 setSelection4(false);
 
+                                obj[item.id] = "option1";
+                                console.log('obj: '+JSON.stringify(obj));
+                                
                                 answers.push('optionA');
-                                console.log('newvalue:'+answers);
+                                
                             }
                             if (!isSelected1){
                                 setSelection1(true);
@@ -144,7 +191,11 @@ const Resource = ({route, navigation}) => {
                                 setSelection4(false);
                                 setSelection3(false);
                                 setSelection1(false);
+
+                                obj[item.id] = "option2";
+                                console.log('obj: '+JSON.stringify(obj));
                             }
+
                             if (!newValue){
                                 setSelection2(true);
                             }
@@ -163,6 +214,9 @@ const Resource = ({route, navigation}) => {
                                 setSelection1(false);
                                 setSelection2(false);
                                 setSelection4(false);
+
+                                obj[item.id] = "option3";
+                                console.log('obj: '+JSON.stringify(obj));
                             }
                             if (!newValue){
                                 setSelection3(true);
@@ -173,7 +227,7 @@ const Resource = ({route, navigation}) => {
                     <Text style={{...styles.text, width:'85%', marginLeft:-1}}>{item.option3}</Text>
 
                 </View>
-                <View style={styles.option}>
+                <View style={{...styles.option, marginBottom:10}}>
                     <CheckBox
                         value={isSelected4}
                         onValueChange={(newValue) => {
@@ -182,6 +236,9 @@ const Resource = ({route, navigation}) => {
                                 setSelection1(false);
                                 setSelection2(false);
                                 setSelection3(false);
+
+                                obj[item.id] = "option4";
+                                console.log('obj: '+JSON.stringify(obj));
                             }
                             if (!newValue){
                                 setSelection4(true);
@@ -227,14 +284,26 @@ const Resource = ({route, navigation}) => {
     };
 
     const getFooter = () => {
-        return <CustomButton onPress={() => submit()} buttonStyle={
-            { width:'100%', 
-            marginTop:20,
-            marginBottom:40
-            }}>Submit</CustomButton>
-    }
+        return <View>
 
- 
+            <View
+                style={{
+                height: 1,
+                width: '100%',
+                marginTop:20,
+                marginBottom:20,
+                backgroundColor: '#CED0CE',
+                }}
+            />  
+            <CustomButton onPress={() => submit()} buttonStyle={
+                { width:'100%', 
+                marginTop:20,
+                marginBottom:40
+                }}>Submit</CustomButton>
+
+        </View>
+              
+    }
 
     return(
 
