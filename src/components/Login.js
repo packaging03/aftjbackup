@@ -108,23 +108,6 @@ const Login = ({navigation, setUser, setUserToken, setAccessToken}) => {
       setError('All Fields are required');
       setLoading(false);
     } else {
-      // auth()
-      //   .signInWithEmailAndPassword(email, password)
-      //   .then(() => {
-      //     // normal login
-      //   })
-      //   .catch(error => {
-      //     alert(error);
-      //     switch (error.code) {
-      //       case 'auth/user-not-found':
-      //         setError('User not found, please register user first');
-      //         break;
-      //       case 'auth/wrong-password':
-      //         setError('Email or password incorrect');
-      //         break;
-      //     }
-      //     setLoading(false);
-      //   });
       fetch('https://church.aftjdigital.com/api/login', {
         method: 'POST',
         headers: {
@@ -154,7 +137,6 @@ const Login = ({navigation, setUser, setUserToken, setAccessToken}) => {
           setError('Failed to Login');
           setLoading(false);
         });
-      // signIn(email, 'username', password);
     }
   }
 
@@ -162,13 +144,6 @@ const Login = ({navigation, setUser, setUserToken, setAccessToken}) => {
     setLoading(false);
     setUserToken(2);
     Toast.show('Login Successful', Toast.LONG);
-
-    // Alert.alert('Successful');
-    // navigation.navigate('Drawer');
-    // const {login} = App;
-    // setEmail('');
-    // setPassword('');
-    // setError('');
   }
 
   return (

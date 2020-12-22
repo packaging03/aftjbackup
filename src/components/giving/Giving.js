@@ -143,9 +143,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   pay: {
-    backgroundColor: 'gray',
+    backgroundColor: '#c5cad2',
     width: 280,
     height: 50,
+    elevation: 7,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,

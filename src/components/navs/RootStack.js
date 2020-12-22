@@ -55,7 +55,8 @@ import Announcements from '../Announcements';
 import Bulletin from '../Bulletin';
 import NewBulletin from '../NewBulletin';
 import TodaysBulletin from '../TodaysBulletin';
-import Giving from '../Giving';
+import Giving from '../../components/giving/Giving';
+
 import BibleHome from '../BibleHome';
 import TodaysReading from '../DaysReading';
 import BibleChapters from '../BibleChapters';
@@ -91,6 +92,9 @@ import ForumMessages from '../ForumMessages';
 import Activities from '../Profile/Activities';
 import NoteRoot from '../NoteRoot';
 import ChatRoom from '../ChatRoom';
+import Addnote from '../Addnote';
+import NoteDetails from '../NoteDetails';
+import Editnote from '../Editnote';
 
 const Stack = createStackNavigator();
 const RootStack = ({
@@ -806,6 +810,63 @@ const RootStack = ({
           headerShown: true,
         }}
       />
+
+      <Stack.Screen
+        name="Addnote"
+        component={Addnote}
+        options={{
+          title: 'Notes',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          headerTintColor: '#000',
+        }}
+      />
+
+
+    <Stack.Screen
+      name="NoteDetails"
+      component={NoteDetails}
+      options={{
+        title: 'Note Pad',
+        headerStyle: {
+          backgroundColor: '#fff',
+          headerTintColor: '#000',
+        },
+        // headerRight: () => (
+        //   <View
+        //     style={{
+        //       flexDirection: 'row',
+        //       paddingRight: '30%',
+        //       alignItems: 'center',
+        //     }}>
+        //     <Image
+        //       onPress={() => navigation.navigate('Home')}
+        //       style={{width: 20, height: 20, marginRight: 15}}
+        //       source={require('../../assets/edit.png')}
+        //     />
+        //   </View>
+        // ),
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+
+    <Stack.Screen
+      name="Editnote"
+      component={Editnote}
+      options={{
+        title: 'Note Pad',
+        headerStyle: {
+          backgroundColor: '#fff',
+          headerTintColor: '#000',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
 
       <Stack.Screen
         name="DepartmentForm"

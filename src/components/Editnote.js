@@ -7,13 +7,16 @@ import {Picker} from '@react-native-community/picker';
 import ToggleSwitch from 'toggle-switch-react-native';
 import Spinner from './common/Spinner';
 
+//const NoteDetails = ({route, navigation}) => {
+function Addnote({navigation, route, accessToken, user}) {
 
-function Addnote({navigation, accessToken, user}) {
-  const [theme, setTheme] = useState('');
-  const [name, setName] = useState('');
-  const [ptext, setPtext] = useState('');
-  const [note, setNote] = useState('');
-  //const [mystate, setMystate] = useState('');
+  //const {name, category, ptext, date, id, token, content} = route.params;
+
+  const [theme, setTheme] = useState(route.params.category);
+  const [name, setName] = useState(route.params.name);
+  const [ptext, setPtext] = useState(route.params.ptext);
+  const [note, setNote] = useState(route.params.content);
+  const [id, setId] = useState(route.params.id);
   const [visible, setVisible] = useState(false);
   
   const [loading, setLoading] = useState('');
@@ -28,13 +31,7 @@ function Addnote({navigation, accessToken, user}) {
       return;
     }
 
-    // let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    // if (reg.test(email) === false) {
-    //   Toast.show("Your email is  Incorrect!")
-    //   return false;
-    // }
     else {
-      //console.log("Email is Correct");
       setLoading(true);
       if (name === '' || theme === '' || ptext === '' || visible === '' || note === '') {
         alert('All fields are required');
@@ -42,8 +39,8 @@ function Addnote({navigation, accessToken, user}) {
         return;
       } else {
   
-        fetch('https://church.aftjdigital.com/api/add-note', {
-                    method: 'POST',
+        fetch('https://church.aftjdigital.com/api/note/update/' + id, {
+                    method: 'PUT',
                     headers: {
                       Accept: 'application/json',
                       'Content-Type': 'application/json'
@@ -55,27 +52,18 @@ function Addnote({navigation, accessToken, user}) {
                       reminder: visible,
                       preachers_name: name,
                       token: accessToken,
-                    
                     })
                   })
                   .then((response) => response.json())
                   .then((responseJson) => {
-                      if (JSON.stringify(responseJson.message) !== 'Note Created succesfully') {
-                          //alert(responseJson.message)
-                          Toast.show(responseJson.message)
-                          navigation.navigate('NoteRoot')
-                          setLoading(false);
-                         return;
-                      }
-                      //alert(responseJson.message)
+                    Toast.show(responseJson.message);
                       setName('');
                       setTheme('');
                       setPtext('');
                       setNote('');
-                      s('');
-                      setMystate('');
                       setVisible('');
                       setLoading(false);
+                      navigation.navigate('NoteRoot')
                   })
                   .catch((error) => {
                     alert(error)});
@@ -91,7 +79,7 @@ function Addnote({navigation, accessToken, user}) {
     }
 
     return (
-       <CButton onPress={() => AddATestimony()}>Submit</CButton>
+       <CButton onPress={() => AddATestimony()}>Update</CButton>
     );
   }
 
@@ -99,7 +87,6 @@ function Addnote({navigation, accessToken, user}) {
   return (
     <ScrollView>
     <View style={styles.container}>
-    
       <Text style={styles.header}>
         Theme of Message
       </Text>

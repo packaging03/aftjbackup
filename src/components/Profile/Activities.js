@@ -9,6 +9,8 @@ import {
   VictoryTheme,
   VictoryGroup,
   VictoryLegend,
+  VictoryStack,
+  VictoryAxis,
 } from 'victory-native';
 const {width, height} = Dimensions.get('window');
 
@@ -22,9 +24,26 @@ const Activities = ({
   setAccessToken,
 }) => {
   const data = {
-    planed: [null, {x: 'week 2', y: 20}],
-    actual: [{x: 'week 1', y: 50}, {x: 'week 2', y: 80}],
+    mon: [{x: 'Mon', y: 2}],
+    tue: [{x: 'Tue', y: 10}],
+    wed: [{x: 'Wed', y: 3}],
+
+    thus: [{x: 'Thus', y: 2}],
+    fri: [{x: 'Fri', y: 1}],
+    sat: [{x: 'Sat', y: 4}],
+    sun: [{x: 'Sun', y: 7}],
   };
+  const data1 = [
+    {day: 'Mon', time: 1},
+    {day: 'Tus', time: 3},
+    {day: 'Wed', time: 2},
+    {day: 'Thus', time: 10},
+    {day: 'Fri', time: 1},
+    {day: 'Sat', time: 5},
+    {day: 'Sun', time: 4},
+  ];
+  const barW = 25;
+  const red = 'red';
   return (
     <Container>
       <View style={styles.ViewPad20}>
@@ -32,7 +51,9 @@ const Activities = ({
       </View>
       <View style={styles.card1}>
         <View>
-          <Text>Time Spent on App Today</Text>
+          <Text style={{fontFamily: 'Nunito-Regular'}}>
+            Time Spent on App Today
+          </Text>
           <Text style={{fontSize: 20, fontFamily: 'Nunito-Bold'}}>35mins</Text>
         </View>
 
@@ -47,36 +68,28 @@ const Activities = ({
           />
         </Pressable>
       </View>
-      <View style={[styles.ViewPad20, {marginTop: 20}]} />
+      <View />
 
-      <VictoryChart /*width={350}*/ theme={VictoryTheme.material}>
-        {/* <VictoryBar data={data} x="quarter" y="earnings" /> */}
-        <VictoryGroup offset={20}>
-          <VictoryBar data={data.actual} />
-          <VictoryBar data={data.planed} style={{data: {fill: 'orange'}}} />
-        </VictoryGroup>
-        <VictoryLegend
-          data={[
-            {name: 'actual', symbol: {fill: 'tomato', type: 'star'}},
-            {
-              name: 'planed',
-              symbol: {fill: 'orange'},
-              labels: {fill: 'orange'},
-            },
-            // {name: 'Three', symbol: {fill: 'gold'}},
-          ]}
+      <VictoryChart
+        height={height / 4}
+        theme={VictoryTheme.material}
+        domainPadding={20}>
+        <VictoryAxis
+          tickValues={[1, 2, 3, 4]}
+          tickFormat={['Mon', 'Tus', 'Wed', 'Thus', 'Fri', 'Sat', 'Sun']}
+        />
+        <VictoryAxis dependentAxis tickFormat={x => `${x}hr`} />
+        <VictoryBar
+          data={data1}
+          x="day"
+          y="time"
+          barWidth={barW}
+          style={{data: {fill: red}}}
         />
       </VictoryChart>
     </Container>
   );
 };
-
-const data = [
-  {quarter: 1, earnings: 13000},
-  {quarter: 2, earnings: 16500},
-  {quarter: 3, earnings: 14250},
-  {quarter: 4, earnings: 19000},
-];
 
 const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
