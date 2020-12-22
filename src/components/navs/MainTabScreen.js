@@ -76,6 +76,7 @@ import NMResources from '../NewMemberResources/Resource';
 import Gateways from '../giving/Gateways';
 import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
+import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
 
 const HomeStack = createStackNavigator();
@@ -603,6 +604,19 @@ const HomeStackScreen = ({navigation}) => (
       component={Chats}
       options={{
         title: 'Chat Room',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="ChatRoom"
+      component={ChatRoom}
+      options={{
+        title: 'Chat Page',
         headerStyle: {
           backgroundColor: '#fff',
         },
