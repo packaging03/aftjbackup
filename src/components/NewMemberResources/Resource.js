@@ -7,34 +7,43 @@ import { WebView } from 'react-native-webview';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+let item = 0;
 const Resource = ({route, navigation}) => {
 
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const ids = useState(route.params.ids);
+    const ids = route.params.ids;
     const [currentVideo, setCurrentVideo] = useState(route.params.uri);
     var videos = route.params.videos;
     
     const [questionsandanswers, setQuestionsAndAnswers] = useState(data);
-    var item = 0;
+    
     var answers = []
 
     
             
-    const getData = async (id) => {
+    async function getData(id) {
 
         try {
             
+            
             let response = await fetch('https://church.aftjdigital.com/api/retrieve/'+id+'/assessment');
             let json = await response.json();
-            // console.log(json.data.length);
-            setData(json.data);
+            console.log('json: '+json.data);
+            var questionsandanswers = json.data;
+
+            var i; var num = 0;
+            for (i = 0; i < json.data.length; i++) {
+                
+                num = num + 1;
+                questionsandanswers[i]["num"] = num;
+                // Object.assign(questionsandanswers[i], {num: ++i});
+                console.log('works: '+JSON.stringify(questionsandanswers[i]));
+                
+            }
+    
+            setData(questionsandanswers);
             setLoading(false);
-            
-            console.log('number: '+ids);
-            // console.log('number: '+questionsandanswers[0]);
-            
-        setLoading(false);
         } catch (error) {
           
           if (error.message == 'Network request failed'){
@@ -46,18 +55,7 @@ const Resource = ({route, navigation}) => {
 
     const setQuestionNums = () => {
 
-        var questionsandanswers = data;
-        var i; var num = 0;
-        for (i = 0; i < questionsandanswers.length; i++) {
-            // console.log('hi');
-            num = num + 1;
-            questionsandanswers[i]["num"] = num;
-            // Object.assign(questionsandanswers[i], {num: ++i});
-            console.log('works: '+JSON.stringify(questionsandanswers[i]));
-            
-        }
-
-        setQuestionsAndAnswers(questionsandanswers);
+        
     }
     useEffect(() => {
         getData(route.params.id);
@@ -70,13 +68,12 @@ const Resource = ({route, navigation}) => {
     }, []);
 
     const submit = () => {
-        // alert('');
-        // getData(ids.findIndex(2));
-        if (item === ids[ids.length - 1]); 
-        {
+        
+        if (item === (ids.length - 1)){
             navigation.navigate('NM-Confirmation');
             return;
         }
+        console.log(item);
         item = item + 1;
         
         getData(ids[item]);
@@ -106,7 +103,6 @@ const Resource = ({route, navigation}) => {
         const [isSelected3, setSelection3] = useState(false);
         const [isSelected4, setSelection4] = useState(false);
        
-        console.log('ids: '+videos);
         
         return (
           <View>
@@ -294,7 +290,7 @@ const Resource = ({route, navigation}) => {
                     <ActivityIndicator size="large" style={{marginTop: 50}} />
                     ) : (
                     <FlatList
-                        data={questionsandanswers}
+                        data={data}
                         ItemSeparatorComponent={renderSeparator}
                         renderItem={renderItem}
                         keyExtractor={item => item.id.toString()}
