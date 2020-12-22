@@ -90,6 +90,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import ForumMessages from '../ForumMessages';
 import Activities from '../Profile/Activities';
 import NoteRoot from '../NoteRoot';
+import ChatRoom from '../ChatRoom';
 
 const Stack = createStackNavigator();
 const RootStack = ({
@@ -1228,6 +1229,19 @@ const RootStack = ({
           headerTintColor: '#000',
         }}
       />
+
+<   Stack.Screen
+      name="ChatRoom"
+      component={ChatRoom}
+      options={{
+        title: 'Chat Page',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
 
       <Stack.Screen
         name="ChildrenChurch"
