@@ -13,6 +13,9 @@ import EventDetails from '../EventDetails';
 import TestimonyDetails from '../TestimonyDetails';
 import NewMember from '../NewMembers/NewMembers';
 import newMemberSuccessPage from '../NewMembers/SuccessPage';
+import paySuccess from '../giving/Success';
+import payFail from '../giving/Failed';
+// import AvailableOnPaidVersion from '../subscription/AvailableOnPaidVersion';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconn from 'react-native-vector-icons/AntDesign';
@@ -359,6 +362,36 @@ const HomeStackScreen = ({navigation}) => (
         headerTitleStyle: styles.headerStyle,
       }}
     />
+    {/* <HomeStack.Screen
+      name="AvailableOnPaidVersion"
+      component={AvailableOnPaidVersion}
+      options={{
+        title: '',
+        headerTitleStyle: {color: 'black'},
+
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: {
+          color: '#000',
+        },
+        headerTitleStyle: {
+          fontFamily: 'frankruhllibre-regular',
+          fontSize: 20,
+        },
+        headerTintColor: '#000',
+        headerShown: true,
+        headerLeft: () => (
+          <Icon.Button
+            name="arrow-back"
+            size={25}
+            backgroundColor="#fff"
+            color="#000"
+            onPress={() => setUserToken(2)}
+          />
+        ),
+      }}
+    /> */}
 
     <HomeStack.Screen
       name="Help"
@@ -1439,8 +1472,32 @@ const GivingStackScreen = ({navigation}) => (
       }}
     />
     <GivingStack.Screen
+      name="payFailed"
+      component={payFail}
+      options={{
+        title: 'Giving',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+    <GivingStack.Screen
       name="amount"
       component={EnterAmont}
+      options={{
+        title: 'Giving',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+    <GivingStack.Screen
+      name="paySuccess"
+      component={paySuccess}
       options={{
         title: 'Giving',
         headerStyle: {

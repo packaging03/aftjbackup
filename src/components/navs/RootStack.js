@@ -55,7 +55,8 @@ import Announcements from '../Announcements';
 import Bulletin from '../Bulletin';
 import NewBulletin from '../NewBulletin';
 import TodaysBulletin from '../TodaysBulletin';
-import Giving from '../Giving';
+import Giving from '../../components/giving/Giving';
+
 import BibleHome from '../BibleHome';
 import TodaysReading from '../DaysReading';
 import BibleChapters from '../BibleChapters';
