@@ -7,28 +7,31 @@ import { WebView } from 'react-native-webview';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-var questionsandanswers;
 const Resource = ({route, navigation}) => {
 
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const ids = route.params.ids;
-    var question = 0;
+    const ids = useState(route.params.ids);
+    const [currentVideo, setCurrentVideo] = useState(route.params.uri);
+    var videos = route.params.videos;
+    
+    const [questionsandanswers, setQuestionsAndAnswers] = useState(data);
+    var item = 0;
     var answers = []
+
     
             
     const getData = async (id) => {
 
         try {
-
-
+            
             let response = await fetch('https://church.aftjdigital.com/api/retrieve/'+id+'/assessment');
             let json = await response.json();
             // console.log(json.data.length);
             setData(json.data);
             setLoading(false);
             
-            // console.log('number: '+json.data);
+            console.log('number: '+ids);
             // console.log('number: '+questionsandanswers[0]);
             
         setLoading(false);
@@ -40,9 +43,10 @@ const Resource = ({route, navigation}) => {
         }
     };
 
-    useEffect(() => {
-        getData(route.params.id);
-        questionsandanswers = data;
+
+    const setQuestionNums = () => {
+
+        var questionsandanswers = data;
         var i; var num = 0;
         for (i = 0; i < questionsandanswers.length; i++) {
             // console.log('hi');
@@ -52,6 +56,14 @@ const Resource = ({route, navigation}) => {
             console.log('works: '+JSON.stringify(questionsandanswers[i]));
             
         }
+
+        setQuestionsAndAnswers(questionsandanswers);
+    }
+    useEffect(() => {
+        getData(route.params.id);
+        setQuestionNums();
+
+        
         // console.log('id: '+ids.findIndex(2))
         //function to show auth alert call
        
@@ -60,7 +72,19 @@ const Resource = ({route, navigation}) => {
     const submit = () => {
         // alert('');
         // getData(ids.findIndex(2));
-        navigation.navigate('NM-Confirmation');
+        if (item === ids[ids.length - 1]); 
+        {
+            navigation.navigate('NM-Confirmation');
+            return;
+        }
+        item = item + 1;
+        
+        getData(ids[item]);
+        setQuestionNums();
+
+        var index = videos.indexOf(currentVideo) +  1;
+        setCurrentVideo(videos[index]);
+        // 
     }
         
     const renderSeparator = () => {
@@ -82,7 +106,7 @@ const Resource = ({route, navigation}) => {
         const [isSelected3, setSelection3] = useState(false);
         const [isSelected4, setSelection4] = useState(false);
        
-        console.log('ids: '+ids);
+        console.log('ids: '+videos);
         
         return (
           <View>
@@ -235,7 +259,7 @@ const Resource = ({route, navigation}) => {
                      cacheEnabled
                      
                      style={{backgroundColor: 'transparent',  borderWidth:0, marginLeft: -20, marginRight: -20}}
-                     source={{uri: route.params.uri}}
+                     source={{uri: currentVideo}}
                      />
                 <View style={{
                     width:'99.5%', 
