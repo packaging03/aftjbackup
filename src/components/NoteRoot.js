@@ -22,7 +22,6 @@ import Toast from 'react-native-simple-toast';
   } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Card, CardItem, Left,Right, Body, } from 'native-base';
-import { SwipeListView } from 'react-native-swipe-list-view';
 
 
 const Item = ({name, category, date, content, onPress}) => (
@@ -119,32 +118,6 @@ function NoteRoot({route, navigation, accessToken}) {
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                   />
-                  // <SwipeListView
-                  //     useFlatList={true}
-                      
-                  //     data={data}
-                  //     renderItem={renderItem}
-                       
-                  //     renderHiddenItem={ (rowData, rowMap) => (
-                  //         <View style={styles.rowFront}>
-                  //             {/* <TouchableOpacity onPress={ () => { Toast.show('show')} }> */}
-                  //             <TouchableOpacity onPress={ () => rowMap[rowData.item.key].closeRow()}>
-                  //                 <Text>Edit {rowData.item.key}</Text>
-                  //             </TouchableOpacity>
-
-                  //             <TouchableOpacity onPress={ () => rowMap[rowData.item.key].closeRow()}>
-                  //                 <Text>Delete {rowData.item.key}</Text>
-                  //             </TouchableOpacity>
-                  //         </View>
-                  //     )}
-                  //     leftOpenValue={75}
-                  //     rightOpenValue={-75}
-                  //     onRowOpen={(rowKey, rowMap) => {
-                  //         setTimeout(() => {
-                  //             rowMap[rowKey].closeRow()
-                  //         }, 2000)
-                  //     }}
-                  // />
                 )}
             </View>
         </ScrollView>
