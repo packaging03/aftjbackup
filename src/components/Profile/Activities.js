@@ -59,7 +59,7 @@ const Activities = ({
       </View>
       <View />
 
-      <VictoryChart height={height / 3} theme={VictoryTheme.material}>
+      <VictoryChart height={height / 4} theme={VictoryTheme.material}>
         {/* <VictoryBar data={data} x="quarter" y="earnings" /> */}
         <VictoryGroup offset={10}>
           <VictoryBar
@@ -101,7 +101,7 @@ const Activities = ({
       </VictoryChart>
 
       {/* =============================================================group chart============================== */}
-      <VictoryChart height={height / 3} theme={VictoryTheme.material}>
+      <VictoryChart height={height / 4} theme={VictoryTheme.material}>
         {/* <VictoryBar data={data} x="quarter" y="earnings" /> */}
         <VictoryGroup offset={2}>
           <VictoryBar
