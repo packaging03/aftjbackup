@@ -10,6 +10,7 @@ import {
   VictoryGroup,
   VictoryLegend,
   VictoryStack,
+  VictoryAxis,
 } from 'victory-native';
 const {width, height} = Dimensions.get('window');
 
@@ -32,7 +33,17 @@ const Activities = ({
     sat: [{x: 'Sat', y: 4}],
     sun: [{x: 'Sun', y: 7}],
   };
+  const data1 = [
+    {day: 'Mon', time: 1},
+    {day: 'Tus', time: 3},
+    {day: 'Wed', time: 2},
+    {day: 'Thus', time: 10},
+    {day: 'Fri', time: 1},
+    {day: 'Sat', time: 5},
+    {day: 'Sun', time: 4},
+  ];
   const barW = 25;
+  const red = 'red';
   return (
     <Container>
       <View style={styles.ViewPad20}>
@@ -59,96 +70,22 @@ const Activities = ({
       </View>
       <View />
 
-      <VictoryChart height={height / 4} theme={VictoryTheme.material}>
-        {/* <VictoryBar data={data} x="quarter" y="earnings" /> */}
-        <VictoryGroup offset={10}>
-          <VictoryBar
-            barWidth={barW}
-            data={data.mon}
-            style={{data: {fill: 'red'}}}
-          />
-          <VictoryBar
-            barWidth={barW}
-            data={data.tue}
-            style={{data: {fill: 'gray'}}}
-          />
-          <VictoryBar
-            barWidth={barW}
-            data={data.wed}
-            style={{data: {fill: 'blue'}}}
-          />
-          <VictoryBar
-            data={data.thus}
-            barWidth={barW}
-            style={{data: {fill: 'orange'}}}
-          />
-          <VictoryBar
-            barWidth={barW}
-            data={data.fri}
-            style={{data: {fill: 'black'}}}
-          />
-          <VictoryBar
-            barWidth={barW}
-            data={data.sat}
-            style={{data: {fill: 'green'}}}
-          />
-          <VictoryBar
-            barWidth={barW}
-            data={data.sun}
-            style={{data: {fill: 'pink'}}}
-          />
-        </VictoryGroup>
-      </VictoryChart>
-
-      {/* =============================================================group chart============================== */}
-      <VictoryChart height={height / 4} theme={VictoryTheme.material}>
-        {/* <VictoryBar data={data} x="quarter" y="earnings" /> */}
-        <VictoryGroup offset={2}>
-          <VictoryBar
-            barWidth={barW}
-            data={data.mon}
-            style={{data: {fill: 'red'}}}
-          />
-          <VictoryBar
-            barWidth={barW}
-            data={data.tue}
-            style={{data: {fill: 'gray'}}}
-          />
-          <VictoryBar
-            barWidth={barW}
-            data={data.wed}
-            style={{data: {fill: 'blue'}}}
-          />
-          <VictoryBar
-            data={data.thus}
-            barWidth={barW}
-            style={{data: {fill: 'orange'}}}
-          />
-          <VictoryBar
-            barWidth={barW}
-            data={data.fri}
-            style={{data: {fill: 'black'}}}
-          />
-          <VictoryBar
-            barWidth={barW}
-            data={data.sat}
-            style={{data: {fill: 'green'}}}
-          />
-          <VictoryBar
-            barWidth={barW}
-            data={data.sun}
-            style={{data: {fill: 'pink'}}}
-          />
-        </VictoryGroup>
-        {/* <VictoryStack Offset={5}>
-          <VictoryBar data={data.mon} style={{data: {fill: 'red'}}} />
-          <VictoryBar data={data.tue} style={{data: {fill: 'gray'}}} />
-          <VictoryBar data={data.wed} style={{data: {fill: 'blue'}}} />
-          <VictoryBar data={data.thus} style={{data: {fill: 'orange'}}} />
-          <VictoryBar data={data.fri} style={{data: {fill: 'black'}}} />
-          <VictoryBar data={data.sat} style={{data: {fill: 'green'}}} />
-          <VictoryBar data={data.sun} style={{data: {fill: 'pink'}}} />
-        </VictoryStack> */}
+      <VictoryChart
+        height={height / 4}
+        theme={VictoryTheme.material}
+        domainPadding={20}>
+        <VictoryAxis
+          tickValues={[1, 2, 3, 4]}
+          tickFormat={['Mon', 'Tus', 'Wed', 'Thus', 'Fri', 'Sat', 'Sun']}
+        />
+        <VictoryAxis dependentAxis tickFormat={x => `${x}hr`} />
+        <VictoryBar
+          data={data1}
+          x="day"
+          y="time"
+          barWidth={barW}
+          style={{data: {fill: red}}}
+        />
       </VictoryChart>
     </Container>
   );
