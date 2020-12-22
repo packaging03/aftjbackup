@@ -30,7 +30,7 @@ import LocationPage from '../Location/LocationPage';
 import ChildrenChurch from '../ChildrenChurch';
 import TestimonyRoot from '../TestimonyRoot';
 import NoteRoot from '../NoteRoot';
-import Addnote from '../Addnote';
+import Editnote from '../Editnote'
 import NoteDetails from '../NoteDetails';
 import Alltestimony from '../Alltestimony';
 import SpecialAnnouncements from '../SpecialAnnouncements';
@@ -72,6 +72,7 @@ import NMResources from '../NewMemberResources/Resource';
 import Gateways from '../giving/Gateways';
 import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
+import Addnote from '../Addnote';
 
 const HomeStack = createStackNavigator();
 const SermonsStack = createStackNavigator();
@@ -562,6 +563,22 @@ const HomeStackScreen = ({navigation}) => (
     />
 
     <HomeStack.Screen
+      name="Editnote"
+      component={Editnote}
+      options={{
+        title: 'Note Pad',
+        headerStyle: {
+          backgroundColor: '#fff',
+          headerTintColor: '#000',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    
+
+    <HomeStack.Screen
       name="Chats"
       component={Chats}
       options={{
@@ -787,6 +804,19 @@ const HomeStackScreen = ({navigation}) => (
     />
 
     <HomeStack.Screen
+        name="Addnote"
+        component={Addnote}
+        options={{
+          title: 'Notes',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          headerTintColor: '#000',
+        }}
+      />
+
+    <HomeStack.Screen
       name="NoteRoot"
       component={NoteRoot}
       options={{
@@ -797,18 +827,22 @@ const HomeStackScreen = ({navigation}) => (
         headerTitleStyle: styles.headerStyle,
         headerTintColor: '#000',
         headerRight: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('Addnote')}>
           <View
             style={{
               flexDirection: 'row',
               paddingRight: '30%',
               alignItems: 'center',
             }}>
-            <Image
-              onPress={() => navigation.navigate('Addnote')}
-              style={{width: 20, height: 20, marginRight: 15}}
-              source={require('../../assets/add_icon.png')}
-            />
-          </View>
+            
+              <Image
+                onPress={() => navigation.navigate('Addnote')}
+                style={{width: 30, height: 30, marginRight: 15}}
+                source={require('../../assets/add_icon.png')}
+              />
+            
+            
+          </View></TouchableOpacity>
         ),
       }}
     />
@@ -869,20 +903,6 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
           headerTintColor: '#000',
         },
-        headerRight: () => (
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingRight: '30%',
-              alignItems: 'center',
-            }}>
-            <Image
-              onPress={() => navigation.navigate('Home')}
-              style={{width: 20, height: 20, marginRight: 15}}
-              source={require('../../assets/edit.png')}
-            />
-          </View>
-        ),
         headerTitleStyle: styles.headerStyle,
         headerTintColor: '#000',
       }}
@@ -1161,18 +1181,7 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
-    <HomeStack.Screen
-      name="Addnote"
-      component={Addnote}
-      options={{
-        title: 'Notes',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    />
+    
 
     <HomeStack.Screen
       name="Share Memory Verse"
