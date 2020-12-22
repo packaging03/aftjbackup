@@ -13,7 +13,7 @@ function Addtestimonies({navigation, accessToken, user}) {
   const [email, setEmail] = useState('');
   const [country, setCountry] = useState('');
   const [mystate, setMystate] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('Family');
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState('');
 
@@ -199,8 +199,6 @@ function Addtestimonies({navigation, accessToken, user}) {
       return false;
     }
     else {
-      console.log("Email is Correct");
-
       if (name === '' || email === '' || country === '' || mystate === '' || category === '' || content === '') {
         alert('All fields are required');
       } else {

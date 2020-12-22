@@ -82,15 +82,6 @@ const DrawerContent = ({...props}) => {
   } = React.useContext(AuthContext);
 
   const signout = () => {
-    // auth()
-    //   .signOut()
-    //   .then(() => {
-    //     // original code
-    //   })
-    //   .catch(error => {
-    //     alert('Failed to sign out');
-    //   });
-
     fetch('https://church.aftjdigital.com/api/logout', {
       method: 'POST',
       headers: {
@@ -108,8 +99,6 @@ const DrawerContent = ({...props}) => {
         setAccessToken(null);
         setUserToken(3);
         setData();
-        //displayModal(!show);
-        //setShow(false)
         closeme();
       })
       .catch(error => {
@@ -407,7 +396,7 @@ const DrawerContent = ({...props}) => {
                         style={styles.Mbutton}
                         text="YES"
                         onPress={() => {
-                          signOut();
+                          signout();
                           displayModal(false);
                         }}
                       />
