@@ -12,6 +12,7 @@ import Events from '../Events';
 import EventDetails from '../EventDetails';
 import TestimonyDetails from '../TestimonyDetails';
 import NewMember from '../NewMembers/NewMembers';
+import newMemberSuccessPage from '../NewMembers/SuccessPage';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconn from 'react-native-vector-icons/AntDesign';
@@ -888,6 +889,18 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
+    <HomeStack.Screen
+      name="newMemberSuccessPage"
+      component={newMemberSuccessPage}
+      options={{
+        title: 'New Member',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
     <HomeStack.Screen
       name="NewMember"
       component={NewMember}
