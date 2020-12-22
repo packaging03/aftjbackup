@@ -61,7 +61,7 @@ const Activities = ({
 
       <VictoryChart height={height / 3} theme={VictoryTheme.material}>
         {/* <VictoryBar data={data} x="quarter" y="earnings" /> */}
-        <VictoryGroup offset={2}>
+        <VictoryGroup offset={10}>
           <VictoryBar
             barWidth={barW}
             data={data.mon}
