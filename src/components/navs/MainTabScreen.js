@@ -467,20 +467,6 @@ const HomeStackScreen = ({navigation}) => (
     />
 
     <HomeStack.Screen
-      name="Location"
-      component={LocationPage}
-      options={{
-        // headerShown: false,
-        title: 'Location',
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-      }}
-    />
-
-    <HomeStack.Screen
       name="Conversion"
       component={Conversion}
       options={{
@@ -954,30 +940,7 @@ const HomeStackScreen = ({navigation}) => (
         headerTintColor: '#000',
       }}
     />
-    <HomeStack.Screen
-      name="NewMember"
-      component={NewMember}
-      options={{
-        title: 'New Member',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    />
 
-    <HomeStack.Screen
-      name="PrayerRequest"
-      component={PrayerRequest}
-      options={{
-        title: 'Prayer Request',
-        headerTitleStyle: styles.headerStyle,
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-      }}
-    />
     <HomeStack.Screen
       name="SpecialAnnouncements"
       component={SpecialAnnouncements}
@@ -1502,6 +1465,43 @@ const GivingStackScreen = ({navigation}) => (
         },
         headerTitleStyle: styles.headerStyle,
         headerTintColor: '#000',
+      }}
+    />
+    <GivingStack.Screen
+      name="Location"
+      component={LocationPage}
+      options={{
+        // headerShown: false,
+        title: 'Location',
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+      }}
+    />
+    <GivingStack.Screen
+      name="NewMember"
+      component={NewMember}
+      options={{
+        title: 'New Member',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    <GivingStack.Screen
+      name="PrayerRequest"
+      component={PrayerRequest}
+      options={{
+        title: 'Prayer Request',
+        headerTitleStyle: styles.headerStyle,
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
       }}
     />
     <GivingStack.Screen
