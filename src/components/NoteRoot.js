@@ -57,6 +57,8 @@ function NoteRoot({route, navigation, accessToken}) {
   const [data, setData] = useState([]);
   const [img, setImg] = useState([]);
 
+  
+
   const getTestimoniesFromApiAsync = async () => {
      
     try {
@@ -70,17 +72,13 @@ function NoteRoot({route, navigation, accessToken}) {
     }
   };
 
-  
-    useEffect(() => {
-        if(accessToken==null){
-            alert('Please Login to access this page')
-        } 
-        else 
-        {
-            getTestimoniesFromApiAsync();
-        }
-    }, []);
-
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('Refreshed!');
+      getTestimoniesFromApiAsync();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
     const renderItem = ({item}) => (
         <Item name={item.preachers_name}  
@@ -168,4 +166,3 @@ const styles = StyleSheet.create({
       backgroundColor: '#C5CAD2',
     },
 })
-
