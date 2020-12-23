@@ -171,14 +171,39 @@ const Activities = ({
           </Text>
         </View>
       </View>
-      <View>
-        <View style={{flexDirection: 'row'}}>
-          <FontAwesome5 name="bible" size={25} />
-          <ProgressBar
-            styleAttr="Horizontal"
-            indeterminate={false}
-            progress={0.5}
-          />
+      <View style={{paddingLeft: 20, marginTop: 10}}>
+        <View>
+          <Text style={{fontFamily: 'Nunito-Regular', marginLeft: 22}}>
+            Bible
+          </Text>
+          <View style={{flexDirection: 'row'}}>
+            <FontAwesome5 name="bible" size={25} color="#8A0303" />
+            <ProgressBar
+              color="#8A0303"
+              style={{marginHorizontal: '5%', width: '65%', borderRadius: 10}}
+              styleAttr="Horizontal"
+              indeterminate={false}
+              progress={0.5}
+            />
+            <Text>{'45m'}</Text>
+          </View>
+        </View>
+        {/* ======================================== */}
+        <View style={{marginTop: 10}}>
+          <Text style={{fontFamily: 'Nunito-Regular', marginLeft: 22}}>
+            Sermon
+          </Text>
+          <View style={{flexDirection: 'row'}}>
+            <FontAwesome5 name="bible" size={25} color="#1F78B4" />
+            <ProgressBar
+              color="#1F78B4"
+              style={{marginHorizontal: '5%', width: '65%', borderRadius: 10}}
+              styleAttr="Horizontal"
+              indeterminate={false}
+              progress={0.5}
+            />
+            <Text>{'30m'}</Text>
+          </View>
         </View>
       </View>
     </Container>
