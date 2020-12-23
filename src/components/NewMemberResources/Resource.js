@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {ActivityIndicator, View, SafeAreaView, Text} from 'react-native';
+import {ActivityIndicator, View, Text} from 'react-native';
 import CustomButton from '../common/CustomButton';
 import CheckBox from '@react-native-community/checkbox';
 import Toast from 'react-native-simple-toast';
 import { WebView } from 'react-native-webview';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 let item = 0;
@@ -23,7 +23,7 @@ const Resource = ({route, navigation}) => {
     
     const sendResults  = async(id, array) => {
 
-        fetch('https://church.aftjdigital.com/api/assessment'+id+'/validate', {
+        fetch('https://church.aftjdigital.com/api/assessment/'+id+'/validate', {
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -57,7 +57,7 @@ const Resource = ({route, navigation}) => {
             
             let response = await fetch('https://church.aftjdigital.com/api/retrieve/'+id+'/assessment');
             let json = await response.json();
-            console.log('json: '+json.data);
+            console.log('json: '+JSON.stringify(json.data));
             var questionsandanswers = json.data;
 
             var i; var num = 0;
@@ -66,7 +66,7 @@ const Resource = ({route, navigation}) => {
                 num = num + 1;
                 questionsandanswers[i]["num"] = num;
                 // Object.assign(questionsandanswers[i], {num: ++i});
-                console.log('works: '+JSON.stringify(questionsandanswers[i]));
+                
                 
             }
     
@@ -92,10 +92,14 @@ const Resource = ({route, navigation}) => {
         var array = [];
         var answer = { };
         
+        if(Object.keys(obj).length < data.length){
+            Toast.show("Please attempt all questions first",Toast.LONG);
+            return;
+        }
         var i = 0;
         for (i = 0; i < Object.keys(obj).length; i++) {
 
-            answer = {"questionId:": Object.keys(obj)[i], "answer": obj[Object.keys(obj)[0]]};
+            answer = {"questionId": Object.keys(obj)[i], "answer": obj[Object.keys(obj)[0]]};
             array.push(answer);
             
         }
@@ -168,9 +172,10 @@ const Resource = ({route, navigation}) => {
                                 
                                 answers.push('optionA');
                                 
-                            }
-                            if (!isSelected1){
+                            }else{
                                 setSelection1(true);
+                                delete obj[item.id];
+                                console.log('obj: '+JSON.stringify(obj));
 
                             }
                             console.log('newvalue:'+newValue);
@@ -187,17 +192,17 @@ const Resource = ({route, navigation}) => {
                         onValueChange={(newValue) => {
                             setSelection2(newValue)
                             console.log('newvalue:'+newValue);
-                            if( newValue) {
+                            if( newValue === true) {
                                 setSelection4(false);
                                 setSelection3(false);
                                 setSelection1(false);
 
                                 obj[item.id] = "option2";
                                 console.log('obj: '+JSON.stringify(obj));
-                            }
-
-                            if (!newValue){
+                            }else {
                                 setSelection2(true);
+                                delete obj[item.id];
+                                console.log('obj: '+JSON.stringify(obj));
                             }
                         }}
                         style={styles.checkbox}
@@ -210,16 +215,17 @@ const Resource = ({route, navigation}) => {
                         value={isSelected3}
                         onValueChange={(newValue) => {
                             setSelection3(newValue);
-                            if(newValue) {
+                            if(newValue === true) {
                                 setSelection1(false);
                                 setSelection2(false);
                                 setSelection4(false);
 
                                 obj[item.id] = "option3";
                                 console.log('obj: '+JSON.stringify(obj));
-                            }
-                            if (!newValue){
+                            }else {
                                 setSelection3(true);
+                                delete obj[item.id];
+                                console.log('obj: '+JSON.stringify(obj));
                             }
                         }}
                         style={styles.checkbox}
@@ -232,16 +238,17 @@ const Resource = ({route, navigation}) => {
                         value={isSelected4}
                         onValueChange={(newValue) => {
                             setSelection4(newValue);
-                            if(newValue) {
+                            if(newValue === true) {
                                 setSelection1(false);
                                 setSelection2(false);
                                 setSelection3(false);
 
                                 obj[item.id] = "option4";
                                 console.log('obj: '+JSON.stringify(obj));
-                            }
-                            if (!newValue){
+                            }else {
                                 setSelection4(true);
+                                delete obj[item.id];
+                                console.log('obj: '+JSON.stringify(obj));
                             }
                         }}
                         style={styles.checkbox}
@@ -307,7 +314,7 @@ const Resource = ({route, navigation}) => {
 
     return(
 
-        <View style={{flex:1, backgroundColor:'white', paddingTop:20}}>
+        <View style={{flex:1, backgroundColor:'white', paddingTop:10}}>
 
                 <View style={{
                     backgroundColor:'white', 
