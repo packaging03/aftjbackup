@@ -93,11 +93,10 @@ export default class NewMembers extends Component {
 
                 // alert(resp.data.message);
                 if (resp.data.status === 'success') {
-                   this.setState({
-                     spinnerRemove: false,
-                   });
+                  this.setState({
+                    spinnerRemove: false,
+                  });
                   this.props.navigation.navigate('newMemberSuccessPage');
-                 
                 }
               } catch (e) {
                 console.log(e.response.data);
