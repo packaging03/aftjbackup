@@ -24,14 +24,13 @@ const Activities = ({
   setAccessToken,
 }) => {
   const data = {
-    mon: [{x: 'Mon', y: 2}],
-    tue: [{x: 'Tue', y: 10}],
-    wed: [{x: 'Wed', y: 3}],
-
-    thus: [{x: 'Thus', y: 2}],
-    fri: [{x: 'Fri', y: 1}],
-    sat: [{x: 'Sat', y: 4}],
-    sun: [{x: 'Sun', y: 7}],
+    planed: [null, {x: '6pm', y: 20}, {x: '12pm', y: 20}, {x: '6pm', y: 20}],
+    actual: [
+      {x: '6pm', y: 50},
+      {x: '12pm', y: 80},
+      {x: '6pm', y: 50},
+      {x: 'week 2', y: 80},
+    ],
   };
   const data1 = [
     {day: 'Mon', time: 1},
@@ -88,24 +87,52 @@ const Activities = ({
       </VictoryChart>
 
       {/* ================================================================= */}
-      {/* <VictoryChart
-        style={{marginTop: 10}}
-        height={height / 4}
-        theme={VictoryTheme.material}
-        domainPadding={20}>
+
+      <VictoryChart height={height / 4} theme={VictoryTheme.material}>
         <VictoryAxis
           tickValues={[1, 2, 3, 4]}
-          tickFormat={['Mon', 'Tus', 'Wed', 'Thus', 'Fri', 'Sat', 'Sun']}
+          tickFormat={['6pm', '12pm', '6pm', '12pm']}
         />
-        <VictoryAxis dependentAxis tickFormat={x => `${x}hr`} />
-        <VictoryBar
-          data={data1}
-          x="day"
-          y="time"
-          barWidth={barW}
-          style={{data: {fill: red}}}
-        />
-      </VictoryChart> */}
+        <VictoryAxis dependentAxis tickFormat={x => `${x}m`} />
+        <VictoryGroup animate={true} offset={10} colorScale="red">
+          <VictoryBar
+            data={[
+              {x: 1, y: 1},
+              {x: 2, y: 2},
+              {x: 3, y: 5},
+              {x: 4, y: 2},
+              {x: 3, y: 6},
+            ]}
+          />
+          <VictoryBar
+            data={[
+              {x: 1, y: 1},
+              {x: 2, y: 2},
+              {x: 3, y: 5},
+              {x: 4, y: 2},
+              {x: 3, y: 4},
+            ]}
+          />
+          <VictoryBar
+            data={[
+              {x: 1, y: 2},
+              {x: 2, y: 1},
+              {x: 3, y: 2},
+              {x: 4, y: 5},
+              {x: 3, y: 2},
+            ]}
+          />
+          <VictoryBar
+            data={[
+              {x: 1, y: 3},
+              {x: 2, y: 4},
+              {x: 3, y: 6},
+              {x: 4, y: 4},
+              {x: 3, y: 6},
+            ]}
+          />
+        </VictoryGroup>
+      </VictoryChart>
     </Container>
   );
 };
@@ -138,17 +165,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 7,
   },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5fcff',
-  },
+
   card1: {
     paddingLeft: 20,
     paddingRight: 20,
     height: '12%',
-    backgroundColor: '#c5cad2',
+    backgroundColor: 'rgba(224, 232, 243, 0.4);',
     flexDirection: 'row',
     alignItems: 'center',
   },
