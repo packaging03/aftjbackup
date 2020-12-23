@@ -909,19 +909,6 @@ const HomeStackScreen = ({navigation}) => (
     />
 
     <HomeStack.Screen
-      name="newMemberSuccessPage"
-      component={newMemberSuccessPage}
-      options={{
-        title: 'New Member',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    />
-
-    <HomeStack.Screen
       name="SpecialAnnouncements"
       component={SpecialAnnouncements}
       options={{
@@ -1471,18 +1458,6 @@ const GivingStackScreen = ({navigation}) => (
         },
       }}
     />
-    <GivingStack.Screen
-      name="NewMember"
-      component={NewMember}
-      options={{
-        title: 'New Member',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    />
 
     <GivingStack.Screen
       name="PrayerRequest"
@@ -1550,6 +1525,32 @@ const AboutStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
+      }}
+    />
+
+    <AboutStack.Screen
+      name="NewMember"
+      component={NewMember}
+      options={{
+        title: 'New Member',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    <AboutStack.Screen
+      name="newMemberSuccessPage"
+      component={newMemberSuccessPage}
+      options={{
+        title: 'New Member',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
       }}
     />
 

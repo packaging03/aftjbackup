@@ -45,6 +45,9 @@ export default class NewMembers extends Component {
       this.state.name === '' ||
       this.state.home === ''
     ) {
+      this.setState({
+        spinnerRemove: false,
+      });
       ToastAndroid.showWithGravityAndOffset(
         'Please do not leave any input field empty',
         ToastAndroid.LONG,
@@ -58,6 +61,9 @@ export default class NewMembers extends Component {
       );
 
       if (!testMail.test(this.state.email.trim())) {
+        this.setState({
+          spinnerRemove: false,
+        });
         ToastAndroid.showWithGravityAndOffset(
           'Invalid email, try again',
           ToastAndroid.SHORT,
@@ -67,6 +73,9 @@ export default class NewMembers extends Component {
         );
       } else {
         if (this.state.hearAboutUs === 'How did you hear about us') {
+          this.setState({
+            spinnerRemove: false,
+          });
           alert('Please select from the dropdown, how you heard about us..');
         } else {
           var numbers = /^[0-9]+$/;
@@ -99,10 +108,16 @@ export default class NewMembers extends Component {
                   this.props.navigation.navigate('newMemberSuccessPage');
                 }
               } catch (e) {
+                this.setState({
+                  spinnerRemove: false,
+                });
                 console.log(e.response.data);
               }
               return true;
             } else {
+              this.setState({
+                spinnerRemove: false,
+              });
               ToastAndroid.showWithGravityAndOffset(
                 'Name must be alpherbets only.',
                 ToastAndroid.LONG,
@@ -113,6 +128,9 @@ export default class NewMembers extends Component {
               return false;
             }
           } else {
+            this.setState({
+              spinnerRemove: false,
+            });
             ToastAndroid.showWithGravityAndOffset(
               'Phone number must be numbers only.',
               ToastAndroid.LONG,
