@@ -38,6 +38,7 @@ export default class NewMembers extends Component {
   };
 
   sentDataToDb = async () => {
+    this.setState({spinnerRemove: true});
     if (
       this.state.phone === '' ||
       this.state.email === '' ||
@@ -70,10 +71,6 @@ export default class NewMembers extends Component {
         } else {
           var numbers = /^[0-9]+$/;
           if (this.state.phone.match(numbers)) {
-            var letters = /^[A-Za-z]+$/;
-            console.log('peter');
-            // console.log(this.state.name.trim().match(letters));
-
             if (/^[a-z][a-z\s]*$/i.test(this.state.name.trim())) {
               try {
                 const data = {
@@ -96,10 +93,11 @@ export default class NewMembers extends Component {
 
                 // alert(resp.data.message);
                 if (resp.data.status === 'success') {
+                   this.setState({
+                     spinnerRemove: false,
+                   });
                   this.props.navigation.navigate('newMemberSuccessPage');
-                  this.setState({
-                    spinnerRemove: true,
-                  });
+                 
                 }
               } catch (e) {
                 console.log(e.response.data);
