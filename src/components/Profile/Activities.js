@@ -68,7 +68,6 @@ const Activities = ({
           />
         </Pressable>
       </View>
-      <View />
 
       <VictoryChart
         height={height / 4}
@@ -87,6 +86,26 @@ const Activities = ({
           style={{data: {fill: red}}}
         />
       </VictoryChart>
+
+      {/* ================================================================= */}
+      {/* <VictoryChart
+        style={{marginTop: 10}}
+        height={height / 4}
+        theme={VictoryTheme.material}
+        domainPadding={20}>
+        <VictoryAxis
+          tickValues={[1, 2, 3, 4]}
+          tickFormat={['Mon', 'Tus', 'Wed', 'Thus', 'Fri', 'Sat', 'Sun']}
+        />
+        <VictoryAxis dependentAxis tickFormat={x => `${x}hr`} />
+        <VictoryBar
+          data={data1}
+          x="day"
+          y="time"
+          barWidth={barW}
+          style={{data: {fill: red}}}
+        />
+      </VictoryChart> */}
     </Container>
   );
 };
