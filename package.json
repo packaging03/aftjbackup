@@ -60,6 +60,7 @@
     "react-native-image-base64": "^0.1.4",
     "react-native-image-crop-picker": "^0.35.1",
     "react-native-image-picker": "^2.3.4",
+    "react-native-loading-spinner-overlay": "^2.0.0",
     "react-native-maps": "^0.27.1",
     "react-native-modal-datetime-picker": "^9.1.0",
     "react-native-paper": "^3.10.1",
