@@ -11,7 +11,8 @@ import {
 import {Container} from 'native-base';
 import {connect} from 'react-redux';
 import Feather from 'react-native-vector-icons/Feather';
-import ProgressBar from '@react-native-community/progress-bar-android';
+import {ProgressBar} from '@react-native-community/progress-bar-android';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {
   VictoryBar,
   VictoryChart,
@@ -170,13 +171,15 @@ const Activities = ({
           </Text>
         </View>
       </View>
-
-      <View style={{flexDirection: 'row'}}>
-        <ProgressBar
-          styleAttr="Horizontal"
-          indeterminate={false}
-          progress={0.5}
-        />
+      <View>
+        <View style={{flexDirection: 'row'}}>
+          <FontAwesome5 name="bible" size={25} />
+          <ProgressBar
+            styleAttr="Horizontal"
+            indeterminate={false}
+            progress={0.5}
+          />
+        </View>
       </View>
     </Container>
   );
