@@ -33,15 +33,6 @@ const Activities = ({
   setUserToken,
   setAccessToken,
 }) => {
-  const data = {
-    planed: [null, {x: '6pm', y: 20}, {x: '12pm', y: 20}, {x: '6pm', y: 20}],
-    actual: [
-      {x: '6pm', y: 50},
-      {x: '12pm', y: 80},
-      {x: '6pm', y: 50},
-      {x: 'week 2', y: 80},
-    ],
-  };
   const data1 = [
     {day: 'Mon', time: 1},
     {day: 'Tus', time: 3},
@@ -164,7 +155,7 @@ const Activities = ({
       <View style={styles.card2}>
         <View>
           <Text style={{fontFamily: 'Nunito-Regular'}}>
-            Updated Today at {'6:pm'}
+            Updated Today at {'6:00am'}
           </Text>
           <Text style={{fontSize: 20, fontFamily: 'Nunito-Bold', marginTop: 5}}>
             Most Pages Seen
