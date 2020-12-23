@@ -1,5 +1,13 @@
 import React from 'react';
-import {StyleSheet, Text, View, Pressable, Dimensions} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Dimensions,
+  Progr,
+} from 'react-native';
+import {ProgressBar, Colors} from 'react-native-paper';
 import {Container} from 'native-base';
 import {connect} from 'react-redux';
 import Feather from 'react-native-vector-icons/Feather';
@@ -60,7 +68,7 @@ const Activities = ({
           <Feather
             name="calendar"
             color="#000"
-            size={40}
+            size={25}
             style={{
               alignSelf: 'center',
             }}
@@ -94,7 +102,7 @@ const Activities = ({
           tickFormat={['6pm', '12pm', '6pm', '12pm']}
         />
         <VictoryAxis dependentAxis tickFormat={x => `${x}m`} />
-        <VictoryGroup animate={true} offset={10} colorScale="red">
+        <VictoryGroup animate={true} offset={7} colorScale="red">
           <VictoryBar
             data={[
               {x: 1, y: 1},
@@ -131,8 +139,40 @@ const Activities = ({
               {x: 3, y: 6},
             ]}
           />
+          <VictoryBar
+            data={[
+              {x: 1, y: 3},
+              {x: 2, y: 4},
+              {x: 3, y: 2},
+              {x: 4, y: 4},
+              {x: 3, y: 6},
+            ]}
+          />
+          <VictoryBar
+            data={[
+              {x: 1, y: 3},
+              {x: 2, y: 4},
+              {x: 2, y: 2},
+              {x: 3, y: 5},
+              {x: 3, y: 6},
+            ]}
+          />
         </VictoryGroup>
       </VictoryChart>
+      <View style={styles.card2}>
+        <View>
+          <Text style={{fontFamily: 'Nunito-Regular'}}>
+            Updated Today at {'6:pm'}
+          </Text>
+          <Text style={{fontSize: 20, fontFamily: 'Nunito-Bold', marginTop: 5}}>
+            Most Pages Seen
+          </Text>
+        </View>
+      </View>
+
+      <View style={{flexDirection: 'row'}}>
+        <ProgressBar progress={0.5} color={Colors.red800} />
+      </View>
     </Container>
   );
 };
@@ -156,28 +196,38 @@ export default connect(
 
 const styles = StyleSheet.create({
   press: {
-    marginHorizontal: '30%',
+    marginHorizontal: '35%',
     backgroundColor: '#fff',
-    width: '18%',
-    height: '75%',
+    width: 35,
+    height: 35,
     alignContent: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
+    borderRadius: 5,
     elevation: 7,
   },
+  // #8A0303
+  // #1F78B4;
 
   card1: {
     paddingLeft: 20,
     paddingRight: 20,
-    height: '12%',
+    height: 56,
     backgroundColor: 'rgba(224, 232, 243, 0.4);',
     flexDirection: 'row',
     alignItems: 'center',
   },
+  card2: {
+    paddingLeft: 20,
+    // paddingRight: 20,
+    height: 56,
+    backgroundColor: 'rgba(224, 232, 243, 0.4);',
+    // flexDirection: 'row',
+    // alignItems: 'center',
+  },
   headerTxt: {
     fontFamily: 'Nunito-Bold',
     fontSize: 18,
-    marginTop: 20,
+    marginTop: 15,
     marginBottom: 15,
   },
   ViewPad20: {paddingLeft: 20, paddingRight: 20},
