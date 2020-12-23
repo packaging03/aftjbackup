@@ -1445,7 +1445,7 @@ const GivingStackScreen = ({navigation}) => (
         headerTintColor: '#000',
       }}
     />
-    <GivingStack.Screen
+    <HomeStack.Screen
       name="Location"
       component={LocationPage}
       options={{
