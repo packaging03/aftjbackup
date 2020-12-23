@@ -423,6 +423,18 @@ const HomeStackScreen = ({navigation}) => (
         headerTitleStyle: styles.headerStyle,
       }}
     />
+    <HomeStack.Screen
+      name="Location"
+      component={LocationPage}
+      options={{
+        title: 'Location',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
 
     <HomeStack.Screen
       name="Forum"
@@ -1443,19 +1455,6 @@ const GivingStackScreen = ({navigation}) => (
         },
         headerTitleStyle: styles.headerStyle,
         headerTintColor: '#000',
-      }}
-    />
-    <HomeStack.Screen
-      name="Location"
-      component={LocationPage}
-      options={{
-        // headerShown: false,
-        title: 'Location',
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
       }}
     />
 
