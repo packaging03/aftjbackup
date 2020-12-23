@@ -7,10 +7,11 @@ import {
   Dimensions,
   Progr,
 } from 'react-native';
-import {ProgressBar, Colors} from 'react-native-paper';
+// import {ProgressBar, Colors} from 'react-native-paper';
 import {Container} from 'native-base';
 import {connect} from 'react-redux';
 import Feather from 'react-native-vector-icons/Feather';
+import ProgressBar from '@react-native-community/progress-bar-android';
 import {
   VictoryBar,
   VictoryChart,
@@ -102,7 +103,7 @@ const Activities = ({
           tickFormat={['6pm', '12pm', '6pm', '12pm']}
         />
         <VictoryAxis dependentAxis tickFormat={x => `${x}m`} />
-        <VictoryGroup animate={true} offset={7} colorScale="red">
+        <VictoryGroup animate={true} offset={4} colorScale="red">
           <VictoryBar
             data={[
               {x: 1, y: 1},
@@ -171,7 +172,11 @@ const Activities = ({
       </View>
 
       <View style={{flexDirection: 'row'}}>
-        <ProgressBar progress={0.5} color={Colors.red800} />
+        <ProgressBar
+          styleAttr="Horizontal"
+          indeterminate={false}
+          progress={0.5}
+        />
       </View>
     </Container>
   );
