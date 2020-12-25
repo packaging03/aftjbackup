@@ -13,6 +13,7 @@ import EventDetails from '../EventDetails';
 import TestimonyDetails from '../TestimonyDetails';
 import NewMember from '../NewMembers/NewMembers';
 import newMemberSuccessPage from '../NewMembers/SuccessPage';
+import Podecast from '../podcast/Poadcast';
 import paySuccess from '../giving/Success';
 import payFail from '../giving/Failed';
 // import AvailableOnPaidVersion from '../subscription/AvailableOnPaidVersion';
@@ -818,9 +819,9 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
-    <HomeStack.Screen
+    {/* <HomeStack.Screen
       name="NoteRoot"
-      component={NoteRoot}
+      component={}
       options={{
         title: 'Note Pad',
         headerStyle: {
@@ -843,7 +844,7 @@ const HomeStackScreen = ({navigation}) => (
           </View>
         ),
       }}
-    />
+    /> */}
 
     {/* <HomeStack.Screen
       name="Bulletin"
@@ -870,6 +871,18 @@ const HomeStackScreen = ({navigation}) => (
       component={Alltestimony}
       options={{
         title: 'Testimony',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+    <HomeStack.Screen
+      name="NoteRoot"
+      component={Podcast}
+      options={{
+        title: 'Podcast',
         headerStyle: {
           backgroundColor: '#fff',
         },
