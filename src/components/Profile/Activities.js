@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  Dimensions,
-  Progr,
-} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Dimensions} from 'react-native';
 // import {ProgressBar, Colors} from 'react-native-paper';
 import {Container} from 'native-base';
 import {connect} from 'react-redux';

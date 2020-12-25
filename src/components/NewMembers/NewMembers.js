@@ -7,15 +7,14 @@ import {
   ScrollView,
   Image,
   TextInput,
-  ToastAndroid,
+  // ToastAndroid,
   TouchableOpacity,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import Toast from 'react-native-simple-toast';
 
 import {Container} from 'native-base';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Picker} from '@react-native-community/picker';
-// import {Picker} from '../../assets/newmembers.png';
 
 const {width, height} = Dimensions.get('window');
 const CancelToken = axios.CancelToken;
@@ -48,12 +47,12 @@ export default class NewMembers extends Component {
       this.setState({
         spinnerRemove: false,
       });
-      ToastAndroid.showWithGravityAndOffset(
+
+      Toast.showWithGravity(
         'Please do not leave any input field empty',
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        25,
-        50,
+
+        Toast.LONG,
+        Toast.BOTTOM,
       );
     } else {
       let testMail = new RegExp(
@@ -64,19 +63,21 @@ export default class NewMembers extends Component {
         this.setState({
           spinnerRemove: false,
         });
-        ToastAndroid.showWithGravityAndOffset(
+        Toast.showWithGravity(
           'Invalid email, try again',
-          ToastAndroid.SHORT,
-          ToastAndroid.BOTTOM,
-          25,
-          50,
+          Toast.SHORT,
+          Toast.BOTTOM,
         );
       } else {
         if (this.state.hearAboutUs === 'How did you hear about us') {
           this.setState({
             spinnerRemove: false,
           });
-          alert('Please select from the dropdown, how you heard about us..');
+          Toast.showWithGravity(
+            'Please select from the dropdown, how you heard about us..',
+            Toast.LONG,
+            Toast.CENTER,
+          );
         } else {
           var numbers = /^[0-9]+$/;
           if (this.state.phone.match(numbers)) {
@@ -118,25 +119,23 @@ export default class NewMembers extends Component {
               this.setState({
                 spinnerRemove: false,
               });
-              ToastAndroid.showWithGravityAndOffset(
+              Toast.showWithGravity(
                 'Name must be alpherbets only.',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50,
+                Toast.LONG,
+                Toast.BOTTOM,
               );
+
               return false;
             }
           } else {
             this.setState({
               spinnerRemove: false,
             });
-            ToastAndroid.showWithGravityAndOffset(
+
+            Toast.showWithGravity(
               'Phone number must be numbers only.',
-              ToastAndroid.LONG,
-              ToastAndroid.BOTTOM,
-              25,
-              50,
+              Toast.LONG,
+              Toast.BOTTOM,
             );
 
             this.setState({focus: true});
