@@ -1,53 +1,135 @@
 import React, {useState, useEffect} from 'react';
-import {ActivityIndicator, View, SafeAreaView, Text} from 'react-native';
+import {ActivityIndicator, View, Text} from 'react-native';
 import CustomButton from '../common/CustomButton';
 import CheckBox from '@react-native-community/checkbox';
 import Toast from 'react-native-simple-toast';
 import { WebView } from 'react-native-webview';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+let item = 0;
 const Resource = ({route, navigation}) => {
 
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const ids = route.params.ids;
-    var question = 0;
-    var questionid = [];
+    const [currentVideo, setCurrentVideo] = useState(route.params.uri);
+    var videos = route.params.videos;
+    
+    
     var answers = []
+    var obj = {};
+
+    
+    const sendResults  = async(id, array) => {
+
+        fetch('https://church.aftjdigital.com/api/assessment/'+id+'/validate', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              // 'Authorization': `bearer ${accessToken}`,
+              'Content-Type': 'application/json'
+          },
+            body: JSON.stringify({
+              
+              payload:array
             
-    const getData = async (id) => {
+            })
+          })
+          .then((response) => response.json())
+          .then((responseJson) =>{
+              console.log("Res:" + JSON.stringify(responseJson));
+             
+          })
+          .catch((error) => {
+            console.log("error:" + error);
+             
+            alert(error)
+        });
+
+
+    }
+            
+    async function getData(id) {
+
         try {
-        let response = await fetch('https://church.aftjdigital.com/api/retrieve/'+id+'/assessment');
-        let json = await response.json();
-        console.log(json.data);
-        setData(json.data);
-        var i;
-        for (i = 1; i <= data.length; i++) {
-            questionid.push(i);
             
-        }
-        console.log(questionid);
-        setLoading(false);
+            
+            let response = await fetch('https://church.aftjdigital.com/api/retrieve/'+id+'/assessment');
+            let json = await response.json();
+            console.log('json: '+JSON.stringify(json.data));
+            var questionsandanswers = json.data;
+
+            var i; var num = 0;
+            for (i = 0; i < json.data.length; i++) {
+                
+                num = num + 1;
+                questionsandanswers[i]["num"] = num;
+                // Object.assign(questionsandanswers[i], {num: ++i});
+                
+                
+            }
+    
+            setData(questionsandanswers);
+            setLoading(false);
         } catch (error) {
-          console.error(error.name);
+          
           if (error.message == 'Network request failed'){
-            Toast.show('Internet Connection Error', Toast.LONG);
+             Toast.show('Internet Connection Error', Toast.LONG);
           }
         }
     };
 
+
     useEffect(() => {
         getData(route.params.id);
-        // console.log('id: '+ids.findIndex(2))
-        //function to show auth alert call
-       
+      
     }, []);
 
+
     const submit = () => {
-        // alert('');
-        // getData(ids.findIndex(2));
-        navigation.navigate('NM-Confirmation');
+        
+        var array = [];
+        var answer = { };
+        
+        if(Object.keys(obj).length < data.length){
+            Toast.show("Please attempt all questions first",Toast.LONG);
+            return;
+        }
+        var i = 0;
+        for (i = 0; i < Object.keys(obj).length; i++) {
+
+            answer = {"questionId": Object.keys(obj)[i], "answer": obj[Object.keys(obj)[0]]};
+            array.push(answer);
+            
+        }
+        sendResults(ids[item], array);
+        console.log('array: '+JSON.stringify(array));
+        if (item === (ids.length - 1)){
+
+            
+            navigation.navigate('NM-Confirmation');
+            return;
+            
+        }else{
+
+            console.log('anwer: '+ JSON.stringify(array));
+            console.log(item);
+            item = item + 1;
+            
+            getData(ids[item]);
+            // setQuestionNums();
+
+            var index = videos.indexOf(currentVideo) +  1;
+            setCurrentVideo(videos[index]);
+
+            
+        }
+
+        obj = [];
+       
+        
+        // 
     }
         
     const renderSeparator = () => {
@@ -68,16 +150,12 @@ const Resource = ({route, navigation}) => {
         const [isSelected2, setSelection2] = useState(false);
         const [isSelected3, setSelection3] = useState(false);
         const [isSelected4, setSelection4] = useState(false);
-        var well = 0;
-        const getId = (array)=>{
-            console.log('well'+questionid[++well]);
-            return questionid[++well];
-        }
+       
         
         return (
           <View>
 
-            <Text style={styles.question}>Question {getId(questionid)} : {item.question}</Text>
+            <Text style={{...styles.question, marginTop:15}}>Question {item.num} : {item.question}</Text>
                 <View style={styles.option}>
                     <CheckBox
                         value={isSelected1}
@@ -89,18 +167,23 @@ const Resource = ({route, navigation}) => {
                                 setSelection3(false);
                                 setSelection4(false);
 
+                                obj[item.id] = "option1";
+                                console.log('obj: '+JSON.stringify(obj));
+                                
                                 answers.push('optionA');
-                                console.log('newvalue:'+answers);
-                            }
-                            if (!isSelected1){
+                                
+                            }else{
                                 setSelection1(true);
+                                delete obj[item.id];
+                                console.log('obj: '+JSON.stringify(obj));
 
                             }
                             console.log('newvalue:'+newValue);
                         }}
                         style={styles.checkbox}
                         />
-                    <Text style={{...styles.text, width:'85%', marginLeft:-1}}>{item.option1}</Text>
+                    <Text 
+                    style={{...styles.text, width:'85%', marginLeft:-1}}>{item.option1}</Text>
 
                 </View>
                 <View style={styles.option}>
@@ -109,13 +192,17 @@ const Resource = ({route, navigation}) => {
                         onValueChange={(newValue) => {
                             setSelection2(newValue)
                             console.log('newvalue:'+newValue);
-                            if( newValue) {
+                            if( newValue === true) {
                                 setSelection4(false);
                                 setSelection3(false);
                                 setSelection1(false);
-                            }
-                            if (!newValue){
+
+                                obj[item.id] = "option2";
+                                console.log('obj: '+JSON.stringify(obj));
+                            }else {
                                 setSelection2(true);
+                                delete obj[item.id];
+                                console.log('obj: '+JSON.stringify(obj));
                             }
                         }}
                         style={styles.checkbox}
@@ -128,13 +215,17 @@ const Resource = ({route, navigation}) => {
                         value={isSelected3}
                         onValueChange={(newValue) => {
                             setSelection3(newValue);
-                            if(newValue) {
+                            if(newValue === true) {
                                 setSelection1(false);
                                 setSelection2(false);
                                 setSelection4(false);
-                            }
-                            if (!newValue){
+
+                                obj[item.id] = "option3";
+                                console.log('obj: '+JSON.stringify(obj));
+                            }else {
                                 setSelection3(true);
+                                delete obj[item.id];
+                                console.log('obj: '+JSON.stringify(obj));
                             }
                         }}
                         style={styles.checkbox}
@@ -142,18 +233,22 @@ const Resource = ({route, navigation}) => {
                     <Text style={{...styles.text, width:'85%', marginLeft:-1}}>{item.option3}</Text>
 
                 </View>
-                <View style={styles.option}>
+                <View style={{...styles.option, marginBottom:10}}>
                     <CheckBox
                         value={isSelected4}
                         onValueChange={(newValue) => {
                             setSelection4(newValue);
-                            if(newValue) {
+                            if(newValue === true) {
                                 setSelection1(false);
                                 setSelection2(false);
                                 setSelection3(false);
-                            }
-                            if (!newValue){
+
+                                obj[item.id] = "option4";
+                                console.log('obj: '+JSON.stringify(obj));
+                            }else {
                                 setSelection4(true);
+                                delete obj[item.id];
+                                console.log('obj: '+JSON.stringify(obj));
                             }
                         }}
                         style={styles.checkbox}
@@ -171,11 +266,55 @@ const Resource = ({route, navigation}) => {
         />
       );
 
- 
+      const getHeader = () => {
+        return  <View>
+        <Text style={{
+                   fontFamily:'Nunito',
+                   fontWeight:'400',
+                   marginLeft:16,
+                   fontSize:16, marginBottom:8}}>Assessment</Text>
+               <Text style={styles.text}>Please take this assessment test when you are done with</Text>
+               <Text style={styles.text}>this Session in other for you to move to the next Session</Text>
+               <View
+                   style={{
+                   height: 1,
+                   width: '100%',
+                   marginTop:20,
+                   marginBottom:20,
+                   backgroundColor: '#CED0CE',
+                   }}
+               />
+
+   </View>
+       
+       
+    };
+
+    const getFooter = () => {
+        return <View>
+
+            <View
+                style={{
+                height: 1,
+                width: '100%',
+                marginTop:20,
+                marginBottom:20,
+                backgroundColor: '#CED0CE',
+                }}
+            />  
+            <CustomButton onPress={() => submit()} buttonStyle={
+                { width:'100%', 
+                marginTop:20,
+                marginBottom:40
+                }}>Submit</CustomButton>
+
+        </View>
+              
+    }
 
     return(
 
-        <View style={{flex:1, backgroundColor:'white', paddingTop:20}}>
+        <View style={{flex:1, backgroundColor:'white', paddingTop:10}}>
 
                 <View style={{
                     backgroundColor:'white', 
@@ -192,7 +331,7 @@ const Resource = ({route, navigation}) => {
                      cacheEnabled
                      
                      style={{backgroundColor: 'transparent',  borderWidth:0, marginLeft: -20, marginRight: -20}}
-                     source={{uri: route.params.uri}}
+                     source={{uri: currentVideo}}
                      />
                 <View style={{
                     width:'99.5%', 
@@ -219,26 +358,10 @@ const Resource = ({route, navigation}) => {
                 </View>
                 </View>
 
-                <ScrollView style={{flex:1}}>
-                <View>
+                
+                <View style={{flex:1}}>
 
-                    <Text style={{
-                        fontFamily:'Nunito',
-                        fontWeight:'400',
-                        marginLeft:16,
-                        fontSize:16, marginBottom:8}}>Assessment</Text>
-                    <Text style={styles.text}>Please take this assessment test when you are done with</Text>
-                    <Text style={styles.text}>this Session in other for you to move to the next Session</Text>
-                    <View
-                        style={{
-                        height: 1,
-                        width: '100%',
-                        marginTop:20,
-                        marginBottom:20,
-                        backgroundColor: '#CED0CE',
-                        }}
-                    />
-
+                   
                     {isLoading ? (
                     <ActivityIndicator size="large" style={{marginTop: 50}} />
                     ) : (
@@ -247,17 +370,15 @@ const Resource = ({route, navigation}) => {
                         ItemSeparatorComponent={renderSeparator}
                         renderItem={renderItem}
                         keyExtractor={item => item.id.toString()}
+                        ListHeaderComponent={getHeader}
+                        ListFooterComponent={getFooter}
                     />
                     )}
 
-                    <CustomButton onPress={() => submit()} buttonStyle={
-                        { width:'100%', 
-                        marginTop:10,
-                        marginBottom:40
-                        }}>Submit</CustomButton>
+                    
                 </View>
 
-                </ScrollView>
+                
         </View>
     )
 
