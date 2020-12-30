@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  PermissionsAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {color} from 'react-native-reanimated';
@@ -31,7 +32,9 @@ import Dialog, {
   SlideAnimation,
   ScaleAnimation,
 } from 'react-native-popup-dialog';
-
+import Geolocation from 'react-native-geolocation-service';
+import RNReverseGeocode from '@kiwicom/react-native-reverse-geocode';
+// import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {Dimensions} from 'react-native';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 var {height, width} = Dimensions.get('window');
@@ -44,11 +47,13 @@ export default function Home({navigation}) {
   const [salert, setAlert] = useState(false);
   const [show, setShow] = useState(false);
   const [covid, setCovid] = useState(false);
+  const [userCordinate, setUserCordinate] = useState('');
 
-  const fetchNearestPlacesFromGoogle = () => {
-    const latitude = 25.0756; // you can update it with user's latitude & Longitude
-    const longitude = 55.1454;
+  const fetchNearestPlacesFromGoogle = (lati, longi) => {
+    const latitude = lati; // you can update it with user's latitude & Longitude
+    const longitude = longi;
     let radMetter = 2 * 1000; // Search withing 2 KM radius
+    let apiKey = 'AIzaSyCOBD675fvLcMo63v-8bvDj8ZTnLvyCm2Q';
 
     const url =
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
@@ -58,13 +63,16 @@ export default function Home({navigation}) {
       '&radius=' +
       radMetter +
       '&key=' +
-      AIzaSyASZZ81sDOHAEeNp_kIg4rtkURzdmV5YNM;
+      apiKey;
+
+    //maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1000&type=point_of_interest&keyword=divvy&key=${API_KEY}
 
     fetch(url)
       .then(res => {
         return res.json();
       })
       .then(res => {
+        console.log(res);
         var places = []; // This Array WIll contain locations received from google
         for (let googlePlace of res.results) {
           var place = {};
@@ -94,6 +102,7 @@ export default function Home({navigation}) {
         }
 
         // Do your work here with places Array
+        console.log(places);
       })
       .catch(error => {
         console.log(error);
@@ -110,6 +119,80 @@ export default function Home({navigation}) {
       }
     });
   }, [1]);
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Access Required',
+            message: 'AFTj needs to Access your location',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //To Check, If Permission was granted
+
+          getOneTimeLocation();
+          console.log('location permission granted');
+        } else {
+          alert('Permission Denied');
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    requestLocationPermission();
+  }, []);
+  // get reverse geo location
+  const RNRgeo = async () => {
+    try {
+      const region = {
+        latitude: 33.874620973209886,
+        longitude: -84.63951113948264,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      };
+
+      const searchText = 'JCCI GLORY TABERNACLE';
+
+      RNReverseGeocode.searchForLocations(searchText, region, (err, res) => {
+        storeAddress(res[0].address);
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  // request location cord.
+  const getOneTimeLocation = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        if (currentLatitude !== null && currentLatitude !== null) {
+          const dataCord = {
+            longitude: JSON.parse(currentLongitude),
+            latitude: JSON.parse(currentLatitude),
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          };
+          setUserCordinate(dataCord);
+          console.log(dataCord);
+          fetchNearestPlacesFromGoogle(currentLatitude, currentLongitude);
+        }
+        // console.log(cord);
+      },
+      error => {
+        console.log(error);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 30000,
+        maximumAge: 1000,
+      },
+    );
+  };
 
   //function to show auth alert
   showAlert = () => {
