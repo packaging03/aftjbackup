@@ -4,10 +4,12 @@ import React, { useState, useEffect } from 'react'
   View,
   Text,
   StyleSheet,
+  Image,
   ActivityIndicator,
   TouchableHighlight,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  RefreshControl,
   FlatList,
   ScrollView,
   StatusBar,
@@ -22,9 +24,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Card, CardItem, Left,Right, Body, } from 'native-base';
 
 
-const Item = ({name, category, date, content, onPress, onPress2}) => (
+const Item = ({name, category, date, content, onPress}) => (
   <TouchableWithoutFeedback onPress={onPress}>
-            <Card  style={{marginLeft: -2, marginRight: -2, marginBottom: -11}}>
+            <Card  style={{marginLeft: -2, marginRight: -2, marginBottom: -3.5}}>
                 <CardItem style={{marginBottom: -12}}>
                   
                       <Text style={{fontSize:18, fontFamily: 'Nunito-Regular', color: '#000'}}>{category}</Text>
@@ -45,21 +47,6 @@ const Item = ({name, category, date, content, onPress, onPress2}) => (
                     
                 </CardItem>
                 <CardItem>
-                  {/* <Left style={{flex:0.1}}>
-                    
-                  </Left>
-                  <Right style={{flex:0.9}}>
-
-                    <TouchableHighlight onPress={onPress2}>
-                        <View>
-                        <Icon name="ios-heart-outline" size={23} color={'#646464'} />
-                          <Text style={{fontSize:14, marginTop: -25, marginLeft: 30, color: '#646464', fontFamily: 'Nunito-Regular'}}>
-                              Like
-                          </Text>
-                        </View>
-                    </TouchableHighlight>
-                    
-                  </Right> */}
                 </CardItem>
               </Card>
         </TouchableWithoutFeedback>
@@ -83,43 +70,24 @@ function NoteRoot({route, navigation, accessToken}) {
     }
   };
 
-  const LikeTestimony = (id) => {
-
-    if (accessToken === null || accessToken === "") {
-        alert('Kindly Login first');
-        return;
-    }
-    fetch('https://church.aftjdigital.com/api/testimony/like/' + id , {
-                method: 'POST',
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json'
-              },
-                body: JSON.stringify({
-                    token: accessToken,
-                })
-              })
-              .then((response) => response.json())
-              .then((responseJson) =>{
-                  if (JSON.stringify(responseJson.message) !== 'you liked this testimony' ){
-                    Toast.show(responseJson.message)
-                     return;
-                  }
-                  Toast.show(responseJson.message)
-              })
-              .catch((error) => {
-                alert(error)});
-  };
   
     useEffect(() => {
-      getTestimoniesFromApiAsync();
+        if(accessToken==null){
+            alert('Please Login to access this page')
+        } 
+        else 
+        {
+            getTestimoniesFromApiAsync();
+        }
     }, []);
 
-    const renderItem = ({item}) => (
 
-       //id={getimgurl(item.id)}
-        
-        <Item name={item.preachers_name}  category={item.theme} date ={Moment(item.created_at.substring(0,19)).format( 'llll')} content={item.note} 
+    const renderItem = ({item}) => (
+        <Item name={item.preachers_name}  
+        category={item.theme} 
+        date={Moment(item.created_at.substring(0,19)).format( 'llll')} 
+        content={item.note} 
+
           onPress={() =>
           navigation.navigate('NoteDetails', 
           {name: item.preachers_name,
@@ -130,10 +98,7 @@ function NoteRoot({route, navigation, accessToken}) {
           token: accessToken,
           content:item.note}) 
         } 
-        onPress2={() =>
-          LikeTestimony(String(item.id))
-        } 
-         />
+        />
   );
 
   

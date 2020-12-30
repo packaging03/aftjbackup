@@ -8,6 +8,7 @@ import React from 'react';
     TouchableWithoutFeedback,
     TouchableOpacity,
     FlatList,
+    Image,
     Button,
     ScrollView,
     StatusBar,
@@ -20,50 +21,92 @@ import Toast from 'react-native-simple-toast';
 import {Card, CardItem, Left,Right, Body, } from 'native-base';
 import Moment from 'moment';
 import Share from 'react-native-share';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const NoteDetails = ({route}) => {
+
+
+const NoteDetails = ({route, navigation, accessToken}) => {
+
+
+
+  function customHeaderTitle() {
+    return (
+      <TouchableOpacity style={styles.headerContainer}>
+        <Text style={{color: '#000', fontSize: 22, fontWeight: '500'}}>
+          Note Pad
+        </Text>
+
+        <TouchableHighlight onPress={() => navigation.navigate('Editnote', 
+              { 
+                name: route.params.name,
+                category: route.params.category,
+                ptext: route.params.ptext,
+                date: route.params.date, 
+                id: String(route.params.id),
+                content:route.params.content
+              })  
+            }>
+        
+        <Image
+              onPress={() => navigation.navigate('Editnote', 
+              {name: route.params.name,
+              category: route.params.category,
+              ptext: route.params.ptext,
+              date: route.params.date, 
+              id: String(route.params.id),
+              content:route.params.content})  
+            }
+              style={{width: 25, height: 25, marginLeft: 165}}
+              source={require('../assets/edit.png')}
+            />
+        </TouchableHighlight>
+
+        <TouchableHighlight onPress={() => deleteMe(route.params.id) 
+            }>
+        
+        <Image
+              onPress={() => deleteMe(route.params.id)
+            }
+              style={{width: 22, height: 22, marginRight: 10}}
+              source={require('../assets/cancel.png')}
+            />
+        </TouchableHighlight>
+      </TouchableOpacity>
+    );
+  }
+  {
+    {
+      navigation.setOptions({headerTitle: customHeaderTitle});
+    }
+  }
+
       const {name, category, ptext, date, id, token, content} = route.params;
-      const shareMe = async() => {
-        const shareOptions = {
-            message: "Check out this testimony: " + content.substring(0,75) + " by " + name,
-            url: "",
-        }
-    
+      
+      const deleteMe = async(id) => {
+        //Toast.show(id + "  "+ accessToken);
         try {
-            const shareResponse = Share.open(shareOptions);
-            console.log(JSON.stringify(shareResponse));
-        } catch (error) {
+          fetch('https://church.aftjdigital.com/api/note/delete/' + id, {
+            method: 'DELETE',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+          },
+            body: JSON.stringify({
+              token: accessToken,
+            })
+          })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            Toast.show(responseJson.message);
+              navigation.navigate('NoteRoot')
+          })
+          .catch((error) => {
+            alert(error)});
+            //setLoading(false);
+        } 
+        catch (error) {
             console.log('Error => ', error);
         }
-    };
-
-    
-    const LikeMe = () => {
-      
-      if (token === null || token === "") {
-          alert('Kindly Login first');
-          return;
-      }
-      fetch('https://church.aftjdigital.com/api/testimony/like/' + id , {
-                  method: 'POST',
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                  body: JSON.stringify({
-                      token: token,
-                  })
-                })
-                .then((response) => response.json())
-                .then((responseJson) =>{
-                    if (JSON.stringify(responseJson.message) !== 'you liked this testimony' ){
-                      Toast.show(responseJson.message)
-                       return;
-                    }
-                    Toast.show(responseJson.message)
-                })
-                .catch((error) => {
-                  alert(error)});
     };
 
     return(
@@ -206,7 +249,7 @@ const styles = {
         display:'flex',
         flexDirection:'row',
         justifyContent:'space-between',
-        alignItems:'center',
+        alignItems: 'flex-end',
         width:'100%',
     },
     titleText:{

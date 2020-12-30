@@ -6,13 +6,13 @@ import {
   Dimensions,
   ScrollView,
   Image,
+  Pressable,
   TextInput,
   ToastAndroid,
   TouchableOpacity,
 } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
 
-import {Container} from 'native-base';
+import {Container, Header, Left, Body, Right, Button, Title} from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Picker} from '@react-native-community/picker';
 // import {Picker} from '../../assets/newmembers.png';
@@ -34,20 +34,15 @@ export default class NewMembers extends Component {
     hearAboutUs: 'How did you hear about us',
     prayerRequest: '',
     focus: false,
-    spinnerRemove: false,
   };
 
   sentDataToDb = async () => {
-    this.setState({spinnerRemove: true});
     if (
       this.state.phone === '' ||
       this.state.email === '' ||
       this.state.name === '' ||
       this.state.home === ''
     ) {
-      this.setState({
-        spinnerRemove: false,
-      });
       ToastAndroid.showWithGravityAndOffset(
         'Please do not leave any input field empty',
         ToastAndroid.LONG,
@@ -61,9 +56,6 @@ export default class NewMembers extends Component {
       );
 
       if (!testMail.test(this.state.email.trim())) {
-        this.setState({
-          spinnerRemove: false,
-        });
         ToastAndroid.showWithGravityAndOffset(
           'Invalid email, try again',
           ToastAndroid.SHORT,
@@ -73,13 +65,14 @@ export default class NewMembers extends Component {
         );
       } else {
         if (this.state.hearAboutUs === 'How did you hear about us') {
-          this.setState({
-            spinnerRemove: false,
-          });
           alert('Please select from the dropdown, how you heard about us..');
         } else {
           var numbers = /^[0-9]+$/;
           if (this.state.phone.match(numbers)) {
+            var letters = /^[A-Za-z]+$/;
+            console.log('peter');
+            // console.log(this.state.name.trim().match(letters));
+
             if (/^[a-z][a-z\s]*$/i.test(this.state.name.trim())) {
               try {
                 const data = {
@@ -102,22 +95,13 @@ export default class NewMembers extends Component {
 
                 // alert(resp.data.message);
                 if (resp.data.status === 'success') {
-                  this.setState({
-                    spinnerRemove: false,
-                  });
                   this.props.navigation.navigate('newMemberSuccessPage');
                 }
               } catch (e) {
-                this.setState({
-                  spinnerRemove: false,
-                });
                 console.log(e.response.data);
               }
               return true;
             } else {
-              this.setState({
-                spinnerRemove: false,
-              });
               ToastAndroid.showWithGravityAndOffset(
                 'Name must be alpherbets only.',
                 ToastAndroid.LONG,
@@ -128,9 +112,6 @@ export default class NewMembers extends Component {
               return false;
             }
           } else {
-            this.setState({
-              spinnerRemove: false,
-            });
             ToastAndroid.showWithGravityAndOffset(
               'Phone number must be numbers only.',
               ToastAndroid.LONG,
@@ -151,11 +132,6 @@ export default class NewMembers extends Component {
   render() {
     return (
       <Container>
-        <Spinner
-          visible={this.state.spinnerRemove}
-          textContent={'Loading...'}
-          textStyle={{color: '#FFF'}}
-        />
         <ScrollView>
           <View style={styles.imgView}>
             <Image
@@ -173,10 +149,7 @@ export default class NewMembers extends Component {
               }}>
               Welcome To Jubilee Christian Church Int'l
             </Text>
-            <Text
-              style={{
-                fontFamily: 'Nunito-Regular',
-              }}>
+            <Text style={{fontFamily: 'Nunito-Regular'}}>
               We are very delighted that you are here. Our team would love to
               serve you and help you get connected.
             </Text>
@@ -200,11 +173,7 @@ export default class NewMembers extends Component {
             </View>
             {/* ======================= */}
             <View style={{marginTop: 20}}>
-              <Text
-                style={{
-                  marginBottom: 12,
-                  fontFamily: 'Nunito-Regular',
-                }}>
+              <Text style={{marginBottom: 12, fontFamily: 'Nunito-Regular'}}>
                 Email Address
               </Text>
               <TextInput
@@ -224,11 +193,7 @@ export default class NewMembers extends Component {
             </View>
             {/* =================================================================== */}
             <View style={{marginTop: 20}}>
-              <Text
-                style={{
-                  marginBottom: 12,
-                  fontFamily: 'Nunito-Regular',
-                }}>
+              <Text style={{marginBottom: 12, fontFamily: 'Nunito-Regular'}}>
                 Contact Number
               </Text>
               <TextInput
@@ -247,11 +212,7 @@ export default class NewMembers extends Component {
             </View>
             {/* =========================================================== */}
             <View style={{marginTop: 20}}>
-              <Text
-                style={{
-                  marginBottom: 12,
-                  fontFamily: 'Nunito-Regular',
-                }}>
+              <Text style={{marginBottom: 12, fontFamily: 'Nunito-Regular'}}>
                 Home Address
               </Text>
               <TextInput
@@ -296,11 +257,7 @@ export default class NewMembers extends Component {
                   status={
                     this.state.checked === 'yes' ? 'checked' : 'unchecked'
                   }
-                  onPress={() =>
-                    this.setState({
-                      checked: 'yes',
-                    })
-                  }
+                  onPress={() => this.setState({checked: 'yes'})}
                 />
               </View>
               <View style={{flexDirection: 'row'}}>
@@ -326,9 +283,7 @@ export default class NewMembers extends Component {
               selectedValue={this.state.hearAboutUs}
               style={{height: 50, width: 300}}
               onValueChange={(itemValue, itemIndex) =>
-                this.setState({
-                  hearAboutUs: itemValue,
-                })
+                this.setState({hearAboutUs: itemValue})
               }>
               <Picker.Item
                 label="How did you hear about us?"
@@ -357,19 +312,13 @@ export default class NewMembers extends Component {
             </Picker>
             {/* =============================================================================== */}
             <View style={{marginTop: 20}}>
-              <Text
-                style={{
-                  marginBottom: 14,
-                  fontFamily: 'Nunito-Bold',
-                }}>
+              <Text style={{marginBottom: 14, fontFamily: 'Nunito-Bold'}}>
                 Anything you would like us to pray with you about?
               </Text>
               <TextInput
                 keyboardType="default"
                 onChangeText={text => {
-                  this.setState({
-                    prayerRequest: text,
-                  });
+                  this.setState({prayerRequest: text});
                 }}
                 value={this.state.prayerRequest}
                 style={{

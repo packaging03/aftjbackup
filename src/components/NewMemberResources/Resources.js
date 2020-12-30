@@ -7,7 +7,7 @@ const Resources = ({navigation}) => {
 
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
-
+    var videos = [];
     var ids = [];
             
     var x = 0;
@@ -131,14 +131,18 @@ const Resources = ({navigation}) => {
         </TouchableWithoutFeedback>
       )};
 
-      const renderItem = ({item}) => (
+      const renderItem = ({item}) => {
+        
+        videos.push(item.video);
+        return(
         <Item
           item={item}
           onPress={() =>
             navigation.navigate('NM-Resource', {
               uri: item.video,
               id: item.id, 
-              ids: ids
+              ids: ids,
+              videos: videos
             //   id: item.video,
             //   date: item.date,
             //   overview: item.overview,
@@ -148,7 +152,7 @@ const Resources = ({navigation}) => {
             })
           }
         />
-      );
+      )};
 
     return(
         <View style={{ flex:1, paddingTop:20, backgroundColor:'white'}}>

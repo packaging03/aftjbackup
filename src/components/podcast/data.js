@@ -1,40 +1,44 @@
-const songs = [
+[
   {
-    title: 'death bed',
+    title: 'Death Bed',
     artist: 'Powfu',
-    image: require('../assets/album-arts/death-bed.jpg'),
+    artwork: 'https://samplesongs.netlify.app/album-arts/death-bed.jpg',
+    url: 'https://samplesongs.netlify.app/Death%20Bed.mp3',
     id: '1',
   },
   {
-    title: 'bad liar',
+    title: 'Bad Liar',
     artist: 'Imagine Dragons',
-    image: require('../assets/album-arts/bad-liar.jpg'),
+    artwork: 'https://samplesongs.netlify.app/album-arts/bad-liar.jpg',
+    url: 'https://samplesongs.netlify.app/Bad%20Liar.mp3',
     id: '2',
   },
   {
-    title: 'faded',
+    title: 'Faded',
     artist: 'Alan Walker',
-    image: require('../assets/album-arts/faded.jpg'),
+    artwork: 'https://samplesongs.netlify.app/album-arts/faded.jpg',
+    url: 'https://samplesongs.netlify.app/Faded.mp3',
     id: '3',
   },
   {
-    title: 'hate me',
+    title: 'Hate Me',
     artist: 'Ellie Goulding',
-    image: require('../assets/album-arts/hate-me.jpg'),
+    artwork: 'https://samplesongs.netlify.app/album-arts/hate-me.jpg',
+    url: 'https://samplesongs.netlify.app/Hate%20Me.mp3',
     id: '4',
   },
   {
     title: 'Solo',
     artist: 'Clean Bandit',
-    image: require('../assets/album-arts/solo.jpg'),
+    artwork: 'https://samplesongs.netlify.app/album-arts/solo.jpg',
+    url: 'https://samplesongs.netlify.app/Solo.mp3',
     id: '5',
   },
   {
-    title: 'without me',
+    title: 'Without Me',
     artist: 'Halsey',
-    image: require('../assets/album-arts/without-me.jpg'),
+    artwork: 'https://samplesongs.netlify.app/album-arts/without-me.jpg',
+    url: 'https://samplesongs.netlify.app/Without%20Me.mp3',
     id: '6',
   },
 ];
-
-export default songs;
