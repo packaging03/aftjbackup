@@ -45,6 +45,61 @@ export default function Home({navigation}) {
   const [show, setShow] = useState(false);
   const [covid, setCovid] = useState(false);
 
+  const fetchNearestPlacesFromGoogle = () => {
+    const latitude = 25.0756; // you can update it with user's latitude & Longitude
+    const longitude = 55.1454;
+    let radMetter = 2 * 1000; // Search withing 2 KM radius
+
+    const url =
+      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+      latitude +
+      ',' +
+      longitude +
+      '&radius=' +
+      radMetter +
+      '&key=' +
+      AIzaSyASZZ81sDOHAEeNp_kIg4rtkURzdmV5YNM;
+
+    fetch(url)
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        var places = []; // This Array WIll contain locations received from google
+        for (let googlePlace of res.results) {
+          var place = {};
+          var lat = googlePlace.geometry.location.lat;
+          var lng = googlePlace.geometry.location.lng;
+          var coordinate = {
+            latitude: lat,
+            longitude: lng,
+          };
+
+          var gallery = [];
+
+          if (googlePlace.photos) {
+            for (let photo of googlePlace.photos) {
+              var photoUrl = Urls.GooglePicBaseUrl + photo.photo_reference;
+              gallery.push(photoUrl);
+            }
+          }
+
+          place['placeTypes'] = googlePlace.types;
+          place['coordinate'] = coordinate;
+          place['placeId'] = googlePlace.place_id;
+          place['placeName'] = googlePlace.name;
+          place['gallery'] = gallery;
+
+          places.push(place);
+        }
+
+        // Do your work here with places Array
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     AsyncStorage.getItem('popup').then(obj => {
       if (obj == 'setup') {
