@@ -58,7 +58,7 @@ const SummaryPage = () => {
           style={{width: 160, height: 160, borderRadius: 10}}
         />
         <Text style={{fontSize: 18, fontFamily: 'Nunito-Bold', top: 10}}>
-          Stay Focused As He Leads
+          {obj.title}
         </Text>
         <Text style={{marginTop: 35}}>
           By: <Text>{obj.artist}</Text>
