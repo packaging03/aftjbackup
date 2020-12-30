@@ -24,7 +24,13 @@ export default function SliderComp() {
   return (
     <View style={styles.container}>
       <Slider
-        style={{width: 320, height: 40}}
+        style={{
+          width: 230,
+          height: 40,
+          position: 'relative',
+          top: 35,
+          left: 30,
+        }}
         minimumValue={0}
         value={position}
         maximumValue={duration}
@@ -34,8 +40,8 @@ export default function SliderComp() {
         thumbTintColor="#c5cad2"
       />
       <View style={styles.timeContainer}>
-        <Text style={styles.timers}>{formatTime(position)}</Text>
-        <Text style={styles.timers}>{formatTime(duration)}</Text>
+        <Text style={styles.timers1}>{formatTime(position)}</Text>
+        <Text style={styles.timers2}>{formatTime(duration)}</Text>
       </View>
     </View>
   );
@@ -43,14 +49,21 @@ export default function SliderComp() {
 
 const styles = StyleSheet.create({
   container: {
-    height: 70,
+    height: 60,
   },
-  timers: {
+  timers1: {
     color: '#c5cad2',
+    marginEnd: 118,
+    fontSize: 16,
+  },
+  timers2: {
+    color: '#c5cad2',
+    marginStart: 118,
     fontSize: 16,
   },
   timeContainer: {
+    top: 5,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
 });

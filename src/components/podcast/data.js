@@ -1,4 +1,4 @@
-[
+const data = [
   {
     title: 'Death Bed',
     artist: 'Powfu',
@@ -42,3 +42,5 @@
     id: '6',
   },
 ];
+
+export default data;

@@ -16,6 +16,7 @@ import NewMember from '../NewMembers/NewMembers';
 import newMemberSuccessPage from '../NewMembers/SuccessPage';
 import Podcast from '../podcast/Podcast';
 import PodcastList from '../podcast/PodList';
+import SummaryPage from '../podcast/SummaryPage';
 import paySuccess from '../giving/Success';
 import payFail from '../giving/Failed';
 // import AvailableOnPaidVersion from '../subscription/AvailableOnPaidVersion';
@@ -1246,6 +1247,23 @@ const HomeStackScreen = ({navigation}) => (
             <AntDesign name="close" size={30} color="#000" />
           </TouchableOpacity>
         ),
+      }}
+    />
+    <HomeStack.Screen
+      name="SummaryPage"
+      component={SummaryPage}
+      options={{
+        title: 'Summary',
+        headerStyle: {
+          elevation: 0,
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: {
+          color: 'black',
+          fontSize: 20,
+          fontFamily: 'frankruhllibre-regular',
+        },
+        headerTintColor: '#000',
       }}
     />
     <HomeStack.Screen

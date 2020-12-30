@@ -68,5 +68,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: 250,
+    // bottom: 2
   },
 });

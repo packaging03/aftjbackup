@@ -18,6 +18,7 @@ import TrackPlayer, {
   STATE_PLAYING,
   Event,
 } from 'react-native-track-player';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // import songs from './data';
 import Controller from './Controller';
@@ -30,7 +31,7 @@ const {width, height} = Dimensions.get('window');
 //   TrackPlayerEvents.PLAYBACK_ERROR
 // ];
 
-const Podcast = () => {
+const Podcast = ({navigation}) => {
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const slider = useRef(null);
@@ -247,8 +248,25 @@ const Podcast = () => {
         </View>
 
         <SliderComp />
-
         <Controller onNext={goNext} onPrv={goPrv} />
+        <View
+          style={{
+            flexDirection: 'row',
+            // justifyContent: 'space-between',
+            position: 'relative',
+            top: 80,
+          }}>
+          <Text style={styles.icon1}>1x</Text>
+          <Icon
+            onPress={() => {
+              navigation.navigate('SummaryPage');
+            }}
+            style={styles.icon2}
+            name="dots-horizontal"
+            size={35}
+            color="#c5cad2"
+          />
+        </View>
       </SafeAreaView>
     </View>
   );
@@ -260,20 +278,30 @@ const styles = StyleSheet.create({
     fontSize: 28,
     textAlign: 'center',
     fontWeight: '600',
-    textTransform: 'capitalize',
+    // textTransform: 'capitalize',
     color: '#000',
+    fontFamily: 'Nunito-Regular',
   },
   artist: {
     fontSize: 18,
     textAlign: 'center',
     color: '#000',
-
-    textTransform: 'capitalize',
+    fontFamily: 'Nunito-Bold',
+    // textTransform: 'capitalize',
   },
   container: {
     justifyContent: 'space-evenly',
     alignItems: 'center',
     height: height,
-    maxHeight: 500,
+    maxHeight: 450,
+  },
+  icon1: {
+    marginRight: 100,
+    fontFamily: 'Nunito-Regular',
+    fontSize: 20,
+    color: '#c5cad2',
+  },
+  icon2: {
+    marginLeft: 120,
   },
 });
