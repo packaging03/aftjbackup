@@ -28,10 +28,10 @@ export default function SliderComp() {
         minimumValue={0}
         value={position}
         maximumValue={duration}
-        minimumTrackTintColor="#ffffff"
+        minimumTrackTintColor="gray"
         onSlidingComplete={handleChange}
-        maximumTrackTintColor="rgba(255, 255, 255, .5)"
-        thumbTintColor="#fff"
+        maximumTrackTintColor="#c5cad2"
+        thumbTintColor="#c5cad2"
       />
       <View style={styles.timeContainer}>
         <Text style={styles.timers}>{formatTime(position)}</Text>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     height: 70,
   },
   timers: {
-    color: '#fff',
+    color: '#c5cad2',
     fontSize: 16,
   },
   timeContainer: {

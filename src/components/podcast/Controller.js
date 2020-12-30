@@ -14,36 +14,36 @@ import TrackPlayer, {
 
 export default function Controller({onNext, onPrv}) {
   const playbackState = usePlaybackState();
-  const isPlaying = useRef('paused'); //paused play loading
+  const [isPlaying, setIsPlaying] = useState('paused'); //paused play loading
 
   useEffect(() => {
     // console.log('Player State', playbackState);
 
     //set the player state
     if (playbackState === 'playing' || playbackState === 3) {
-      isPlaying.current = 'playing';
+      setIsPlaying('playing');
     } else if (playbackState === 'paused' || playbackState === 2) {
-      isPlaying.current = 'paused';
+      setIsPlaying('paused');
     } else {
-      isPlaying.current = 'loading';
+      setIsPlaying('loading');
     }
   }, [playbackState]);
 
   const returnPlayBtn = () => {
-    switch (isPlaying.current) {
+    switch (isPlaying) {
       case 'playing':
-        return <Icon color="#fff" name="pause" size={45} />;
+        return <Icon color="#c5cad2" name="pause" size={45} />;
       case 'paused':
-        return <Icon color="#fff" name="play-arrow" size={45} />;
+        return <Icon color="#c5cad2" name="play-arrow" size={45} />;
       default:
-        return <ActivityIndicator size={45} color="#fff" />;
+        return <ActivityIndicator size={45} color="#c5cad2" />;
     }
   };
 
   const onPlayPause = () => {
-    if (isPlaying.current === 'playing') {
+    if (isPlaying === 'playing') {
       TrackPlayer.pause();
-    } else if (isPlaying.current === 'paused') {
+    } else if (isPlaying === 'paused') {
       TrackPlayer.play();
     }
   };
@@ -51,13 +51,13 @@ export default function Controller({onNext, onPrv}) {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={onPrv}>
-        <Icon color="#fff" name="skip-previous" size={45} />
+        <Icon color="#c5cad2" name="skip-previous" size={45} />
       </TouchableOpacity>
       <TouchableOpacity onPress={onPlayPause}>
         {returnPlayBtn()}
       </TouchableOpacity>
       <TouchableOpacity onPress={onNext}>
-        <Icon color="#fff" name="skip-next" size={45} />
+        <Icon color="#c5cad2" name="skip-next" size={45} />
       </TouchableOpacity>
     </View>
   );

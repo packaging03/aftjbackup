@@ -30,51 +30,6 @@ const {width, height} = Dimensions.get('window');
 //   TrackPlayerEvents.PLAYBACK_ERROR
 // ];
 
-const songs = [
-  {
-    title: 'Death Bed',
-    artist: 'Powfu',
-    artwork: 'https://samplesongs.netlify.app/album-arts/death-bed.jpg',
-    url: 'https://samplesongs.netlify.app/Death%20Bed.mp3',
-    id: '1',
-  },
-  {
-    title: 'Bad Liar',
-    artist: 'Imagine Dragons',
-    artwork: 'https://samplesongs.netlify.app/album-arts/bad-liar.jpg',
-    url: 'https://samplesongs.netlify.app/Bad%20Liar.mp3',
-    id: '2',
-  },
-  {
-    title: 'Faded',
-    artist: 'Alan Walker',
-    artwork: 'https://samplesongs.netlify.app/album-arts/faded.jpg',
-    url: 'https://samplesongs.netlify.app/Faded.mp3',
-    id: '3',
-  },
-  {
-    title: 'Hate Me',
-    artist: 'Ellie Goulding',
-    artwork: 'https://samplesongs.netlify.app/album-arts/hate-me.jpg',
-    url: 'https://samplesongs.netlify.app/Hate%20Me.mp3',
-    id: '4',
-  },
-  {
-    title: 'Solo',
-    artist: 'Clean Bandit',
-    artwork: 'https://samplesongs.netlify.app/album-arts/solo.jpg',
-    url: 'https://samplesongs.netlify.app/Solo.mp3',
-    id: '5',
-  },
-  {
-    title: 'Without Me',
-    artist: 'Halsey',
-    artwork: 'https://samplesongs.netlify.app/album-arts/without-me.jpg',
-    url: 'https://samplesongs.netlify.app/Without%20Me.mp3',
-    id: '6',
-  },
-];
-
 const Podcast = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -83,6 +38,50 @@ const Podcast = () => {
   const index = useRef(0);
 
   const [songIndex, setSongIndex] = useState(0);
+  const [songs, setSong] = useState([
+    {
+      title: 'Death Bed',
+      artist: 'Powfu',
+      artwork: 'https://samplesongs.netlify.app/album-arts/death-bed.jpg',
+      url: 'https://samplesongs.netlify.app/Death%20Bed.mp3',
+      id: '1',
+    },
+    {
+      title: 'Bad Liar',
+      artist: 'Imagine Dragons',
+      artwork: 'https://samplesongs.netlify.app/album-arts/bad-liar.jpg',
+      url: 'https://samplesongs.netlify.app/Bad%20Liar.mp3',
+      id: '2',
+    },
+    {
+      title: 'Faded',
+      artist: 'Alan Walker',
+      artwork: 'https://samplesongs.netlify.app/album-arts/faded.jpg',
+      url: 'https://samplesongs.netlify.app/Faded.mp3',
+      id: '3',
+    },
+    {
+      title: 'Hate Me',
+      artist: 'Ellie Goulding',
+      artwork: 'https://samplesongs.netlify.app/album-arts/hate-me.jpg',
+      url: 'https://samplesongs.netlify.app/Hate%20Me.mp3',
+      id: '4',
+    },
+    {
+      title: 'Solo',
+      artist: 'Clean Bandit',
+      artwork: 'https://samplesongs.netlify.app/album-arts/solo.jpg',
+      url: 'https://samplesongs.netlify.app/Solo.mp3',
+      id: '5',
+    },
+    {
+      title: 'Without Me',
+      artist: 'Halsey',
+      artwork: 'https://samplesongs.netlify.app/album-arts/without-me.jpg',
+      url: 'https://samplesongs.netlify.app/Without%20Me.mp3',
+      id: '6',
+    },
+  ]);
 
   const isItFromUser = useRef(true);
 
@@ -107,7 +106,7 @@ const Podcast = () => {
       // add the array of songs in the playlist
       await TrackPlayer.reset();
       await TrackPlayer.add(songs);
-      TrackPlayer.play();
+      // TrackPlayer.play();
       isPlayerReady.current = true;
 
       await TrackPlayer.updateOptions({
@@ -122,7 +121,7 @@ const Podcast = () => {
       });
       //add listener on track change
       TrackPlayer.addEventListener(Event.PlaybackTrackChanged, async e => {
-        console.log('song ended', e);
+        console.log('podcast ended', e);
 
         const trackId = (await TrackPlayer.getCurrentTrack()) - 1; //get the current id
 
@@ -216,40 +215,42 @@ const Podcast = () => {
           ],
         }}>
         <Animated.Image
-          source={item.artwork}
-          style={{width: 320, height: 320, borderRadius: 5}}
+          source={{uri: item.artwork}}
+          style={{width: 200, height: 200, borderRadius: 5}}
         />
       </Animated.View>
     );
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <SafeAreaView style={{height: 320}}>
-        <Animated.FlatList
-          ref={slider}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          scrollEventThrottle={16}
-          data={songs}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {x: scrollX}}}],
-            {useNativeDriver: true},
-          )}
-        />
+    <View style={{backgroundColor: '#fff', height}}>
+      <SafeAreaView style={styles.container}>
+        <SafeAreaView style={{height: 205}}>
+          <Animated.FlatList
+            ref={slider}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            scrollEventThrottle={16}
+            data={songs}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            onScroll={Animated.event(
+              [{nativeEvent: {contentOffset: {x: scrollX}}}],
+              {useNativeDriver: true},
+            )}
+          />
+        </SafeAreaView>
+        <View>
+          <Text style={styles.title}>{songs[songIndex].title}</Text>
+          <Text style={styles.artist}>{songs[songIndex].artist}</Text>
+        </View>
+
+        <SliderComp />
+
+        <Controller onNext={goNext} onPrv={goPrv} />
       </SafeAreaView>
-      <View>
-        <Text style={styles.title}>{songs[songIndex].title}</Text>
-        <Text style={styles.artist}>{songs[songIndex].artist}</Text>
-      </View>
-
-      <SliderComp />
-
-      <Controller onNext={goNext} onPrv={goPrv} />
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -260,18 +261,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '600',
     textTransform: 'capitalize',
-    color: '#ffffff',
+    color: '#000',
   },
   artist: {
     fontSize: 18,
     textAlign: 'center',
-    color: '#ffffff',
+    color: '#000',
+
     textTransform: 'capitalize',
   },
   container: {
     justifyContent: 'space-evenly',
     alignItems: 'center',
     height: height,
-    maxHeight: 600,
+    maxHeight: 500,
   },
 });

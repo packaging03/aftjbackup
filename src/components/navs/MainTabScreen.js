@@ -1225,6 +1225,45 @@ const HomeStackScreen = ({navigation}) => (
         // ),
       }}
     />
+    {/* =========================pod cast================================= */}
+    <HomeStack.Screen
+      name="podcast"
+      component={Podcast}
+      options={{
+        // title: 'Podcast',
+        headerStyle: {
+          backgroundColor: '#fff',
+          elevation: 0,
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+        headerLeft: () => (
+          <TouchableOpacity
+            style={{marginLeft: 15}}
+            onPress={() => {
+              exitPodPage(navigation);
+            }}>
+            <AntDesign name="close" size={30} color="#000" />
+          </TouchableOpacity>
+        ),
+      }}
+    />
+    <HomeStack.Screen
+      name="PodcastList"
+      component={PodcastList}
+      options={{
+        title: 'Podcast',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: {
+          color: 'black',
+          fontSize: 20,
+          fontFamily: 'frankruhllibre-regular',
+        },
+        headerTintColor: '#000',
+      }}
+    />
 
     <HomeStack.Screen
       name="AddMemoryVerse"
@@ -1535,46 +1574,6 @@ const GivingStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    />
-
-    {/* =========================pod cast================================= */}
-    <GivingStack.Screen
-      name="podcast"
-      component={Podcast}
-      options={{
-        // title: 'Podcast',
-        headerStyle: {
-          backgroundColor: '#fff',
-          elevation: 0,
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-        headerLeft: () => (
-          <TouchableOpacity
-            style={{marginLeft: 15}}
-            onPress={() => {
-              exitPodPage(navigation);
-            }}>
-            <AntDesign name="close" size={30} color="#000" />
-          </TouchableOpacity>
-        ),
-      }}
-    />
-    <GivingStack.Screen
-      name="PodcastList"
-      component={PodcastList}
-      options={{
-        title: 'Podcast',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTitleStyle: {
-          color: 'black',
-          fontSize: 20,
-          fontFamily: 'frankruhllibre-regular',
-        },
         headerTintColor: '#000',
       }}
     />
