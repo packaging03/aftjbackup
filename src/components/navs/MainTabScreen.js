@@ -14,7 +14,7 @@ import EventDetails from '../EventDetails';
 import TestimonyDetails from '../TestimonyDetails';
 import NewMember from '../NewMembers/NewMembers';
 import newMemberSuccessPage from '../NewMembers/SuccessPage';
-import Podcast from '../podcast/';
+import Podcast from '../podcast/Podcast';
 import PodcastList from '../podcast/PodList';
 import paySuccess from '../giving/Success';
 import payFail from '../giving/Failed';
@@ -94,13 +94,14 @@ const AboutStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const exitPodPage = async navigation => {
-  await AsyncStorage.removeItem('podID', function(err) {
-    if (err === null) {
-      navigation.goBack();
-    } else {
-      console.log(err.message);
-    }
-  });
+  navigation.goBack();
+  // await AsyncStorage.removeItem('podID', function(err) {
+  //   if (err === null) {
+
+  //   } else {
+  //     console.log(err.message);
+  //   }
+  // });
 };
 
 function MyTabBar({
@@ -1540,7 +1541,7 @@ const GivingStackScreen = ({navigation}) => (
 
     {/* =========================pod cast================================= */}
     <GivingStack.Screen
-      name="Podcast"
+      name="podcast"
       component={Podcast}
       options={{
         // title: 'Podcast',
