@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Pressable,
+  Image,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import {
   Container,
@@ -17,10 +19,12 @@ import {
   Body,
   Right,
   Button,
+  Footer,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Spinner from 'react-native-loading-spinner-overlay';
-
+const {width, height} = Dimensions.get('window');
 const data = [
   {
     title: 'Death Bed',
@@ -69,6 +73,7 @@ const data = [
 const PodList = ({navigation}) => {
   const [song, setSong] = useState(data);
   const [spinner, setSpinner] = useState(false);
+  const [playing, setPlaying] = useState('');
   const _handleItemID = async id => {
     let podID = JSON.stringify(id);
     await AsyncStorage.setItem('podID', podID, e => {
@@ -84,6 +89,29 @@ const PodList = ({navigation}) => {
       }
     });
     console.log(id);
+  };
+
+  useEffect(() => {
+    getIsPlaying();
+    return () => {
+      _remAsync();
+    };
+  }, []);
+
+  const getIsPlaying = async () => {
+    await AsyncStorage.getItem('isSetPlay', (e, res) => {
+      console.log(e);
+      if (!e) {
+        console.log(res);
+
+        setPlaying(res);
+        console.log(res + ' podcaslist');
+      }
+    });
+  };
+  const _remAsync = async () => {
+    // await AsyncStorage.removeItem('isSetPlay');
+    // await AsyncStorage.removeItem('podID');
   };
   return (
     <Container>
@@ -113,7 +141,7 @@ const PodList = ({navigation}) => {
                 </Body>
                 <Right>
                   <Button transparent>
-                    <Text>View</Text>
+                    <Text>03:23</Text>
                   </Button>
                 </Right>
               </ListItem>
@@ -121,6 +149,35 @@ const PodList = ({navigation}) => {
           })}
         </List>
       </Content>
+      {playing === 'playing' ? (
+        <View
+          style={{
+            width,
+            height: 50,
+            backgroundColor: '#ffffff',
+            elevation: 8,
+            // paddingLeft: 20,
+            // paddingRight: 20,
+            // display: 'none',
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+          <Image
+            style={{width: 40, height: 40, marginRight: 10}}
+            source={{
+              uri: 'https://samplesongs.netlify.app/album-arts/without-me.jpg',
+            }}
+          />
+          <View style={{marginRight: 90}}>
+            <Text style={{fontFamily: 'Nunito-Bold'}}>
+              Focus on the important
+            </Text>
+            <Text style={{fontFamily: 'Nunito-Regular'}}>Pastor Peter</Text>
+          </View>
+          <Icon name="play-circle-fill" size={30} color="#000000" />
+        </View>
+      ) : null}
     </Container>
   );
 };

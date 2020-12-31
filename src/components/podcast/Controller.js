@@ -32,11 +32,11 @@ export default function Controller({onNext, onPrv}) {
   const returnPlayBtn = () => {
     switch (isPlaying) {
       case 'playing':
-        return <Icon color="#c5cad2" name="pause" size={45} />;
+        return <Icon color="#c5cad2" name="pause" size={30} />;
       case 'paused':
-        return <Icon color="#c5cad2" name="play-arrow" size={45} />;
+        return <Icon color="#c5cad2" name="play-circle-fill" size={30} />;
       default:
-        return <ActivityIndicator size={45} color="#c5cad2" />;
+        return <ActivityIndicator size={30} color="#c5cad2" />;
     }
   };
 
@@ -51,13 +51,13 @@ export default function Controller({onNext, onPrv}) {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={onPrv}>
-        <Icon color="#c5cad2" name="skip-previous" size={45} />
+        <Icon color="#c5cad2" name="skip-previous" size={30} />
       </TouchableOpacity>
       <TouchableOpacity onPress={onPlayPause}>
         {returnPlayBtn()}
       </TouchableOpacity>
       <TouchableOpacity onPress={onNext}>
-        <Icon color="#c5cad2" name="skip-next" size={45} />
+        <Icon color="#c5cad2" name="skip-next" size={30} />
       </TouchableOpacity>
     </View>
   );

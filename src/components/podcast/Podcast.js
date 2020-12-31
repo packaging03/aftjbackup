@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React, {useRef, useEffect, useState} from 'react';
 import {
   View,
@@ -105,10 +106,18 @@ const Podcast = ({navigation}) => {
       // The player is ready to be used
       console.log('Player ready');
       // add the array of songs in the playlist
+      // TrackPlayer.destroy();
+
       await TrackPlayer.reset();
       await TrackPlayer.add(songs);
       // TrackPlayer.play();
       isPlayerReady.current = true;
+
+      const data = 'playing';
+      await AsyncStorage.setItem('isSetPlay', data, e => {
+        console.log(e);
+        console.log(data + ' peter');
+      });
 
       await TrackPlayer.updateOptions({
         stopWithApp: false,
@@ -159,7 +168,7 @@ const Podcast = ({navigation}) => {
 
     return () => {
       scrollX.removeAllListeners();
-      TrackPlayer.destroy();
+      // TrackPlayer.destroy();
 
       // exitPlayer();
     };
