@@ -168,7 +168,8 @@ const Podcast = ({navigation}) => {
 
     return () => {
       scrollX.removeAllListeners();
-      // TrackPlayer.destroy();
+      TrackPlayer.destroy();
+      // TrackPlayer.reset();
 
       // exitPlayer();
     };

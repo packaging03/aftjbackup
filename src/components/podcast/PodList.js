@@ -110,8 +110,8 @@ const PodList = ({navigation}) => {
     });
   };
   const _remAsync = async () => {
-    // await AsyncStorage.removeItem('isSetPlay');
-    // await AsyncStorage.removeItem('podID');
+    await AsyncStorage.removeItem('isSetPlay');
+    setPlaying('');
   };
   return (
     <Container>

@@ -43,8 +43,8 @@ export default function GoogleMap({side}) {
     const RNRgeo = async () => {
       try {
         const region = {
-          latitude: 33.874620973209886,
-          longitude: -84.63951113948264,
+          latitude: 33.87508419258687,
+          longitude: -84.6397579,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         };

@@ -46,14 +46,15 @@ export default function Home({navigation}) {
   const aftjIcon = '../assets/aftj_logo.png';
   const [salert, setAlert] = useState(false);
   const [show, setShow] = useState(false);
+  const [attendance, setAttendance] = useState('');
   const [covid, setCovid] = useState(false);
   const [userCordinate, setUserCordinate] = useState('');
 
   const fetchNearestPlacesFromGoogle = (lati, longi) => {
     const latitude = lati; // you can update it with user's latitude & Longitude
     const longitude = longi;
-    let radMetter = 2 * 1000; // Search withing 2 KM radius
-    let apiKey = 'AIzaSyD6yRAP0va7Sbf9nNkiLS_MjGAaKZYRMGY';
+    let radMetter = 1 * 1000; // Search withing 1 KM radius
+    let apiKey = 'AIzaSyDcQ3x2xO0zFeh2EKF3Ilguctn8KXyDpmo';
 
     const url =
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
@@ -72,8 +73,8 @@ export default function Home({navigation}) {
         return res.json();
       })
       .then(res => {
-        console.log(res.error_message);
-        console.log(res.results);
+        // console.log(res.error_message);
+        // console.log(res.results);
         var places = []; // This Array WIll contain locations received from google
         for (let googlePlace of res.results) {
           var place = {};
@@ -84,26 +85,29 @@ export default function Home({navigation}) {
             longitude: lng,
           };
 
-          var gallery = [];
-
-          if (googlePlace.photos) {
-            for (let photo of googlePlace.photos) {
-              var photoUrl = Urls.GooglePicBaseUrl + photo.photo_reference;
-              gallery.push(photoUrl);
-            }
-          }
-
           place['placeTypes'] = googlePlace.types;
           place['coordinate'] = coordinate;
           place['placeId'] = googlePlace.place_id;
           place['placeName'] = googlePlace.name;
-          place['gallery'] = gallery;
 
           places.push(place);
         }
 
-        // Do your work here with places Array
         console.log(places);
+
+        for (let AFTj = 0; AFTj < places.length; AFTj++) {
+          if (
+            places[AFTj].placeName === 'JCCI Glory Tabernacle' &&
+            places[AFTj].placeTypes[0] === 'church'
+          ) {
+            // console.log(places[AFTj].placeName);
+            alert(places[AFTj].placeName);
+            setAttendance(places[AFTj].placeName);
+            // console.log(places[AFTj].placeTypes[0]);
+          } else {
+            console.log('Not in Church radius');
+          }
+        }
       })
       .catch(error => {
         console.log(error);
@@ -146,25 +150,7 @@ export default function Home({navigation}) {
 
     requestLocationPermission();
   }, []);
-  // get reverse geo location
-  const RNRgeo = async () => {
-    try {
-      const region = {
-        latitude: 33.874620973209886,
-        longitude: -84.63951113948264,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      };
 
-      const searchText = 'JCCI GLORY TABERNACLE';
-
-      RNReverseGeocode.searchForLocations(searchText, region, (err, res) => {
-        storeAddress(res[0].address);
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
   // request location cord.
   const getOneTimeLocation = () => {
     Geolocation.getCurrentPosition(
