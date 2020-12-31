@@ -53,7 +53,7 @@ export default function Home({navigation}) {
     const latitude = lati; // you can update it with user's latitude & Longitude
     const longitude = longi;
     let radMetter = 2 * 1000; // Search withing 2 KM radius
-    let apiKey = 'AIzaSyCOBD675fvLcMo63v-8bvDj8ZTnLvyCm2Q';
+    let apiKey = 'AIzaSyD6yRAP0va7Sbf9nNkiLS_MjGAaKZYRMGY';
 
     const url =
       'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
@@ -72,7 +72,8 @@ export default function Home({navigation}) {
         return res.json();
       })
       .then(res => {
-        console.log(res);
+        console.log(res.error_message);
+        console.log(res.results);
         var places = []; // This Array WIll contain locations received from google
         for (let googlePlace of res.results) {
           var place = {};
