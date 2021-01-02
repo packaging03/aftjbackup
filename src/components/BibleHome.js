@@ -5,6 +5,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import Bible from '../components/Bible';
 import ReadingPlan from '../components/ReadingPlan';
 import TodaysReading from '../components/DaysReading';
+import AsyncStorage from '@react-native-community/async-storage';
 import {createStackNavigator} from '@react-navigation/stack';
 
 const TopTab = createMaterialTopTabNavigator();
@@ -12,6 +13,61 @@ const PlanStack = createStackNavigator();
 const BibleStack = createStackNavigator();
 
 export default function BibleHome() {
+  const [time, setTime] = useState({ms: 0, s: 0, m: 0, h: 0});
+  const [sec, setSec] = useState(0);
+  const [min, setMin] = useState(0);
+  const [hour, setHour] = useState(0);
+  const [interv, setInterv] = useState(0);
+  var updatedMs = time.ms,
+    updatedS = time.s,
+    updatedM = time.m,
+    updatedH = time.h;
+
+  const run = () => {
+    if (updatedM === 60) {
+      updatedH++;
+      updatedM = 0;
+    }
+    if (updatedS === 60) {
+      updatedM++;
+      updatedS = 0;
+    }
+    if (updatedMs === 100) {
+      updatedS++;
+      updatedMs = 0;
+    }
+    updatedMs++;
+    if (updatedS > 0) {
+      setSec(updatedS);
+      setMin(updatedM);
+      setHour(updatedH);
+    }
+    return setTime({ms: updatedMs, s: updatedS, m: updatedM, h: updatedH});
+  };
+
+  // const _asyncTime = async function() {
+  //   // console.log(sec);
+  //   if (time.m > 0) {
+  //     let obj = {seconds: time.s, minutes: time.m, hours: time.h};
+  //     const j = JSON.stringify(obj);
+  //     console.log(j);
+  //     try {
+  //       await AsyncStorage.setItem('getTime', j);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  // };
+
+  useEffect(() => {
+    run();
+
+    setInterv(setInterval(run, 10));
+    return () => {
+      // _asyncTime();
+      clearInterval(interv);
+    };
+  }, 1000);
   return (
     <TopTab.Navigator
       tabBarOptions={{

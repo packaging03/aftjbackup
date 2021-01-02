@@ -41,7 +41,7 @@ const Activities = ({
 
   useEffect(() => {
     const BiblePageTime = async () => {
-      const passJson = await AsyncStorage.getItem('time', (e, res) => {
+      const passJson = await AsyncStorage.getItem('getTime', (e, res) => {
         if (!e) {
           console.log(JSON.parse(res));
         } else {
