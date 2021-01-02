@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Pressable, Dimensions} from 'react-native';
 // import {ProgressBar, Colors} from 'react-native-paper';
 import {Container} from 'native-base';
@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import Feather from 'react-native-vector-icons/Feather';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   VictoryBar,
   VictoryChart,
@@ -37,6 +38,20 @@ const Activities = ({
   ];
   const barW = 25;
   const red = 'red';
+
+  useEffect(() => {
+    const BiblePageTime = async () => {
+      const passJson = await AsyncStorage.getItem('time', (e, res) => {
+        if (!e) {
+          console.log(JSON.parse(res));
+        } else {
+          console.log(e);
+        }
+      });
+    };
+    BiblePageTime();
+    return () => {};
+  }, []);
   return (
     <Container>
       <View style={styles.ViewPad20}>

@@ -12,41 +12,6 @@ const PlanStack = createStackNavigator();
 const BibleStack = createStackNavigator();
 
 export default function BibleHome() {
-  const [time, setTime] = useState({
-    seconds: 0,
-    minutes: 0,
-    hours: 0,
-  });
-  useEffect(() => {
-    let isCancelled = false;
-
-    const advanceTime = () => {
-      setTimeout(() => {
-        let nSeconds = time.seconds;
-        let nMinutes = time.minutes;
-        let nHours = time.hours;
-
-        nSeconds++;
-
-        if (nSeconds > 59) {
-          nMinutes++;
-          nSeconds = 0;
-        }
-        if (nMinutes > 59) {
-          nHours++;
-          nMinutes = 0;
-        }
-        if (nHours > 24) {
-          nHours = 0;
-        }
-
-        !isCancelled &&
-          setTime({seconds: nSeconds, minutes: nMinutes, hours: nHours});
-      }, 1000);
-    };
-    advanceTime();
-  }, 1000);
-
   return (
     <TopTab.Navigator
       tabBarOptions={{
