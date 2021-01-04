@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Pressable, Dimensions} from 'react-native';
 // import {ProgressBar, Colors} from 'react-native-paper';
 import {Container} from 'native-base';
@@ -12,8 +12,6 @@ import {
   VictoryChart,
   VictoryTheme,
   VictoryGroup,
-  VictoryLegend,
-  VictoryStack,
   VictoryAxis,
 } from 'victory-native';
 const {width, height} = Dimensions.get('window');
@@ -27,6 +25,8 @@ const Activities = ({
   setUserToken,
   setAccessToken,
 }) => {
+  const [bibleTime, setBibleTime] = useState(null);
+  const [sermonTime, setSermonTime] = useState(null);
   const data1 = [
     {day: 'Mon', time: 1},
     {day: 'Tus', time: 3},
@@ -44,7 +44,10 @@ const Activities = ({
       try {
         const bibleTime = await AsyncStorage.getItem('getBibleTime');
         let bible = JSON.parse(bibleTime);
-        console.log(bible);
+        if (bible != null) {
+          setBibleTime(bible);
+          console.log('bible time set');
+        }
       } catch (e) {
         console.log(e);
       }
@@ -53,7 +56,11 @@ const Activities = ({
       try {
         const sermTime = await AsyncStorage.getItem('getSermTime');
         let sermon = JSON.parse(sermTime);
-        console.log(sermon);
+        if (sermon != null) {
+          setSermonTime(sermon);
+          console.log('Sermon Time set');
+          console.log(sermonTime);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -62,6 +69,33 @@ const Activities = ({
     sermonPageTime();
     return () => {};
   }, []);
+
+  const sermSwitch = () => {
+    if (sermonTime != null) {
+      if (sermonTime.s > 0 && sermonTime.m <= 0) {
+        return <Text>{`${sermonTime.s}sec`}</Text>;
+      } else if (sermonTime.m > 0 && sermonTime.h <= 0) {
+        return <Text>{`${sermonTime.m}mins`}</Text>;
+      } else if (sermonTime.h > 0) {
+        return <Text>{`${sermonTime.h}hours`}</Text>;
+      }
+    } else {
+      return <Text>0</Text>;
+    }
+  };
+  const bibleSwitch = () => {
+    if (bibleTime != null) {
+      if (bibleTime.s > 0 && bibleTime.m <= 0) {
+        return <Text>{`${bibleTime.s}sec`}</Text>;
+      } else if (bibleTime.m > 0 && bibleTime.h <= 0) {
+        return <Text>{`${bibleTime.m}mins`}</Text>;
+      } else if (bibleTime.h > 0) {
+        return <Text>{`${bibleTime.h}hours`}</Text>;
+      }
+    } else {
+      return <Text>0</Text>;
+    }
+  };
   return (
     <Container>
       <View style={styles.ViewPad20}>
@@ -194,7 +228,7 @@ const Activities = ({
               indeterminate={false}
               progress={0.5}
             />
-            <Text>{'45m'}</Text>
+            {bibleSwitch()}
           </View>
         </View>
         {/* ======================================== */}
@@ -206,12 +240,12 @@ const Activities = ({
             <FontAwesome5 name="bible" size={25} color="#1F78B4" />
             <ProgressBar
               color="#1F78B4"
-              style={{marginHorizontal: '5%', width: '65%', borderRadius: 10}}
+              style={{marginHorizontal: '5%', width: '65%', borderRadius: 20}}
               styleAttr="Horizontal"
               indeterminate={false}
-              progress={0.5}
+              progress={0.3}
             />
-            <Text>{'30m'}</Text>
+            {sermSwitch()}
           </View>
         </View>
       </View>
