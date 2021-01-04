@@ -42,9 +42,16 @@ const Activities = ({
   useEffect(() => {
     const BiblePageTime = async () => {
       try {
-        const timerTime = await AsyncStorage.getItem('getTime');
-        let timer = JSON.parse(timerTime);
-        console.log(timer);
+        const bibleTime = await AsyncStorage.getItem('getBibleTime');
+        let bible = JSON.parse(`This is bible time obj : ${bibleTime}`);
+        console.log(bible);
+      } catch (e) {
+        console.log(e);
+      }
+      try {
+        const sermTime = await AsyncStorage.getItem('getSermTime');
+        let sermon = JSON.parse(sermTime);
+        console.log(`This is sermon Time object : ${sermon}`);
       } catch (e) {
         console.log(e);
       }

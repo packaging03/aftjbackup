@@ -5,48 +5,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const EnterAmountPage = ({navigation}) => {
-  const [time, setTime] = useState({s: 0, m: 0, h: 0});
-  const [interv, setInterv] = useState();
-  var updatedMs = 0,
-    updatedS = time.m,
-    updatedM = time.m,
-    updatedH = time.h;
-
-  const run = async () => {
-    setTimeout(run, 10);
-    if (updatedM === 60) {
-      updatedH++;
-      updatedM = 0;
-    }
-    if (updatedS === 60) {
-      updatedM++;
-      updatedS = 0;
-    }
-    if (updatedMs === 100) {
-      updatedS++;
-      updatedMs = 0;
-    }
-    updatedMs++;
-    const j = JSON.stringify({s: updatedS, m: updatedM, h: updatedH});
-    // console.log(j);
-    try {
-      await AsyncStorage.setItem('getTime', j);
-    } catch (e) {
-      console.log(e);
-    }
-
-    return setTime({s: updatedS, m: updatedM, h: updatedH});
-  };
-
-  useEffect(() => {
-    run();
-    setInterv(setTimeout(run, 10));
-
-    return () => {
-      clearTimeout(interv);
-    };
-  }, []);
-
   return (
     <Container>
       <View style={styles.secPicker}>
@@ -79,11 +37,6 @@ const EnterAmountPage = ({navigation}) => {
             Continue
           </Text>
         </Pressable>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text>{time.s}</Text>
-          <Text>{time.m}</Text>
-          <Text>{time.h}</Text>
-        </View>
       </View>
     </Container>
   );
