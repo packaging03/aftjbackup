@@ -13,13 +13,10 @@ const PlanStack = createStackNavigator();
 const BibleStack = createStackNavigator();
 
 export default function BibleHome() {
-  const [time, setTime] = useState({ms: 0, s: 0, m: 0, h: 0});
-  const [sec, setSec] = useState(0);
-  const [min, setMin] = useState(0);
-  const [hour, setHour] = useState(0);
-  const [interv, setInterv] = useState(0);
-  var updatedMs = time.ms,
-    updatedS = time.s,
+  const [time, setTime] = useState({s: 0, m: 0, h: 0});
+  const [interv, setInterv] = useState();
+  var updatedMs = 0,
+    updatedS = time.m,
     updatedM = time.m,
     updatedH = time.h;
 
@@ -37,37 +34,41 @@ export default function BibleHome() {
       updatedMs = 0;
     }
     updatedMs++;
-    if (updatedS > 0) {
-      setSec(updatedS);
-      setMin(updatedM);
-      setHour(updatedH);
-    }
-    return setTime({ms: updatedMs, s: updatedS, m: updatedM, h: updatedH});
+
+    return setTime({s: updatedS, m: updatedM, h: updatedH});
   };
 
-  // const _asyncTime = async function() {
-  //   // console.log(sec);
-  //   if (time.m > 0) {
-  //     let obj = {seconds: time.s, minutes: time.m, hours: time.h};
-  //     const j = JSON.stringify(obj);
-  //     console.log(j);
-  //     try {
-  //       await AsyncStorage.setItem('getTime', j);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   }
-  // };
+  async function _asyncTime() {
+    // console.log(time.s);
+    if (time.m > 0) {
+      console.log(time.m);
+
+      let obj = {
+        seconds: time.s,
+        minutes: time.m,
+        hours: time.h,
+      };
+      const j = JSON.stringify(obj);
+      console.log(j);
+      try {
+        await AsyncStorage.setItem('bibleTime', j);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
 
   useEffect(() => {
     run();
-
     setInterv(setInterval(run, 10));
+
     return () => {
-      // _asyncTime();
       clearInterval(interv);
     };
-  }, 1000);
+  }, []);
+  useEffect(() => {
+    _asyncTime();
+  }, []);
   return (
     <TopTab.Navigator
       tabBarOptions={{

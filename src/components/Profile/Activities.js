@@ -41,13 +41,13 @@ const Activities = ({
 
   useEffect(() => {
     const BiblePageTime = async () => {
-      const passJson = await AsyncStorage.getItem('getTime', (e, res) => {
-        if (!e) {
-          console.log(JSON.parse(res));
-        } else {
-          console.log(e);
-        }
-      });
+      try {
+        const timerTime = await AsyncStorage.getItem('getTime');
+        let timer = JSON.parse(timerTime);
+        console.log(timer);
+      } catch (e) {
+        console.log(e);
+      }
     };
     BiblePageTime();
     return () => {};

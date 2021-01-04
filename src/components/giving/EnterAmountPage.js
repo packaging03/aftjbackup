@@ -12,7 +12,8 @@ const EnterAmountPage = ({navigation}) => {
     updatedM = time.m,
     updatedH = time.h;
 
-  const run = () => {
+  const run = async () => {
+    setTimeout(run, 10);
     if (updatedM === 60) {
       updatedH++;
       updatedM = 0;
@@ -26,35 +27,23 @@ const EnterAmountPage = ({navigation}) => {
       updatedMs = 0;
     }
     updatedMs++;
-    _asyncTime();
-    return setTime({s: updatedS, m: updatedM, h: updatedH});
-  };
-  const _asyncTime = async function() {
-    // console.log(time.s);
-    if (time.m > 0) {
-      console.log(time.m);
-
-      let obj = {
-        seconds: time.s,
-        minutes: time.m,
-        hours: time.h,
-      };
-      const j = JSON.stringify(obj);
-      console.log(j);
-      try {
-        await AsyncStorage.setItem('getTime', j);
-      } catch (e) {
-        console.log(e);
-      }
+    const j = JSON.stringify({s: updatedS, m: updatedM, h: updatedH});
+    // console.log(j);
+    try {
+      await AsyncStorage.setItem('getTime', j);
+    } catch (e) {
+      console.log(e);
     }
+
+    return setTime({s: updatedS, m: updatedM, h: updatedH});
   };
 
   useEffect(() => {
     run();
+    setInterv(setTimeout(run, 10));
 
-    setInterv(setInterval(run, 10));
     return () => {
-      clearInterval(interv);
+      clearTimeout(interv);
     };
   }, []);
 
