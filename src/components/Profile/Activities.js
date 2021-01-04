@@ -43,20 +43,23 @@ const Activities = ({
     const BiblePageTime = async () => {
       try {
         const bibleTime = await AsyncStorage.getItem('getBibleTime');
-        let bible = JSON.parse(`This is bible time obj : ${bibleTime}`);
+        let bible = JSON.parse(bibleTime);
         console.log(bible);
       } catch (e) {
         console.log(e);
       }
+    };
+    const sermonPageTime = async () => {
       try {
         const sermTime = await AsyncStorage.getItem('getSermTime');
         let sermon = JSON.parse(sermTime);
-        console.log(`This is sermon Time object : ${sermon}`);
+        console.log(sermon);
       } catch (e) {
         console.log(e);
       }
     };
     BiblePageTime();
+    sermonPageTime();
     return () => {};
   }, []);
   return (
