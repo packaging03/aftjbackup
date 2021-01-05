@@ -1,12 +1,24 @@
 import React from 'react'
 import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-native'
 
-const data=[{id:1, videoSource:'MEgEugzifuw', img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', title:"Bible Story for kids", details:"The story of creation"
-
-},{id: 2, videoSource:'onnEaINBaGg&pbjreload=101',img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', title:"Noah's Ark", details:"Beginner Bible"}, 
-{id:3, videoSource:'f66rTdDAJZ8', img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', title:"Bible Rhymes compilation", details:"Jesus loves me and many more"}, 
-{id: 4, videoSource:'Yn3bb5gbaEA', img: 'https://www.inspirationalchristians.org/images/joseph-dreams-1-1024x640.jpg', title:"The Dreamer", details:"Bible Adventure"},
-{id:5, videoSource:'1EzW-tnZ-Lw', img: 'https://i.ytimg.com/vi/1EzW-tnZ-Lw/maxresdefault.jpg', title:"Jesus and 12 Disciples", details:"Call for disciples"},
+const data=[
+  
+  { 
+    id:1, 
+    topic:'Church Videos', 
+    img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', 
+    title:"Lesson", 
+    details:"Videos",
+    link: "Kindergarten"
+  },
+  { 
+    id: 2, 
+    topic:'School Videos',
+    img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', 
+    title:"Lesson", 
+    details:"Videos",
+    link: "Kindergarten"
+  },
 ];
 
 
@@ -16,13 +28,13 @@ const renderSeparator = () => {
         style={{
           height: 1,
           width: '100%',
-          backgroundColor: '#CED0CE',
+          backgroundColor: '#e8e8e8', //e8e8e8
         }}
       />
     );
   };
 
-export default function Kindergarten({navigation, route}) {
+export default function KindergartenIntro({navigation, route}) {
     const {option} = route.params;
     {{navigation.setOptions({title:option})}}
     return (
@@ -31,12 +43,29 @@ export default function Kindergarten({navigation, route}) {
           data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title} )}> 
+            <TouchableOpacity 
+            onPress={()=> navigation.navigate(item.link, {option: 'School Curriculum'})}> 
+
+
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      marginLeft: 10,
+                      marginLeft: 20,
+                      marginBottom: 12,
+                      marginTop: 16,
+                      color: '#000',
+                    }}>
+                    {item.topic}
+                  </Text>
+
             <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  margin: 16,
+                  margin: 10,
+                  marginLeft: 20,
+                  marginBottom: 16,
                 }}>
                 <Image style={styles.img} source ={{uri:item.img}} />
                  
@@ -45,8 +74,7 @@ export default function Kindergarten({navigation, route}) {
                     style={{
                       fontSize: 16,
                       marginLeft: 10,
-                      color: '#191C52',
-                      fontWeight: 'light',
+                      color: '#212121',
                     }}>
                     {item.title}
                   </Text>
@@ -72,9 +100,9 @@ export default function Kindergarten({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
-    img:{width:120, 
-        height:75,
-        borderRadius: 6,
+    img:{width:80, 
+        height:80,
+        borderRadius: 5,
         shadowOpacity: 1,
         shadowRadius: 2,
         resizeMode:'cover',

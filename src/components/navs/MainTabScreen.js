@@ -56,6 +56,7 @@ import BibleVerse from '../BibleContent';
 import PreSchool from '../PreSchool';
 import AboutApp from '../AboutApp';
 import Kindergarten from '../Kindergarten';
+import KindergartenIntro from '../KindergartenIntro';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
 import Grade1MemoryVerse from '../Grade1MemoryVerse';
@@ -1134,6 +1135,20 @@ const HomeStackScreen = ({navigation}) => (
         headerTintColor: '#000',
       }}
     />
+
+    <HomeStack.Screen
+      name="KindergartenIntro"
+      component={KindergartenIntro}
+      options={{
+        title: 'Kindergarten',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
 
     <HomeStack.Screen
       name="Preschoolplayer"

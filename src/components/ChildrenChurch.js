@@ -31,7 +31,7 @@ const ChildrenChurch = ({navigation}) => {
             </ImageBackground>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item} onPress={()=>navigation.navigate('Kindergarten',  {option: 'Kindergarten'})}>
+        <TouchableOpacity style={styles.item} onPress={()=>navigation.navigate('KindergartenIntro',  {option: 'Kindergarten'})}>
           <View>
             <ImageBackground
               style={styles.img}
