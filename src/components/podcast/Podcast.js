@@ -128,6 +128,7 @@ const Podcast = ({navigation}) => {
           Capability.SkipToNext,
           Capability.SkipToPrevious,
         ],
+        compactCapabilities: [Capability.Play, Capability.Pause],
       });
       //add listener on track change
       TrackPlayer.addEventListener(Event.PlaybackTrackChanged, async e => {
