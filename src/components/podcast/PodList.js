@@ -21,6 +21,7 @@ import {
   Button,
   Footer,
 } from 'native-base';
+import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -71,7 +72,7 @@ const data = [
 ];
 
 const PodList = ({navigation}) => {
-  const [song, setSong] = useState(data);
+  const [song, setSong] = useState([]);
   const [spinner, setSpinner] = useState(false);
   const [playing, setPlaying] = useState('');
   const _handleItemID = async id => {
@@ -93,9 +94,15 @@ const PodList = ({navigation}) => {
 
   useEffect(() => {
     getIsPlaying();
+
     return () => {
       _remAsync();
     };
+  }, []);
+
+  useEffect(() => {
+    getSongs();
+    return () => {};
   }, []);
 
   const getIsPlaying = async () => {
@@ -112,6 +119,22 @@ const PodList = ({navigation}) => {
   const _remAsync = async () => {
     await AsyncStorage.removeItem('isSetPlay');
     setPlaying('');
+  };
+
+  const getSongs = async () => {
+    try {
+      let res = await fetch('https://church.aftjdigital.com/api/all_podcast');
+      let json = await res.json();
+      if (json.status === 'success') {
+        console.log(json.Podcasts);
+        setSong(json.Podcasts);
+      }
+    } catch (e) {
+      console.log(e);
+      if (e.message == 'Network request failed') {
+        Toast.show('Internet Connection Error', Toast.LONG);
+      }
+    }
   };
   return (
     <Container>
@@ -136,7 +159,7 @@ const PodList = ({navigation}) => {
                 <Body>
                   <Text>{item.title}</Text>
                   <Text note numberOfLines={1}>
-                    {item.artist}
+                    {item.poster}
                   </Text>
                 </Body>
                 <Right>
