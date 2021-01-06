@@ -210,6 +210,31 @@ const Podcast = ({navigation}) => {
 
     await TrackPlayer.play();
   };
+  // https://church.aftjdigital.com/api/all_podcast
+  // {
+  //           "id": 5,
+  //           "title": "second podcast",
+  //           "poster": "Rev Chukuemeka",
+  //           "file": "https://church.aftjdigital.com/files/uploads/video/UYO2sB31snQfGDy1609926028.mp4",
+  //           "created_at": "2021-01-06 09:40:28",
+  //           "updated_at": "2021-01-06 09:40:28"
+  //       },
+  const getSongs = async () => {
+    try {
+      const respons = await fetch(
+        'https://church.aftjdigital.com/api/all_podcast',
+      );
+      let song = respons.json();
+      console.log(song.status);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getSongs();
+    return () => {};
+  }, songs);
 
   const renderItem = ({index, item}) => {
     return (
