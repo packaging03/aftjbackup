@@ -90,6 +90,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import ForumMessages from '../ForumMessages';
 import Activities from '../Profile/Activities';
 import NoteRoot from '../NoteRoot';
+import Suggestion from '../suggestion/Suggestion';
 
 const Stack = createStackNavigator();
 const RootStack = ({
@@ -287,6 +288,20 @@ const RootStack = ({
           headerTintColor: '#000',
         }}
       />
+
+      <Stack.Screen
+        name="Suggestion"
+        component={Suggestion}
+        options={{
+          title: 'New Member',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          headerTintColor: '#000',
+        }}
+      />
+      
       <Stack.Screen
         name="Schedulecalendar"
         component={Schedulecalendar}

@@ -72,6 +72,7 @@ import NMResources from '../NewMemberResources/Resource';
 import Gateways from '../giving/Gateways';
 import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
+import Suggestion from '../suggestion/Suggestion';
 
 const HomeStack = createStackNavigator();
 const SermonsStack = createStackNavigator();
@@ -893,6 +894,19 @@ const HomeStackScreen = ({navigation}) => (
       component={NewMember}
       options={{
         title: 'New Member',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+  <HomeStack.Screen
+      name="Suggestion"
+      component={Suggestion}
+      options={{
+        title: 'Suggestion',
         headerStyle: {
           backgroundColor: '#fff',
         },
