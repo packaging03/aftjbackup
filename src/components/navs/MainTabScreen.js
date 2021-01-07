@@ -906,12 +906,17 @@ const HomeStackScreen = ({navigation}) => (
       name="Suggestion"
       component={Suggestion}
       options={{
-        title: 'Suggestion',
+        headerTitleStyle: {
+          color: 'black',
+          fontSize: 20,
+          fontFamily: 'frankruhllibre-regular',
+        },
+        headerTitle: 'New Members Resources',
         headerStyle: {
           backgroundColor: '#fff',
         },
-        headerTitleStyle: styles.headerStyle,
         headerTintColor: '#000',
+        headerShown: true,
       }}
     />
 
