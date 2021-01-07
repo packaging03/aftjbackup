@@ -61,9 +61,6 @@ import BibleHome from '../BibleHome';
 import TodaysReading from '../DaysReading';
 import BibleChapters from '../BibleChapters';
 import BibleVerse from '../BibleContent';
-import PreSchool from '../PreSchool';
-import Kindergarten from '../Kindergarten';
-import KindergartenIntro from '../KindergartenIntro';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
 import Grade1MemoryVerse from '../Grade1MemoryVerse';
@@ -1455,44 +1452,8 @@ const RootStack = ({
         }}
       />
 
-      <Stack.Screen
-        name="PreSchool"
-        component={PreSchool}
-        options={{
-          title: 'Pre-school',
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-          headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
-        }}
-      />
 
-      <Stack.Screen
-        name="Kindergarten"
-        component={Kindergarten}
-        options={{
-          title: 'Kindergarten',
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-          headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
-        }}
-      />
-
-    {/* <Stack.Screen
-      name="KindergartenIntro"
-      component={KindergartenIntro}
-      options={{
-        title: 'Kindergarten',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    /> */}
+     
 
       <Stack.Screen
         name="Preschoolplayer"

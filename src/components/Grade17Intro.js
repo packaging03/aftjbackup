@@ -9,15 +9,26 @@ const data=[
     img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', 
     title:"Lesson", 
     details:"Videos",
-    link: "Kindergarten"
+    link: "Grade1",
+    showtopic: true,
   },
   { 
     id: 2, 
+    topic:'',
+    img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', 
+    title:"God Loves Me", 
+    details:"Memory Verses",
+    link: "Grade1",
+    showtopic: false,
+  },
+  { 
+    id: 3, 
     topic:'School Videos',
     img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', 
     title:"Lesson", 
     details:"Videos",
-    link: "Kindergarten"
+    link: "Grade1",
+    showtopic: true,
   },
 ];
 
@@ -28,13 +39,13 @@ const renderSeparator = () => {
         style={{
           height: 1,
           width: '100%',
-          backgroundColor: '#e8e8e8', //e8e8e8
+          backgroundColor: '#e8e8e8',
         }}
       />
     );
   };
 
-export default function KindergartenIntro({navigation, route}) {
+export default function Grade17Intro({navigation, route}) {
     const {option} = route.params;
     {{navigation.setOptions({title:option})}}
     return (
@@ -43,10 +54,49 @@ export default function KindergartenIntro({navigation, route}) {
           data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
+
+            (!item.showtopic)? 
+            <TouchableOpacity 
+            onPress={()=> navigation.navigate(item.link, {option: 'School Curriculum'})}>
+            <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  margin: 10,
+                  marginLeft: 20,
+                  marginBottom: 16,
+                }}>
+                <Image style={styles.img} source ={{uri:item.img}} />
+                 
+                <View style={{flexDirection: 'column'}}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      marginLeft: 10,
+                      color: '#212121',
+                    }}>
+                    {item.title}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      marginLeft: 10,
+                      color: '#8d8b8b',
+                    }}>
+                    {item.details}
+                  </Text>
+                </View>
+
+               
+              </View>
+              </TouchableOpacity>
+            
+            : 
+            
             <TouchableOpacity 
             onPress={()=> navigation.navigate(item.link, {option: 'School Curriculum'})}> 
 
-
+                
                   <Text
                     style={{
                       fontSize: 20,
