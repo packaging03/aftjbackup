@@ -97,6 +97,8 @@ import NoteDetails from '../NoteDetails';
 import Editnote from '../Editnote';
 
 import Games from '../games/Games';
+import Quiz from '../games/Quiz';
+import Crossword from '../games/Crossword';
 
 const Stack = createStackNavigator();
 const RootStack = ({
@@ -1785,6 +1787,33 @@ const RootStack = ({
           headerTintColor: '#000',
         }}
       />
+
+
+         <Stack.Screen
+          name="Quiz"
+          component={Quiz}
+          options={{
+            title: 'Quiz',
+            headerStyle: {
+              backgroundColor: '#fff',
+            },
+            headerTintColor: '#000',
+            headerTitleStyle: styles.headerStyle,
+          }}
+        />
+
+        <Stack.Screen
+          name="Crossword"
+          component={Crossword}
+          options={{
+            title: 'Crossword',
+            headerStyle: {
+              backgroundColor: '#fff',
+            },
+            headerTintColor: '#000',
+            headerTitleStyle: styles.headerStyle,
+          }}
+        />
     </Stack.Navigator>
   );
 };
