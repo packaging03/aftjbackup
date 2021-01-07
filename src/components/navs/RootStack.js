@@ -1846,7 +1846,6 @@ const styles = {
   headerStyle: {
     fontFamily: 'frankruhllibre-regular',
     fontSize: 20,
-    fontColor: 'black',
   },
   tabLabelText: {
     fontFamily: 'Nunito-Regular',
