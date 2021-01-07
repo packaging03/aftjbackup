@@ -12,6 +12,10 @@ import Events from '../Events';
 import EventDetails from '../EventDetails';
 import TestimonyDetails from '../TestimonyDetails';
 import NewMember from '../NewMembers/NewMembers';
+import newMemberSuccessPage from '../NewMembers/SuccessPage';
+import paySuccess from '../giving/Success';
+import payFail from '../giving/Failed';
+// import AvailableOnPaidVersion from '../subscription/AvailableOnPaidVersion';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconn from 'react-native-vector-icons/AntDesign';
@@ -30,7 +34,7 @@ import LocationPage from '../Location/LocationPage';
 import ChildrenChurch from '../ChildrenChurch';
 import TestimonyRoot from '../TestimonyRoot';
 import NoteRoot from '../NoteRoot';
-import Addnote from '../Addnote';
+import Editnote from '../Editnote'
 import NoteDetails from '../NoteDetails';
 import Alltestimony from '../Alltestimony';
 import SpecialAnnouncements from '../SpecialAnnouncements';
@@ -72,7 +76,11 @@ import NMResources from '../NewMemberResources/Resource';
 import Gateways from '../giving/Gateways';
 import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
+
+import ChatRoom from '../ChatRoom';
+import Addnote from '../Addnote';
 import Suggestion from '../suggestion/Suggestion';
+
 
 const HomeStack = createStackNavigator();
 const SermonsStack = createStackNavigator();
@@ -359,6 +367,36 @@ const HomeStackScreen = ({navigation}) => (
         headerTitleStyle: styles.headerStyle,
       }}
     />
+    {/* <HomeStack.Screen
+      name="AvailableOnPaidVersion"
+      component={AvailableOnPaidVersion}
+      options={{
+        title: '',
+        headerTitleStyle: {color: 'black'},
+
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: {
+          color: '#000',
+        },
+        headerTitleStyle: {
+          fontFamily: 'frankruhllibre-regular',
+          fontSize: 20,
+        },
+        headerTintColor: '#000',
+        headerShown: true,
+        headerLeft: () => (
+          <Icon.Button
+            name="arrow-back"
+            size={25}
+            backgroundColor="#fff"
+            color="#000"
+            onPress={() => setUserToken(2)}
+          />
+        ),
+      }}
+    /> */}
 
     <HomeStack.Screen
       name="Help"
@@ -383,6 +421,18 @@ const HomeStackScreen = ({navigation}) => (
       component={ForumMessages}
       options={{
         title: 'Add Topic',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+    <HomeStack.Screen
+      name="Location"
+      component={LocationPage}
+      options={{
+        title: 'Location',
         headerStyle: {
           backgroundColor: '#fff',
         },
@@ -429,20 +479,6 @@ const HomeStackScreen = ({navigation}) => (
         },
         headerTintColor: '#000',
         headerShown: true,
-      }}
-    />
-
-    <HomeStack.Screen
-      name="Location"
-      component={LocationPage}
-      options={{
-        // headerShown: false,
-        title: 'Location',
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
       }}
     />
 
@@ -563,10 +599,39 @@ const HomeStackScreen = ({navigation}) => (
     />
 
     <HomeStack.Screen
+      name="Editnote"
+      component={Editnote}
+      options={{
+        title: 'Note Pad',
+        headerStyle: {
+          backgroundColor: '#fff',
+          headerTintColor: '#000',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    
+
+    <HomeStack.Screen
       name="Chats"
       component={Chats}
       options={{
         title: 'Chat Room',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="ChatRoom"
+      component={ChatRoom}
+      options={{
+        title: 'Chat Page',
         headerStyle: {
           backgroundColor: '#fff',
         },
@@ -788,6 +853,19 @@ const HomeStackScreen = ({navigation}) => (
     />
 
     <HomeStack.Screen
+        name="Addnote"
+        component={Addnote}
+        options={{
+          title: 'Notes',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          headerTintColor: '#000',
+        }}
+      />
+
+    <HomeStack.Screen
       name="NoteRoot"
       component={NoteRoot}
       options={{
@@ -798,18 +876,22 @@ const HomeStackScreen = ({navigation}) => (
         headerTitleStyle: styles.headerStyle,
         headerTintColor: '#000',
         headerRight: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('Addnote')}>
           <View
             style={{
               flexDirection: 'row',
               paddingRight: '30%',
               alignItems: 'center',
             }}>
-            <Image
-              onPress={() => navigation.navigate('Addnote')}
-              style={{width: 20, height: 20, marginRight: 15}}
-              source={require('../../assets/add_icon.png')}
-            />
-          </View>
+            
+              <Image
+                onPress={() => navigation.navigate('Addnote')}
+                style={{width: 30, height: 30, marginRight: 15}}
+                source={require('../../assets/add_icon.png')}
+              />
+            
+            
+          </View></TouchableOpacity>
         ),
       }}
     />
@@ -870,33 +952,6 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
           headerTintColor: '#000',
         },
-        headerRight: () => (
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingRight: '30%',
-              alignItems: 'center',
-            }}>
-            <Image
-              onPress={() => navigation.navigate('Home')}
-              style={{width: 20, height: 20, marginRight: 15}}
-              source={require('../../assets/edit.png')}
-            />
-          </View>
-        ),
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    />
-
-    <HomeStack.Screen
-      name="NewMember"
-      component={NewMember}
-      options={{
-        title: 'New Member',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
         headerTitleStyle: styles.headerStyle,
         headerTintColor: '#000',
       }}
@@ -920,17 +975,6 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
-    <HomeStack.Screen
-      name="PrayerRequest"
-      component={PrayerRequest}
-      options={{
-        title: 'Prayer Request',
-        headerTitleStyle: styles.headerStyle,
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-      }}
-    />
     <HomeStack.Screen
       name="SpecialAnnouncements"
       component={SpecialAnnouncements}
@@ -1180,18 +1224,7 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
-    <HomeStack.Screen
-      name="Addnote"
-      component={Addnote}
-      options={{
-        title: 'Notes',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    />
+    
 
     <HomeStack.Screen
       name="Share Memory Verse"
@@ -1445,8 +1478,44 @@ const GivingStackScreen = ({navigation}) => (
       }}
     />
     <GivingStack.Screen
+      name="payFailed"
+      component={payFail}
+      options={{
+        title: 'Giving',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+    <GivingStack.Screen
       name="amount"
       component={EnterAmont}
+      options={{
+        title: 'Giving',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    <GivingStack.Screen
+      name="PrayerRequest"
+      component={PrayerRequest}
+      options={{
+        title: 'Prayer Request',
+        headerTitleStyle: styles.headerStyle,
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+      }}
+    />
+    <GivingStack.Screen
+      name="paySuccess"
+      component={paySuccess}
       options={{
         title: 'Giving',
         headerStyle: {
@@ -1499,6 +1568,32 @@ const AboutStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
+      }}
+    />
+
+    <AboutStack.Screen
+      name="NewMember"
+      component={NewMember}
+      options={{
+        title: 'New Member',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    <AboutStack.Screen
+      name="newMemberSuccessPage"
+      component={newMemberSuccessPage}
+      options={{
+        title: 'New Member',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
       }}
     />
 

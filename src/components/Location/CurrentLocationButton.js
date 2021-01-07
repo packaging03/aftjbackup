@@ -10,7 +10,7 @@ export default function CurrentLocationButton({open, cb}) {
     ? cb
     : () => console.log('callback function not passed to currentLocaionButton');
   return (
-    <View style={[styles.container, {top: HEIGHT - 150}]}>
+    <View style={[styles.container, {top: '93%'}]}>
       <SimpleLineIcons
         name="arrow-left"
         color="#fff"

@@ -1,23 +1,18 @@
 import React, {useEffect, useState} from 'react';
 
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  Alert,
-  Platform,
-  PermissionsAndroid,
-} from 'react-native';
+import {StyleSheet, View, Dimensions, PermissionsAndroid} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import CurrentLocationButton from './CurrentLocationButton';
 import RNReverseGeocode from '@kiwicom/react-native-reverse-geocode';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Spinner} from 'native-base';
 
 const {height, width} = Dimensions.get('window');
 
 export default function GoogleMap({side}) {
   const [GrantedPermission, setGrantedPermission] = useState(false);
+  const [chee, setChee] = useState(false);
   const [cord, setCord] = useState();
 
   useEffect(() => {
@@ -34,6 +29,9 @@ export default function GoogleMap({side}) {
           //To Check, If Permission is granted
           setGrantedPermission(true);
           getOneTimeLocation();
+          setInterval(() => {
+            setChee(true);
+          }, 7000);
         } else {
           alert('Permission Denied');
         }
@@ -98,7 +96,7 @@ export default function GoogleMap({side}) {
         console.log(error.message);
       },
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         timeout: 30000,
         maximumAge: 1000,
       },
@@ -108,22 +106,26 @@ export default function GoogleMap({side}) {
   return (
     <View style={styles.mapView}>
       <CurrentLocationButton open={side} />
-      <MapView
-        initialRegion={cord}
-        // zoomControlEnabled
-        showsBuildings
-        showsTraffic
-        provider={PROVIDER_GOOGLE}
-        style={styles.maping}>
-        <Marker
-          coordinate={{
-            latitude: 33.8745141,
-            longitude: -84.63975789999999,
-          }}
-          title={'JCCI GLORY TABERNACLE'}
-          // description={'You are welcom'}
-        />
-      </MapView>
+      {chee === false ? (
+        <Spinner size={30} />
+      ) : (
+        <MapView
+          initialRegion={cord}
+          // zoomControlEnabled
+          showsBuildings
+          showsTraffic
+          provider={PROVIDER_GOOGLE}
+          style={styles.maping}>
+          <Marker
+            coordinate={{
+              latitude: 33.8745141,
+              longitude: -84.63975789999999,
+            }}
+            title={'JCCI GLORY TABERNACLE'}
+            // description={'You are welcom'}
+          />
+        </MapView>
+      )}
     </View>
   );
 }

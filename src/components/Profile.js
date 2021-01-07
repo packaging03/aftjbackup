@@ -58,71 +58,80 @@ const Profile = ({
   const [toggleEmail, setEmmail] = useState();
   const [toggleHomeAddress, setHomeAddress] = useState();
 
-  const PrivacySettings = ()=>{
+  const PrivacySettings = () => {
+    fetch('https://church.aftjdigital.com/api/privacy/' + JSON.parse(user).id, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.phone_status == '1') {
+          setContacts(true);
+        } else {
+          setContacts(false);
+        }
 
-    fetch('https://church.aftjdigital.com/api/privacy/'+ JSON.parse(user).id, {
-                        method: 'PUT',
-                        headers: {
-                          Accept: 'application/json',
-                          'Content-Type': 'application/json',
-                          'Authorization': `Bearer ${accessToken}`
-                      },
-                        
-                      })
-                      .then((response) => response.json())
-                      .then((responseJson) =>{
-                        
-                        if(responseJson.phone_status=='1'){
-                            setContacts(true);
-                        }else{
-                          setContacts(false);
-                        }
+        if (responseJson.email_status == '1') {
+          setEmmail(true);
+        } else {
+          setEmail(false);
+        }
 
-                        if(responseJson.email_status=='1'){
-                            setEmmail(true);
-                        }else{
-                          setEmail(false);
-                        }
+        if (responseJson.home_status == '1') {
+          setHomeAddress(true);
+        } else {
+          setHomeAddress(false);
+        }
 
-                        if(responseJson.home_status=='1'){
-                            setHomeAddress(true);
-                        }else{
-                            setHomeAddress(false);
-                        }
-
-                        if(responseJson.phone_status=='1' && responseJson.email_status=='1' && responseJson.home_status=='1' ){
-                            setAllInformation(true);
-                        }else if (responseJson.phone_status=='0' && responseJson.email_status=='0' && responseJson.home_status=='0' ){
-                          setAllInformation(false);
-                        }else{
-                          setAllInformation(true);
-                        }
-                        console.log(toggleAllInformation)
-                      })
-                      .catch((error) => {
-                        alert(error)});
-  }
+        if (
+          responseJson.phone_status == '1' &&
+          responseJson.email_status == '1' &&
+          responseJson.home_status == '1'
+        ) {
+          setAllInformation(true);
+        } else if (
+          responseJson.phone_status == '0' &&
+          responseJson.email_status == '0' &&
+          responseJson.home_status == '0'
+        ) {
+          setAllInformation(false);
+        } else {
+          setAllInformation(true);
+        }
+        console.log(toggleAllInformation);
+      })
+      .catch(error => {
+        alert(error);
+      });
+  };
 
   useEffect(() => {
-
     // fetch privacy data
     PrivacySettings();
 
     if (JSON.parse(user).image) {
-      fetch('https://church.aftjdigital.com/api/profile_image/user/'+JSON.parse(user).id, {
+      fetch(
+        'https://church.aftjdigital.com/api/profile_image/user/' +
+          JSON.parse(user).id,
+        {
           method: 'GET',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          })
-          .then(response => response.json())
-          .then(responseJson => {
-            setPhotoUri(responseJson.image);
-          })
-          .catch(error => {
-            alert(error);
-          });
+        },
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          setPhotoUri(responseJson.image);
+        })
+        .catch(error => {
+          alert(error);
+        });
     } else {
       setPhotoUri(
         'https://w7.pngwing.com/pngs/650/102/png-transparent-smiley-emoticon-desktop-kiss-smiley-miscellaneous-computer-icons-smile.png',
@@ -151,31 +160,30 @@ const Profile = ({
   const [phone, setPhone] = useState(JSON.parse(user).address);
   const [address, setAddress] = useState(JSON.parse(user).address);
 
-  const ImageSave = (item)=>{
-      
-    const imageFile = 'data:'+item.type+';base64,'+item.imageData;
-    console.log(imageFile)
+  const ImageSave = item => {
+    const imageFile = 'data:' + item.type + ';base64,' + item.imageData;
+    console.log(imageFile);
 
     fetch('https://church.aftjdigital.com/api/imageupload', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        },
-        body: JSON.stringify({
-          image: imageFile,
-        }),
-        })
-        .then(response => response.json())
-        .then(responseJson => {
-          console.log(responseJson)
-          Toast.show('Profile image updated successfully!', Toast.LONG);
-        })
-        .catch(error => {
-          alert(error);
-        });
-  }
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        image: imageFile,
+      }),
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson);
+        Toast.show('Profile image updated successfully!', Toast.LONG);
+      })
+      .catch(error => {
+        alert(error);
+      });
+  };
 
   const openGallery = () => {
     setModalVisible(!modalVisible);
@@ -197,12 +205,15 @@ const Profile = ({
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = {imageData: response.data, type: response.type, uri: response.uri};
+        const source = {
+          imageData: response.data,
+          type: response.type,
+          uri: response.uri,
+        };
         setUploadedImage(source.imageData);
         setImageType(source.type);
 
-        ImageSave(source)
-
+        ImageSave(source);
       }
     });
   };
@@ -228,11 +239,15 @@ const Profile = ({
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = {imageData: response.data, type: response.type, uri: response.uri};
+        const source = {
+          imageData: response.data,
+          type: response.type,
+          uri: response.uri,
+        };
         setUploadedImage(source.imageData);
         setImageType(source.type);
 
-        ImageSave(source)
+        ImageSave(source);
       }
     });
   };
@@ -424,7 +439,7 @@ const Profile = ({
                 //       .currentUser.updatePassword(newPassword)
                 //       .then(() => {
                 //         // normal code
-                       
+
                 //       })
                 //       .catch(error => {
                 //         switch (error.code) {
@@ -437,40 +452,42 @@ const Profile = ({
                 //             );
                 //         }
 
-                        
                 //         // alert("1. "+error);
                 //       });
                 //   })
 
-                    fetch(
-                      'https://church.aftjdigital.com/api/userpassword/' +
-                        JSON.parse(user).id,
-                      {
-                        method: 'PUT',
-                        headers: {
-                          Accept: 'application/json',
-                          // 'Authorization': `bearer ${accessToken}`,
-                          'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                          email: JSON.parse(user).email,
-                          password: newPassword,
-                          token: accessToken,
-                        }),
-                      },
-                    ).then(() => {
-                      setPassword('');
-                        setNewPassword('');
-                        setCNewPassword('');
-                        setModalVisible(!modalVisible);
-                        Toast.show('Your new password has been changed', Toast.LONG);
-                    }).catch((error) => {
-                      
-                    })
-                } else {
-                  alert('All fields are required');
-                }
-              }}>
+                fetch(
+                  'https://church.aftjdigital.com/api/userpassword/' +
+                    JSON.parse(user).id,
+                  {
+                    method: 'PUT',
+                    headers: {
+                      Accept: 'application/json',
+                      // 'Authorization': `bearer ${accessToken}`,
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      email: JSON.parse(user).email,
+                      password: newPassword,
+                      token: accessToken,
+                    }),
+                  },
+                )
+                  .then(() => {
+                    setPassword('');
+                    setNewPassword('');
+                    setCNewPassword('');
+                    setModalVisible(!modalVisible);
+                    Toast.show(
+                      'Your new password has been changed',
+                      Toast.LONG,
+                    );
+                  })
+                  .catch(error => {});
+              } else {
+                alert('All fields are required');
+              }
+            }}>
             <Text style={styles.textStyle}>CHANGE</Text>
           </TouchableHighlight>
         </View>
@@ -595,9 +612,9 @@ const Profile = ({
                 style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  justifyContent:'space-between',
+                  justifyContent: 'space-between',
                   flexDirection: 'row',
-                  width:'40%',
+                  width: '40%',
                 }}>
                 <View style={{alignItems: 'center', marginRight: 20}}>
                   <View style={styles.circleImg}>
@@ -665,7 +682,7 @@ const Profile = ({
               height: 170,
               backgroundColor: '#000',
               position: 'absolute',
-              
+
               top: 0,
               left: 0,
               right: 0,
@@ -679,7 +696,9 @@ const Profile = ({
                 alignSelf: 'center',
               }}
               source={{
-                uri: uploadedImage?'data:'+imageType+';base64,'+uploadedImage : photoUri
+                uri: uploadedImage
+                  ? 'data:' + imageType + ';base64,' + uploadedImage
+                  : photoUri,
               }}
               size={90}
             />
@@ -710,119 +729,122 @@ const Profile = ({
           ) : null}
         </ImageBackground>
 
-        {toggleAllInformation?<View style={{width: '100%', height:'78%'}}>
-        <Text style={{padding: 15, fontFamily: 'Nunito-Bold', fontSize: 14}}>
-          ACCOUNT
-        </Text>
-        
-        <View style={styles.line} />
-        <View style={styles.accountDetail}>
-          <Icon style={styles.icon} name="person" color={'#000'} size={25} />
+        {toggleAllInformation ? (
+          <View style={{width: '100%', height: '78%'}}>
+            <Text
+              style={{padding: 15, fontFamily: 'Nunito-Bold', fontSize: 14}}>
+              ACCOUNT
+            </Text>
 
-          {user ? (
-            <Text style={styles.text}>{JSON.parse(user).name}</Text>
-          ) : <Text style={styles.text}>Full Name</Text>}
+            <View style={styles.line} />
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("EditFullname");
-            }}
-            style={{
-              alignItems: 'flex-end',
-              flexDirection: 'row',
-              width: '30%',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignSelf: 'flex-end',
-            }}>
-            <Text style={styles.button}>EDIT</Text>
-          </TouchableOpacity>
-        </View>
+            <View style={styles.accountDetail}>
+              <Icon
+                style={styles.icon}
+                name="person"
+                color={'#000'}
+                size={25}
+              />
 
-        <View style={styles.line} />
+              {user ? (
+                <Text style={styles.text}>{JSON.parse(user).name}</Text>
+              ) : (
+                <Text style={styles.text}>Full Name</Text>
+              )}
 
-        {toggleEmail?<View style={styles.accountDetail}>
-        <Image source = {require('../assets/mailpics.png')} style={{height:23, width:23, marginRight: 20, tintColor: '#555555'}}/>
-          {user ? (
-            <Text style={styles.text}>{JSON.parse(user).email}</Text>
-          ) : <Text style={styles.text}>Email</Text>}
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('EditFullname');
+                }}
+                style={{
+                  alignItems: 'flex-end',
+                  flexDirection: 'row',
+                  width: '30%',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  alignSelf: 'flex-end',
+                }}>
+                <Text style={styles.button}>EDIT</Text>
+              </TouchableOpacity>
+            </View>
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("EditEmail");
-            }}
-            style={{
-              alignItems: 'flex-end',
-              flexDirection: 'row',
-              width: '30%',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignSelf: 'flex-end',
-            }}>
-            <Text style={styles.button}>EDIT</Text>
-          </TouchableOpacity>
-        </View> : null}
+            <View style={styles.line} />
 
-        <View style={styles.line} />
+            {toggleEmail ? (
+              <View style={styles.accountDetail}>
+                <Image
+                  source={require('../assets/mailpics.png')}
+                  style={{
+                    height: 23,
+                    width: 23,
+                    marginRight: 20,
+                    tintColor: '#555555',
+                  }}
+                />
+                {user ? (
+                  <Text style={styles.text}>{JSON.parse(user).email}</Text>
+                ) : (
+                  <Text style={styles.text}>Email</Text>
+                )}
 
-        {toggleContacts?<View style={styles.accountDetail}>
-          <Image source = {require('../assets/phone.png')} style={{height:23, width:23, marginRight: 20, tintColor: '#555555'}}/>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('EditEmail');
+                  }}
+                  style={{
+                    alignItems: 'flex-end',
+                    flexDirection: 'row',
+                    width: '30%',
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignSelf: 'flex-end',
+                  }}>
+                  <Text style={styles.button}>EDIT</Text>
+                </TouchableOpacity>
+              </View>
+            ) : null}
 
-          {/* {currentUser ? (
+            <View style={styles.line} />
+
+            {toggleContacts ? (
+              <View style={styles.accountDetail}>
+                <Image
+                  source={require('../assets/phone.png')}
+                  style={{
+                    height: 23,
+                    width: 23,
+                    marginRight: 20,
+                    tintColor: '#555555',
+                  }}
+                />
+
+                {/* {currentUser ? (
             <Text style={styles.text}>
               {JSON.parse(user).phone || 'Phone'}{' '}
             </Text>
           ) : null} */}
-            <Text style={styles.text}>
-              Phone Number
-            </Text>
+                <Text style={styles.text}>Phone Number</Text>
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("EditPhone");
-            }}
-            style={{
-              alignItems: 'flex-end',
-              flexDirection: 'row',
-              width: '30%',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignSelf: 'flex-end',
-            }}>
-            <Text style={styles.button}>EDIT</Text>
-          </TouchableOpacity>
-        </View> : null}
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('EditPhone');
+                  }}
+                  style={{
+                    alignItems: 'flex-end',
+                    flexDirection: 'row',
+                    width: '30%',
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignSelf: 'flex-end',
+                  }}>
+                  <Text style={styles.button}>EDIT</Text>
+                </TouchableOpacity>
+              </View>
+            ) : null}
 
-        <View style={styles.line} />
-
-        <View style={styles.accountDetail}>
-            
-            <Image source = {require('../assets/calendar2.png')} style={{height:23, width:23, marginRight: 20, tintColor: '#555555'}}/>
-
-            <Text style={styles.text}>
-              Date of Birth
-            </Text>
-
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("EditDateofBirth");
-            }}
-            style={{
-              alignItems: 'flex-end',
-              flexDirection: 'row',
-              width: '30%',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignSelf: 'flex-end',
-            }}>
-            <Text style={styles.button}>EDIT</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.line} />
-
-
-        <View style={styles.accountDetail}>
+            <View style={styles.line} />
+            {/* ============================================================================= */}
+            <View style={styles.accountDetail}>
               <Entypo
                 name="credit-card"
                 color="#555555"
@@ -853,6 +875,35 @@ const Profile = ({
             </View>
             {/* ===================payments close================================ */}
             {/* ====================================activities open============================== */}
+            <View style={styles.line} />
+
+            <View style={styles.accountDetail}>
+              <FontAwesome5
+                name="praying-hands"
+                color="#555555"
+                size={20}
+                style={{
+                  marginRight: 15,
+                }}
+              />
+
+              <Text style={styles.text}>Prayer Request</Text>
+
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('fetchPrayerReq');
+                }}
+                style={{
+                  alignItems: 'flex-end',
+                  flexDirection: 'row',
+                  width: '30%',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  alignSelf: 'flex-end',
+                }}>
+                <MaterialIcons name="keyboard-arrow-right" size={25} />
+              </TouchableOpacity>
+            </View>
             <View style={styles.line} />
 
             <View style={styles.accountDetail}>
@@ -889,21 +940,24 @@ const Profile = ({
 
             <View style={styles.line} />
 
+            {/* ============================================================================ */}
+
             <View style={styles.accountDetail}>
-              <FontAwesome5
-                name="praying-hands"
-                color="#555555"
-                size={20}
+              <Image
+                source={require('../assets/calendar2.png')}
                 style={{
-                  marginRight: 15,
+                  height: 23,
+                  width: 23,
+                  marginRight: 20,
+                  tintColor: '#555555',
                 }}
               />
 
-              <Text style={styles.text}>Prayer Request</Text>
+              <Text style={styles.text}>Date of Birth</Text>
 
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('fetchPrayerReq');
+                  navigation.navigate('EditDateofBirth');
                 }}
                 style={{
                   alignItems: 'flex-end',
@@ -913,136 +967,151 @@ const Profile = ({
                   justifyContent: 'flex-end',
                   alignSelf: 'flex-end',
                 }}>
-                <MaterialIcons name="keyboard-arrow-right" size={25} />
+                <Text style={styles.button}>EDIT</Text>
               </TouchableOpacity>
             </View>
-            
+
             <View style={styles.line} />
 
+            {/* ========================================================================================= */}
 
-        <View style={styles.accountDetail}>
-            
-            <Image source = {require('../assets/employee.png')} style={{height:23, width:23, marginRight: 20, tintColor: '#555555'}}/>
+            {/* ===================================================================== */}
 
-            <Text style={styles.text}>
-              Occupation
-            </Text>
+            <View style={styles.accountDetail}>
+              <Image
+                source={require('../assets/employee.png')}
+                style={{
+                  height: 23,
+                  width: 23,
+                  marginRight: 20,
+                  tintColor: '#555555',
+                }}
+              />
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("EditOccupation");
-            }}
-            style={{
-              alignItems: 'flex-end',
-              flexDirection: 'row',
-              width: '30%',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignSelf: 'flex-end',
-            }}>
-            <Text style={styles.button}>EDIT</Text>
-          </TouchableOpacity>
-        </View>
+              <Text style={styles.text}>Occupation</Text>
 
-        <View style={styles.line} />
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('EditOccupation');
+                }}
+                style={{
+                  alignItems: 'flex-end',
+                  flexDirection: 'row',
+                  width: '30%',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  alignSelf: 'flex-end',
+                }}>
+                <Text style={styles.button}>EDIT</Text>
+              </TouchableOpacity>
+            </View>
 
-        {toggleHomeAddress?<View style={styles.accountDetail}>
-            
-            <Image source = {require('../assets/department.png')} style={{height:23, width:23, marginRight: 20, tintColor: '#555555'}}/>
+            <View style={styles.line} />
 
-            <Text style={styles.text}>
-              Department
-            </Text>
+            {toggleHomeAddress ? (
+              <View style={styles.accountDetail}>
+                <Image
+                  source={require('../assets/department.png')}
+                  style={{
+                    height: 23,
+                    width: 23,
+                    marginRight: 20,
+                    tintColor: '#555555',
+                  }}
+                />
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("EditDepartment");
-            }}
-            style={{
-              alignItems: 'flex-end',
-              flexDirection: 'row',
-              width: '30%',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignSelf: 'flex-end',
-            }}>
-            <Text style={styles.button}>EDIT</Text>
-          </TouchableOpacity>
-        </View>: null}
+                <Text style={styles.text}>Department</Text>
 
-        <View style={styles.line} />
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('EditDepartment');
+                  }}
+                  style={{
+                    alignItems: 'flex-end',
+                    flexDirection: 'row',
+                    width: '30%',
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignSelf: 'flex-end',
+                  }}>
+                  <Text style={styles.button}>EDIT</Text>
+                </TouchableOpacity>
+              </View>
+            ) : null}
 
-        <View style={styles.accountDetail}>
-          <Icon style={styles.icon} name="lock" color={'#000'} size={25} />
-          <Text style={styles.text}>Change Password</Text>
+            <View style={styles.line} />
 
-          {/* <TouchableOpacity> */}
-          <View
-            //
-            style={{
-              alignItems: 'flex-end',
-              flexDirection: 'row',
-              width: '30%',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              fontFamily: 'Nunito-Regular',
-              fontSize: 14,
-              alignSelf: 'flex-end',
-            }}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("EditPassword");
-                //  setItemToEdit('password');
-                //  setModalVisible(!modalVisible);
-              }}>
-              <Text style={styles.button}>CHANGE</Text>
-            </TouchableOpacity>
-          </View>
-          {/* </TouchableOpacity> */}
-        </View>
+            <View style={styles.accountDetail}>
+              <Icon style={styles.icon} name="lock" color={'#000'} size={25} />
+              <Text style={styles.text}>Change Password</Text>
 
-        <View style={styles.line} />
+              {/* <TouchableOpacity> */}
+              <View
+                //
+                style={{
+                  alignItems: 'flex-end',
+                  flexDirection: 'row',
+                  width: '30%',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  fontFamily: 'Nunito-Regular',
+                  fontSize: 14,
+                  alignSelf: 'flex-end',
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('EditPassword');
+                    //  setItemToEdit('password');
+                    //  setModalVisible(!modalVisible);
+                  }}>
+                  <Text style={styles.button}>CHANGE</Text>
+                </TouchableOpacity>
+              </View>
+              {/* </TouchableOpacity> */}
+            </View>
 
-        <View style={styles.accountDetail}>
-          <Icon
-            style={styles.icon}
-            name="notifications"
-            color={'#000'}
-            size={25}
-          />
-          <Text style={styles.text}>Notifications</Text>
+            <View style={styles.line} />
 
-          <View
-            style={{
-              alignItems: 'flex-end',
-              flexDirection: 'row',
-              width: '30%',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              fontFamily: 'Nunito-Regular',
-              fontSize: 14,
-              alignSelf: 'flex-end',
-            }}>
-            <Text style={{color: '#000', fontSize: 14, textAlign: 'right'}}>
-              ON/OFF
-            </Text>
-          </View>
-        </View>
+            <View style={styles.accountDetail}>
+              <Icon
+                style={styles.icon}
+                name="notifications"
+                color={'#000'}
+                size={25}
+              />
+              <Text style={styles.text}>Notifications</Text>
 
-        <View style={styles.line} />
+              <View
+                style={{
+                  alignItems: 'flex-end',
+                  flexDirection: 'row',
+                  width: '30%',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  fontFamily: 'Nunito-Regular',
+                  fontSize: 14,
+                  alignSelf: 'flex-end',
+                }}>
+                <Text style={{color: '#000', fontSize: 14, textAlign: 'right'}}>
+                  ON/OFF
+                </Text>
+              </View>
+            </View>
 
-        <View style={styles.accountDetail}>
-          <Icons
-            style={{marginRight: 10, width: '10%'}}
-            name="ios-exit"
-            color={'#000'}
-            size={25}
-          />
-          <TouchableOpacity
-            onPress={() => {
-              // auth()
-              //   .signOut()
-              //   .then(() => {
+            <View style={styles.line} />
+
+            <View style={styles.accountDetail}>
+              <Icons
+                style={{marginRight: 10, width: '10%'}}
+                name="ios-exit"
+                color={'#000'}
+                size={25}
+              />
+              <TouchableOpacity
+                onPress={() => {
+                  // auth()
+                  //   .signOut()
+                  //   .then(() => {
                   fetch('https://church.aftjdigital.com/api/logout', {
                     method: 'POST',
                     headers: {
@@ -1064,26 +1133,35 @@ const Profile = ({
                       alert(error);
                     });
 
+                  // })
+                  // .catch(error => alert(error));
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'Nunito-Regular',
+                    fontSize: 14,
+                    color: '#000',
+                    textAlign: 'right',
+                    width: '100%',
+                  }}>
+                  Log Out
+                </Text>
+              </TouchableOpacity>
+            </View>
 
-
-                // })
-                // .catch(error => alert(error));
+            <View style={styles.line} />
+          </View>
+        ) : (
+          <View
+            style={{
+              width: '100%',
+              height: 300,
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
-            <Text
-              style={{
-                fontFamily: 'Nunito-Regular',
-                fontSize: 14,
-                color: '#000',
-                textAlign: 'right',
-                width: '100%',
-              }}>
-              Log Out
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.line} /> 
-        </View>:<View style={{width:'100%', height:300,justifyContent:'center', alignItems: 'center'}}><Text>Private mode</Text></View>}
+            <Text>Private mode</Text>
+          </View>
+        )}
       </View>
     </ScrollView>
   );

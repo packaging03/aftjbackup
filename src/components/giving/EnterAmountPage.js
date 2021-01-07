@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, TextInput, Pressable} from 'react-native';
 import {Container, Header, Body, Title, Right, Left, Button} from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const EnterAmountPage = ({navigation}) => {
   return (
@@ -63,6 +64,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 8,
     marginTop: 30,
+    marginBottom: 5,
   },
   textInput: {
     fontSize: 18,
