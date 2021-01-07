@@ -15,7 +15,7 @@ const Games = ({navigation}) => {
              flex:1}}>
 
 
-            <TouchableWithoutFeedback onPress={() => navigation.navigate("Crossword")}>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate("Quiz")}>
                 <View style={itemStyle}>
 
                     <Image
