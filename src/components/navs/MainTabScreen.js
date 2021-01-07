@@ -79,6 +79,10 @@ import SliderBase from '../common/sliderBase';
 import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
 
+import Games from '../games/Games';
+import Quiz from '../games/Quiz';
+import Crossword from '../games/Crossword';
+
 const HomeStack = createStackNavigator();
 const SermonsStack = createStackNavigator();
 const BibleStack = createStackNavigator();
@@ -892,6 +896,47 @@ const HomeStackScreen = ({navigation}) => (
         ),
       }}
     />
+
+      
+    <HomeStack.Screen
+      name="Games"
+      component={Games}
+      options={{
+        title: 'Games',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Quiz"
+      component={Quiz}
+      options={{
+        title: 'Quiz',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Crossword"
+      component={Crossword}
+      options={{
+        title: 'Crossword',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
 
     {/* <HomeStack.Screen
       name="Bulletin"

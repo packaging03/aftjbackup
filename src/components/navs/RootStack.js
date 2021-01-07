@@ -96,6 +96,8 @@ import Addnote from '../Addnote';
 import NoteDetails from '../NoteDetails';
 import Editnote from '../Editnote';
 
+import Games from '../games/Games';
+
 const Stack = createStackNavigator();
 const RootStack = ({
   initialRouteName,
@@ -1761,6 +1763,20 @@ const RootStack = ({
         component={TestimonyDetails}
         options={{
           title: 'Testimony',
+          headerStyle: {
+            backgroundColor: '#fff',
+            headerTintColor: '#000',
+          },
+          headerTitleStyle: styles.headerStyle,
+          headerTintColor: '#000',
+        }}
+      />
+
+         <Stack.Screen
+        name="Games"
+        component={Games}
+        options={{
+          title: 'Games',
           headerStyle: {
             backgroundColor: '#fff',
             headerTintColor: '#000',
