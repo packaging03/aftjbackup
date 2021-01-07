@@ -76,8 +76,11 @@ import NMResources from '../NewMemberResources/Resource';
 import Gateways from '../giving/Gateways';
 import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
+
 import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
+import Suggestion from '../suggestion/Suggestion';
+
 
 const HomeStack = createStackNavigator();
 const SermonsStack = createStackNavigator();
@@ -388,6 +391,18 @@ const HomeStackScreen = ({navigation}) => (
       component={ForumMessages}
       options={{
         title: 'Add Topic',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+    <HomeStack.Screen
+      name="Location"
+      component={LocationPage}
+      options={{
+        title: 'Location',
         headerStyle: {
           backgroundColor: '#fff',
         },
@@ -891,16 +906,21 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
-    <HomeStack.Screen
-      name="newMemberSuccessPage"
-      component={newMemberSuccessPage}
+  <HomeStack.Screen
+      name="Suggestion"
+      component={Suggestion}
       options={{
-        title: 'New Member',
+        headerTitleStyle: {
+          color: 'black',
+          fontSize: 20,
+          fontFamily: 'frankruhllibre-regular',
+        },
+        headerTitle: 'New Members Resources',
         headerStyle: {
           backgroundColor: '#fff',
         },
-        headerTitleStyle: styles.headerStyle,
         headerTintColor: '#000',
+        headerShown: true,
       }}
     />
 
@@ -1485,31 +1505,6 @@ const GivingStackScreen = ({navigation}) => (
         headerTintColor: '#000',
       }}
     />
-    <GivingStack.Screen
-      name="Location"
-      component={LocationPage}
-      options={{
-        // headerShown: false,
-        title: 'Location',
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-      }}
-    />
-    <GivingStack.Screen
-      name="NewMember"
-      component={NewMember}
-      options={{
-        title: 'New Member',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    />
 
     <GivingStack.Screen
       name="PrayerRequest"
@@ -1577,6 +1572,32 @@ const AboutStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
+      }}
+    />
+
+    <AboutStack.Screen
+      name="NewMember"
+      component={NewMember}
+      options={{
+        title: 'New Member',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    <AboutStack.Screen
+      name="newMemberSuccessPage"
+      component={newMemberSuccessPage}
+      options={{
+        title: 'New Member',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
       }}
     />
 

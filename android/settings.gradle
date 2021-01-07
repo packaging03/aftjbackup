@@ -1,4 +1,6 @@
 rootProject.name = 'JCCI'
+include ':@react-native-community_progress-bar-android'
+project(':@react-native-community_progress-bar-android').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/progress-bar-android/android')
 include ':react-native-image-base64'
 project(':react-native-image-base64').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-base64/android')
 include ':react-native-document-picker'

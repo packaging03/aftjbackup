@@ -24,5 +24,7 @@ export const dataArray2 = {
   '23': 'Conversion',
   '24': 'Departments',
   '25': 'NM-Resources',
-  '26': 'NoteRoot',
+  '26': 'AvailableOnPaidVersion',
+  '27': 'Suggestion',
+  '28': 'NoteRoot',
 };
