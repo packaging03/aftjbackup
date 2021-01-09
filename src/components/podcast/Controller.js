@@ -21,8 +21,10 @@ export default function Controller({onNext, onPrv}) {
 
     //set the player state
     if (playbackState === 'playing' || playbackState === 3) {
+      console.log(playbackState);
       setIsPlaying('playing');
     } else if (playbackState === 'paused' || playbackState === 2) {
+      console.log(playbackState);
       setIsPlaying('paused');
     } else {
       setIsPlaying('loading');

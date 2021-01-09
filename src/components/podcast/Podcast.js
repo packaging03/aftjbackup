@@ -10,6 +10,7 @@ import {
   Animated,
   StyleSheet,
 } from 'react-native';
+import {Container, Content} from 'native-base';
 
 import TrackPlayer, {
   Capability,
@@ -32,6 +33,50 @@ const {width, height} = Dimensions.get('window');
 //   TrackPlayerEvents.PLAYBACK_STATE,
 //   TrackPlayerEvents.PLAYBACK_ERROR
 // ];
+const data = [
+  {
+    title: 'Death Bed',
+    artist: 'Powfu',
+    artwork: 'https://samplesongs.netlify.app/album-arts/death-bed.jpg',
+    url: 'https://samplesongs.netlify.app/Death%20Bed.mp3',
+    id: '1',
+  },
+  {
+    title: 'Bad Liar',
+    artist: 'Imagine Dragons',
+    artwork: 'https://samplesongs.netlify.app/album-arts/bad-liar.jpg',
+    url: 'https://samplesongs.netlify.app/Bad%20Liar.mp3',
+    id: '2',
+  },
+  {
+    title: 'Faded',
+    artist: 'Alan Walker',
+    artwork: 'https://samplesongs.netlify.app/album-arts/faded.jpg',
+    url: 'https://samplesongs.netlify.app/Faded.mp3',
+    id: '3',
+  },
+  {
+    title: 'Hate Me',
+    artist: 'Ellie Goulding',
+    artwork: 'https://samplesongs.netlify.app/album-arts/hate-me.jpg',
+    url: 'https://samplesongs.netlify.app/Hate%20Me.mp3',
+    id: '4',
+  },
+  {
+    title: 'Solo',
+    artist: 'Clean Bandit',
+    artwork: 'https://samplesongs.netlify.app/album-arts/solo.jpg',
+    url: 'https://samplesongs.netlify.app/Solo.mp3',
+    id: '5',
+  },
+  {
+    title: 'Without Me',
+    artist: 'Halsey',
+    artwork: 'https://samplesongs.netlify.app/album-arts/without-me.jpg',
+    url: 'https://samplesongs.netlify.app/Without%20Me.mp3',
+    id: '6',
+  },
+];
 
 const Podcast = ({navigation}) => {
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -40,52 +85,53 @@ const Podcast = ({navigation}) => {
   const isPlayerReady = useRef(false);
   const index = useRef(0);
 
-  // const [songs, setSong] = useState([]);
+  const [songs, setSong] = useState(null);
+  const [noSong, setNoSong] = useState(false);
   const [songIndex, setSongIndex] = useState(0);
-  const [songs, setSong] = useState([
-    {
-      title: 'Death Bed',
-      artist: 'Powfu',
-      artwork: 'https://samplesongs.netlify.app/album-arts/death-bed.jpg',
-      url: 'https://samplesongs.netlify.app/Death%20Bed.mp3',
-      id: '1',
-    },
-    {
-      title: 'Bad Liar',
-      artist: 'Imagine Dragons',
-      artwork: 'https://samplesongs.netlify.app/album-arts/bad-liar.jpg',
-      url: 'https://samplesongs.netlify.app/Bad%20Liar.mp3',
-      id: '2',
-    },
-    {
-      title: 'Faded',
-      artist: 'Alan Walker',
-      artwork: 'https://samplesongs.netlify.app/album-arts/faded.jpg',
-      url: 'https://samplesongs.netlify.app/Faded.mp3',
-      id: '3',
-    },
-    {
-      title: 'Hate Me',
-      artist: 'Ellie Goulding',
-      artwork: 'https://samplesongs.netlify.app/album-arts/hate-me.jpg',
-      url: 'https://samplesongs.netlify.app/Hate%20Me.mp3',
-      id: '4',
-    },
-    {
-      title: 'Solo',
-      artist: 'Clean Bandit',
-      artwork: 'https://samplesongs.netlify.app/album-arts/solo.jpg',
-      url: 'https://samplesongs.netlify.app/Solo.mp3',
-      id: '5',
-    },
-    {
-      title: 'Without Me',
-      artist: 'Halsey',
-      artwork: 'https://samplesongs.netlify.app/album-arts/without-me.jpg',
-      url: 'https://samplesongs.netlify.app/Without%20Me.mp3',
-      id: '6',
-    },
-  ]);
+  // const [songs, setSong] = useState([
+  //   {
+  //     title: 'Death Bed',
+  //     artist: 'Powfu',
+  //     artwork: 'https://samplesongs.netlify.app/album-arts/death-bed.jpg',
+  //     url: 'https://samplesongs.netlify.app/Death%20Bed.mp3',
+  //     id: '1',
+  //   },
+  //   {
+  //     title: 'Bad Liar',
+  //     artist: 'Imagine Dragons',
+  //     artwork: 'https://samplesongs.netlify.app/album-arts/bad-liar.jpg',
+  //     url: 'https://samplesongs.netlify.app/Bad%20Liar.mp3',
+  //     id: '2',
+  //   },
+  //   {
+  //     title: 'Faded',
+  //     artist: 'Alan Walker',
+  //     artwork: 'https://samplesongs.netlify.app/album-arts/faded.jpg',
+  //     url: 'https://samplesongs.netlify.app/Faded.mp3',
+  //     id: '3',
+  //   },
+  //   {
+  //     title: 'Hate Me',
+  //     artist: 'Ellie Goulding',
+  //     artwork: 'https://samplesongs.netlify.app/album-arts/hate-me.jpg',
+  //     url: 'https://samplesongs.netlify.app/Hate%20Me.mp3',
+  //     id: '4',
+  //   },
+  //   {
+  //     title: 'Solo',
+  //     artist: 'Clean Bandit',
+  //     artwork: 'https://samplesongs.netlify.app/album-arts/solo.jpg',
+  //     url: 'https://samplesongs.netlify.app/Solo.mp3',
+  //     id: '5',
+  //   },
+  //   {
+  //     title: 'Without Me',
+  //     artist: 'Halsey',
+  //     artwork: 'https://samplesongs.netlify.app/album-arts/without-me.jpg',
+  //     url: 'https://samplesongs.netlify.app/Without%20Me.mp3',
+  //     id: '6',
+  //   },
+  // ]);
 
   const isItFromUser = useRef(true);
 
@@ -97,97 +143,105 @@ const Podcast = ({navigation}) => {
     // position.addListener(({ value }) => {
     //   console.log(value);
     // });
+    if (songs != null) {
+      if (songs.length != 0) {
+        scrollX.addListener(({value}) => {
+          const val = Math.round(value / width);
+          setSongIndex(val);
+          async () => {
+            if (songs !== null && songs.length !== 0) {
+              await TrackPlayer.setupPlayer().then(async () => {
+                // The player is ready to be used
+                console.log('Player ready');
+                isPlayerReady.current = true;
+              });
 
-    scrollX.addListener(({value}) => {
-      const val = Math.round(value / width);
+              await TrackPlayer.reset();
+              await TrackPlayer.add(songs);
+              await TrackPlayer.updateOptions({
+                stopWithApp: false,
+                alwaysPauseOnInterruption: true,
+                capabilities: [
+                  Capability.Play,
+                  Capability.Pause,
+                  Capability.SkipToNext,
+                  Capability.SkipToPrevious,
+                ],
+                compactCapabilities: [Capability.Play, Capability.Pause],
+              });
 
-      setSongIndex(val);
-    });
+              // --------------------------------------------
+              TrackPlayer.addEventListener(
+                Event.PlaybackTrackChanged,
+                async e => {
+                  console.log('podcast ended', e);
 
-    TrackPlayer.setupPlayer().then(async () => {
-      // The player is ready to be used
-      console.log('Player ready');
-      // add the array of songs in the playlist
-      // TrackPlayer.destroy();
+                  const trackId = (await TrackPlayer.getCurrentTrack()) - 1; //get the current id
 
-      await TrackPlayer.reset();
-      await TrackPlayer.add(songs);
-      // TrackPlayer.play();
-      isPlayerReady.current = true;
+                  console.log('track id', trackId, 'index', index.current);
 
-      const data = 'playing';
-      await AsyncStorage.setItem('isSetPlay', data, e => {
-        console.log(e);
-        console.log(data + ' peter');
-      });
+                  if (trackId !== index.current) {
+                    setSongIndex(trackId);
+                    isItFromUser.current = false;
 
-      await TrackPlayer.updateOptions({
-        stopWithApp: false,
-        alwaysPauseOnInterruption: true,
-        capabilities: [
-          Capability.Play,
-          Capability.Pause,
-          Capability.SkipToNext,
-          Capability.SkipToPrevious,
-        ],
-        compactCapabilities: [Capability.Play, Capability.Pause],
-      });
-      //add listener on track change
-      TrackPlayer.addEventListener(Event.PlaybackTrackChanged, async e => {
-        console.log('podcast ended', e);
+                    if (trackId > index.current) {
+                      goNext();
+                    } else {
+                      goPrv();
+                    }
+                    setTimeout(() => {
+                      isItFromUser.current = true;
+                    }, 200);
+                  }
 
-        const trackId = (await TrackPlayer.getCurrentTrack()) - 1; //get the current id
-
-        console.log('track id', trackId, 'index', index.current);
-
-        if (trackId !== index.current) {
-          setSongIndex(trackId);
-          isItFromUser.current = false;
-
-          if (trackId > index.current) {
-            goNext();
-          } else {
-            goPrv();
-          }
-          setTimeout(() => {
-            isItFromUser.current = true;
-          }, 200);
-        }
-
-        // isPlayerReady.current = true;
-      });
-
-      //monitor intterupt when other apps start playing music
-      TrackPlayer.addEventListener(Event.RemoteDuck, e => {
-        // console.log(e);
-        if (e.paused) {
-          // if pause true we need to pause the music
-          TrackPlayer.pause();
-        } else {
-          TrackPlayer.play();
-        }
-      });
-    });
+                  // isPlayerReady.current = true;
+                },
+              );
+              // =============================================
+              await AsyncStorage.setItem('isSetPlay', data, e => {
+                console.log(e);
+                console.log(data + ' peter');
+              });
+            }
+            TrackPlayer.addEventListener(Event.RemoteDuck, e => {
+              // console.log(e);
+              if (e.paused) {
+                // if pause true we need to pause the music
+                TrackPlayer.pause();
+              } else {
+                TrackPlayer.play();
+              }
+            });
+            TrackPlayer.addEventListener(Event.PlaybackState, res => {
+              console.log(res);
+            });
+          };
+        });
+      }
+    }
 
     return () => {
       scrollX.removeAllListeners();
       TrackPlayer.destroy();
       // TrackPlayer.reset();
-
       // exitPlayer();
     };
   }, []);
 
   // change the song when index changes
   useEffect(() => {
-    if (isPlayerReady.current && isItFromUser.current) {
-      TrackPlayer.skip(songs[songIndex].id)
-        .then(_ => {
-          console.log('changed track');
-        })
-        .catch(e => console.log('error in changing track ', e));
+    if (songs !== null) {
+      if (songs.length !== 0) {
+        if (isPlayerReady.current && isItFromUser.current) {
+          TrackPlayer.skip(songs[songIndex].id)
+            .then(_ => {
+              console.log('changed track');
+            })
+            .catch(e => console.log('error in changing track ', e));
+        }
+        index.current = songIndex;
+      }
     }
-    index.current = songIndex;
   }, [songIndex]);
 
   const exitPlayer = async () => {
@@ -226,12 +280,27 @@ const Podcast = ({navigation}) => {
       let res = await fetch('https://church.aftjdigital.com/api/all_podcast');
       let json = await res.json();
       if (json.status === 'success') {
-        console.log(json.Podcasts);
-        // setSong(json.Podcasts);
+        const podc = [];
+
+        for (let element of json.Podcasts) {
+          const pod = {};
+          pod['title'] = element.title;
+          pod['artist'] = element.poster;
+          pod['artwork'] = element.image;
+          pod['url'] = element.file;
+          pod['id'] = element.id;
+          podc.push(pod);
+        }
+
+        if (podc.length != 0) {
+          setSong(podc);
+        } else {
+          setNoSong(true);
+        }
       }
     } catch (e) {
       console.error(e);
-      if (error.message == 'Network request failed') {
+      if (e.message == 'Network request failed') {
         Toast.show('Internet Connection Error', Toast.LONG);
       }
     }
@@ -240,7 +309,7 @@ const Podcast = ({navigation}) => {
   useEffect(() => {
     getSongs();
     return () => {};
-  }, songs);
+  }, []);
 
   const renderItem = ({index, item}) => {
     return (
@@ -266,51 +335,57 @@ const Podcast = ({navigation}) => {
   };
 
   return (
-    <View style={{backgroundColor: '#fff', height}}>
-      <SafeAreaView style={styles.container}>
-        <SafeAreaView style={{height: 205}}>
-          <Animated.FlatList
-            ref={slider}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            scrollEventThrottle={16}
-            data={songs}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            onScroll={Animated.event(
-              [{nativeEvent: {contentOffset: {x: scrollX}}}],
-              {useNativeDriver: true},
-            )}
-          />
-        </SafeAreaView>
-        <View>
-          <Text style={styles.title}>{songs[songIndex].title}</Text>
-          <Text style={styles.artist}>{songs[songIndex].artist}</Text>
-        </View>
+    <Container>
+      <Content>
+        <SafeAreaView style={styles.container}>
+          <SafeAreaView style={{height: 205}}>
+            <Animated.FlatList
+              ref={slider}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              scrollEventThrottle={16}
+              data={songs}
+              renderItem={renderItem}
+              keyExtractor={item => item.id.toString()}
+              onScroll={Animated.event(
+                [{nativeEvent: {contentOffset: {x: scrollX}}}],
+                {useNativeDriver: true},
+              )}
+            />
+          </SafeAreaView>
+          <View>
+            {songs != null ? (
+              <Text style={styles.title}>{songs[songIndex].title}</Text>
+            ) : null}
+            {songs != null ? (
+              <Text style={styles.artist}>{songs[songIndex].artist}</Text>
+            ) : null}
+          </View>
 
-        <SliderComp />
-        <Controller onNext={goNext} onPrv={goPrv} />
-        <View
-          style={{
-            flexDirection: 'row',
-            // justifyContent: 'space-between',
-            position: 'relative',
-            top: 80,
-          }}>
-          <Text style={styles.icon1}>1x</Text>
-          <Icon
-            onPress={() => {
-              navigation.navigate('SummaryPage');
-            }}
-            style={styles.icon2}
-            name="dots-horizontal"
-            size={35}
-            color="#c5cad2"
-          />
-        </View>
-      </SafeAreaView>
-    </View>
+          <SliderComp />
+          <Controller onNext={goNext} onPrv={goPrv} />
+          <View
+            style={{
+              flexDirection: 'row',
+              // justifyContent: 'space-between',
+              position: 'relative',
+              top: 80,
+            }}>
+            <Text style={styles.icon1}>1x</Text>
+            <Icon
+              onPress={() => {
+                navigation.navigate('SummaryPage');
+              }}
+              style={styles.icon2}
+              name="dots-horizontal"
+              size={35}
+              color="#c5cad2"
+            />
+          </View>
+        </SafeAreaView>
+      </Content>
+    </Container>
   );
 };
 

@@ -72,7 +72,8 @@ const data = [
 ];
 
 const PodList = ({navigation}) => {
-  const [song, setSong] = useState([]);
+  const [songs, setSong] = useState(null);
+  const [noSong, setNoSong] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const [playing, setPlaying] = useState('');
   const _handleItemID = async id => {
@@ -126,13 +127,67 @@ const PodList = ({navigation}) => {
       let res = await fetch('https://church.aftjdigital.com/api/all_podcast');
       let json = await res.json();
       if (json.status === 'success') {
-        console.log(json.Podcasts);
-        setSong(json.Podcasts);
+        const podc = [];
+        for (let index = 0; index < json.Podcasts.length; index++) {
+          const pod = {};
+          const element = json.Podcasts[index];
+          pod['title'] = element.title;
+          pod['artist'] = element.poster;
+          pod['artwork'] = element.image;
+          pod['url'] = element.file;
+          pod['id'] = element.id;
+          pod['time'] = element.created_at.slice(11, -3);
+
+          podc.push(pod);
+        }
+
+        if (podc.length != 0) {
+          setSong(podc);
+        } else {
+          setNoSong(true);
+        }
+        // console.log(podc);
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
       if (e.message == 'Network request failed') {
         Toast.show('Internet Connection Error', Toast.LONG);
+      }
+    }
+  };
+
+  const getDateTime = () => {};
+  const getListPodcast = () => {
+    if (songs !== null) {
+      if (songs.length !== 0) {
+        return songs.map(item => {
+          return (
+            <ListItem
+              key={item.id}
+              thumbnail
+              onPress={() => {
+                _handleItemID(item.id);
+              }}>
+              <Left>
+                <Thumbnail square source={{uri: item.artwork}} />
+              </Left>
+              <Body>
+                <Text>{item.title}</Text>
+                <Text
+                  note
+                  numberOfLines={1}
+                  style={{fontFamily: 'Nunito-Bold'}}>
+                  {item.artist}
+                </Text>
+              </Body>
+              <Right>
+                <Button transparent>
+                  <Text>{item.time}</Text>
+                </Button>
+              </Right>
+            </ListItem>
+          );
+        });
       }
     }
   };
@@ -144,62 +199,50 @@ const PodList = ({navigation}) => {
         textStyle={{color: '#fff'}}
       />
       <Content>
-        <List>
-          {song.map(item => {
-            return (
-              <ListItem
-                key={item.id}
-                thumbnail
-                onPress={() => {
-                  _handleItemID(item.id);
-                }}>
-                <Left>
-                  <Thumbnail square source={{uri: item.artwork}} />
-                </Left>
-                <Body>
-                  <Text>{item.title}</Text>
-                  <Text note numberOfLines={1}>
-                    {item.poster}
-                  </Text>
-                </Body>
-                <Right>
-                  <Button transparent>
-                    <Text>03:23</Text>
-                  </Button>
-                </Right>
-              </ListItem>
-            );
-          })}
-        </List>
+        {noSong === false ? (
+          <List>{getListPodcast(songs)}</List>
+        ) : (
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 20,
+                fontFamily: 'Nunito-Bold',
+              }}>
+              No podcast to display.
+            </Text>
+          </View>
+        )}
       </Content>
       {playing === 'playing' ? (
-        <View
-          style={{
-            width,
-            height: 50,
-            backgroundColor: '#ffffff',
-            elevation: 8,
-            // paddingLeft: 20,
-            // paddingRight: 20,
-            // display: 'none',
-            alignItems: 'center',
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}>
-          <Image
-            style={{width: 40, height: 40, marginRight: 10}}
-            source={{
-              uri: 'https://samplesongs.netlify.app/album-arts/without-me.jpg',
-            }}
-          />
-          <View style={{marginRight: 90}}>
-            <Text style={{fontFamily: 'Nunito-Bold'}}>
-              Focus on the important
-            </Text>
-            <Text style={{fontFamily: 'Nunito-Regular'}}>Pastor Peter</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('podcast')}>
+          <View
+            style={{
+              width,
+              height: 50,
+              backgroundColor: '#ffffff',
+              elevation: 8,
+
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}>
+            <Image
+              style={{width: 40, height: 40, marginRight: 10}}
+              source={{
+                uri:
+                  'https://samplesongs.netlify.app/album-arts/without-me.jpg',
+              }}
+            />
+            <View style={{marginRight: 90}}>
+              <Text style={{fontFamily: 'Nunito-Bold'}}>
+                Focus on the important
+              </Text>
+              <Text style={{fontFamily: 'Nunito-Regular'}}>Pastor Peter</Text>
+            </View>
+            <Icon name="play-circle-fill" size={30} color="#000000" />
           </View>
-          <Icon name="play-circle-fill" size={30} color="#000000" />
-        </View>
+        </TouchableOpacity>
       ) : null}
     </Container>
   );
