@@ -37,7 +37,7 @@ export const PlayerContextProvider = props => {
 
   const play = async track => {
     // we want to make sure we stop the current one to play the next one
-    await pause();
+    await RNTrackPlayer.pause();
     if (!track) {
       if (currentTrack) {
         await RNTrackPlayer.play();

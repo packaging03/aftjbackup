@@ -32,7 +32,7 @@ import {PlayerContextProvider, usePlayerContext} from './playContext';
 
 const {width, height} = Dimensions.get('window');
 
-const Pod = () => {
+const Pod = ({prop}) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 
@@ -74,49 +74,18 @@ const Pod = () => {
     return () => {};
   }, []);
 
-  const renderItem = ({index, item}) => {
-    return (
-      <Animated.View
-        style={{
-          alignItems: 'center',
-          width: width,
-          transform: [
-            {
-              translateX: Animated.multiply(
-                Animated.add(position, -index),
-                -100,
-              ),
-            },
-          ],
-        }}>
-        <Animated.Image
-          source={{uri: item.artwork}}
-          style={{width: 200, height: 200, borderRadius: 5}}
-        />
-      </Animated.View>
-    );
-  };
+  useEffect(() => {
+    const image = prop.artwork;
+    // alert(image);
 
-  const track = playerContext.currentTrack;
+    return () => {};
+  }, []);
 
   return (
     <Content>
       <SafeAreaView style={styles.container}>
         <SafeAreaView style={{height: 205}}>
-          <Animated.FlatList
-            ref={slider}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            scrollEventThrottle={16}
-            data={playerContext.currentTrack}
-            renderItem={renderItem}
-            keyExtractor={item => item.id.toString()}
-            onScroll={Animated.event(
-              [{nativeEvent: {contentOffset: {x: scrollX}}}],
-              {useNativeDriver: true},
-            )}
-          />
+          <Image source={{uri: prop.artwork}} style={s.img} />
         </SafeAreaView>
         <View>
           <Text style={styles.title}>{playerContext.title}</Text>

@@ -33,7 +33,7 @@ import Pod from './Pod';
 
 const {width, height} = Dimensions.get('window');
 
-export default function Podcast({navigation, route}) {
+export default function Podcast({route}) {
   const scrollX = useRef(new Animated.Value(0)).current;
   const slider = useRef(null);
   const isPlayerReady = useRef(false);
@@ -45,6 +45,7 @@ export default function Podcast({navigation, route}) {
   const position = useRef(Animated.divide(scrollX, width)).current;
 
   const [isReady, setIsReady] = useState(false);
+  const [_current, setCurrent] = useState();
   const songs = useRef(null);
   const playerContext = usePlayerContext();
   useEffect(() => {
@@ -72,12 +73,18 @@ export default function Podcast({navigation, route}) {
     return () => {};
   }, []);
 
+  useEffect(() => {
+    const {current} = route.params;
+    setCurrent(current);
+    return () => {};
+  }, [_current]);
+
   // ==============================================================================
 
   return (
     <PlayerContextProvider>
       <Container>
-        <Pod />
+        <Pod prop={_current} />
       </Container>
     </PlayerContextProvider>
   );

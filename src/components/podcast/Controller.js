@@ -13,7 +13,7 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import {usePlayerContext} from './playContext';
 
-export default function Controller({onNext, onPrv}) {
+export default function Controller({}) {
   const playbackState = usePlaybackState();
   const [isPlaying, setIsPlaying] = useState('paused'); //paused play loading
   const playerContext = usePlayerContext();
@@ -28,6 +28,11 @@ export default function Controller({onNext, onPrv}) {
       setIsPlaying('loading');
     }
   }, [playbackState]);
+
+  // useEffect(() => {
+  //   console.log(params.current.artwork);
+  //   return () => {};
+  // }, []);
 
   const returnPlayBtn = () => {
     switch (isPlaying) {
@@ -44,7 +49,7 @@ export default function Controller({onNext, onPrv}) {
     if (isPlaying === 'playing') {
       playerContext.play();
     } else if (isPlaying === 'paused') {
-      playerContext.pause();
+      playerContext.pause;
     }
   };
 

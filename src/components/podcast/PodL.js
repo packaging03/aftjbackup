@@ -199,7 +199,13 @@ const PodL = ({navigation}) => {
         )}
       </Content>
       {playerContext.currentTrack !== null ? (
-        <Pressable style={{}} onPress={() => navigation.navigate('podcast')}>
+        <Pressable
+          style={{}}
+          onPress={() =>
+            navigation.navigate('podcast', {
+              current: playerContext.currentTrack,
+            })
+          }>
           <View
             style={{
               width,
