@@ -155,7 +155,7 @@ function Addnote({navigation, accessToken, user}) {
         </View>
       </View>
       
-<View
+      <View
         style={{
           alignSelf: 'flex-end',
           marginRight: -10,

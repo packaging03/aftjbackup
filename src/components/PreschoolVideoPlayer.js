@@ -1,7 +1,8 @@
 import React,{useState} from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import YouTube from 'react-native-youtube';
 import Spinner from './common/Spinner';
+import CButton from '../components/common/CustomButton';
 
 export default function PreschoolVideoPlayer({navigation, route}) {
     const {videoLink, videoTitle} = route.params;
@@ -14,18 +15,30 @@ export default function PreschoolVideoPlayer({navigation, route}) {
                     key='AIzaSyB1K6hMGSyf1jznInofqdrP3turp5TzvxI'
                     apiKey='AIzaSyB1K6hMGSyf1jznInofqdrP3turp5TzvxI'
                     videoId={videoLink}
-                    fullscreen ={true}
+                    fullscreen ={false}
                     play={true}
-                    loop={true}
-                    
-                    />
-            
+                    loop={false}
+            />
+
+
+            <TouchableOpacity onPress={()=>navigation.navigate('SchoolCurriculumQuiz')}> 
+                <CButton
+                    style={{marginBottom: 20}}
+                    onPress={() => {
+                            navigation.navigate('SchoolCurriculumQuiz')
+                        } 
+                    }>
+                        View Assessment
+                </CButton>
+   
+            </TouchableOpacity>
             
            
         </View>
     )
 }
 
-const styles = StyleSheet.create({ video:{height: '100%', 
+const styles = StyleSheet.create({ video:{height: '60%', //100%
     alignSelf: 'stretch',
-     width: '100%'}, })
+     width: '100%',
+    marginBottom: 160}, })
