@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
- 
+// import Crossword from '@jaredreisinger/react-crossword'; 
 
 const Games = ({navigation}) => {
 
@@ -12,8 +12,7 @@ const Games = ({navigation}) => {
             display:'flex', 
             flexDirection:'column', 
             paddingTop:20,
-             flex:1}}>
-
+            flex:1}}>
 
             <TouchableWithoutFeedback onPress={() => navigation.navigate("Quiz")}>
                 <View style={itemStyle}>

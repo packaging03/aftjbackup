@@ -1,15 +1,59 @@
-import React, { useState } from 'react';
+import Toast from 'react-native-simple-toast';
+import React, { useState, useEffect } from 'react';
 import {View, Text, Image} from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Quiz = () => {
 
     const {optionStyle, buttonStyle, buttonTextStyle, optionTextStyle, whiteCircle} = styles;
+    const [data, setData] = useState([]);
+    const [current, setCurrent] = useState(0);
     const [optionA, setOptionA] = useState(false);
     const [optionB, setOptionB] = useState(false);
     const [optionC, setOptionC] = useState(false);
     const [optionD, setOptionD] = useState(false);
+
+
+    const resetOptions = () => {
+        setOptionA(false);
+        setOptionB(false);
+        setOptionC(false);
+        setOptionD(false);
+
+    }
+    const getData = async () => {
+        try {
+          let response = await fetch('https://church.aftjdigital.com/api/quiz/retrieve');
+          let json = await response.json();
+          console.log(json.data);
+          setData(json.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      const next = () => {
+          if(current === data.length-1){
+                Toast.show("Last question", Toast.LONG);
+          }else{
+            setCurrent(current + 1);
+            resetOptions();
+          }
+        
+      }
+      const prev = () => {
+        if(current === 0){
+            Toast.show("First question", Toast.LONG);
+        }else{
+            setCurrent(current - 1);
+            resetOptions();
+        }
+      }
+
+      useEffect(() => {
+        getData();
+      }, []);
 
     return (
         <View style={{backgroundColor: '#F2F2F8', flex: 1}}> 
@@ -55,7 +99,7 @@ const Quiz = () => {
                     fontWeight: '400',
                     lineHeight:18,
                     letterSpacing:0.5
-            }}>How is man saved?</Text>
+            }}>{data.length > 0 ? data[current].question: 'loading'}</Text>
                 
             </View>
 
@@ -78,10 +122,10 @@ const Quiz = () => {
             }}>
 
             
-                <TouchableWithoutFeedback   onPress={() => setOptionA(!optionA)}>
+                
                     <View style={optionStyle}> 
                         <Text 
-                        style={optionTextStyle}>A. By giving your life to Christ.</Text>
+                        style={optionTextStyle}>A.  {data.length > 0 ? data[current].option1: 'loading'}</Text>
                          {
                             optionA
                             ?  <View style={
@@ -91,19 +135,17 @@ const Quiz = () => {
                                 borderWidth:1, 
                                 height: 25, 
                                 borderColor:'#FF0100'}}>
-                                <Icon  name={'md-close'} color='#FF0100' size={20} />
+                                <Icon onPress={() => setOptionA(!optionA)}  name={'md-close'} color='#FF0100' size={20} />
                             </View>
-                            :  <View style={whiteCircle}>
-                                {/* <Icon  name={'md-close'} color='#FF0100' size={20} /> */}
-                            </View>
+                            : <TouchableWithoutFeedback   onPress={() => setOptionA(!optionA)}>
+                                <View style={whiteCircle}/>
+                            </TouchableWithoutFeedback> 
                         }
                 </View>
-                </TouchableWithoutFeedback>
-
-               <TouchableWithoutFeedback   onPress={() => setOptionB(!optionB)}>
+               
                 <View style={optionStyle}> 
                         <Text 
-                        style={optionTextStyle}>B. By giving your life to Christ.</Text>
+                        style={optionTextStyle}>B. {data.length > 0 ? data[current].option2: 'loading'}</Text>
                           {
                             optionB
                             ?  <View style={
@@ -113,19 +155,18 @@ const Quiz = () => {
                                 borderWidth:1, 
                                 height: 25, 
                                 borderColor:'#219653'}}>
-                                <Icon  name={'md-checkmark'} color='#219653' size={20} />
+                                <Icon onPress={() => setOptionB(!optionB)} name={'md-checkmark'} color='#219653' size={20} />
                             </View>
-                            :  <View style={whiteCircle}>
-                                {/* <Icon  name={'md-close'} color='#FF0100' size={20} /> */}
-                            </View>
+                            :  <TouchableWithoutFeedback   onPress={() => setOptionB(!optionB)}>
+                                    <View style={whiteCircle}/>
+                                </TouchableWithoutFeedback>
                         }
                 </View>
-               </TouchableWithoutFeedback>
 
-               <TouchableWithoutFeedback   onPress={() => setOptionC(!optionC)}>
+               
                 <View style={optionStyle}> 
                         <Text 
-                        style={optionTextStyle}>C. By giving your life to Christ.</Text>
+                        style={optionTextStyle}>C. {data.length > 0 ? data[current].option3: 'loading'}</Text>
                          {
                             optionC
                             ?  <View style={
@@ -135,19 +176,21 @@ const Quiz = () => {
                                 borderWidth:1, 
                                 height: 25, 
                                 borderColor:'#FF0100'}}>
-                                <Icon  name={'md-close'} color='#FF0100' size={20} />
+                                <Icon  onPress={() => setOptionC(!optionC)} name={'md-close'} color='#FF0100' size={20} />
                             </View>
-                            :  <View style={whiteCircle}>
-                                {/* <Icon  name={'md-close'} color='#FF0100' size={20} /> */}
-                            </View>
+                            :   <TouchableWithoutFeedback   onPress={() => setOptionC(!optionC)}>
+                                    <View style={whiteCircle}/>
+                              </TouchableWithoutFeedback>
+                             
+                           
                         }
                 </View>
-               </TouchableWithoutFeedback>
+              
 
-               <TouchableWithoutFeedback  onPress={() => setOptionD(!optionD)}>
+               {/* <TouchableWithoutFeedback  onPress={() => setOptionD(!optionD)}> */}
                <View style={optionStyle}> 
                     <Text 
-                     style={optionTextStyle}>D. By giving your life to Christ.</Text>
+                     style={optionTextStyle}>D. {data.length > 0 ? data[current].option4: 'loading'}</Text>
                         {
                             optionD
                             ?  <View style={
@@ -157,23 +200,30 @@ const Quiz = () => {
                                 borderWidth:1, 
                                 height: 25, 
                                 borderColor:'#FF0100'}}>
-                                <Icon  name={'md-close'} color='#FF0100' size={20} />
+                                <Icon  onPress={() => setOptionD(!optionD)} name={'md-close'} color='#FF0100' size={20} />
                             </View>
-                            :  <View style={whiteCircle}>
-                                {/* <Icon  name={'md-close'} color='#FF0100' size={20} /> */}
-                            </View>
+                            :  <TouchableWithoutFeedback  onPress={() => setOptionD(!optionD)}>
+                                     <View  style={whiteCircle}/>
+                                </TouchableWithoutFeedback>
+                                   
+                               
                         }
                </View>
-               </TouchableWithoutFeedback >
+               {/* </TouchableWithoutFeedback > */}
 
-                <View style={{display: 'flex', marginTop:32, width: '100%', justifyContent:'space-between', flexDirection:'row'}}>
-                    <View style={buttonStyle}>
-                        <Text style={buttonTextStyle}>Previous Question</Text>
-                    </View>
-
-                    <View style={buttonStyle}>
-                    <Text style={buttonTextStyle}>Next Question</Text>
-                </View> 
+                <View style={{  display: 'flex', marginTop:32, width: '100%', justifyContent:'space-between', flexDirection:'row'}}>
+                    <TouchableOpacity onPress={() => prev()}  style={{width:'100%'}}>
+                           
+                        <View style={buttonStyle}>
+                           <Text style={buttonTextStyle}>Previous Question</Text>
+                        </View>
+                    </TouchableOpacity> 
+                    <TouchableOpacity onPress={() => next()} style={{width: '100%'}} >
+                        <View style={buttonStyle}>
+                            <Text style={buttonTextStyle}>Next Question</Text>
+                        </View> 
+                    </TouchableOpacity>
+                    
                 </View>
                
             
@@ -207,7 +257,8 @@ const styles = {
         backgroundColor:'#C5CAD2',
         borderRadius: 16,
         height:48, 
-        width:'45%',
+        width:'100%',
+        display:'flex',
         alignItems:'center',
         justifyContent:'center',
         padding:15

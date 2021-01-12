@@ -1,13 +1,14 @@
 import React from 'react';
 import {View, Text, } from 'react-native';
- 
 
-const Crossword = () => {
+
+const Crosswords = () => {
     return (
         <View>
+
 
         </View>
     )
 }
 
-export default Crossword;
+export default Crosswords;
