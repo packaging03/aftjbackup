@@ -109,7 +109,7 @@ const Pod = () => {
             pagingEnabled
             showsHorizontalScrollIndicator={false}
             scrollEventThrottle={16}
-            data={songs}
+            data={playerContext.currentTrack}
             renderItem={renderItem}
             keyExtractor={item => item.id.toString()}
             onScroll={Animated.event(
