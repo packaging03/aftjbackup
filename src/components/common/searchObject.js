@@ -15,7 +15,7 @@ export const dataArray2 = {
   '14': 'Homecell',
   '15': 'Grade Memory Verse',
   '16': 'NewMember',
-  '17': 'Bookappointment',
+  '17': 'Pastorschedule',
   '18': 'PrayerRequest',
   '19': 'Sermons',
   '20': 'TestimonyRoot',
