@@ -11,19 +11,17 @@ import TrackPlayer, {
   useTrackPlayerEvents,
   Event,
 } from 'react-native-track-player';
+import {usePlayerContext} from './playContext';
 
 export default function Controller({onNext, onPrv}) {
   const playbackState = usePlaybackState();
   const [isPlaying, setIsPlaying] = useState('paused'); //paused play loading
-
+  const playerContext = usePlayerContext();
   useEffect(() => {
-    // console.log('Player State', playbackState);
-
-    //set the player state
-    if (playbackState === 'playing' || playbackState === 3) {
+    if (playerContext.isPlaying || playbackState === 3) {
       console.log(playbackState);
       setIsPlaying('playing');
-    } else if (playbackState === 'paused' || playbackState === 2) {
+    } else if (playerContext.isPause || playbackState === 2) {
       console.log(playbackState);
       setIsPlaying('paused');
     } else {
@@ -44,22 +42,22 @@ export default function Controller({onNext, onPrv}) {
 
   const onPlayPause = () => {
     if (isPlaying === 'playing') {
-      TrackPlayer.pause();
+      playerContext.play();
     } else if (isPlaying === 'paused') {
-      TrackPlayer.play();
+      playerContext.pause();
     }
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={onPrv}>
-        <Icon color="#c5cad2" name="skip-previous" size={30} />
+      <TouchableOpacity onPress={() => playerContext.seekTo(-10)}>
+        <Icon color="#c5cad2" name="rotate-left" size={30} />
       </TouchableOpacity>
       <TouchableOpacity onPress={onPlayPause}>
         {returnPlayBtn()}
       </TouchableOpacity>
-      <TouchableOpacity onPress={onNext}>
-        <Icon color="#c5cad2" name="skip-next" size={30} />
+      <TouchableOpacity onPress={() => playerContext.seekTo()}>
+        <Icon color="#c5cad2" name="rotate-right" size={30} />
       </TouchableOpacity>
     </View>
   );

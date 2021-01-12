@@ -9,8 +9,10 @@ import {
   Dimensions,
   Animated,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import {Container, Content} from 'native-base';
+import {} from '../../../service';
 
 import TrackPlayer, {
   Capability,
@@ -26,399 +28,59 @@ import Toast from 'react-native-simple-toast';
 // import songs from './data';
 import Controller from './Controller';
 import SliderComp from './SliderComp';
+import {PlayerContextProvider, usePlayerContext} from './playContext';
+import Pod from './Pod';
 
 const {width, height} = Dimensions.get('window');
 
-// const events = [
-//   TrackPlayerEvents.PLAYBACK_STATE,
-//   TrackPlayerEvents.PLAYBACK_ERROR
-// ];
-const data = [
-  {
-    title: 'Death Bed',
-    artist: 'Powfu',
-    artwork: 'https://samplesongs.netlify.app/album-arts/death-bed.jpg',
-    url: 'https://samplesongs.netlify.app/Death%20Bed.mp3',
-    id: '1',
-  },
-  {
-    title: 'Bad Liar',
-    artist: 'Imagine Dragons',
-    artwork: 'https://samplesongs.netlify.app/album-arts/bad-liar.jpg',
-    url: 'https://samplesongs.netlify.app/Bad%20Liar.mp3',
-    id: '2',
-  },
-  {
-    title: 'Faded',
-    artist: 'Alan Walker',
-    artwork: 'https://samplesongs.netlify.app/album-arts/faded.jpg',
-    url: 'https://samplesongs.netlify.app/Faded.mp3',
-    id: '3',
-  },
-  {
-    title: 'Hate Me',
-    artist: 'Ellie Goulding',
-    artwork: 'https://samplesongs.netlify.app/album-arts/hate-me.jpg',
-    url: 'https://samplesongs.netlify.app/Hate%20Me.mp3',
-    id: '4',
-  },
-  {
-    title: 'Solo',
-    artist: 'Clean Bandit',
-    artwork: 'https://samplesongs.netlify.app/album-arts/solo.jpg',
-    url: 'https://samplesongs.netlify.app/Solo.mp3',
-    id: '5',
-  },
-  {
-    title: 'Without Me',
-    artist: 'Halsey',
-    artwork: 'https://samplesongs.netlify.app/album-arts/without-me.jpg',
-    url: 'https://samplesongs.netlify.app/Without%20Me.mp3',
-    id: '6',
-  },
-];
-
-const Podcast = ({navigation}) => {
+export default function Podcast({navigation, route}) {
   const scrollX = useRef(new Animated.Value(0)).current;
-
   const slider = useRef(null);
   const isPlayerReady = useRef(false);
   const index = useRef(0);
 
-  const [songs, setSong] = useState(null);
-  const [noSong, setNoSong] = useState(false);
   const [songIndex, setSongIndex] = useState(0);
-  // const [songs, setSong] = useState([
-  //   {
-  //     title: 'Death Bed',
-  //     artist: 'Powfu',
-  //     artwork: 'https://samplesongs.netlify.app/album-arts/death-bed.jpg',
-  //     url: 'https://samplesongs.netlify.app/Death%20Bed.mp3',
-  //     id: '1',
-  //   },
-  //   {
-  //     title: 'Bad Liar',
-  //     artist: 'Imagine Dragons',
-  //     artwork: 'https://samplesongs.netlify.app/album-arts/bad-liar.jpg',
-  //     url: 'https://samplesongs.netlify.app/Bad%20Liar.mp3',
-  //     id: '2',
-  //   },
-  //   {
-  //     title: 'Faded',
-  //     artist: 'Alan Walker',
-  //     artwork: 'https://samplesongs.netlify.app/album-arts/faded.jpg',
-  //     url: 'https://samplesongs.netlify.app/Faded.mp3',
-  //     id: '3',
-  //   },
-  //   {
-  //     title: 'Hate Me',
-  //     artist: 'Ellie Goulding',
-  //     artwork: 'https://samplesongs.netlify.app/album-arts/hate-me.jpg',
-  //     url: 'https://samplesongs.netlify.app/Hate%20Me.mp3',
-  //     id: '4',
-  //   },
-  //   {
-  //     title: 'Solo',
-  //     artist: 'Clean Bandit',
-  //     artwork: 'https://samplesongs.netlify.app/album-arts/solo.jpg',
-  //     url: 'https://samplesongs.netlify.app/Solo.mp3',
-  //     id: '5',
-  //   },
-  //   {
-  //     title: 'Without Me',
-  //     artist: 'Halsey',
-  //     artwork: 'https://samplesongs.netlify.app/album-arts/without-me.jpg',
-  //     url: 'https://samplesongs.netlify.app/Without%20Me.mp3',
-  //     id: '6',
-  //   },
-  // ]);
 
   const isItFromUser = useRef(true);
-
-  // for tranlating the album art
   const position = useRef(Animated.divide(scrollX, width)).current;
-  const playbackState = usePlaybackState();
 
+  const [isReady, setIsReady] = useState(false);
+  const songs = useRef(null);
+  const playerContext = usePlayerContext();
   useEffect(() => {
-    // position.addListener(({ value }) => {
-    //   console.log(value);
-    // });
-    if (songs != null) {
-      if (songs.length != 0) {
-        scrollX.addListener(({value}) => {
-          const val = Math.round(value / width);
-          setSongIndex(val);
-          async () => {
-            if (songs !== null && songs.length !== 0) {
-              await TrackPlayer.setupPlayer().then(async () => {
-                // The player is ready to be used
-                console.log('Player ready');
-                isPlayerReady.current = true;
-              });
+    (async () => {
+      await TrackPlayer.updateOptions({
+        stopWithApp: true,
+        alwaysPauseOnInterruption: true,
+        capabilities: [
+          Capability.Play,
+          Capability.Pause,
+          Capability.SkipToNext,
+          Capability.SkipToPrevious,
+          Capability.JumpBackward,
+          Capability.JumpForward,
+        ],
+        compactCapabilities: [
+          Capability.Play,
+          Capability.Pause,
+          Capability.JumpBackward,
+          Capability.JumpForward,
+        ],
+      });
+    })();
 
-              await TrackPlayer.reset();
-              await TrackPlayer.add(songs);
-              await TrackPlayer.updateOptions({
-                stopWithApp: false,
-                alwaysPauseOnInterruption: true,
-                capabilities: [
-                  Capability.Play,
-                  Capability.Pause,
-                  Capability.SkipToNext,
-                  Capability.SkipToPrevious,
-                ],
-                compactCapabilities: [Capability.Play, Capability.Pause],
-              });
-
-              // --------------------------------------------
-              TrackPlayer.addEventListener(
-                Event.PlaybackTrackChanged,
-                async e => {
-                  console.log('podcast ended', e);
-
-                  const trackId = (await TrackPlayer.getCurrentTrack()) - 1; //get the current id
-
-                  console.log('track id', trackId, 'index', index.current);
-
-                  if (trackId !== index.current) {
-                    setSongIndex(trackId);
-                    isItFromUser.current = false;
-
-                    if (trackId > index.current) {
-                      goNext();
-                    } else {
-                      goPrv();
-                    }
-                    setTimeout(() => {
-                      isItFromUser.current = true;
-                    }, 200);
-                  }
-
-                  // isPlayerReady.current = true;
-                },
-              );
-              // =============================================
-              await AsyncStorage.setItem('isSetPlay', data, e => {
-                console.log(e);
-                console.log(data + ' peter');
-              });
-            }
-            TrackPlayer.addEventListener(Event.RemoteDuck, e => {
-              // console.log(e);
-              if (e.paused) {
-                // if pause true we need to pause the music
-                TrackPlayer.pause();
-              } else {
-                TrackPlayer.play();
-              }
-            });
-            TrackPlayer.addEventListener(Event.PlaybackState, res => {
-              console.log(res);
-            });
-          };
-        });
-      }
-    }
-
-    return () => {
-      scrollX.removeAllListeners();
-      TrackPlayer.destroy();
-      // TrackPlayer.reset();
-      // exitPlayer();
-    };
-  }, []);
-
-  // change the song when index changes
-  useEffect(() => {
-    if (songs !== null) {
-      if (songs.length !== 0) {
-        if (isPlayerReady.current && isItFromUser.current) {
-          TrackPlayer.skip(songs[songIndex].id)
-            .then(_ => {
-              console.log('changed track');
-            })
-            .catch(e => console.log('error in changing track ', e));
-        }
-        index.current = songIndex;
-      }
-    }
-  }, [songIndex]);
-
-  const exitPlayer = async () => {
-    try {
-      await TrackPlayer.stop();
-    } catch (error) {
-      console.error('exitPlayer', error);
-    }
-  };
-
-  const goNext = async () => {
-    slider.current.scrollToOffset({
-      offset: (index.current + 1) * width,
-    });
-
-    await TrackPlayer.play();
-  };
-  const goPrv = async () => {
-    slider.current.scrollToOffset({
-      offset: (index.current - 1) * width,
-    });
-
-    await TrackPlayer.play();
-  };
-  // https://church.aftjdigital.com/api/all_podcast
-  // {
-  //           "id": 5,
-  //           "title": "second podcast",
-  //           "poster": "Rev Chukuemeka",
-  //           "file": "https://church.aftjdigital.com/files/uploads/video/UYO2sB31snQfGDy1609926028.mp4",
-  //           "created_at": "2021-01-06 09:40:28",
-  //           "updated_at": "2021-01-06 09:40:28"
-  //       },
-  const getSongs = async () => {
-    try {
-      let res = await fetch('https://church.aftjdigital.com/api/all_podcast');
-      let json = await res.json();
-      if (json.status === 'success') {
-        const podc = [];
-
-        for (let element of json.Podcasts) {
-          const pod = {};
-          pod['title'] = element.title;
-          pod['artist'] = element.poster;
-          pod['artwork'] = element.image;
-          pod['url'] = element.file;
-          pod['id'] = element.id;
-          podc.push(pod);
-        }
-
-        if (podc.length != 0) {
-          setSong(podc);
-        } else {
-          setNoSong(true);
-        }
-      }
-    } catch (e) {
-      console.error(e);
-      if (e.message == 'Network request failed') {
-        Toast.show('Internet Connection Error', Toast.LONG);
-      }
-    }
-  };
-
-  useEffect(() => {
-    getSongs();
     return () => {};
   }, []);
 
-  const renderItem = ({index, item}) => {
-    return (
-      <Animated.View
-        style={{
-          alignItems: 'center',
-          width: width,
-          transform: [
-            {
-              translateX: Animated.multiply(
-                Animated.add(position, -index),
-                -100,
-              ),
-            },
-          ],
-        }}>
-        <Animated.Image
-          source={{uri: item.artwork}}
-          style={{width: 200, height: 200, borderRadius: 5}}
-        />
-      </Animated.View>
-    );
-  };
+  // ==============================================================================
 
   return (
-    <Container>
-      <Content>
-        <SafeAreaView style={styles.container}>
-          <SafeAreaView style={{height: 205}}>
-            <Animated.FlatList
-              ref={slider}
-              horizontal
-              pagingEnabled
-              showsHorizontalScrollIndicator={false}
-              scrollEventThrottle={16}
-              data={songs}
-              renderItem={renderItem}
-              keyExtractor={item => item.id.toString()}
-              onScroll={Animated.event(
-                [{nativeEvent: {contentOffset: {x: scrollX}}}],
-                {useNativeDriver: true},
-              )}
-            />
-          </SafeAreaView>
-          <View>
-            {songs != null ? (
-              <Text style={styles.title}>{songs[songIndex].title}</Text>
-            ) : null}
-            {songs != null ? (
-              <Text style={styles.artist}>{songs[songIndex].artist}</Text>
-            ) : null}
-          </View>
-
-          <SliderComp />
-          <Controller onNext={goNext} onPrv={goPrv} />
-          <View
-            style={{
-              flexDirection: 'row',
-              // justifyContent: 'space-between',
-              position: 'relative',
-              top: 80,
-            }}>
-            <Text style={styles.icon1}>1x</Text>
-            <Icon
-              onPress={() => {
-                navigation.navigate('SummaryPage');
-              }}
-              style={styles.icon2}
-              name="dots-horizontal"
-              size={35}
-              color="#c5cad2"
-            />
-          </View>
-        </SafeAreaView>
-      </Content>
-    </Container>
+    <PlayerContextProvider>
+      <Container>
+        <Pod />
+      </Container>
+    </PlayerContextProvider>
   );
-};
+}
 
-export default Podcast;
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 28,
-    textAlign: 'center',
-    fontWeight: '600',
-    // textTransform: 'capitalize',
-    color: '#000',
-    fontFamily: 'Nunito-Regular',
-  },
-  artist: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: '#000',
-    fontFamily: 'Nunito-Bold',
-    // textTransform: 'capitalize',
-  },
-  container: {
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    height: height,
-    maxHeight: 450,
-  },
-  icon1: {
-    marginRight: 100,
-    fontFamily: 'Nunito-Regular',
-    fontSize: 20,
-    color: '#c5cad2',
-  },
-  icon2: {
-    marginLeft: 120,
-  },
-});
+const styles = StyleSheet.create({});
