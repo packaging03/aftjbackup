@@ -41,7 +41,7 @@ const Pod = ({prop}) => {
   const index = useRef(0);
 
   const [songs, setSong] = useState(null);
-  const [noSong, setNoSong] = useState(false);
+  const [current, setCurrent] = useState();
   const [songIndex, setSongIndex] = useState(0);
   const playerContext = usePlayerContext();
 
@@ -75,21 +75,22 @@ const Pod = ({prop}) => {
   }, []);
 
   useEffect(() => {
-    const image = prop.artwork;
-    // alert(image);
+    const image = prop;
+    setCurrent(image);
+    console.log(image);
 
     return () => {};
-  }, []);
+  }, [current]);
 
   return (
     <Content>
       <SafeAreaView style={styles.container}>
         <SafeAreaView style={{height: 205}}>
-          <Image source={{uri: prop.artwork}} style={s.img} />
+          {/* <Image source={{uri: `${current.artwork}`}} style={s.img} /> */}
         </SafeAreaView>
         <View>
-          <Text style={styles.title}>{playerContext.title}</Text>
-          <Text style={styles.artist}>{playerContext.artist}</Text>
+          {/* <Text style={styles.title}>{current.title}</Text>
+          <Text style={styles.artist}>{current.artist}</Text> */}
         </View>
 
         <SliderComp />
