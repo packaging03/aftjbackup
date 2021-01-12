@@ -81,6 +81,9 @@ import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
 import Suggestion from '../suggestion/Suggestion';
 
+import BibleSettings from '../../components/BibleOptions/Settings';
+import Favourites from '../../components/BibleOptions/Favourites';
+import Comments from '../../components/BibleOptions/Comments';
 
 const HomeStack = createStackNavigator();
 const SermonsStack = createStackNavigator();
@@ -1378,6 +1381,7 @@ const BibleStackScreen = ({navigation}) => (
             onPress={() => navigation.openDrawer()}
           />
         ),
+        
       }}
     />
 
@@ -1434,6 +1438,76 @@ const BibleStackScreen = ({navigation}) => (
             // onPress={() => navigation.openDrawer()}
           />*/
         // ),
+      }}
+    />
+
+<BibleStack.Screen
+      name="BibleSettings"
+      component={BibleSettings}
+      options={{
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+        title: 'Bible Settings',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+      }}
+    />
+
+<BibleStack.Screen
+      name="Favourites"
+      component={Favourites}
+      options={{
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+        title: 'Favourite Scriptures',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+      }}
+    />
+
+<BibleStack.Screen
+      name="Comments"
+      component={Comments}
+      options={{
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+        title: 'Favourite Scriptures',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+      }}
+    />
+
+<BibleStack.Screen
+      name="NoteRoot"
+      component={NoteRoot}
+      options={{
+        title: 'Note Pad',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+        headerRight: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('Addnote')}>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingRight: '30%',
+              alignItems: 'center',
+            }}>
+            
+              <Image
+                onPress={() => navigation.navigate('Addnote')}
+                style={{width: 30, height: 30, marginRight: 15}}
+                source={require('../../assets/add_icon.png')}
+              />
+            
+            
+          </View></TouchableOpacity>
+        ),
       }}
     />
   </BibleStack.Navigator>
