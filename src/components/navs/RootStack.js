@@ -61,8 +61,6 @@ import BibleHome from '../BibleHome';
 import TodaysReading from '../DaysReading';
 import BibleChapters from '../BibleChapters';
 import BibleVerse from '../BibleContent';
-import PreSchool from '../PreSchool';
-import Kindergarten from '../Kindergarten';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
 import Grade1MemoryVerse from '../Grade1MemoryVerse';
@@ -95,6 +93,12 @@ import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
 import NoteDetails from '../NoteDetails';
 import Editnote from '../Editnote';
+
+import ChatRoom from '../ChatRoom';
+import Addnote from '../Addnote';
+import NoteDetails from '../NoteDetails';
+import Editnote from '../Editnote';
+import Suggestion from '../suggestion/Suggestion';
 
 const Stack = createStackNavigator();
 const RootStack = ({
@@ -292,6 +296,20 @@ const RootStack = ({
           headerTintColor: '#000',
         }}
       />
+
+      <Stack.Screen
+        name="Suggestion"
+        component={Suggestion}
+        options={{
+          title: 'New Member',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          headerTintColor: '#000',
+        }}
+      />
+      
       <Stack.Screen
         name="Schedulecalendar"
         component={Schedulecalendar}
@@ -1454,31 +1472,8 @@ const RootStack = ({
         }}
       />
 
-      <Stack.Screen
-        name="PreSchool"
-        component={PreSchool}
-        options={{
-          title: 'Pre-school',
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-          headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
-        }}
-      />
 
-      <Stack.Screen
-        name="Kindergarten"
-        component={Kindergarten}
-        options={{
-          title: 'Kindergarten',
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-          headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
-        }}
-      />
+     
 
       <Stack.Screen
         name="Preschoolplayer"
@@ -1801,7 +1796,6 @@ const styles = {
   headerStyle: {
     fontFamily: 'frankruhllibre-regular',
     fontSize: 20,
-    fontColor: 'black',
   },
   tabLabelText: {
     fontFamily: 'Nunito-Regular',

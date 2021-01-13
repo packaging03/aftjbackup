@@ -608,7 +608,10 @@ export default function Home({navigation}) {
                 <Text style={styles.textbelow}>2Tim. 2 : 15</Text>
                 <Button3
                   text="     LISTEN     "
+
                   onPress={() => navigation.navigate('PodcastList')}
+
+
                 />
               </View>
             </ImageBackground>
