@@ -125,7 +125,6 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
 
             
         // }
-
         obj = [];
        
         

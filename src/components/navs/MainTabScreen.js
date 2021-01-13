@@ -71,7 +71,6 @@ import Chats from '../Chats';
 import Contacts from '../Contacts';
 import Downloads from '../Downloads';
 import Pastorschedule from '../Pastorschedule';
-import MemoryVerseNew from '../MemoryVerseNew';
 import Projects from '../Projects';
 import NMResources from '../NewMemberResources/Resource';
 import Gateways from '../giving/Gateways';
@@ -1197,36 +1196,6 @@ const HomeStackScreen = ({navigation}) => (
         },
         headerTitleStyle: styles.headerStyle,
         headerTintColor: '#000',
-      }}
-    />
-
-    <HomeStack.Screen
-      name="Grade Memory Verse"
-      component={MemoryVerseNew}
-      options={{
-        title: 'Memory Verses',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: {
-          color: '#000',
-        },
-        headerTintColor: '#000',
-        headerShown: true,
-
-        // headerLeft: () => (
-        //   <Icon.Button
-        //     name="ios-menu"
-        //     size={25}
-        //     color="#000"
-        //     backgroundColor="#fff"
-        //     onPress={() => navigation.openDrawer()}
-        //   />
-        // ),
       }}
     />
 

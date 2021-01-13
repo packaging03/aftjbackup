@@ -18,7 +18,7 @@ const data=[
     img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', 
     title:"God Loves Me", 
     details:"Memory Verses",
-    link: "Grade1",
+    link: "MemoryVerseNew",
     showtopic: false,
   },
   { 
