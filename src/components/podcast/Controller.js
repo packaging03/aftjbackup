@@ -45,22 +45,40 @@ export default function Controller({}) {
     }
   };
 
-  const onPlayPause = () => {
-    if (isPlaying === 'playing') {
-      playerContext.play();
-    } else if (isPlaying === 'paused') {
-      playerContext.pause;
-    }
-  };
+  // const onPlayPause = () => {
+  //   if (isPlaying === 'paused') {
+  //     playerContext.play();
+  //     console.log('playing');
+  //   } else {
+  //     playerContext.pause();
+  //     console.log('paused');
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => playerContext.seekTo(-10)}>
         <Icon color="#c5cad2" name="rotate-left" size={30} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={onPlayPause}>
+      {playerContext.isPlaying !== true ? (
+        <Icon
+          name="pause"
+          size={30}
+          color="#c5cad2"
+          onPress={() => playerContext.pause}
+        />
+      ) : (
+        <Icon
+          name="play-circle-fill"
+          size={30}
+          color="#c5cad2"
+          onPress={() => playerContext.play()}
+        />
+      )}
+      {/* <TouchableOpacity onPress={onPlayPause}>
         {returnPlayBtn()}
-      </TouchableOpacity>
+      
+      </TouchableOpacity> */}
       <TouchableOpacity onPress={() => playerContext.seekTo()}>
         <Icon color="#c5cad2" name="rotate-right" size={30} />
       </TouchableOpacity>

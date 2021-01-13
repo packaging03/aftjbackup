@@ -66,16 +66,12 @@ export default function Home({navigation}) {
       '&key=' +
       apiKey;
 
-    //maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1000&type=point_of_interest&keyword=divvy&key=${API_KEY}
-
     fetch(url)
       .then(res => {
         return res.json();
       })
       .then(res => {
-        // console.log(res.error_message);
-        // console.log(res.results);
-        var places = []; // This Array WIll contain locations received from google
+        var places = [];
         for (let googlePlace of res.results) {
           var place = {};
           var lat = googlePlace.geometry.location.lat;
@@ -126,7 +122,7 @@ export default function Home({navigation}) {
   }, [1]);
 
   useEffect(() => {
-    const requestLocationPermission = async () => {
+    (async () => {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -146,9 +142,7 @@ export default function Home({navigation}) {
       } catch (e) {
         console.log(e);
       }
-    };
-
-    requestLocationPermission();
+    })();
   }, []);
 
   // request location cord.
