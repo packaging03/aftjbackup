@@ -1,3 +1,10 @@
+
+
+import {StyleSheet, Text, View, Pressable, Dimensions} from 'react-native';
+import {Container} from 'native-base';
+import {connect} from 'react-redux';
+import Feather from 'react-native-vector-icons/Feather';
+
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Pressable, Dimensions} from 'react-native';
 // import {ProgressBar, Colors} from 'react-native-paper';
@@ -7,6 +14,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-community/async-storage';
+
 import {
   VictoryBar,
   VictoryChart,
@@ -25,8 +33,21 @@ const Activities = ({
   setUserToken,
   setAccessToken,
 }) => {
+
+  const data = {
+    mon: [{x: 'Mon', y: 2}],
+    tue: [{x: 'Tue', y: 10}],
+    wed: [{x: 'Wed', y: 3}],
+
+    thus: [{x: 'Thus', y: 2}],
+    fri: [{x: 'Fri', y: 1}],
+    sat: [{x: 'Sat', y: 4}],
+    sun: [{x: 'Sun', y: 7}],
+  };
+
   const [bibleTime, setBibleTime] = useState(null);
   const [sermonTime, setSermonTime] = useState(null);
+
   const data1 = [
     {day: 'Mon', time: 1},
     {day: 'Tus', time: 3},
@@ -113,13 +134,14 @@ const Activities = ({
           <Feather
             name="calendar"
             color="#000"
-            size={25}
+            size={40}
             style={{
               alignSelf: 'center',
             }}
           />
         </Pressable>
       </View>
+      <View />
 
       <VictoryChart
         height={height / 4}
@@ -138,6 +160,7 @@ const Activities = ({
           style={{data: {fill: red}}}
         />
       </VictoryChart>
+
 
       {/* ================================================================= */}
 
@@ -249,6 +272,7 @@ const Activities = ({
           </View>
         </View>
       </View>
+
     </Container>
   );
 };
@@ -272,38 +296,33 @@ export default connect(
 
 const styles = StyleSheet.create({
   press: {
-    marginHorizontal: '35%',
+    marginHorizontal: '30%',
     backgroundColor: '#fff',
-    width: 35,
-    height: 35,
+    width: '18%',
+    height: '75%',
     alignContent: 'center',
     justifyContent: 'center',
-    borderRadius: 5,
+    borderRadius: 10,
     elevation: 7,
   },
-  // #8A0303
-  // #1F78B4;
-
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5fcff',
+  },
   card1: {
     paddingLeft: 20,
     paddingRight: 20,
-    height: 56,
-    backgroundColor: 'rgba(224, 232, 243, 0.4);',
+    height: '12%',
+    backgroundColor: '#c5cad2',
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  card2: {
-    paddingLeft: 20,
-    // paddingRight: 20,
-    height: 56,
-    backgroundColor: 'rgba(224, 232, 243, 0.4);',
-    // flexDirection: 'row',
-    // alignItems: 'center',
   },
   headerTxt: {
     fontFamily: 'Nunito-Bold',
     fontSize: 18,
-    marginTop: 15,
+    marginTop: 20,
     marginBottom: 15,
   },
   ViewPad20: {paddingLeft: 20, paddingRight: 20},

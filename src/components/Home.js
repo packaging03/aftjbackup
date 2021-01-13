@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  PermissionsAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {color} from 'react-native-reanimated';
@@ -31,7 +32,9 @@ import Dialog, {
   SlideAnimation,
   ScaleAnimation,
 } from 'react-native-popup-dialog';
-
+import Geolocation from 'react-native-geolocation-service';
+import RNReverseGeocode from '@kiwicom/react-native-reverse-geocode';
+// import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {Dimensions} from 'react-native';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 var {height, width} = Dimensions.get('window');
@@ -43,7 +46,73 @@ export default function Home({navigation}) {
   const aftjIcon = '../assets/aftj_logo.png';
   const [salert, setAlert] = useState(false);
   const [show, setShow] = useState(false);
+  const [attendance, setAttendance] = useState('');
   const [covid, setCovid] = useState(false);
+  const [userCordinate, setUserCordinate] = useState('');
+
+  const fetchNearestPlacesFromGoogle = (lati, longi) => {
+    const latitude = lati; // you can update it with user's latitude & Longitude
+    const longitude = longi;
+    let radMetter = 1 * 1000; // Search withing 1 KM radius
+    let apiKey = 'AIzaSyDcQ3x2xO0zFeh2EKF3Ilguctn8KXyDpmo';
+
+    const url =
+      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+      latitude +
+      ',' +
+      longitude +
+      '&radius=' +
+      radMetter +
+      '&key=' +
+      apiKey;
+
+    //maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1000&type=point_of_interest&keyword=divvy&key=${API_KEY}
+
+    fetch(url)
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        // console.log(res.error_message);
+        // console.log(res.results);
+        var places = []; // This Array WIll contain locations received from google
+        for (let googlePlace of res.results) {
+          var place = {};
+          var lat = googlePlace.geometry.location.lat;
+          var lng = googlePlace.geometry.location.lng;
+          var coordinate = {
+            latitude: lat,
+            longitude: lng,
+          };
+
+          place['placeTypes'] = googlePlace.types;
+          place['coordinate'] = coordinate;
+          place['placeId'] = googlePlace.place_id;
+          place['placeName'] = googlePlace.name;
+
+          places.push(place);
+        }
+
+        console.log(places);
+
+        for (let AFTj = 0; AFTj < places.length; AFTj++) {
+          if (
+            places[AFTj].placeName === 'JCCI Glory Tabernacle' &&
+            places[AFTj].placeTypes[0] === 'church'
+          ) {
+            // console.log(places[AFTj].placeName);
+            alert(places[AFTj].placeName);
+            setAttendance(places[AFTj].placeName);
+            // console.log(places[AFTj].placeTypes[0]);
+          } else {
+            console.log('Not in Church radius');
+          }
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     AsyncStorage.getItem('popup').then(obj => {
@@ -55,6 +124,62 @@ export default function Home({navigation}) {
       }
     });
   }, [1]);
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Access Required',
+            message: 'AFTj needs to Access your location',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //To Check, If Permission was granted
+
+          getOneTimeLocation();
+          console.log('location permission granted');
+        } else {
+          alert('Permission Denied');
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    requestLocationPermission();
+  }, []);
+
+  // request location cord.
+  const getOneTimeLocation = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        if (currentLatitude !== null && currentLatitude !== null) {
+          const dataCord = {
+            longitude: JSON.parse(currentLongitude),
+            latitude: JSON.parse(currentLatitude),
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          };
+          setUserCordinate(dataCord);
+          console.log(dataCord);
+          fetchNearestPlacesFromGoogle(currentLatitude, currentLongitude);
+        }
+        // console.log(cord);
+      },
+      error => {
+        console.log(error);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 30000,
+        maximumAge: 1000,
+      },
+    );
+  };
 
   //function to show auth alert
   showAlert = () => {
@@ -470,7 +595,10 @@ export default function Home({navigation}) {
                 <Text style={styles.textbelow}>2Tim. 2 : 15</Text>
                 <Button3
                   text="     LISTEN     "
-                  onPress={() => navigation.navigate('NoteRoot')}
+
+                  onPress={() => navigation.navigate('PodcastList')}
+
+
                 />
               </View>
             </ImageBackground>
