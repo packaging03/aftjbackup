@@ -83,38 +83,40 @@ const Pod = ({prop}) => {
   }, [current]);
 
   return (
-    <Content>
-      <SafeAreaView style={styles.container}>
-        <SafeAreaView style={{height: 205}}>
-          {/* <Image source={{uri: `${current.artwork}`}} style={s.img} /> */}
-        </SafeAreaView>
-        <View>
-          {/* <Text style={styles.title}>{current.title}</Text>
+    <PlayerContextProvider>
+      <Content>
+        <SafeAreaView style={styles.container}>
+          <SafeAreaView style={{height: 205}}>
+            {/* <Image source={{uri: `${current.artwork}`}} style={s.img} /> */}
+          </SafeAreaView>
+          <View>
+            {/* <Text style={styles.title}>{current.title}</Text>
           <Text style={styles.artist}>{current.artist}</Text> */}
-        </View>
+          </View>
 
-        <SliderComp />
-        <Controller />
-        <View
-          style={{
-            flexDirection: 'row',
-            // justifyContent: 'space-between',
-            position: 'relative',
-            top: 80,
-          }}>
-          <Text style={styles.icon1}>1x</Text>
-          <Icon
-            onPress={() => {
-              navigation.navigate('SummaryPage');
-            }}
-            style={styles.icon2}
-            name="dots-horizontal"
-            size={35}
-            color="#c5cad2"
-          />
-        </View>
-      </SafeAreaView>
-    </Content>
+          <SliderComp />
+          <Controller />
+          <View
+            style={{
+              flexDirection: 'row',
+              // justifyContent: 'space-between',
+              position: 'relative',
+              top: 80,
+            }}>
+            <Text style={styles.icon1}>1x</Text>
+            <Icon
+              onPress={() => {
+                navigation.navigate('SummaryPage');
+              }}
+              style={styles.icon2}
+              name="dots-horizontal"
+              size={35}
+              color="#c5cad2"
+            />
+          </View>
+        </SafeAreaView>
+      </Content>
+    </PlayerContextProvider>
   );
 };
 

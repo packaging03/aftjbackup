@@ -14,6 +14,8 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import Geocoder from 'react-native-geocoding';
 import {color} from 'react-native-reanimated';
 import Swiper from './common/Swiper';
 import Button from '../components/common/PopupButton';
@@ -66,16 +68,12 @@ export default function Home({navigation}) {
       '&key=' +
       apiKey;
 
-    //maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1000&type=point_of_interest&keyword=divvy&key=${API_KEY}
-
     fetch(url)
       .then(res => {
         return res.json();
       })
       .then(res => {
-        // console.log(res.error_message);
-        // console.log(res.results);
-        var places = []; // This Array WIll contain locations received from google
+        var places = [];
         for (let googlePlace of res.results) {
           var place = {};
           var lat = googlePlace.geometry.location.lat;
@@ -100,9 +98,9 @@ export default function Home({navigation}) {
             places[AFTj].placeName === 'JCCI Glory Tabernacle' &&
             places[AFTj].placeTypes[0] === 'church'
           ) {
-            // console.log(places[AFTj].placeName);
-            alert(places[AFTj].placeName);
-            setAttendance(places[AFTj].placeName);
+            console.log(places[AFTj].placeName);
+            // alert(places[AFTj].placeName);
+            // setAttendance(places[AFTj].placeName);
             // console.log(places[AFTj].placeTypes[0]);
           } else {
             console.log('Not in Church radius');
@@ -126,7 +124,7 @@ export default function Home({navigation}) {
   }, [1]);
 
   useEffect(() => {
-    const requestLocationPermission = async () => {
+    (async () => {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -146,9 +144,7 @@ export default function Home({navigation}) {
       } catch (e) {
         console.log(e);
       }
-    };
-
-    requestLocationPermission();
+    })();
   }, []);
 
   // request location cord.
@@ -167,6 +163,12 @@ export default function Home({navigation}) {
           setUserCordinate(dataCord);
           console.log(dataCord);
           fetchNearestPlacesFromGoogle(currentLatitude, currentLongitude);
+          Geocoder.from(currentLatitude, currentLongitude)
+            .then(json => {
+              var addressComponent = json.results[0].address_components[0];
+              console.log(addressComponent);
+            })
+            .catch(error => console.warn(error));
         }
         // console.log(cord);
       },
@@ -180,6 +182,17 @@ export default function Home({navigation}) {
       },
     );
   };
+
+  // const getUserAddress = () => {
+  //   try {
+  //     const searchText = 'JCCI GLORY TABERNACLE';
+  //     RNReverseGeocode.searchForLocations(searchText, region, (err, res) => {
+  //       storeAddress(res[0].address);
+  //     });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   //function to show auth alert
   showAlert = () => {

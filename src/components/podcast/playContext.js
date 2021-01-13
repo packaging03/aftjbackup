@@ -54,6 +54,7 @@ export const PlayerContextProvider = props => {
       return;
     }
     // console.log(e.message);
+    await RNTrackPlayer.reset();
     await RNTrackPlayer.add([track]);
     setCurrentTrack(track);
     await RNTrackPlayer.skip(track.id);

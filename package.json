@@ -54,6 +54,7 @@
     "react-native-email-action": "^1.0.6",
     "react-native-fbsdk": "^2.0.0",
     "react-native-fs": "^2.16.6",
+    "react-native-geocoding": "^0.5.0",
     "react-native-geolocation-service": "^5.1.1",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-html-to-pdf": "^0.8.0",

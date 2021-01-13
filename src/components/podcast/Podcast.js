@@ -35,16 +35,7 @@ const {width, height} = Dimensions.get('window');
 
 export default function Podcast({route}) {
   const scrollX = useRef(new Animated.Value(0)).current;
-  const slider = useRef(null);
-  const isPlayerReady = useRef(false);
-  const index = useRef(0);
 
-  const [songIndex, setSongIndex] = useState(0);
-
-  const isItFromUser = useRef(true);
-  const position = useRef(Animated.divide(scrollX, width)).current;
-
-  const [isReady, setIsReady] = useState(false);
   const [_current, setCurrent] = useState();
   const songs = useRef(null);
   const playerContext = usePlayerContext();
@@ -74,19 +65,22 @@ export default function Podcast({route}) {
   }, []);
 
   useEffect(() => {
-    const {current} = route.params;
+    const current = route.params;
     setCurrent(current);
+
     return () => {};
   }, [_current]);
+  // console.log(JSON.parse(_current.artist));
+  console.log(_current);
+  // console.log(_current.artist);
+  console.log('peter top');
 
   // ==============================================================================
 
   return (
-    <PlayerContextProvider>
-      <Container>
-        <Pod prop={_current} />
-      </Container>
-    </PlayerContextProvider>
+    <Container>
+      <Pod prop={_current} />
+    </Container>
   );
 }
 
