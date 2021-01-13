@@ -93,6 +93,48 @@ const Sermons = ({navigation}) => {
   const [salert, setAlert] = useState(false);
   const [show, setShow] = useState(false);
 
+  const [time, setTime] = useState({s: 0, m: 0, h: 0});
+  const [interv, setInterv] = useState();
+  var updatedMs = 0,
+    updatedS = time.m,
+    updatedM = time.m,
+    updatedH = time.h;
+
+  const run = async () => {
+    setTimeout(run, 10);
+    if (updatedM === 60) {
+      updatedH++;
+      updatedM = 0;
+    }
+    if (updatedS === 60) {
+      updatedM++;
+      updatedS = 0;
+    }
+    if (updatedMs === 100) {
+      updatedS++;
+      updatedMs = 0;
+    }
+    updatedMs++;
+    const j = JSON.stringify({s: updatedS, m: updatedM, h: updatedH});
+    // console.log(j);
+    try {
+      await AsyncStorage.setItem('getSermTime', j);
+    } catch (e) {
+      console.log(e);
+    }
+
+    return setTime({s: updatedS, m: updatedM, h: updatedH});
+  };
+
+  useEffect(() => {
+    run();
+    setInterv(setTimeout(run, 10));
+
+    return () => {
+      clearTimeout(interv);
+    };
+  }, []);
+
   //function to show auth alert
   showAlert = () => {
     //checking if the user session is active before setting the variable

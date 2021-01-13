@@ -141,6 +141,10 @@ export default function BibleContent({navigation, route}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [highlightColor, setHilightColor] = useState('#FF6E04');
   const [value, onChangedText] = useState('');
+  const [verse, setVerse] =useState('');
+  const [details, setDetails] =useState('');
+
+
 
   const boxColors = [
     '#C5CAD2',
@@ -215,6 +219,48 @@ export default function BibleContent({navigation, route}) {
     });
   };
 
+  const addFavourite= async (book, chapter, verse_id,verse)=>{
+    var data = {id:book+chapter+verse_id, title:book+" "+chapter+":"+verse_id, details:verse};
+    var favorites = await AsyncStorage.getItem("_favourites");
+    
+    if (favorites==null){
+      var dataArr =[];
+      dataArr.push(data);
+      await AsyncStorage.setItem("_favourites", JSON.stringify(dataArr));
+      
+    }else{
+      await AsyncStorage.removeItem("_favourites");
+      var favi =JSON.parse(favorites);
+      favi.push(data);
+      await AsyncStorage.setItem("_favourites", JSON.stringify(favi));
+    }
+    
+  }
+
+  const saveComment=async (book, chapter,verse_id,verse,comments)=>{
+    if (value==""){
+
+    }else{
+      var data = {id:book+chapter+verse_id, title:book+" "+chapter+":"+verse_id, details:verse, comment:comments};
+    var comment_s = await AsyncStorage.getItem("_comments");
+    
+    if (comment_s==null){
+      var dataArr =[];
+      dataArr.push(data);
+      await AsyncStorage.setItem("_comments", JSON.stringify(dataArr));
+      setModalVisible(!modalVisible);
+      
+    }else{
+      await AsyncStorage.removeItem("_comments");
+      var commen =JSON.parse(comment_s);
+      commen.push(data);
+      await AsyncStorage.setItem("_comments", JSON.stringify(commen));
+      setModalVisible(!modalVisible);
+    }
+    }
+
+  }
+
   const stopChapterReading = () => {
     Tts.stop();
     setTtsState(false);
@@ -282,7 +328,8 @@ export default function BibleContent({navigation, route}) {
                   marginTop: -10,
                   color: '#000',
                   marginBottom: 20,
-                  fontFamily: 'Nunito-Bold',
+                  fontFamily: 'Nunito-Regular',
+                  fontWeight:'600'
                 }}>
                 Select a color
               </Text>
@@ -309,7 +356,7 @@ export default function BibleContent({navigation, route}) {
       );
     } else if (bibleAction == 'comment') {
       return (
-        <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Comment</Text>
@@ -317,7 +364,7 @@ export default function BibleContent({navigation, route}) {
               <View
                 style={{
                   width: '100%',
-                  height: '30%',
+                  height: '40%',
                   borderTopWidth: 1,
                   borderBottomWidth: 1,
                   borderLeftWidth: 1,
@@ -327,10 +374,10 @@ export default function BibleContent({navigation, route}) {
                 }}>
                 <TextInput
                   keyboardType="default"
+                  autoFocus={true}
                   style={{
                     width: '100%',
                     height: '100%',
-
                     alignSelf: 'flex-start',
                     display: 'flex',
                     flexDirection: 'column',
@@ -342,17 +389,19 @@ export default function BibleContent({navigation, route}) {
               <View
                 style={{
                   alignSelf: 'flex-end',
-                  marginRight: -10,
-                  width: 220,
+                  marginRight: "-10%",
+                  width: "50%",
                   flex: 1,
-                  marginTop: '10%',
+                  marginTop: '7%',
                   display: 'flex',
                 }}>
-                <CButton>Submit</CButton>
+                <CButton
+                  onPress={saveComment(thisbook, thischapter,verse,details,value)}
+                >Submit</CButton>
               </View>
             </View>
           </View>
-        </Modal>
+        
       );
     }
   };
@@ -499,6 +548,11 @@ export default function BibleContent({navigation, route}) {
                                 setRefresh(!refresh);
                                 break;
                               case 1:
+                                addFavourite(bibleData[0].bookName,
+                                  bibleData[0].chapterValue,
+                                  item.verse_id,
+                                  item.verse_details
+                                  )
                                 break;
                               case 2:
                                 item.isSelected
@@ -527,6 +581,8 @@ export default function BibleContent({navigation, route}) {
                                   : alert('Select a verse ');
                                 break;
                               case 4:
+                                setVerse(item.verse_id);
+                                setDetails(item.verse_details);
                                 setBibleActions('comment');
                                 setModalVisible(!modalVisible);
                                 break;
@@ -635,15 +691,18 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-
+height:"80%",
+width:'95%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: '80%',
+    marginLeft:10,
+    marginRight:10
   },
   modalView: {
     // margin: 10,
-    height: '32%',
-    width: '90%',
+    height: 200,
+    width: '100%',
     // backgroundColor:"red",
     backgroundColor: 'white',
     borderRadius: 5,
