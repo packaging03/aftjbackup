@@ -95,6 +95,7 @@ import Addnote from '../Addnote';
 import NoteDetails from '../NoteDetails';
 import Editnote from '../Editnote';
 import Suggestion from '../suggestion/Suggestion';
+import MemoryVerseNew from '../MemoryVerseNew';
 
 const Stack = createStackNavigator();
 const RootStack = ({
@@ -324,6 +325,19 @@ const RootStack = ({
         component={Pastorschedule}
         options={{
           title: "Pastor's Schedules",
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          headerTintColor: '#000',
+        }}
+      />
+
+<Stack.Screen
+        name="MemoryVerseNew"
+        component={MemoryVerseNew}
+        options={{
+          title: "Memory Verse",
           headerStyle: {
             backgroundColor: '#fff',
           },
@@ -1514,32 +1528,6 @@ const RootStack = ({
           },
           headerTintColor: '#000',
           headerShown: true,
-          headerRight: () => (
-            <View style={styles.iconContainer2}>
-              <Icon
-                onPress={() => alert('Sharing Memory Verse...')}
-                size={30}
-                name="share-social-outline"
-              />
-
-              <Icono
-                size={30}
-                style={{marginRight: 20}}
-                name="plus-square-o"
-                onPress={() => navigation.navigate('AddMemoryVerse')}
-              />
-            </View>
-          ),
-
-          // headerLeft: () => (
-          //   <Icon.Button
-          //     name="ios-menu"
-          //     size={25}
-          //     color="#000"
-          //     backgroundColor="#fff"
-          //     onPress={() => navigation.openDrawer()}
-          //   />
-          // ),
         }}
       />
 

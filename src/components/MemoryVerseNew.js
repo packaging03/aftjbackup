@@ -4,14 +4,14 @@ import { ScrollView } from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icono from 'react-native-vector-icons/FontAwesome';
-
-const MemoryVerseNew = ({navigation, accessToken})=>{
+import Icons from 'react-native-vector-icons/AntDesign';
+const MemoryVerseNew = ({navigation, accessToken, user})=>{
 
     const [userData, setUserData] = useState();
     const [backgroundCol, setBackgroundCol] = useState('white');
     const [selectedItem, setSelectedItem] = useState();
     const [shareValue, setShareValue] = useState();
-
+    const [itemsChanged, setItemsChanged] = useState(false);
     React.useLayoutEffect(()=>{
         navigation.setOptions({
             headerRight: () => (
@@ -42,6 +42,7 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
         }, [navigation]);
     })
 
+
     useEffect(()=>{
         if(accessToken==null){
             alert('Please Login to access this page')
@@ -68,6 +69,32 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
         
     })
 
+    const deleteItem=(itemId)=>{
+        if(accessToken==null){
+            alert('You cannot delete this item')
+        }else{
+            fetch('https://church.aftjdigital.com/api/delete/memoryverse/'+itemId, {
+                        method: 'POST',
+                        headers: {
+                          Accept: 'application/json',
+                          'Content-Type': 'application/json',
+                          'Authorization': `Bearer ${accessToken}`
+                      },
+                      body: JSON.stringify({
+                        user_id: JSON.parse(user).id,
+                      }),
+                      })
+                      .then((response) => response.json())
+                      .then((responseJson) =>{
+                          let value = JSON.stringify(responseJson)
+                          console.log(value)
+                          setItemsChanged(!itemsChanged);
+                      })
+                      .catch((error) => {
+                        alert(error)});
+        }
+    }
+
     const shareHandler = (item)=>{
         setSelectedItem(item.id)
         setShareValue(item.title + ' '+ item.body)
@@ -83,8 +110,17 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
                 renderItem={({item}) => (
                     
                     <View style = {{...styles.card, backgroundColor: item.id==selectedItem? 'red' : 'white'}}>
-                        
-                            <Text onPress={()=>shareHandler(item)} style = {{fontWeight: 'bold', fontSize: 15}}>{item.title}</Text>
+                        <View style={styles.deleteandheader}>
+                        <Text onPress={()=>shareHandler(item)} style = {{fontWeight: 'bold', fontSize: 15}}>{item.title}</Text>
+                       {item.id==selectedItem?(
+                           <TouchableOpacity style = {styles.delete}
+                            onPress={()=>deleteItem(item.id)}
+                           >
+                              <Icons size = {20} name='delete' color='#fff' ></Icons>
+                           </TouchableOpacity>
+                       ):null}
+                        </View>
+                            
                             <Text onPress={()=>shareHandler(item)} numberOfLines= {2} style={styles.content}>{item.body}</Text>
                         
                     </View>
@@ -108,6 +144,7 @@ const styles = StyleSheet.create({
     },
 
     content:{
+        flex:1,
         marginTop: 8,
         lineHeight: 18,
     },
@@ -119,6 +156,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    deleteandheader:{
+        flex:1,
+        flexDirection:'row',
+        alignContent:'space-between',
+        width:'100%',
+    },
+    delete:{
+        position:'absolute',
+        left:'90%',
+        marginTop:'2%',
+
+    }
 })
 
 const mapStateToProps = state => ({

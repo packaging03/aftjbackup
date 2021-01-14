@@ -13,7 +13,7 @@ export const dataArray2 = {
   '12': 'Giving',
   '13': 'Help',
   '14': 'Homecell',
-  '15': 'Grade Memory Verse',
+  '15': 'MemoryVerseNew',
   '16': 'NewMember',
   '17': 'Pastorschedule',
   '18': 'PrayerRequest',

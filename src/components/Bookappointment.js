@@ -10,7 +10,7 @@ import {
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-export default function Bookappointment() {
+export default function Bookappointment({navigation}) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [appointmentDate, setAppointmentDate] = useState('');
 
