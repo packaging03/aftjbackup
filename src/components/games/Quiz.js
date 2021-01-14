@@ -9,17 +9,18 @@ const Quiz = () => {
     const {optionStyle, buttonStyle, buttonTextStyle, optionTextStyle, whiteCircle} = styles;
     const [data, setData] = useState([]);
     const [current, setCurrent] = useState(0);
-    const [optionA, setOptionA] = useState(false);
+    const [optionA, setOptionA] = useState(null);
     const [optionB, setOptionB] = useState(false);
     const [optionC, setOptionC] = useState(false);
     const [optionD, setOptionD] = useState(false);
 
 
+
     const resetOptions = () => {
-        setOptionA(false);
-        setOptionB(false);
-        setOptionC(false);
-        setOptionD(false);
+        setOptionA(null);
+        setOptionB(null);
+        setOptionC(null);
+        setOptionD(null);
 
     }
     const getData = async () => {
@@ -120,26 +121,40 @@ const Quiz = () => {
                 paddingRight: 14,
                 paddingTop: 24
             }}>
-
-            
                 
                     <View style={optionStyle}> 
                         <Text 
                         style={optionTextStyle}>A.  {data.length > 0 ? data[current].option1: 'loading'}</Text>
                          {
-                            optionA
-                            ?  <View style={
+                            optionA == null ? (<TouchableWithoutFeedback   
+                                onPress={() => {
+                                if (data[current].answer !== 'option1'){
+                                    setOptionA(false);
+                                }else if (data[current].answer === 'option1'){
+                                    setOptionA(true)
+                                }
+                                }}>
+                            <View style={whiteCircle}/>
+                            </TouchableWithoutFeedback> )
+                                :  optionA == false ?  <View style={
                                 {borderRadius:100, 
                                 width:25, 
                                 alignItems:'center', 
                                 borderWidth:1, 
                                 height: 25, 
                                 borderColor:'#FF0100'}}>
-                                <Icon onPress={() => setOptionA(!optionA)}  name={'md-close'} color='#FF0100' size={20} />
+                                <Icon  name={'md-close'} color='#FF0100' size={20} />
                             </View>
-                            : <TouchableWithoutFeedback   onPress={() => setOptionA(!optionA)}>
-                                <View style={whiteCircle}/>
-                            </TouchableWithoutFeedback> 
+                            : <View style={
+                                {borderRadius:100, 
+                                width:25, 
+                                alignItems:'center', 
+                                borderWidth:1, 
+                                height: 25, 
+                                borderColor:'#219653'}}>
+                                <Icon name={'md-checkmark'} color='#219653' size={20} />
+                            </View>
+                            
                         }
                 </View>
                
@@ -147,19 +162,34 @@ const Quiz = () => {
                         <Text 
                         style={optionTextStyle}>B. {data.length > 0 ? data[current].option2: 'loading'}</Text>
                           {
-                            optionB
-                            ?  <View style={
+                            optionB == null ? (<TouchableWithoutFeedback   
+                                onPress={() => {
+                                if (data[current].answer !== 'option2'){
+                                    setOptionB(false);
+                                }else if (data[current].answer === 'option2'){
+                                    setOptionB(true)
+                                }
+                                }}>
+                            <View style={whiteCircle}/>
+                            </TouchableWithoutFeedback> )
+                                :  optionB == false ?  <View style={
+                                {borderRadius:100, 
+                                width:25, 
+                                alignItems:'center', 
+                                borderWidth:1, 
+                                height: 25, 
+                                borderColor:'#FF0100'}}>
+                                <Icon  name={'md-close'} color='#FF0100' size={20} />
+                            </View>
+                            : <View style={
                                 {borderRadius:100, 
                                 width:25, 
                                 alignItems:'center', 
                                 borderWidth:1, 
                                 height: 25, 
                                 borderColor:'#219653'}}>
-                                <Icon onPress={() => setOptionB(!optionB)} name={'md-checkmark'} color='#219653' size={20} />
+                                <Icon name={'md-checkmark'} color='#219653' size={20} />
                             </View>
-                            :  <TouchableWithoutFeedback   onPress={() => setOptionB(!optionB)}>
-                                    <View style={whiteCircle}/>
-                                </TouchableWithoutFeedback>
                         }
                 </View>
 
@@ -168,19 +198,34 @@ const Quiz = () => {
                         <Text 
                         style={optionTextStyle}>C. {data.length > 0 ? data[current].option3: 'loading'}</Text>
                          {
-                            optionC
-                            ?  <View style={
+                            optionC == null ? (<TouchableWithoutFeedback   
+                                onPress={() => {
+                                if (data[current].answer !== 'option3'){
+                                    setOptionC(false);
+                                }else if (data[current].answer === 'option3'){
+                                    setOptionC(true)
+                                }
+                                }}>
+                            <View style={whiteCircle}/>
+                            </TouchableWithoutFeedback> )
+                                :  optionC == false ?  <View style={
                                 {borderRadius:100, 
                                 width:25, 
                                 alignItems:'center', 
                                 borderWidth:1, 
                                 height: 25, 
                                 borderColor:'#FF0100'}}>
-                                <Icon  onPress={() => setOptionC(!optionC)} name={'md-close'} color='#FF0100' size={20} />
+                                <Icon  name={'md-close'} color='#FF0100' size={20} />
                             </View>
-                            :   <TouchableWithoutFeedback   onPress={() => setOptionC(!optionC)}>
-                                    <View style={whiteCircle}/>
-                              </TouchableWithoutFeedback>
+                            : <View style={
+                                {borderRadius:100, 
+                                width:25, 
+                                alignItems:'center', 
+                                borderWidth:1, 
+                                height: 25, 
+                                borderColor:'#219653'}}>
+                                <Icon name={'md-checkmark'} color='#219653' size={20} />
+                            </View>
                              
                            
                         }
@@ -192,20 +237,34 @@ const Quiz = () => {
                     <Text 
                      style={optionTextStyle}>D. {data.length > 0 ? data[current].option4: 'loading'}</Text>
                         {
-                            optionD
-                            ?  <View style={
+                            optionD == null ? (<TouchableWithoutFeedback   
+                                onPress={() => {
+                                if (data[current].answer !== 'option4'){
+                                    setOptionD(false);
+                                }else if (data[current].answer === 'option4'){
+                                    setOptionD(true)
+                                }
+                                }}>
+                            <View style={whiteCircle}/>
+                            </TouchableWithoutFeedback> )
+                                :  optionD == false ?  <View style={
                                 {borderRadius:100, 
                                 width:25, 
                                 alignItems:'center', 
                                 borderWidth:1, 
                                 height: 25, 
                                 borderColor:'#FF0100'}}>
-                                <Icon  onPress={() => setOptionD(!optionD)} name={'md-close'} color='#FF0100' size={20} />
+                                <Icon  name={'md-close'} color='#FF0100' size={20} />
                             </View>
-                            :  <TouchableWithoutFeedback  onPress={() => setOptionD(!optionD)}>
-                                     <View  style={whiteCircle}/>
-                                </TouchableWithoutFeedback>
-                                   
+                            : <View style={
+                                {borderRadius:100, 
+                                width:25, 
+                                alignItems:'center', 
+                                borderWidth:1, 
+                                height: 25, 
+                                borderColor:'#219653'}}>
+                                <Icon name={'md-checkmark'} color='#219653' size={20} />
+                            </View>
                                
                         }
                </View>
