@@ -72,13 +72,27 @@ function NoteRoot({route, navigation, accessToken}) {
     }
   };
 
-  React.useEffect(() => {
+
+  
+    useEffect(() => {
+        if(accessToken==null){
+            alert('Please Login to access this page')
+        } 
+        else 
+        {
+            getTestimoniesFromApiAsync();
+        }
+    }, []);
+
+  useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       console.log('Refreshed!');
       getTestimoniesFromApiAsync();
     });
     return unsubscribe;
   }, [navigation]);
+
+
 
     const renderItem = ({item}) => (
         <Item name={item.preachers_name}  

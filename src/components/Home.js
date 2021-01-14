@@ -11,8 +11,11 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  PermissionsAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import Geocoder from 'react-native-geocoding';
 import {color} from 'react-native-reanimated';
 import Swiper from './common/Swiper';
 import Button from '../components/common/PopupButton';
@@ -31,7 +34,9 @@ import Dialog, {
   SlideAnimation,
   ScaleAnimation,
 } from 'react-native-popup-dialog';
-
+import Geolocation from 'react-native-geolocation-service';
+import RNReverseGeocode from '@kiwicom/react-native-reverse-geocode';
+// import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {Dimensions} from 'react-native';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 var {height, width} = Dimensions.get('window');
@@ -43,7 +48,69 @@ export default function Home({navigation}) {
   const aftjIcon = '../assets/aftj_logo.png';
   const [salert, setAlert] = useState(false);
   const [show, setShow] = useState(false);
+  const [attendance, setAttendance] = useState('');
   const [covid, setCovid] = useState(false);
+  const [userCordinate, setUserCordinate] = useState('');
+
+  const fetchNearestPlacesFromGoogle = (lati, longi) => {
+    const latitude = lati; // you can update it with user's latitude & Longitude
+    const longitude = longi;
+    let radMetter = 1 * 1000; // Search withing 1 KM radius
+    let apiKey = 'AIzaSyDcQ3x2xO0zFeh2EKF3Ilguctn8KXyDpmo';
+
+    const url =
+      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+      latitude +
+      ',' +
+      longitude +
+      '&radius=' +
+      radMetter +
+      '&key=' +
+      apiKey;
+
+    fetch(url)
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        var places = [];
+        for (let googlePlace of res.results) {
+          var place = {};
+          var lat = googlePlace.geometry.location.lat;
+          var lng = googlePlace.geometry.location.lng;
+          var coordinate = {
+            latitude: lat,
+            longitude: lng,
+          };
+
+          place['placeTypes'] = googlePlace.types;
+          place['coordinate'] = coordinate;
+          place['placeId'] = googlePlace.place_id;
+          place['placeName'] = googlePlace.name;
+
+          places.push(place);
+        }
+
+        console.log(places);
+
+        for (let AFTj = 0; AFTj < places.length; AFTj++) {
+          if (
+            places[AFTj].placeName === 'JCCI Glory Tabernacle' &&
+            places[AFTj].placeTypes[0] === 'church'
+          ) {
+            console.log(places[AFTj].placeName);
+            // alert(places[AFTj].placeName);
+            // setAttendance(places[AFTj].placeName);
+            // console.log(places[AFTj].placeTypes[0]);
+          } else {
+            console.log('Not in Church radius');
+          }
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     AsyncStorage.getItem('popup').then(obj => {
@@ -55,6 +122,77 @@ export default function Home({navigation}) {
       }
     });
   }, [1]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Access Required',
+            message: 'AFTj needs to Access your location',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //To Check, If Permission was granted
+
+          getOneTimeLocation();
+          console.log('location permission granted');
+        } else {
+          alert('Permission Denied');
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
+
+  // request location cord.
+  const getOneTimeLocation = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        if (currentLatitude !== null && currentLatitude !== null) {
+          const dataCord = {
+            longitude: JSON.parse(currentLongitude),
+            latitude: JSON.parse(currentLatitude),
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          };
+          setUserCordinate(dataCord);
+          console.log(dataCord);
+          fetchNearestPlacesFromGoogle(currentLatitude, currentLongitude);
+          Geocoder.from(currentLatitude, currentLongitude)
+            .then(json => {
+              var addressComponent = json.results[0].address_components[0];
+              console.log(addressComponent);
+            })
+            .catch(error => console.warn(error));
+        }
+        // console.log(cord);
+      },
+      error => {
+        console.log(error);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 30000,
+        maximumAge: 1000,
+      },
+    );
+  };
+
+  // const getUserAddress = () => {
+  //   try {
+  //     const searchText = 'JCCI GLORY TABERNACLE';
+  //     RNReverseGeocode.searchForLocations(searchText, region, (err, res) => {
+  //       storeAddress(res[0].address);
+  //     });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   //function to show auth alert
   showAlert = () => {
@@ -470,7 +608,10 @@ export default function Home({navigation}) {
                 <Text style={styles.textbelow}>2Tim. 2 : 15</Text>
                 <Button3
                   text="     LISTEN     "
-                  onPress={() => navigation.navigate('NoteRoot')}
+
+                  onPress={() => navigation.navigate('PodcastList')}
+
+
                 />
               </View>
             </ImageBackground>
