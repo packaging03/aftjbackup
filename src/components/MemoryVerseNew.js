@@ -5,6 +5,21 @@ import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icono from 'react-native-vector-icons/FontAwesome';
 import Icons from 'react-native-vector-icons/AntDesign';
+
+import {BlurView} from '@react-native-community/blur';
+
+import Dialog, {
+    DialogTitle,
+    DialogContent,
+    DialogFooter,
+    DialogButton,
+    SlideAnimation,
+    ScaleAnimation,
+  } from 'react-native-popup-dialog';
+
+import Button from '../components/common/PopupButton';
+import Button2 from '../components/common/PopupButton2';
+
 const MemoryVerseNew = ({navigation, accessToken, user})=>{
 
     const [userData, setUserData] = useState();
@@ -12,6 +27,7 @@ const MemoryVerseNew = ({navigation, accessToken, user})=>{
     const [selectedItem, setSelectedItem] = useState();
     const [shareValue, setShareValue] = useState();
     const [itemsChanged, setItemsChanged] = useState(false);
+    const [show, setShow] = useState(false);
     React.useLayoutEffect(()=>{
         navigation.setOptions({
             headerRight: () => (
@@ -114,7 +130,7 @@ const MemoryVerseNew = ({navigation, accessToken, user})=>{
                         <Text onPress={()=>shareHandler(item)} style = {{fontWeight: 'bold', fontSize: 15}}>{item.title}</Text>
                        {item.id==selectedItem?(
                            <TouchableOpacity style = {styles.delete}
-                            onPress={()=>deleteItem(item.id)}
+                            onPress={()=>setShow(true)}
                            >
                               <Icons size = {20} name='delete' color='#fff' ></Icons>
                            </TouchableOpacity>
@@ -127,6 +143,66 @@ const MemoryVerseNew = ({navigation, accessToken, user})=>{
                 )}   
             />
             
+            <Dialog
+            width={0.9}
+            visible={show}
+            rounded
+            actionsBordered
+            dialogStyle={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}
+            footer={
+              <BlurView
+                showBlur={false}
+                blurType="light"
+                show={show}
+                style={{marginTop: -60}}
+                blurAmount={8}
+                reducedTransparencyFallbackColor="white">
+                <DialogFooter>
+                  <DialogButton
+                    text=""
+                    bordered
+                    textStyle={{color: 'white'}}
+                    key="button-2"
+                  />
+                  <View style={styles.MbuttonContainer}>
+                    <TouchableOpacity
+                    >
+                      <Button2
+                        style={styles.Mbutton}
+                        text="YES"
+                        onPress={() => {
+                          deleteItem(selectedItem);
+                          setShow(false);
+                        }}
+                      />
+                    </TouchableOpacity>
+                    <Button
+                      style={styles.Mbutton}
+                      text="CANCEL"
+                      onPress={() => {
+                        setShow(false);
+                      }}
+                    />
+                  </View>
+
+                  <View>
+                    <Text
+                      style={{
+                        color: 'white',
+                        marginTop: -100,
+                        lineHeight: 22,
+                        fontSize: 12,
+                        alignSelf: 'center',
+                      }}>
+                      Are you sure you want to delete this Memory Verse?
+                    </Text>
+                  </View>
+                </DialogFooter>
+              </BlurView>
+            }>
+            
+          </Dialog>
+
         </View>
     )
 }
@@ -167,7 +243,17 @@ const styles = StyleSheet.create({
         left:'90%',
         marginTop:'2%',
 
-    }
+    },
+    MbuttonContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 20,
+      },
+      Mbutton: {
+        flex: 0.5,
+      },
 })
 
 const mapStateToProps = state => ({
