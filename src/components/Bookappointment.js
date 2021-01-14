@@ -9,10 +9,45 @@ import {
 } from 'react-native';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {connect} from 'react-redux';
 
-export default function Bookappointment({navigation}) {
+function Bookappointment({navigation,user,accessToken}) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [appointmentDate, setAppointmentDate] = useState('');
+  const [name, setName] = useState('');
+  const [maritalStatus, setMarritalStatus] = useState('');
+  const [reason, setReasons] = useState('');
+
+  
+  const bookAppointments=(names, status,apdate,reasons)=>{
+    if(accessToken==null){
+      alert('You cannot book an appointment, Login and try again ');
+  }else{
+      fetch('https://church.aftjdigital.com/api/book-appointment', {
+                  method: 'POST',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({
+                  user_id: JSON.parse(user).id,
+                  marital_status:status,
+                  reason: reasons,
+                  name: names,
+                  date: apdate
+                }),
+                })
+                .then((response) => response.json())
+                .then((responseJson) =>{
+                    let value = JSON.stringify(responseJson)
+                    console.log(value)
+                })
+                .catch((error) => {
+                  alert(error)});
+  }
+  }
+  
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -79,19 +114,29 @@ export default function Bookappointment({navigation}) {
       />
       <Text style={styles.title}>Book an Appointment</Text>
       <Text style={styles.caption}>Name</Text>
-      <TextInput style={styles.input} />
+      <TextInput style={styles.input} 
+       value ={name}
+       onChangeText={text=>setName(text)}
+      />
       <Text style={styles.caption}>Marital Status</Text>
-      <TextInput style={styles.input} />
+      <TextInput style={styles.input} 
+       value={maritalStatus}
+       onChangeText={status=>setMarritalStatus(status)}
+      />
       <Text style={styles.caption}>Departmen (Optional)</Text>
       <TextInput style={styles.input} />
       <Text style={styles.caption}>Reason in Summary</Text>
-      <TextInput multiline={true} style={styles.inputBox} />
+      <TextInput multiline={true} style={styles.inputBox}
+        value={reason}
+        onChangeText={thisReason =>setReasons(thisReason)}
+      />
       <Text style={styles.caption}>Pick a Date</Text>
       <View style={styles.datepicker}>
         <TextInput
           style={styles.inputPicker}
           value={appointmentDate}
           //   editable={false}
+          onChangeText={thisDate=>setAppDate(thisDate)}
           onPress={showDatePicker}
         />
         <View style={styles.pickerBox}>
@@ -107,7 +152,7 @@ export default function Bookappointment({navigation}) {
       </View>
       <TouchableOpacity
         style={styles.book}
-        onPress={() => navigation.navigate('Bookappointment')}>
+        onPress={() => bookAppointments(name, maritalStatus,appointmentDate,reason)}>
         <Text style={{color: '#000', fontSize: 18, alignSelf: 'center'}}>
           Book Appointment
         </Text>
@@ -203,3 +248,10 @@ const styles = StyleSheet.create({
     margin: '1%',
   },
 });
+
+const mapStateToProps = state => ({
+  accessToken: state.user.accessToken,
+  user: state.user.user,
+});
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+export default connect(mapStateToProps)(Bookappointment);  
