@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {ActivityIndicator, View, Text} from 'react-native';
-import CustomButton from '../common/CustomButton';
+import CustomButton from '../components/common/CustomButton';
 import CheckBox from '@react-native-community/checkbox';
 import Toast from 'react-native-simple-toast';
 import { WebView } from 'react-native-webview';
@@ -8,13 +8,13 @@ import { FlatList } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 let item = 0;
-const Resource = ({route, navigation}) => {
+const SchoolCurriculumQuiz = ({route, navigation}) => {
 
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    const ids = route.params.ids;
-    const [currentVideo, setCurrentVideo] = useState(route.params.uri);
-    var videos = route.params.videos;
+    //const ids = route.params.ids;
+    //const [currentVideo, setCurrentVideo] = useState(route.params.uri);
+    //var videos = route.params.videos;
     
     
     var answers = []
@@ -82,7 +82,7 @@ const Resource = ({route, navigation}) => {
 
 
     useEffect(() => {
-        getData(route.params.id);
+        //getData(route.params.id);
       
     }, []);
 
@@ -103,29 +103,28 @@ const Resource = ({route, navigation}) => {
             array.push(answer);
             
         }
-        sendResults(ids[item], array);
-        console.log('array: '+JSON.stringify(array));
-        if (item === (ids.length - 1)){
+       // sendResults(ids[item], array);
+        // console.log('array: '+JSON.stringify(array));
+        // if (item === (ids.length - 1)){
 
             
-            navigation.navigate('NM-Confirmation');
-            return;
+        //     navigation.navigate('NM-Confirmation');
+        //     return;
             
-        }else{
+        // }else{
 
-            console.log('anwer: '+ JSON.stringify(array));
-            console.log(item);
-            item = item + 1;
+        //     console.log('anwer: '+ JSON.stringify(array));
+        //     console.log(item);
+        //     item = item + 1;
             
-            getData(ids[item]);
-            // setQuestionNums();
+        //     getData(ids[item]);
+        //     // setQuestionNums();
 
-            var index = videos.indexOf(currentVideo) +  1;
-            setCurrentVideo(videos[index]);
+        //     var index = videos.indexOf(currentVideo) +  1;
+        //     setCurrentVideo(videos[index]);
 
             
-        }
-
+        // }
         obj = [];
        
         
@@ -331,7 +330,7 @@ const Resource = ({route, navigation}) => {
                      cacheEnabled
                      
                      style={{backgroundColor: 'transparent',  borderWidth:0, marginLeft: -20, marginRight: -20}}
-                     source={{uri: currentVideo}}
+                     //source={{uri: currentVideo}}
                      />
                 <View style={{
                     width:'99.5%', 
@@ -351,32 +350,9 @@ const Resource = ({route, navigation}) => {
                         zIndex:10, 
                         opacity:0.7, 
                         height:50}}/>
-                        <Icon onPress={() => {
-                            if (videos.indexOf(currentVideo) == videos.length - 1){
-                                Toast.show("Last Assessment");
-                                return;
-                            }
-                            var index = videos.indexOf(currentVideo) +  1;
-                            setCurrentVideo(videos[index]);
-                            item = item + 1;
-            
-                            getData(ids[item]); 
-                
-                        }} style={{position:'absolute',  alignSelf:'center', zIndex:10, right:10}}  name="chevron-forward-outline" size={30} color="white"/>
+                        <Icon style={{position:'absolute',  alignSelf:'center', zIndex:10, right:10}}  name="chevron-forward-outline" size={30} color="white"/>
                         <Icon style={{position:'absolute', alignSelf:'center', zIndex:10,  left:'45%'}} name="play" size={30} color="red"/>
-                        <Icon onPress={() => {
-                            if (videos.indexOf(currentVideo) == 0 ){
-                                Toast.show("First Assessment");
-                                return;
-                            }
-                            var index = videos.indexOf(currentVideo) -  1;
-                            setCurrentVideo(videos[index]);
-                            item = item - 1;
-            
-                            getData(ids[item]);
-                            
-                
-                        }} style={{position:'absolute',  alignSelf:'center', zIndex:10, left:10}}   name="chevron-back-outline" size={30} color="white"/>
+                        <Icon  style={{position:'absolute',  alignSelf:'center', zIndex:10, left:10}}   name="chevron-back-outline" size={30} color="white"/>
                     
                 </View>
                 </View>
@@ -453,4 +429,4 @@ const styles = {
          },
 }
 
-export default Resource;
+export default SchoolCurriculumQuiz;

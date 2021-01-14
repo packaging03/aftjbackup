@@ -63,7 +63,7 @@ import BibleChapters from '../BibleChapters';
 import BibleVerse from '../BibleContent';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
-import Grade1MemoryVerse from '../Grade1MemoryVerse';
+import MemoryVerseNew from '../MemoryVerseNew';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
 import Pastorschedule from '../Pastorschedule';
@@ -89,6 +89,10 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import ForumMessages from '../ForumMessages';
 import Activities from '../Profile/Activities';
 import NoteRoot from '../NoteRoot';
+import ChatRoom from '../ChatRoom';
+import Addnote from '../Addnote';
+import NoteDetails from '../NoteDetails';
+import Editnote from '../Editnote';
 
 import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
@@ -1513,7 +1517,7 @@ const RootStack = ({
 
       <Stack.Screen
         name="Grade Memory Verse"
-        component={Grade1MemoryVerse}
+        component={MemoryVerseNew}
         options={{
           title: 'Memory Verses',
           headerStyle: {
