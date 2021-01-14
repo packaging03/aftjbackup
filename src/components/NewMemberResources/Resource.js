@@ -351,9 +351,32 @@ const Resource = ({route, navigation}) => {
                         zIndex:10, 
                         opacity:0.7, 
                         height:50}}/>
-                        <Icon style={{position:'absolute',  alignSelf:'center', zIndex:10, right:10}}  name="chevron-forward-outline" size={30} color="white"/>
+                        <Icon onPress={() => {
+                            if (videos.indexOf(currentVideo) == videos.length - 1){
+                                Toast.show("Last Assessment");
+                                return;
+                            }
+                            var index = videos.indexOf(currentVideo) +  1;
+                            setCurrentVideo(videos[index]);
+                            item = item + 1;
+            
+                            getData(ids[item]); 
+                
+                        }} style={{position:'absolute',  alignSelf:'center', zIndex:10, right:10}}  name="chevron-forward-outline" size={30} color="white"/>
                         <Icon style={{position:'absolute', alignSelf:'center', zIndex:10,  left:'45%'}} name="play" size={30} color="red"/>
-                        <Icon  style={{position:'absolute',  alignSelf:'center', zIndex:10, left:10}}   name="chevron-back-outline" size={30} color="white"/>
+                        <Icon onPress={() => {
+                            if (videos.indexOf(currentVideo) == 0 ){
+                                Toast.show("First Assessment");
+                                return;
+                            }
+                            var index = videos.indexOf(currentVideo) -  1;
+                            setCurrentVideo(videos[index]);
+                            item = item - 1;
+            
+                            getData(ids[item]);
+                            
+                
+                        }} style={{position:'absolute',  alignSelf:'center', zIndex:10, left:10}}   name="chevron-back-outline" size={30} color="white"/>
                     
                 </View>
                 </View>
