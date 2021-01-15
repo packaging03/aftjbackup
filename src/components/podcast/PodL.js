@@ -110,6 +110,7 @@ const PodL = ({navigation}) => {
           pod['artwork'] = element.image;
           pod['url'] = element.file;
           pod['id'] = element.id;
+          pod['summary'] = element.podcast_summary;
           pod['time'] = element.created_at.slice(11, -3);
 
           podc.push(pod);
@@ -144,6 +145,7 @@ const PodL = ({navigation}) => {
                   id: JSON.stringify(item.id),
                   url: item.url,
                   artist: item.artist,
+                  summary: item.summary,
                 })
               }
               thumbnail>
@@ -203,7 +205,7 @@ const PodL = ({navigation}) => {
           style={{}}
           onPress={() =>
             navigation.navigate('podcast', {
-              current: playerContext.currentTrack,
+              artwork: playerContext.currentTrack.artwork,
             })
           }>
           <View

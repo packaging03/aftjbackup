@@ -6,9 +6,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
 // import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  TransitionSpecs,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 import Sermons from '../Sermons';
 import SermonDetails from '../SermonDetails';
+
 import Events from '../Events';
 import EventDetails from '../EventDetails';
 import TestimonyDetails from '../TestimonyDetails';
@@ -1231,7 +1236,9 @@ const HomeStackScreen = ({navigation}) => (
       name="podcast"
       component={Podcast}
       options={{
-        // title: 'Podcast',
+        cardStyleInterpolator:
+          CardStyleInterpolators.forRevealFromBottomAndroid,
+        title: '',
         headerStyle: {
           backgroundColor: '#fff',
           elevation: 0,
@@ -1273,6 +1280,7 @@ const HomeStackScreen = ({navigation}) => (
         title: 'Podcast',
         headerStyle: {
           backgroundColor: '#fff',
+          // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         },
         headerTitleStyle: {
           color: 'black',
