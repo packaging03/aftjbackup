@@ -212,17 +212,19 @@ const PodL = ({navigation}) => {
             style={{
               width,
               height: 50,
-              backgroundColor: '#c5cad2',
-              elevation: 8,
+              backgroundColor: '#fff',
+              elevation: 10,
 
               alignItems: 'center',
               flexDirection: 'row',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
             }}>
-            <Image
-              style={{width: 40, height: 40, marginHorizontal: 30}}
-              source={{uri: playerContext.currentTrack.artwork}}
-            />
+            <View style={{marginLeft: 15}}>
+              <Image
+                style={{width: 40, height: 40}}
+                source={{uri: playerContext.currentTrack.artwork}}
+              />
+            </View>
             <View style={{marginRight: 90}}>
               <Text style={{fontFamily: 'Nunito-Bold'}}>
                 {playerContext.currentTrack.title}
@@ -237,12 +239,14 @@ const PodL = ({navigation}) => {
                 name="pause"
                 size={30}
                 color="#000"
+                style={{marginRight: 15}}
                 onPress={playerContext.pause}
               />
             ) : (
               <Icon
                 name="play-circle-fill"
                 size={30}
+                style={{marginRight: 15}}
                 color="#000000"
                 onPress={() => playerContext.play()}
               />
