@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Keyboard, FlatList, Image, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 
 const ChatRoom = ({accessToken, user, route})=>{
@@ -131,7 +130,8 @@ const ChatRoom = ({accessToken, user, route})=>{
                 <View style={styles.controls}>
                     <View style={styles.input}>
                         <TouchableOpacity>
-                            <Image style= {{width: 22, height: 22, marginLeft:10, marginRight:5}} source={require('../assets/happy.png')}/>
+                            {/* happy.png file does not exist */}
+                            {/* <Image style= {{width: 22, height: 22, marginLeft:10, marginRight:5}} source={require('../assets/happy.png')}/> */}
                         </TouchableOpacity>
                         <TextInput
                             multiline={true}
@@ -150,10 +150,10 @@ const ChatRoom = ({accessToken, user, route})=>{
                     <View style={styles.audio}>
                         {activeSend? 
                         <TouchableOpacity>
-                            <Image style= {{width: 18, height: 18}} source={require('../assets/microphone.png')}/>
+                            {/* <Image style= {{width: 18, height: 18}} source={require('../assets/microphone.png')}/> */}
                         </TouchableOpacity>:
                         <TouchableOpacity onPress={sendButton}>
-                            <Image style= {{width: 15, height: 15}} source={require('../assets/send.png')}/>
+                            {/* <Image style= {{width: 15, height: 15}} source={require('../assets/send.png')}/> */}
                         </TouchableOpacity>}
                     </View>
                 </View>

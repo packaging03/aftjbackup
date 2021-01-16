@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
       },
       Mbutton: {
-        flex: 0.5,
+        flex: 0.5},
     controlsView: {
         flexDirection: 'row',
         width: '100%',
@@ -366,8 +366,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         bottom: 0,
-      },
-})
+      }
+});
 
 const mapStateToProps = state => ({
     accessToken: state.user.accessToken,

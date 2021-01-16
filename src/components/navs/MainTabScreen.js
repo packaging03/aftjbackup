@@ -23,6 +23,7 @@ import payFail from '../giving/Failed';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconn from 'react-native-vector-icons/AntDesign';
+import MemoryVerseNew from  '../MemoryVerseNew';
 import Icono from 'react-native-vector-icons/FontAwesome';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import Help from '../Help';
@@ -245,7 +246,9 @@ const MainTabScreen = ({routeName}) => (
     activeColor="#000"
     inactiveColor="#000"
     labeled={true}
-    tabBarOptions={{showLabel: true, activeTintColor: '#000'}}
+    tabBarOptions={{showLabel: true, 
+      // activeTintColor: '#000'
+    }}
     tabBar={props => <MyTabBar {...props} />}>
     <Tab.Screen
       name="HomeStack"

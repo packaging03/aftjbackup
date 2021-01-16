@@ -94,12 +94,12 @@ import Addnote from '../Addnote';
 import NoteDetails from '../NoteDetails';
 import Editnote from '../Editnote';
 
-import ChatRoom from '../ChatRoom';
-import Addnote from '../Addnote';
-import NoteDetails from '../NoteDetails';
-import Editnote from '../Editnote';
+// import ChatRoom from '../ChatRoom';
+// import Addnote from '../Addnote';
+// import NoteDetails from '../NoteDetails';
+// import Editnote from '../Editnote';
 import Suggestion from '../suggestion/Suggestion';
-import MemoryVerseNew from '../MemoryVerseNew';
+// import MemoryVerseNew from '../MemoryVerseNew';
 
 const Stack = createStackNavigator();
 const RootStack = ({
