@@ -14,6 +14,7 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
 import Geocoder from 'react-native-geocoding';
 import {color} from 'react-native-reanimated';
@@ -41,7 +42,8 @@ import {Dimensions} from 'react-native';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 var {height, width} = Dimensions.get('window');
 
-export default function Home({navigation}) {
+export default function Home() {
+  const navigation = useNavigation();
   const ITEM_SIZE = width * 0.85;
   const img = '../assets/jcci_logo.png';
   const closeIcon = '../assets/closebtn.png';
@@ -608,10 +610,7 @@ export default function Home({navigation}) {
                 <Text style={styles.textbelow}>2Tim. 2 : 15</Text>
                 <Button3
                   text="     LISTEN     "
-
                   onPress={() => navigation.navigate('PodcastList')}
-
-
                 />
               </View>
             </ImageBackground>

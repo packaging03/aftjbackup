@@ -23,7 +23,7 @@ import payFail from '../giving/Failed';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconn from 'react-native-vector-icons/AntDesign';
-import MemoryVerseNew from  '../MemoryVerseNew';
+import MemoryVerseNew from '../MemoryVerseNew';
 import Icono from 'react-native-vector-icons/FontAwesome';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import Help from '../Help';
@@ -63,7 +63,7 @@ import AboutApp from '../AboutApp';
 import Kindergarten from '../Kindergarten';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
-import SchoolCurriculumQuiz from '../SchoolCurriculumQuiz'
+import SchoolCurriculumQuiz from '../SchoolCurriculumQuiz';
 import Grade1MemoryVerse from '../Grade1MemoryVerse';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
@@ -246,7 +246,8 @@ const MainTabScreen = ({routeName}) => (
     activeColor="#000"
     inactiveColor="#000"
     labeled={true}
-    tabBarOptions={{showLabel: true, 
+    tabBarOptions={{
+      showLabel: true,
       // activeTintColor: '#000'
     }}
     tabBar={props => <MyTabBar {...props} />}>
@@ -381,6 +382,17 @@ const HomeStackScreen = ({navigation}) => (
         },
         headerTintColor: '#000',
         headerTitleStyle: styles.headerStyle,
+      }}
+    />
+    <HomeStack.Screen
+      name="PrayerRequest"
+      component={PrayerRequest}
+      options={{
+        title: 'Prayer Request',
+        headerTitleStyle: styles.headerStyle,
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
       }}
     />
     {/* <HomeStack.Screen
@@ -616,7 +628,6 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
-
     <HomeStack.Screen
       name="SchoolCurriculumQuiz"
       component={SchoolCurriculumQuiz}
@@ -630,7 +641,6 @@ const HomeStackScreen = ({navigation}) => (
         headerTintColor: '#000',
       }}
     />
-
 
     <HomeStack.Screen
       name="Chats"
@@ -1591,17 +1601,6 @@ const GivingStackScreen = ({navigation}) => (
       }}
     />
 
-    <GivingStack.Screen
-      name="PrayerRequest"
-      component={PrayerRequest}
-      options={{
-        title: 'Prayer Request',
-        headerTitleStyle: styles.headerStyle,
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-      }}
-    />
     <GivingStack.Screen
       name="paySuccess"
       component={paySuccess}
