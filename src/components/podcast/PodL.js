@@ -213,8 +213,7 @@ const PodL = ({navigation}) => {
               width,
               height: 50,
               backgroundColor: '#fff',
-              elevation: 10,
-
+              elevation: 7,
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'space-between',
