@@ -28,6 +28,7 @@ import payFail from '../giving/Failed';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconn from 'react-native-vector-icons/AntDesign';
+import MemoryVerseNew from  '../MemoryVerseNew';
 import Icono from 'react-native-vector-icons/FontAwesome';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import Help from '../Help';
@@ -67,6 +68,7 @@ import AboutApp from '../AboutApp';
 import Kindergarten from '../Kindergarten';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
+import SchoolCurriculumQuiz from '../SchoolCurriculumQuiz'
 import Grade1MemoryVerse from '../Grade1MemoryVerse';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
@@ -79,7 +81,6 @@ import Chats from '../Chats';
 import Contacts from '../Contacts';
 import Downloads from '../Downloads';
 import Pastorschedule from '../Pastorschedule';
-import MemoryVerseNew from '../MemoryVerseNew';
 import Projects from '../Projects';
 import NMResources from '../NewMemberResources/Resource';
 import Gateways from '../giving/Gateways';
@@ -250,7 +251,9 @@ const MainTabScreen = ({routeName}) => (
     activeColor="#000"
     inactiveColor="#000"
     labeled={true}
-    tabBarOptions={{showLabel: true, activeTintColor: '#000'}}
+    tabBarOptions={{showLabel: true, 
+      // activeTintColor: '#000'
+    }}
     tabBar={props => <MyTabBar {...props} />}>
     <Tab.Screen
       name="HomeStack"
@@ -617,6 +620,22 @@ const HomeStackScreen = ({navigation}) => (
         headerTintColor: '#000',
       }}
     />
+
+
+    <HomeStack.Screen
+      name="SchoolCurriculumQuiz"
+      component={SchoolCurriculumQuiz}
+      options={{
+        title: 'School Curriculum',
+        headerStyle: {
+          backgroundColor: '#fff',
+          headerTintColor: '#000',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
 
     <HomeStack.Screen
       name="Chats"

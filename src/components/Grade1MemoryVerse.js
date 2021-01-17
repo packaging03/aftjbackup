@@ -13,21 +13,51 @@ import { Dimensions } from 'react-native';
 import { TouchableHighlight,TouchableOpacity,Button } from 'react-native';
 import BoxedShare from './BoxedShare';
 import Toast from 'react-native-simple-toast';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Icono from 'react-native-vector-icons/FontAwesome';
 radio_props = [{label: 'Yes', value: 0}, {label: 'No', value: 1}];
 const win = Dimensions.get('window');
 // const [backImg, setBackImg] = useState(
 //     '../assets/back.png',
 //   );
-const Grade1MemoryVerse= () => {
+const Grade1MemoryVerse= ({navigation}) => {
   const [shouldShowShare, setShoulShowShare] = useState(false);
 
   const hideShare = () => {
-    shoulShowShare(false);
+    setShoulShowShare(false);
   };
 
   const showShare = () => {
-    shoulShowShare(true);
+    setShoulShowShare(true);
   };
+
+  {{navigation.setOptions({
+    headerRight: () => (
+        <View style={styles.iconContainer2}>
+          
+          <Icon
+            onPress={() => {
+                if(!shouldShowShare){
+                    showShare();
+                }else{
+                    hideShare();
+                }
+                
+            }}
+            size={30}
+            name="share-social-outline"
+          />
+
+        <Icono
+            size={30}
+            style={{marginRight: 20}}
+            name="plus-square-o"
+            onPress={() => navigation.navigate('AddMemoryVerse')}
+          />
+          
+        </View>
+  ),})
+}}
   return (
 
 <View style={{height:'100%'}}>
@@ -120,7 +150,7 @@ Believe on the Lord Jesus Christ and you shall be saved.
       </View>
     </ScrollView>
 {
-  !shouldShowShare?
+  shouldShowShare?
   <BoxedShare 
         WhatsappMessage="https://github.com/ugurrdemirel/ReactNativeSocialShareButtons" 
         FacebookShareURL="https://github.com/ugurrdemirel/ReactNativeSocialShareButtons" 
@@ -309,7 +339,14 @@ const styles = {
     bottom: 0, 
     flexDirection:'row',
     marginBottom:30//Here is the trick
-  }
+  },
+  iconContainer2: {
+    width: 105,
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+},
 };
 
 export default Grade1MemoryVerse;

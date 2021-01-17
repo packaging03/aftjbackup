@@ -49,6 +49,11 @@ function Addtestimonies({navigation, accessToken, user}) {
               alert('All fields are required');
               setLoading(false);
               return
+            } else if(JSON.parse(user).id == null || JSON.parse(user).id == "" || JSON.parse(user).id == 'undefined' )
+            {
+              alert('Session lost!, kindly login again');
+              setLoading(false);
+              return
             } else {
         
               fetch('https://church.aftjdigital.com/api/add-testimony', {
@@ -56,7 +61,7 @@ function Addtestimonies({navigation, accessToken, user}) {
                           headers: {
                             Accept: 'application/json',
                             'Content-Type': 'application/json'
-                        },
+                            },
                           body: JSON.stringify({
                             
                             user_id: JSON.parse(user).id,
@@ -94,93 +99,8 @@ function Addtestimonies({navigation, accessToken, user}) {
                           setLoading(false);
             }
           }
-      
-          // if (password != '' && newPassword != '' && (newPassword === newcPassword)) {
-          //       setLoading(true);
-          //       const emailCred = auth.EmailAuthProvider.credential(
-          //         auth().currentUser.email,
-          //         password,
-          //       );
-
-          //         auth()
-          //         .currentUser.reauthenticateWithCredential(emailCred)
-          //         .then(() => {
-          //           return auth()
-          //             .currentUser.updatePassword(newcPassword)
-          //             .then(() => {
-          //               fetch('https://church.aftjdigital.com/api/users/' +
-          //                   JSON.parse(user).id,
-          //                 {
-          //                   method: 'PUT',
-          //                   headers: {
-          //                     Accept: 'application/json',
-          //                     'Content-Type': 'application/json',
-          //                   },
-          //                   body: JSON.stringify({
-          //                     password: newPassword,
-          //                     token: accessToken,
-          //                   }),
-          //                 })
-          //                   .then(response => response.json())
-          //                   .then(responseJson => {
-                              
-          //                     try {
-          //                       setCurrentUser(auth().currentUser);
-          //                       setPassword('');
-          //                       setNewPassword('');
-          //                       setCNewPassword('');
-          //                       Toast.show('Your new password has been changed', Toast.LONG);
-          //                       setLoading(false);
-          //                       navigation.navigate("Profile");
-
-          //                     } catch (e) {
-          //                       alert(e);
-          //                       setLoading(false);
-          //                     }
-          //                   })
-          //                   .catch((error) => {
-          //                     Toast.show(error)
-          //                     setLoading(false);
-          //                 })
-          //             })
-          //             .catch(error => {
-          //               setLoading(false);
-          //               Toast.show(error.code)
-          //               switch (error.code) {
-                          
-          //                 case 'auth/wrong-password':
-          //                   return alert('Your Password is incorrect');
-
-          //                 case 'auth/weak-password':
-          //                   return alert(
-          //                     'Your Password should be at least 6 characters',
-          //                   );
-          //               }
-          //             });
-          //         })
-          //         .catch(error => {
-          //           setLoading(false);
-          //           Toast.show(error.code)
-          //           switch (error.code) {
-                      
-          //             case 'auth/wrong-password':
-          //               return alert('Your Password is incorrect');
-
-          //             case 'auth/weak-password':
-          //               return alert(
-          //                 'Your Password should be at least 6 characters',
-          //               );
-          //           }
-          //         });
-          //       } else {
-          //         setLoading(false);
-          //         alert('Ensure all fields are properly filled and your password matched!');
-          //       }
-        
         } 
-      
-      }
-        >
+      }>
           
           SHARE
       </CButton>

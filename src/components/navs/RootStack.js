@@ -63,7 +63,7 @@ import BibleChapters from '../BibleChapters';
 import BibleVerse from '../BibleContent';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
-import Grade1MemoryVerse from '../Grade1MemoryVerse';
+import MemoryVerseNew from '../MemoryVerseNew';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
 import Pastorschedule from '../Pastorschedule';
@@ -90,11 +90,12 @@ import ForumMessages from '../ForumMessages';
 import Activities from '../Profile/Activities';
 import NoteRoot from '../NoteRoot';
 
-import ChatRoom from '../ChatRoom';
-import Addnote from '../Addnote';
-import NoteDetails from '../NoteDetails';
-import Editnote from '../Editnote';
+// import ChatRoom from '../ChatRoom';
+// import Addnote from '../Addnote';
+// import NoteDetails from '../NoteDetails';
+// import Editnote from '../Editnote';
 import Suggestion from '../suggestion/Suggestion';
+// import MemoryVerseNew from '../MemoryVerseNew';
 
 const Stack = createStackNavigator();
 const RootStack = ({
@@ -324,6 +325,19 @@ const RootStack = ({
         component={Pastorschedule}
         options={{
           title: "Pastor's Schedules",
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          headerTintColor: '#000',
+        }}
+      />
+
+<Stack.Screen
+        name="MemoryVerseNew"
+        component={MemoryVerseNew}
+        options={{
+          title: "Memory Verse",
           headerStyle: {
             backgroundColor: '#fff',
           },
@@ -1481,7 +1495,7 @@ const RootStack = ({
 
       <Stack.Screen
         name="Grade Memory Verse"
-        component={Grade1MemoryVerse}
+        component={MemoryVerseNew}
         options={{
           title: 'Memory Verses',
           headerStyle: {
@@ -1496,32 +1510,6 @@ const RootStack = ({
           },
           headerTintColor: '#000',
           headerShown: true,
-          headerRight: () => (
-            <View style={styles.iconContainer2}>
-              <Icon
-                onPress={() => alert('Sharing Memory Verse...')}
-                size={30}
-                name="share-social-outline"
-              />
-
-              <Icono
-                size={30}
-                style={{marginRight: 20}}
-                name="plus-square-o"
-                onPress={() => navigation.navigate('AddMemoryVerse')}
-              />
-            </View>
-          ),
-
-          // headerLeft: () => (
-          //   <Icon.Button
-          //     name="ios-menu"
-          //     size={25}
-          //     color="#000"
-          //     backgroundColor="#fff"
-          //     onPress={() => navigation.openDrawer()}
-          //   />
-          // ),
         }}
       />
 

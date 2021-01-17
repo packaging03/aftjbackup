@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+
 
 import {StyleSheet, Text, View, Pressable, Dimensions} from 'react-native';
-import {connect} from 'react-redux';
-
-// import {ProgressBar, Colors} from 'react-native-paper';
 import {Container} from 'native-base';
+import {connect} from 'react-redux';
 import Feather from 'react-native-vector-icons/Feather';
+
+import React, {useEffect, useState} from 'react';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -28,6 +28,7 @@ const Activities = ({
   setUserToken,
   setAccessToken,
 }) => {
+
   const data = {
     mon: [{x: 'Mon', y: 2}],
     tue: [{x: 'Tue', y: 10}],
@@ -155,6 +156,7 @@ const Activities = ({
         />
       </VictoryChart>
 
+
       {/* ================================================================= */}
 
       <VictoryChart height={height / 4} theme={VictoryTheme.material}>
@@ -265,6 +267,7 @@ const Activities = ({
           </View>
         </View>
       </View>
+
     </Container>
   );
 };
