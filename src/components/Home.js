@@ -171,6 +171,16 @@ export default function Home() {
               console.log(addressComponent);
             })
             .catch(error => console.warn(error));
+
+          // =======================================================================
+          // RNReverseGeocode.searchForLocations(
+          //   searchText,
+          //   region,
+          //   (err, res) => {
+          //     storeAddress(res[0].address);
+          //   },
+          // );
+          // ========================================================================
         }
         // console.log(cord);
       },
