@@ -77,7 +77,8 @@ import Contacts from '../Contacts';
 import Downloads from '../Downloads';
 import Pastorschedule from '../Pastorschedule';
 import Projects from '../Projects';
-import NMResources from '../NewMemberResources/Resource';
+import NMResources from '../NewMemberResources/Resources';
+import NMResource from '../NewMemberResources/Resource';
 import Gateways from '../giving/Gateways';
 import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
@@ -556,6 +557,32 @@ const HomeStackScreen = ({navigation}) => (
             />
           </View>
         ),
+        headerTintColor: '#000',
+        headerShown: true,
+      }}
+    />
+    <HomeStack.Screen
+      name="NMResource"
+      component={NMResource}
+      options={{
+        headerTitleStyle: {
+          color: 'black',
+          fontSize: 20,
+          fontFamily: 'frankruhllibre-regular',
+        },
+        headerTitle: 'New Members Resources',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        // headerRight: () => (
+        //   <View style={{marginRight: 20, opacity: 0.4}}>
+        //     <Iconn
+        //       onPress={() => alert('Sharing resources to..')}
+        //       size={30}
+        //       name="upload"
+        //     />
+        //   </View>
+        // ),
         headerTintColor: '#000',
         headerShown: true,
       }}
