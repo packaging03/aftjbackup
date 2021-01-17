@@ -12,33 +12,14 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {Container, Content} from 'native-base';
-import {} from '../../../service';
 
-import TrackPlayer, {
-  Capability,
-  useTrackPlayerEvents,
-  usePlaybackState,
-  TrackPlayerEvents,
-  STATE_PLAYING,
-  Event,
-} from 'react-native-track-player';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Toast from 'react-native-simple-toast';
-
-// import songs from './data';
-import Controller from './Controller';
-import SliderComp from './SliderComp';
-import {PlayerContextProvider, usePlayerContext} from './playContext';
+import TrackPlayer, {Capability} from 'react-native-track-player';
 import Pod from './Pod';
+import {PlayerContextProvider} from './playContext';
 
 const {width, height} = Dimensions.get('window');
 
 export default function Podcast({route}) {
-  const scrollX = useRef(new Animated.Value(0)).current;
-
-  const [_current, setCurrent] = useState();
-  const songs = useRef(null);
-  const playerContext = usePlayerContext();
   useEffect(() => {
     (async () => {
       await TrackPlayer.updateOptions({
@@ -64,23 +45,25 @@ export default function Podcast({route}) {
     return () => {};
   }, []);
 
-  useEffect(() => {
-    const current = route.params;
-    setCurrent(current);
+  const curr = useRef();
 
-    return () => {};
-  }, [_current]);
-  // console.log(JSON.parse(_current.artist));
-  console.log(_current);
-  // console.log(_current.artist);
-  console.log('peter top');
-
-  // ==============================================================================
+  // useEffect(() => {
+  //   (async () => {
+  //     if (route.params) {
+  //       const {artwork} = await route.params;
+  //       curr.current = artwork;
+  //     }
+  //   })();
+  //   console.log(curr.current);
+  //   return () => {};
+  // }, [2]);
 
   return (
-    <Container>
-      <Pod prop={_current} />
-    </Container>
+    <PlayerContextProvider>
+      <Container>
+        <Pod />
+      </Container>
+    </PlayerContextProvider>
   );
 }
 
