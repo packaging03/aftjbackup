@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-// import Crossword from '@jaredreisinger/react-crossword'; 
+//  
 
 const Games = ({navigation}) => {
 

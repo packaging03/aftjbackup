@@ -25,7 +25,7 @@ const Quiz = () => {
     const [optionC, setOptionC] = useState(null);
     const [optionD, setOptionD] = useState(null);
     const [disable, setDisable] = useState(false);
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
 
    
     const displayModal = show => {
