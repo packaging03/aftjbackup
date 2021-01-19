@@ -196,7 +196,7 @@ const Home = ({
             if (accessToken == null) {
               alert('Please Login');
             } else {
-              fetch('https://examples.com/data.json', {
+              fetch('https://church.aftjdigital.com/api/attendance_status', {
                 method: 'POST',
                 headers: {
                   Accept: 'application/json',
@@ -206,7 +206,7 @@ const Home = ({
                 body: JSON.stringify({
                   status: status.current,
                   user_id: JSON.parse(user).id,
-                  location: addy,
+                  user_location: addy,
                 }),
               });
             }
