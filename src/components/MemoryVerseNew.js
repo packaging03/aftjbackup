@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icono from 'react-native-vector-icons/FontAwesome';
 import Tts from 'react-native-tts';
+import TextToMp3 from 'text-to-mp3'
 
 const MemoryVerseNew = ({navigation, accessToken})=>{
     const [userData, setUserData] = useState();
@@ -12,38 +13,63 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
     const [shareValue, setShareValue] = useState();
     const [TtsState, setTtsState] = useState(false);
 
-    // const pauseme = async () => {
-    //     Tts.stop();
-    //     setTtsState(false);
-    //     setTtsPauseState(true);
-    //     Tts.stop();
-    // }
 
-    // const resumeme = async () => {
-    //     const rstate = TtsPState;
+    const testconvertion = async () => {
+        //var txtomp3 = require("text-to-mp3");
+        
+    }
 
-    //     for (var i = rstate; i < userData.length; i++) 
-    //     {
-    //         setTtsPState(i)
-    //         Tts.speak(userData[i].title);
-    //         Tts.speak(userData[i].body);   
-    //     }
 
-    //     setTtsPauseState(true);
-    //     Tts.resume
-    // }
+    useEffect(() => {
+        TrackPlayer.setupPlayer();
+        TrackPlayer.updateOptions({
+        stopWithApp: true,
+        capabilities: [
+            TrackPlayer.CAPABILITY_PLAY,
+            TrackPlayer.CAPABILITY_PAUSE,
+            TrackPlayer.CAPABILITY_STOP
+        ],
+        compactCapabilities: [
+            TrackPlayer.CAPABILITY_PLAY,
+            TrackPlayer.CAPABILITY_PAUSE
+        ]
+        });
+    }, []);
+
+
+    async function play(audio){
+        // TrackPlayer.setupPlayer().then(async () => {
+    
+            // Adds a track to the queue
+            await TrackPlayer.add({
+                id: 'trackId',
+                url: audio,
+            
+                // url: require('track.mp3'),
+                title: "sermonName",
+                artist: "preacher",
+                // artwork: require('track.png')
+            });
+        
+            // Starts playing it
+            await TrackPlayer.play();
+        
+        // });
+
+    }
 
     const read = async () => {
         setTtsState(true);
-        Tts.setDefaultLanguage('en-US');
-        Tts.setDucking(true);
+        testconvertion();
+        // Tts.setDefaultLanguage('en-US');
+        // Tts.setDucking(true);
 
-        const valuesArray = JSON.parse(userData)
-        for (var i = 0; i < valuesArray.length; i++) 
-        {
-            Tts.speak(valuesArray[i].title);
-            Tts.speak(valuesArray[i].body);
-        }
+        // const valuesArray = JSON.parse(userData)
+        // for (var i = 0; i < valuesArray.length; i++) 
+        // {
+        //     Tts.speak(valuesArray[i].title);
+        //     Tts.speak(valuesArray[i].body);
+        // }
       };
     
       const stopReading = () => {
