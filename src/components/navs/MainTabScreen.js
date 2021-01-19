@@ -39,7 +39,7 @@ import Home from '../Home';
 import About from '../About';
 import Conversion from '../Conversion/Conversion';
 import Departments from '../Department/Departments';
-import Location from '../Location';
+
 import LocationPage from '../Location/LocationPage';
 import ChildrenChurch from '../ChildrenChurch';
 import TestimonyRoot from '../TestimonyRoot';
@@ -1678,19 +1678,6 @@ const AboutStackScreen = ({navigation}) => (
             onPress={() => navigation.openDrawer()}
           />
         ),
-      }}
-    />
-
-    <AboutStack.Screen
-      name="Location"
-      component={Location}
-      options={{
-        title: 'Location',
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
       }}
     />
 
