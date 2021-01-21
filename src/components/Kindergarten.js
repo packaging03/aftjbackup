@@ -1,14 +1,50 @@
 import React from 'react'
 import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-native'
 
-const data=[{id:1, videoSource:'MEgEugzifuw', img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', title:"Bible Story for kids", details:"The story of creation"
-
-},{id: 2, videoSource:'onnEaINBaGg&pbjreload=101',img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', title:"Noah's Ark", details:"Beginner Bible"}, 
-{id:3, videoSource:'f66rTdDAJZ8', img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', title:"Bible Rhymes compilation", details:"Jesus loves me and many more"}, 
-{id: 4, videoSource:'Yn3bb5gbaEA', img: 'https://www.inspirationalchristians.org/images/joseph-dreams-1-1024x640.jpg', title:"The Dreamer", details:"Bible Adventure"},
-{id:5, videoSource:'1EzW-tnZ-Lw', img: 'https://i.ytimg.com/vi/1EzW-tnZ-Lw/maxresdefault.jpg', title:"Jesus and 12 Disciples", details:"Call for disciples"},
+const data=[
+  { 
+    id:1, 
+    videoSource:'4qFg3QD2li8', 
+    img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', 
+    title:"All about Jesus", 
+    details:"All about Jesus"
+  },
+  { 
+    id: 2, 
+    videoSource:'JyVXIvdTF20', //onnEaINBaGg&pbjreload=101
+    img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', 
+    title:"The birth of Jesus Christ", 
+    details:"The birth of Jesus Christ"
+  }, 
+  { 
+    id:3, videoSource:'1EzW-tnZ-Lw', 
+    img: 'https://i.ytimg.com/vi/1EzW-tnZ-Lw/maxresdefault.jpg', 
+    title:"Jesus and the disciples", 
+    details:"Jesus and the disciples",
+  }, 
+  { 
+    id: 4, 
+    videoSource:'pKcTXDgt5iI', 
+    img: 'https://www.inspirationalchristians.org/images/joseph-dreams-1-1024x640.jpg', 
+    title:"Miracles of Jesus", 
+    details:"Miracles of Jesus"
+  },
+  { 
+    id:5, 
+    videoSource:'-Xb9svrR3kY', 
+    img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', 
+    title:"Jesus is anointed", 
+    details:"Jesus is anointed"
+  },
+  { 
+    id:6, 
+    videoSource:'l2KxzMm68GE', 
+    img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', 
+    title:"Stories of Jesus", 
+    details:"Stories of Jesus"
+  },
 ];
-
+//- https://www.youtube.com/watch?v=l2KxzMm68GE
 
 const renderSeparator = () => {
     return (
@@ -36,25 +72,25 @@ export default function Kindergarten({navigation, route}) {
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  margin: 10,
+                  margin: 16,
                 }}>
                 <Image style={styles.img} source ={{uri:item.img}} />
                  
                 <View style={{flexDirection: 'column'}}>
                   <Text
                     style={{
-                      fontSize: 18,
+                      fontSize: 16,
                       marginLeft: 10,
                       color: '#191C52',
-                      fontWeight: 'bold',
+                      fontWeight: 'light',
                     }}>
                     {item.title}
                   </Text>
                   <Text
                     style={{
-                      fontSize: 15,
+                      fontSize: 10,
                       marginLeft: 10,
-                      color: '#191C52',
+                      color: '#a6a6a6',
                     }}>
                     {item.details}
                   </Text>
@@ -72,8 +108,8 @@ export default function Kindergarten({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
-    img:{width:127, 
-        height:100,
+    img:{width:120, 
+        height:75,
         borderRadius: 6,
         shadowOpacity: 1,
         shadowRadius: 2,

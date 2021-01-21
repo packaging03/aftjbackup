@@ -43,8 +43,8 @@ export default function GoogleMap({side}) {
     const RNRgeo = async () => {
       try {
         const region = {
-          latitude: 33.874620973209886,
-          longitude: -84.63951113948264,
+          latitude: 33.87508419258687,
+          longitude: -84.6397579,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         };
@@ -68,7 +68,6 @@ export default function GoogleMap({side}) {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem('address', jsonValue);
     } catch (e) {
-      // saving error
       console.log(e.message);
     }
   };
@@ -79,18 +78,12 @@ export default function GoogleMap({side}) {
         const currentLongitude = JSON.stringify(position.coords.longitude);
         const currentLatitude = JSON.stringify(position.coords.latitude);
         const dataCord = {
-          // longitude: JSON.parse(currentLongitude),
-          // latitude: JSON.parse(currentLatitude),
-          // longitudeDelta: 0.045,
-          // latitudeDelta: 0.045,
-
           latitude: 33.874620973209886,
           longitude: -84.63951113948264,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         };
         setCord(dataCord);
-        // console.log(cord);
       },
       error => {
         console.log(error.message);
