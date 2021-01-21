@@ -200,11 +200,11 @@ const Quiz = () => {
                 source={require('../../assets/dark-blue.png')} />
 
             <View style={{
-                top:40,
+                top:30,
                 borderRadius:14,
                 position: 'absolute',
                 width: '90%',
-                height: 140,
+                height: '22%',
                 backgroundColor:'white',
                 alignSelf:'center',
                 alignItems:'center'
@@ -233,19 +233,19 @@ const Quiz = () => {
 
             <View style={{
                 
-                bottom:40,
-                borderRadius:14,
+                bottom:30,
+                borderRadius: 14,
                 position: 'absolute',
                 display:'flex',
                 alignItems:'center',
                 width: '90%',
-                height: "63%",
+                height: "60%",
                 alignSelf:'center',
                 backgroundColor:'white',
                 justifyContent:'space-evenly',
                 paddingLeft: 14,
                 paddingRight: 14,
-                paddingTop: 24
+                paddingTop: 16
             }}>
                 
                     <View style={optionStyle}> 
@@ -441,15 +441,16 @@ const styles = {
         backgroundColor:'#E0E8F3',
         borderRadius: 16,
         width:'92%',
+        height:40,
         padding: 10,
         display:'flex',
         alignSelf:'center',
         flexDirection:'row',
-        justifyContent: 'space-between'
-        // marginBottom: 24
+        justifyContent: 'space-between',
+        marginBottom: 15
     },
     optionTextStyle:{
-        fontSize:16,
+        fontSize:15,
         fontWeight: '300',
         fontFamily: 'Nunito-SemiBold',
         letterSpacing: 0.5
@@ -457,7 +458,7 @@ const styles = {
     buttonStyle: {
         backgroundColor:'#C5CAD2',
         borderRadius: 16,
-        height:48, 
+        height:43, 
         width:'100%',
         display:'flex',
         alignItems:'center',

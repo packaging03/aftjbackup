@@ -11,7 +11,7 @@ const Games = ({navigation}) => {
             {backgroundColor:'#fff', 
             display:'flex', 
             flexDirection:'column', 
-            paddingTop:20,
+            paddingTop:10,
             flex:1}}>
 
             <TouchableWithoutFeedback onPress={() => navigation.navigate("Quiz")}>
