@@ -164,7 +164,7 @@ const Crosswords = (props) => {
                 ]}
                 />
             </PanGestureHandler> */}
-
+{/* 
             <FlatList
         
             style={{height:'100%'}}
@@ -174,8 +174,8 @@ const Crosswords = (props) => {
             <SwipeableRow item={item} index={index} />
             )}
             keyExtractor={(item, index) => `message ${index}`}
-        />
-            {/* <Text style={
+        /> */}
+            <Text style={
                 {fontSize:20, 
                 fontFamily:'Nunito', 
                 lineHeight:22, 
@@ -198,7 +198,7 @@ const Crosswords = (props) => {
                 alignSelf:'center',
                 fontSize:14,
                 marginBottom:16,
-                letterSpacing:0.5}}>the game</Text> */}
+                letterSpacing:0.5}}>the game</Text>
             <View style={styles.accross}>
                 
                 {
