@@ -616,7 +616,7 @@ const HomeStackScreen = ({navigation}) => (
       name="ChatRoom"
       component={ChatRoom}
       options={{
-        title: 'Chat Page',
+        title: '',
         headerStyle: {
           backgroundColor: '#fff',
         },
@@ -624,6 +624,7 @@ const HomeStackScreen = ({navigation}) => (
         headerTitleStyle: styles.headerStyle,
       }}
     />
+
 
     <HomeStack.Screen
       name="Give whole heartedly"

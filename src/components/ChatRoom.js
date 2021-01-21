@@ -1,14 +1,26 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Keyboard, FlatList, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Keyboard, FlatList, Image, TouchableOpacity, BackHandler} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
+import Icono from 'react-native-vector-icons/FontAwesome';
 
-const ChatRoom = ({accessToken, user, route})=>{
+const ChatRoom = ({accessToken, user, route, navigation})=>{
 
     const [activeSend, setActiveSend] = useState(true);
     const [messages, setMessages] = useState();
     const [image, setImage] = useState(route.params.image);
     const [chatMessages, setChatMessage] = useState('');
+
+    var firebaseChats = require("firebase");
+
+    const firebaseChatsConfig = {
+    databaseURL: 'https://aftj-chats-default-rtdb.firebaseio.com/',
+    projectId: 'aftj-chats'
+    };
+
+    if(!firebaseChats.apps.length){
+        firebaseChats.initializeApp(firebaseChatsConfig);
+    }
 
     useEffect(()=>{
         const interval = setInterval(()=>{
@@ -39,6 +51,38 @@ const ChatRoom = ({accessToken, user, route})=>{
         }, 3000);
         return ()=> clearInterval(interval);
     }, [])
+
+    React.useLayoutEffect(()=>{
+        navigation.setOptions({
+            headerLeft: () => (
+                <View style={styles.iconContainer3}>
+                   <TouchableOpacity onPress={()=>navigation.navigate('Chats')}>
+                        <Image style= {{width: 23, height: 23}} source={require('../assets/backandroid.png')}/>    
+                  </TouchableOpacity>
+                  <View style={styles.headerImage}>
+                        <Image style= {{flex: 1, width: '100%', height: '100%'}} source={{uri: route.params.image}} />
+                  </View>
+                  <View style={{marginLeft:10 }}>
+                      <Text style={{fontSize:15}}>{route.params.name}</Text>
+                      <Text style={{fontSize:10}}>Typing...</Text>
+                  </View>
+                </View>
+            ),
+            headerRight: () => (
+                <View style={styles.iconContainer2}>
+                  <TouchableOpacity>
+                    <Image style= {{width: 23, height: 23}} source={require('../assets/video.png')}/>    
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Image style= {{width: 18, height: 18}} source={require('../assets/call.png')}/>    
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Image style= {{width: 18, height: 18}} source={require('../assets/menu.png')}/>    
+                  </TouchableOpacity>
+                </View>
+            ),
+        }, [navigation]);
+    })
 
     const sendButton = ()=>{
         let today = new Date();
@@ -113,29 +157,25 @@ const ChatRoom = ({accessToken, user, route})=>{
         )
     }
 
-    return(
-        <View style={styles.container}>
-            <View style={styles.chatFlow}>
-                <FlatList
-                    data={messages? JSON.parse(messages):()=>{}}
-                    keyExtractor={(item, index) => item.user_id}
-                    renderItem={({item}) => (
-                        item.agent_id==JSON.parse(user).id?
-                        <ChatCardSender message={item.message} time={item.currentime.substr(10)}/>:
-                        <ChatCardReciever message={item.message} time={item.currentime.substr(10)}/> 
-                        
-                    )}   
-                />
-            </View>
-            <KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-167}>
-                <View style={styles.controls}>
+    const connectFirebase = ()=>{
+        firebaseChats.database().ref('User/').set({'email':'farukumar41@gmail.com', 'First Name':'Umar', 'Last Name':'Aminu'}).then((data)=>{
+            console.log(data)
+        }).catch((error)=>{
+            console.log(error)
+        })
+    }
+
+    const ChatBoxActive = ()=> {
+        return(
+            <View style={styles.controls}>
                     <View style={styles.input}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={connectFirebase}>
                             <Image style= {{width: 22, height: 22, marginLeft:10, marginRight:5}} source={require('../assets/happy.png')}/>
                         </TouchableOpacity>
                         <TextInput
                             multiline={true}
                             style={{flex:1}}
+                            autoFocus={true}
                             onFocus={()=>{setActiveSend(false)}}
                             onChangeText={text=>setChatMessage(text)}
                             value={chatMessages}
@@ -155,8 +195,49 @@ const ChatRoom = ({accessToken, user, route})=>{
                         <TouchableOpacity onPress={sendButton}>
                             <Image style= {{width: 15, height: 15}} source={require('../assets/send.png')}/>
                         </TouchableOpacity>}
+                    </View>        
+                </View>
+        )
+    }
+
+    const ChatBoxInactive = ()=>{
+        return(
+            <View style={styles.controls}>
+                    <View style={styles.input2}>
+                        <View style={{width:38, height:38, borderRadius:38, backgroundColor:'black', marginLeft:5, marginRight:5, justifyContent:'center', alignItems:'center'}}>
+                            <Image style= {{width: 18, height: 18}} source={require('../assets/main.png')}/>
+                        </View>
+                        <TextInput
+                            multiline={true}
+                            placeholder={'Type a message here'}
+                            style={{flex:1}}
+                            onFocus={()=>{setActiveSend(false)}}
+                            onChangeText={()=>{}}
+                        />
+                        <TouchableOpacity>
+                            <Image style= {{width: 16, height: 25, marginRight:20}} source={require('../assets/sharp.png')}/>
+                        </TouchableOpacity>
                     </View>
                 </View>
+        )
+    }
+
+    return(
+        <View style={styles.container}>
+            <View style={styles.chatFlow}>
+                <FlatList
+                    data={messages? JSON.parse(messages):()=>{}}
+                    keyExtractor={(item, index) => item.user_id}
+                    renderItem={({item}) => (
+                        item.agent_id==JSON.parse(user).id?
+                        <ChatCardSender message={item.message} time={item.currentime.substr(10)}/>:
+                        <ChatCardReciever message={item.message} time={item.currentime.substr(10)}/> 
+                        
+                    )}   
+                />
+            </View>
+            <KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-167}>
+                {activeSend? <ChatBoxInactive/>:<ChatBoxActive/>}
             </KeyboardAvoidingView>
         </View>
     )
@@ -166,6 +247,17 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         backgroundColor: '#fff',
+    },
+
+    headerImage:{
+        width: 45, 
+        height: 45, 
+        borderRadius: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow:'hidden',
+        marginLeft: 15,
+        backgroundColor:'#ccc'
     },
 
     chatFlow:{
@@ -184,6 +276,25 @@ const styles = StyleSheet.create({
         marginBottom:10
         
     }, 
+
+    iconContainer2: {
+        width: 105,
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginRight:10
+    },
+
+    iconContainer3: {
+        width: 105,
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginLeft:10
+    },
+
     input:{
         width: '83%',
         height: '100%',
@@ -193,6 +304,17 @@ const styles = StyleSheet.create({
         overflow:'hidden',
         flexDirection:'row',
         alignItems:'center'
+    },
+
+    input2:{
+        width: '98%',
+        height: '100%',
+        borderRadius: 30,
+        backgroundColor:'#fff',
+        elevation: 4,
+        overflow:'hidden',
+        flexDirection:'row',
+        alignItems:'center',
     },
 
     audio:{
