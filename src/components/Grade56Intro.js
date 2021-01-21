@@ -45,7 +45,7 @@ const renderSeparator = () => {
     );
   };
 
-export default function Grade12Intro({navigation, route}) {
+export default function Grade56Intro({navigation, route}) {
     const {option} = route.params;
     {{navigation.setOptions({title:option})}}
     return (
@@ -57,7 +57,7 @@ export default function Grade12Intro({navigation, route}) {
             
             (!item.showtopic) ? 
             <TouchableOpacity 
-            onPress={()=> navigation.navigate(item.link, {option: 'School Curriculum'})}>
+            onPress={()=> navigation.navigate(item.link)}>
             <View
                 style={{
                   flexDirection: 'row',

@@ -43,7 +43,7 @@ const ChildrenChurch = ({navigation}) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.item} onPress={()=>navigation.navigate('Grade1', {title: 'Grade 1 - 2'})}>
+          style={styles.item} onPress={()=>navigation.navigate('Grade12Intro', {option: 'Grade 1 - 2'})}>
           <View>
             <ImageBackground
               style={styles.img}
@@ -55,7 +55,7 @@ const ChildrenChurch = ({navigation}) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.item} onPress={()=>navigation.navigate('Grade1', {title: 'Grade 3 - 4'})}
+          style={styles.item} onPress={()=>navigation.navigate('Grade34Intro', {option: 'Grade 3 - 4'})}
           >
           <View>
             <ImageBackground
@@ -69,7 +69,7 @@ const ChildrenChurch = ({navigation}) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.item} onPress={()=>navigation.navigate('Grade1', {title: 'Grade 5 - 6'})}
+          style={styles.item} onPress={()=>navigation.navigate('Grade56Intro', {option: 'Grade 5 - 6'})}
           >
           <View>
             <ImageBackground

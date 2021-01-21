@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icono from 'react-native-vector-icons/FontAwesome';
 import Tts from 'react-native-tts';
-import TextToMp3 from 'text-to-mp3'
+//  import TextToMp3 from 'text-to-mp3'
+import TrackPlayer from 'react-native-track-player';
 
 const MemoryVerseNew = ({navigation, accessToken})=>{
     const [userData, setUserData] = useState();
@@ -16,25 +17,35 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
 
     const testconvertion = async () => {
         //var txtomp3 = require("text-to-mp3");
+
+        // const mp3 = TextToMp3.saveMP3("but none is installed. You must install peer dependencies yourself", "FileName.mp3", function(err, absoluteFilePath){
+        //     if(err){
+        //       console.log(err);
+        //       return;
+        //     }
+        //     console.log("File saved :", absoluteFilePath); //"File saved : /home/enrico/WebstormProjects/textToMp3/FileName.mp3"
+        //   });
+
+
         
     }
 
 
-    useEffect(() => {
-        TrackPlayer.setupPlayer();
-        TrackPlayer.updateOptions({
-        stopWithApp: true,
-        capabilities: [
-            TrackPlayer.CAPABILITY_PLAY,
-            TrackPlayer.CAPABILITY_PAUSE,
-            TrackPlayer.CAPABILITY_STOP
-        ],
-        compactCapabilities: [
-            TrackPlayer.CAPABILITY_PLAY,
-            TrackPlayer.CAPABILITY_PAUSE
-        ]
-        });
-    }, []);
+    // useEffect(() => {
+    //     TrackPlayer.setupPlayer();
+    //     TrackPlayer.updateOptions({
+    //     stopWithApp: true,
+    //     capabilities: [
+    //         TrackPlayer.CAPABILITY_PLAY,
+    //         TrackPlayer.CAPABILITY_PAUSE,
+    //         TrackPlayer.CAPABILITY_STOP
+    //     ],
+    //     compactCapabilities: [
+    //         TrackPlayer.CAPABILITY_PLAY,
+    //         TrackPlayer.CAPABILITY_PAUSE
+    //     ]
+    //     });
+    // }, []);
 
 
     async function play(audio){
@@ -60,16 +71,16 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
 
     const read = async () => {
         setTtsState(true);
-        testconvertion();
-        // Tts.setDefaultLanguage('en-US');
-        // Tts.setDucking(true);
+        //testconvertion();
+        Tts.setDefaultLanguage('en-US');
+        Tts.setDucking(true);
 
-        // const valuesArray = JSON.parse(userData)
-        // for (var i = 0; i < valuesArray.length; i++) 
-        // {
-        //     Tts.speak(valuesArray[i].title);
-        //     Tts.speak(valuesArray[i].body);
-        // }
+        const valuesArray = JSON.parse(userData)
+        for (var i = 0; i < valuesArray.length; i++) 
+        {
+            Tts.speak(valuesArray[i].title);
+            Tts.speak(valuesArray[i].body);
+        }
       };
     
       const stopReading = () => {
@@ -93,7 +104,6 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
                     size={30}
                     name="share-social-outline"
                   />
-      
                 <Icono
                     size={30}
                     style={{marginRight: 20}}
@@ -110,6 +120,9 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
         if(accessToken==null){
             alert('Please Login to access this page')
         }else{
+
+            
+
             fetch('https://church.aftjdigital.com/api/all-memoryverses', {
                         method: 'GET',
                         headers: {

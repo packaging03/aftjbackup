@@ -18,7 +18,7 @@ const data=[
     img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', 
     title:"God Loves Me", 
     details:"Memory Verses",
-    link: "MemoryVerseNew",
+    link: "Grade Memory Verse",
     showtopic: false,
   },
   { 
@@ -54,8 +54,8 @@ export default function Grade17Intro({navigation, route}) {
           data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-
-            (!item.showtopic)? 
+            
+            (!item.showtopic) ? 
             <TouchableOpacity 
             onPress={()=> navigation.navigate(item.link, {option: 'School Curriculum'})}>
             <View
@@ -86,17 +86,11 @@ export default function Grade17Intro({navigation, route}) {
                     {item.details}
                   </Text>
                 </View>
-
-               
               </View>
               </TouchableOpacity>
-            
             : 
-            
             <TouchableOpacity 
             onPress={()=> navigation.navigate(item.link, {option: 'School Curriculum'})}> 
-
-                
                   <Text
                     style={{
                       fontSize: 20,
