@@ -1,10 +1,4 @@
 
-
-import {StyleSheet, Text, View, Pressable, Dimensions} from 'react-native';
-import {Container} from 'native-base';
-import {connect} from 'react-redux';
-import Feather from 'react-native-vector-icons/Feather';
-
 import React, {useEffect, useState} from 'react';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';

@@ -45,7 +45,7 @@ const renderSeparator = () => {
     );
   };
 
-export default function Grade17Intro({navigation, route}) {
+export default function Grade12Intro({navigation, route}) {
     const {option} = route.params;
     {{navigation.setOptions({title:option})}}
     return (

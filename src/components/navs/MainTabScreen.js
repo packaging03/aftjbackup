@@ -64,11 +64,20 @@ import TodaysReading from '../DaysReading';
 import BibleChapters from '../BibleChapters';
 import BibleVerse from '../BibleContent';
 import PreSchool from '../PreSchool';
+import PreSchoolIntro from '../PreSchoolIntro';
+import ToddlerIntro from '../ToddlerIntro';
+import Toddler from '../Toddler';
+import Grade17Intro from '../Grade17Intro';
 import AboutApp from '../AboutApp';
 import Kindergarten from '../Kindergarten';
+import KindergartenIntro from '../KindergartenIntro';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
+import Grade12Intro from '../Grade12Intro';
+import Grade34Intro from '../Grade34Intro';
+import Grade56Intro from '../Grade56Intro';
 import Grade1 from '../Grade1-2';
-import SchoolCurriculumQuiz from '../SchoolCurriculumQuiz';
+import SchoolCurriculumQuiz from '../SchoolCurriculumQuiz'
+import MemoryVerseNew from '../MemoryVerseNew'
 import Grade1MemoryVerse from '../Grade1MemoryVerse';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
@@ -1219,6 +1228,116 @@ const HomeStackScreen = ({navigation}) => (
         headerTintColor: '#000',
       }}
     />
+
+  <HomeStack.Screen
+      name="KindergartenIntro"
+      component={KindergartenIntro}
+      options={{
+        title: 'Kindergarten',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    <HomeStack.Screen
+      name="PreSchoolIntro"
+      component={PreSchoolIntro}
+      options={{
+        title: 'PreSchool',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Grade12Intro"
+      component={Grade12Intro}
+      options={{
+        title: 'Grade 1-2',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Grade34Intro"
+      component={Grade34Intro}
+      options={{
+        title: 'Grade 3-4',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+
+    <HomeStack.Screen
+      name="Grade56Intro"
+      component={Grade56Intro}
+      options={{
+        title: 'Grade 5-6',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+
+
+    
+
+    <HomeStack.Screen
+      name="ToddlerIntro"
+      component={ToddlerIntro}
+      options={{
+        title: 'Toddler',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+   <HomeStack.Screen
+      name="Toddler"
+      component={Toddler}
+      options={{
+        title: 'Toddler',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Grade17Intro"
+      component={Grade17Intro}
+      options={{
+        title: 'Grade 1-7',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
 
     <HomeStack.Screen
       name="Preschoolplayer"

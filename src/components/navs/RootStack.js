@@ -89,11 +89,10 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import ForumMessages from '../ForumMessages';
 import Activities from '../Profile/Activities';
 import NoteRoot from '../NoteRoot';
-
-// import ChatRoom from '../ChatRoom';
-// import Addnote from '../Addnote';
-// import NoteDetails from '../NoteDetails';
-// import Editnote from '../Editnote';
+import ChatRoom from '../ChatRoom';
+import NoteDetails from '../NoteDetails';
+import Addnote from '../Addnote';
+import Editnote from '../Editnote';
 import Suggestion from '../suggestion/Suggestion';
 // import MemoryVerseNew from '../MemoryVerseNew';
 

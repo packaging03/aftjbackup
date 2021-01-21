@@ -29,45 +29,67 @@ const MemoryVerseNew = ({navigation, accessToken, user})=>{
     const [itemsChanged, setItemsChanged] = useState(false);
     const [show, setShow] = useState(false);
     const [TtsState, setTtsState] = useState(false);
-
-    // const pauseme = async () => {
-    //     Tts.stop();
-    //     setTtsState(false);
-    //     setTtsPauseState(true);
-    //     Tts.stop();
-    // }
-
-    // const resumeme = async () => {
-    //     const rstate = TtsPState;
-
-    //     for (var i = rstate; i < userData.length; i++) 
-    //     {
-    //         setTtsPState(i)
-    //         Tts.speak(userData[i].title);
-    //         Tts.speak(userData[i].body);   
-    //     }
-
-    //     setTtsPauseState(true);
-    //     Tts.resume
-    // }
-
+    const [TtsresumeState, setTtsResumeState] = useState(true);
+    const [sss, setSss] = useState('');
+    const [count, setCount] = useState(0);
+    
     const read = async () => {
         setTtsState(true);
+        const valuesArray = JSON.parse(userData)
+        var fullstring = "";
+        var ddd = [""];
+        var counter = 0;
         Tts.setDefaultLanguage('en-US');
+        Tts.addEventListener('tts-start', event => {
+            console.log('start', event)
+        });
+        Tts.addEventListener('tts-finish', event => {
+            counter = counter + 1
+            setCount(counter)
+            console.log('finish', count)
+        });
+        Tts.addEventListener('tts-cancel', event => {
+            console.log('cancel', event)
+        });
         Tts.setDucking(true);
 
-        const valuesArray = JSON.parse(userData)
+        
         for (var i = 0; i < valuesArray.length; i++) 
         {
-            Tts.speak(valuesArray[i].title);
-            Tts.speak(valuesArray[i].body);
+            fullstring += valuesArray[i].title + " " + valuesArray[i].body + "."
+        }
+        ddd = fullstring.split(".")
+        setSss(ddd)
+
+        for(var j=0; j < ddd.length; j++)
+        {
+            Tts.speak(ddd[j])
         }
       };
     
       const stopReading = () => {
         Tts.stop();
         setTtsState(false);
+        setTtsResumeState(true);
+        Tts.removeAllListeners('tts-start');
+        Tts.removeAllListeners('tts-finish');
+        Tts.removeAllListeners('tts-cancel');
       };
+
+      const pauseReading = () => {
+            setTtsResumeState(false);
+            Tts.stop();
+      }
+
+      const resumeReading = () => {
+        setTtsResumeState(true);
+        for(var j=count; j < sss.length; j++)
+        {
+            Tts.speak(sss[j])
+        }
+        
+    }
+
     React.useLayoutEffect(()=>{
         navigation.setOptions({
             headerRight: () => (
@@ -84,7 +106,6 @@ const MemoryVerseNew = ({navigation, accessToken, user})=>{
                     size={30}
                     name="share-social-outline"
                   />
-      
                 <Icono
                     size={30}
                     style={{marginRight: 20}}
@@ -114,7 +135,6 @@ const MemoryVerseNew = ({navigation, accessToken, user})=>{
                       .then((response) => response.json())
                       .then((responseJson) =>{
                           let value = JSON.stringify(responseJson)
-                          console.log(responseJson[0].title)
                           setUserData(value)
                       })
                       .catch((error) => {
@@ -188,26 +208,59 @@ const MemoryVerseNew = ({navigation, accessToken, user})=>{
                         justifyContent: 'space-around',
                         width: '100%',
                     }}>
-                        
-                        {/* <TouchableOpacity
-                            onPress={() => pauseme()}
-                            style={{alignSelf: 'center'}}>
-                                <Image
-                                    onPress={() => pauseme()}
-                                    style={{width: 50, height: 50, marginLeft: -15, marginBottom: 16, color: '#000'}}
-                                    source={require('../assets/pausebtn.png')}
-                                />
-                        </TouchableOpacity> */}
 
-                        <TouchableOpacity
-                            onPress={() => stopReading()}
-                            style={{alignSelf: 'center'}}>
-                                <Image
-                                    onPress={() => stopReading()}
-                                    style={{width: 50, height: 50, marginRight: 1, marginBottom: 16}}
-                                    source={require('../assets/stopbtn.png')}
-                                />
-                        </TouchableOpacity>
+                            {TtsresumeState ? (
+                                
+                                    <>
+
+                                        <TouchableOpacity
+                                            onPress={() => pauseReading()}
+                                            style={{alignSelf: 'center'}}>
+                                                <Image
+                                                    onPress={() => pauseReading()}
+                                                    style={{width: 70, height: 70, marginLeft: -15, marginBottom: 16, color: '#000'}}
+                                                    source={require('../assets/pausebtn.png')}
+                                                />
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity
+                                            onPress={() => stopReading()}
+                                            style={{alignSelf: 'center'}}>
+                                                <Image
+                                                    onPress={() => stopReading()}
+                                                    style={{width: 50, height: 50, marginRight: 1, marginBottom: 16}}
+                                                    source={require('../assets/stopbtn.png')}
+                                                />
+                                        </TouchableOpacity>
+
+                                    
+                                </>
+                            
+                                ) : (
+                                    <>
+                                        <TouchableOpacity
+                                        onPress={() => resumeReading()}
+                                        style={{alignSelf: 'center'}}>
+                                            <Image
+                                                onPress={() => resumeReading()}
+                                                style={{width: 50, height: 50, marginLeft: -15, marginBottom: 16, color: '#000'}}
+                                                source={require('../assets/resumebtn.png')}
+                                            />
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity
+                                            onPress={() => stopReading()}
+                                            style={{alignSelf: 'center'}}>
+                                                <Image
+                                                    onPress={() => stopReading()}
+                                                    style={{width: 50, height: 50, marginRight: 1, marginBottom: 16}}
+                                                    source={require('../assets/stopbtn.png')}
+                                                />
+                                        </TouchableOpacity>
+                                        
+                                    </>
+                                )}
+                        
                     </View>
                 
                 ) : (
