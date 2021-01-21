@@ -4,8 +4,6 @@ import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icono from 'react-native-vector-icons/FontAwesome';
 import Tts from 'react-native-tts';
-//  import TextToMp3 from 'text-to-mp3'
-import TrackPlayer from 'react-native-track-player';
 
 const MemoryVerseNew = ({navigation, accessToken})=>{
     const [userData, setUserData] = useState();
@@ -13,80 +11,66 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
     const [selectedItem, setSelectedItem] = useState();
     const [shareValue, setShareValue] = useState();
     const [TtsState, setTtsState] = useState(false);
-
-
-    const testconvertion = async () => {
-        //var txtomp3 = require("text-to-mp3");
-
-        // const mp3 = TextToMp3.saveMP3("but none is installed. You must install peer dependencies yourself", "FileName.mp3", function(err, absoluteFilePath){
-        //     if(err){
-        //       console.log(err);
-        //       return;
-        //     }
-        //     console.log("File saved :", absoluteFilePath); //"File saved : /home/enrico/WebstormProjects/textToMp3/FileName.mp3"
-        //   });
-
-
-        
-    }
-
-
-    // useEffect(() => {
-    //     TrackPlayer.setupPlayer();
-    //     TrackPlayer.updateOptions({
-    //     stopWithApp: true,
-    //     capabilities: [
-    //         TrackPlayer.CAPABILITY_PLAY,
-    //         TrackPlayer.CAPABILITY_PAUSE,
-    //         TrackPlayer.CAPABILITY_STOP
-    //     ],
-    //     compactCapabilities: [
-    //         TrackPlayer.CAPABILITY_PLAY,
-    //         TrackPlayer.CAPABILITY_PAUSE
-    //     ]
-    //     });
-    // }, []);
-
-
-    async function play(audio){
-        // TrackPlayer.setupPlayer().then(async () => {
+    const [TtsresumeState, setTtsResumeState] = useState(true);
+    const [sss, setSss] = useState('');
+    const [count, setCount] = useState(0);
     
-            // Adds a track to the queue
-            await TrackPlayer.add({
-                id: 'trackId',
-                url: audio,
-            
-                // url: require('track.mp3'),
-                title: "sermonName",
-                artist: "preacher",
-                // artwork: require('track.png')
-            });
-        
-            // Starts playing it
-            await TrackPlayer.play();
-        
-        // });
-
-    }
-
     const read = async () => {
         setTtsState(true);
-        //testconvertion();
+        const valuesArray = JSON.parse(userData)
+        var fullstring = "";
+        var ddd = [""];
+        var counter = 0;
         Tts.setDefaultLanguage('en-US');
+        Tts.addEventListener('tts-start', event => {
+            console.log('start', event)
+        });
+        Tts.addEventListener('tts-finish', event => {
+            counter = counter + 1
+            setCount(counter)
+            console.log('finish', count)
+        });
+        Tts.addEventListener('tts-cancel', event => {
+            console.log('cancel', event)
+        });
         Tts.setDucking(true);
 
-        const valuesArray = JSON.parse(userData)
+        
         for (var i = 0; i < valuesArray.length; i++) 
         {
-            Tts.speak(valuesArray[i].title);
-            Tts.speak(valuesArray[i].body);
+            fullstring += valuesArray[i].title + " " + valuesArray[i].body + "."
+        }
+        ddd = fullstring.split(".")
+        setSss(ddd)
+
+        for(var j=0; j < ddd.length; j++)
+        {
+            Tts.speak(ddd[j])
         }
       };
     
       const stopReading = () => {
         Tts.stop();
         setTtsState(false);
+        setTtsResumeState(true);
+        Tts.removeAllListeners('tts-start');
+        Tts.removeAllListeners('tts-finish');
+        Tts.removeAllListeners('tts-cancel');
       };
+
+      const pauseReading = () => {
+            setTtsResumeState(false);
+            Tts.stop();
+      }
+
+      const resumeReading = () => {
+        setTtsResumeState(true);
+        for(var j=count; j < sss.length; j++)
+        {
+            Tts.speak(sss[j])
+        }
+        
+    }
 
     React.useLayoutEffect(()=>{
         navigation.setOptions({
@@ -120,9 +104,6 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
         if(accessToken==null){
             alert('Please Login to access this page')
         }else{
-
-            
-
             fetch('https://church.aftjdigital.com/api/all-memoryverses', {
                         method: 'GET',
                         headers: {
@@ -135,7 +116,6 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
                       .then((response) => response.json())
                       .then((responseJson) =>{
                           let value = JSON.stringify(responseJson)
-                          console.log(responseJson[0].title)
                           setUserData(value)
                       })
                       .catch((error) => {
@@ -174,26 +154,59 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
                         justifyContent: 'space-around',
                         width: '100%',
                     }}>
-                        
-                        {/* <TouchableOpacity
-                            onPress={() => pauseme()}
-                            style={{alignSelf: 'center'}}>
-                                <Image
-                                    onPress={() => pauseme()}
-                                    style={{width: 50, height: 50, marginLeft: -15, marginBottom: 16, color: '#000'}}
-                                    source={require('../assets/pausebtn.png')}
-                                />
-                        </TouchableOpacity> */}
 
-                        <TouchableOpacity
-                            onPress={() => stopReading()}
-                            style={{alignSelf: 'center'}}>
-                                <Image
-                                    onPress={() => stopReading()}
-                                    style={{width: 50, height: 50, marginRight: 1, marginBottom: 16}}
-                                    source={require('../assets/stopbtn.png')}
-                                />
-                        </TouchableOpacity>
+                            {TtsresumeState ? (
+                                
+                                    <>
+
+                                        <TouchableOpacity
+                                            onPress={() => pauseReading()}
+                                            style={{alignSelf: 'center'}}>
+                                                <Image
+                                                    onPress={() => pauseReading()}
+                                                    style={{width: 70, height: 70, marginLeft: -15, marginBottom: 16, color: '#000'}}
+                                                    source={require('../assets/pausebtn.png')}
+                                                />
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity
+                                            onPress={() => stopReading()}
+                                            style={{alignSelf: 'center'}}>
+                                                <Image
+                                                    onPress={() => stopReading()}
+                                                    style={{width: 50, height: 50, marginRight: 1, marginBottom: 16}}
+                                                    source={require('../assets/stopbtn.png')}
+                                                />
+                                        </TouchableOpacity>
+
+                                    
+                                </>
+                            
+                                ) : (
+                                    <>
+                                        <TouchableOpacity
+                                        onPress={() => resumeReading()}
+                                        style={{alignSelf: 'center'}}>
+                                            <Image
+                                                onPress={() => resumeReading()}
+                                                style={{width: 50, height: 50, marginLeft: -15, marginBottom: 16, color: '#000'}}
+                                                source={require('../assets/resumebtn.png')}
+                                            />
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity
+                                            onPress={() => stopReading()}
+                                            style={{alignSelf: 'center'}}>
+                                                <Image
+                                                    onPress={() => stopReading()}
+                                                    style={{width: 50, height: 50, marginRight: 1, marginBottom: 16}}
+                                                    source={require('../assets/stopbtn.png')}
+                                                />
+                                        </TouchableOpacity>
+                                        
+                                    </>
+                                )}
+                        
                     </View>
                 
                 ) : (
