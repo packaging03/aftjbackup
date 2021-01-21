@@ -1,11 +1,8 @@
 import React from 'react';
 import RNTrackPlayer, {
   State as TrackPlayerState,
-  STATE_PAUSED,
-  STATE_PLAYING,
-  STATE_STOPPED,
-  Track,
 } from 'react-native-track-player';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const PlayerContext = React.createContext({
   isPlaying: false,
@@ -15,6 +12,7 @@ export const PlayerContext = React.createContext({
   currentTrack: null,
   play: () => null,
   pause: () => null,
+  toCurrent: () => null,
   seekTo: () => null,
   goTo: () => null,
 });
@@ -30,8 +28,17 @@ export const PlayerContextProvider = props => {
       console.log(state.state);
     });
 
+    toCurrent();
+
     return () => {
       listener.remove();
+      // (async () => {
+      //   try {
+      //     await AsyncStorage.removeItem('fileTrack');
+      //   } catch (e) {
+      //     console.error(e.message);
+      //   }
+      // })();
     };
   }, [playerState]);
 
@@ -57,12 +64,22 @@ export const PlayerContextProvider = props => {
     await RNTrackPlayer.reset();
     await RNTrackPlayer.add([track]);
     setCurrentTrack(track);
+
     await RNTrackPlayer.skip(track.id);
     await RNTrackPlayer.play();
+    try {
+      const jsonValue = JSON.stringify(track);
+      await AsyncStorage.setItem('fileTrack', jsonValue);
+    } catch (e) {
+      console.error(e.message);
+    }
   };
 
   const pause = async () => {
     await RNTrackPlayer.pause();
+  };
+  const toCurrent = () => {
+    return currentTrack;
   };
 
   const seekTo = async (amount = 30) => {
@@ -81,6 +98,7 @@ export const PlayerContextProvider = props => {
     isEmpty: playerState === null,
     currentTrack,
     pause,
+    toCurrent,
     play,
     seekTo,
     goTo,

@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   timeContainer: {
-    top: 5,
+    // top: 5,
     flexDirection: 'row',
     // justifyContent: 'space-between',
   },

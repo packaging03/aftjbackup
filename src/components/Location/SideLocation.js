@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 export default class SideLocation extends Component {
   state = {address: ''};
   componentDidMount(prevProps, prevState) {
-    if (prevState !== this.state.address) {
+    if (prevState !== this.state) {
       this.getData();
     }
   }

@@ -6,9 +6,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
 // import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  TransitionSpecs,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 import Sermons from '../Sermons';
 import SermonDetails from '../SermonDetails';
+
 import Events from '../Events';
 import EventDetails from '../EventDetails';
 import TestimonyDetails from '../TestimonyDetails';
@@ -23,6 +28,7 @@ import payFail from '../giving/Failed';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconn from 'react-native-vector-icons/AntDesign';
+import MemoryVerseNew from '../MemoryVerseNew';
 import Icono from 'react-native-vector-icons/FontAwesome';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import Help from '../Help';
@@ -33,7 +39,7 @@ import Home from '../Home';
 import About from '../About';
 import Conversion from '../Conversion/Conversion';
 import Departments from '../Department/Departments';
-import Location from '../Location';
+
 import LocationPage from '../Location/LocationPage';
 import ChildrenChurch from '../ChildrenChurch';
 import TestimonyRoot from '../TestimonyRoot';
@@ -85,7 +91,8 @@ import Contacts from '../Contacts';
 import Downloads from '../Downloads';
 import Pastorschedule from '../Pastorschedule';
 import Projects from '../Projects';
-import NMResources from '../NewMemberResources/Resource';
+import NMResources from '../NewMemberResources/Resources';
+import NMResource from '../NewMemberResources/Resource';
 import Gateways from '../giving/Gateways';
 import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
@@ -254,7 +261,10 @@ const MainTabScreen = ({routeName}) => (
     activeColor="#000"
     inactiveColor="#000"
     labeled={true}
-    tabBarOptions={{showLabel: true, activeTintColor: '#000'}}
+    tabBarOptions={{
+      showLabel: true,
+      // activeTintColor: '#000'
+    }}
     tabBar={props => <MyTabBar {...props} />}>
     <Tab.Screen
       name="HomeStack"
@@ -387,6 +397,17 @@ const HomeStackScreen = ({navigation}) => (
         },
         headerTintColor: '#000',
         headerTitleStyle: styles.headerStyle,
+      }}
+    />
+    <HomeStack.Screen
+      name="PrayerRequest"
+      component={PrayerRequest}
+      options={{
+        title: 'Prayer Request',
+        headerTitleStyle: styles.headerStyle,
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
       }}
     />
     {/* <HomeStack.Screen
@@ -554,6 +575,32 @@ const HomeStackScreen = ({navigation}) => (
         headerShown: true,
       }}
     />
+    <HomeStack.Screen
+      name="NMResource"
+      component={NMResource}
+      options={{
+        headerTitleStyle: {
+          color: 'black',
+          fontSize: 20,
+          fontFamily: 'frankruhllibre-regular',
+        },
+        headerTitle: 'New Members Resources',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        // headerRight: () => (
+        //   <View style={{marginRight: 20, opacity: 0.4}}>
+        //     <Iconn
+        //       onPress={() => alert('Sharing resources to..')}
+        //       size={30}
+        //       name="upload"
+        //     />
+        //   </View>
+        // ),
+        headerTintColor: '#000',
+        headerShown: true,
+      }}
+    />
 
     <HomeStack.Screen
       name="Sermons"
@@ -622,7 +669,6 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
-
     <HomeStack.Screen
       name="SchoolCurriculumQuiz"
       component={SchoolCurriculumQuiz}
@@ -636,7 +682,6 @@ const HomeStackScreen = ({navigation}) => (
         headerTintColor: '#000',
       }}
     />
-
 
     <HomeStack.Screen
       name="Chats"
@@ -1366,7 +1411,9 @@ const HomeStackScreen = ({navigation}) => (
       name="podcast"
       component={Podcast}
       options={{
-        // title: 'Podcast',
+        cardStyleInterpolator:
+          CardStyleInterpolators.forRevealFromBottomAndroid,
+        title: '',
         headerStyle: {
           backgroundColor: '#fff',
           elevation: 0,
@@ -1408,6 +1455,7 @@ const HomeStackScreen = ({navigation}) => (
         title: 'Podcast',
         headerStyle: {
           backgroundColor: '#fff',
+          // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         },
         headerTitleStyle: {
           color: 'black',
@@ -1708,17 +1756,6 @@ const GivingStackScreen = ({navigation}) => (
     />
 
     <GivingStack.Screen
-      name="PrayerRequest"
-      component={PrayerRequest}
-      options={{
-        title: 'Prayer Request',
-        headerTitleStyle: styles.headerStyle,
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-      }}
-    />
-    <GivingStack.Screen
       name="paySuccess"
       component={paySuccess}
       options={{
@@ -1760,19 +1797,6 @@ const AboutStackScreen = ({navigation}) => (
             onPress={() => navigation.openDrawer()}
           />
         ),
-      }}
-    />
-
-    <AboutStack.Screen
-      name="Location"
-      component={Location}
-      options={{
-        title: 'Location',
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
       }}
     />
 

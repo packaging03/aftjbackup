@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { ImageBackground } from 'react-native';
 import {View, Image, Text, StyleSheet, TextInput, FlatList, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
@@ -6,11 +7,14 @@ import {connect} from 'react-redux';
 const Chats = ({navigation, accessToken})=> {
 
     const [userData, setUserData] = useState();
+    const [refreshData, setRefreshData] = useState();
+
 
     useEffect(()=>{
         if(accessToken==null){
             alert('Please Login to access this page')
         }else{
+           
             fetch('https://church.aftjdigital.com/api/users', {
                         method: 'GET',
                         headers: {
@@ -24,6 +28,7 @@ const Chats = ({navigation, accessToken})=> {
                       .then((responseJson) =>{
                           console.log(responseJson)
                           setUserData(JSON.stringify(responseJson))
+                          setRefreshData(JSON.stringify(responseJson))
                       })
                       .catch((error) => {
                         alert(error)});
@@ -31,8 +36,34 @@ const Chats = ({navigation, accessToken})=> {
         
     })
 
+    /*const updateSearch = text => {
+
+        let textData;
+        const newData = JSON.parse(userData).filter(item=>{
+          const itemData = `${item.name.toUpperCase()}`;
+    
+          textData = text.toUpperCase();
+    
+          return itemData.indexOf(textData)==0;
+        });
+          
+        if(textData){
+            setUserData(newData)
+        }else{
+            setUserData(JSON.parse(refreshData))
+        }
+    }*/
+
     const ChatRoom = (item)=>{
-        navigation.navigate('ChatRoom')
+        navigation.navigate('ChatRoom', {'agent_id': item.id, 'image': item.image, 'name':item.name})
+    }
+
+    const ChatActivity = ()=>{
+        return(
+            <View style={styles.activeContainer}>
+                <View style={styles.chatActivity}></View>
+            </View>                   
+        )
     }
 
     return(
@@ -42,6 +73,7 @@ const Chats = ({navigation, accessToken})=> {
                     <TextInput
                         style={{flex:1}}
                         placeholder={'Search'}
+                        onChangeText = {text => updateSearch(text)}
                         />
                     <Icon.Button
                         name="search-outline"
@@ -58,12 +90,18 @@ const Chats = ({navigation, accessToken})=> {
                     <TouchableOpacity onPress={()=>{ChatRoom(item)}}>
                         <View style = {styles.card} >
                             <View style= {styles.profileImage}>
-                                <Image style= {{flex: 1, width: '100%', height: '100%'}} source={{uri: item.image}} />
+                                {item.image==null?
+                                    <Image style= {{flex: 1, width: '100%', height: '100%'}} source={require('../assets/profile-user.png')} />:
+                                    <Image style= {{flex: 1, width: '100%', height: '100%'}} source={{uri: item.image}} />
+                                }
+                                
                             </View>
+                            <ChatActivity/>
                             <View style = {styles.cardText}>
                                 <Text style = {{fontWeight: 'bold'}}>{item.name}</Text>
                                 <Text>3 minutes ago</Text>
                             </View>
+                            
                         </View>
                     </TouchableOpacity>    
                 )}   
@@ -77,6 +115,26 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         flexDirection: 'column',
+    },
+
+    chatActivity:{
+        width: 10,
+        height: 10,
+        backgroundColor: 'green',
+        borderRadius:10
+
+    },
+
+    activeContainer:{
+        width: 15,
+        height: 15,
+        backgroundColor: 'white',
+        position: 'absolute',
+        right: '80%',
+        top: '65%',
+        borderRadius:15,
+        justifyContent: 'center',
+        alignItems:'center'
     },
 
     profileImage: {

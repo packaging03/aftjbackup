@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 import TrackPlayer, {
   usePlaybackState,
   useTrackPlayerEvents,
@@ -15,72 +16,47 @@ import {usePlayerContext} from './playContext';
 
 export default function Controller({}) {
   const playbackState = usePlaybackState();
-  const [isPlaying, setIsPlaying] = useState('paused'); //paused play loading
   const playerContext = usePlayerContext();
-  useEffect(() => {
-    if (playerContext.isPlaying || playbackState === 3) {
-      console.log(playbackState);
-      setIsPlaying('playing');
-    } else if (playerContext.isPause || playbackState === 2) {
-      console.log(playbackState);
-      setIsPlaying('paused');
-    } else {
-      setIsPlaying('loading');
-    }
-  }, [playbackState]);
+  // const [playerContextData, setPlayerContextData] = useState();
 
   // useEffect(() => {
-  //   console.log(params.current.artwork);
-  //   return () => {};
+  //   (async () => {
+  //     try {
+  //       const jsonValue = await AsyncStorage.getItem('fileTrack');
+  //       const data = jsonValue != null ? JSON.parse(jsonValue) : null;
+  //       setPlayerContextData(data);
+  //       // console.log(data);
+  //     } catch (e) {
+  //       console.error(e.message);
+  //     }
+  //   })();
   // }, []);
 
-  const returnPlayBtn = () => {
-    switch (isPlaying) {
-      case 'playing':
-        return <Icon color="#c5cad2" name="pause" size={30} />;
-      case 'paused':
-        return <Icon color="#c5cad2" name="play-circle-fill" size={30} />;
-      default:
-        return <ActivityIndicator size={30} color="#c5cad2" />;
-    }
-  };
-
-  // const onPlayPause = () => {
-  //   if (isPlaying === 'paused') {
-  //     playerContext.play();
-  //     console.log('playing');
-  //   } else {
-  //     playerContext.pause();
-  //     console.log('paused');
-  //   }
-  // };
+  // console.log(playerContextData);
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => playerContext.seekTo(-10)}>
-        <Icon color="#c5cad2" name="rotate-left" size={30} />
+        <Icon color="#c5cad2" name="rotate-left" size={40} />
       </TouchableOpacity>
-      {playerContext.isPlaying !== true ? (
+      {playbackState == 3 ? (
         <Icon
-          name="pause"
-          size={30}
+          name="pause-circle-filled"
+          size={40}
           color="#c5cad2"
-          onPress={() => playerContext.pause}
+          onPress={() => TrackPlayer.pause()}
         />
       ) : (
         <Icon
           name="play-circle-fill"
-          size={30}
+          size={40}
           color="#c5cad2"
-          onPress={() => playerContext.play()}
+          onPress={() => TrackPlayer.play()}
         />
       )}
-      {/* <TouchableOpacity onPress={onPlayPause}>
-        {returnPlayBtn()}
-      
-      </TouchableOpacity> */}
+
       <TouchableOpacity onPress={() => playerContext.seekTo()}>
-        <Icon color="#c5cad2" name="rotate-right" size={30} />
+        <Icon color="#c5cad2" name="rotate-right" size={40} />
       </TouchableOpacity>
     </View>
   );
@@ -89,8 +65,8 @@ export default function Controller({}) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: 250,
-    // bottom: 2
+    justifyContent: 'space-between',
+    width: 200,
+    marginTop: 30,
   },
 });
