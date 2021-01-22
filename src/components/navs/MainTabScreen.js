@@ -98,6 +98,7 @@ import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
 import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
+import MemoryVerseNew from '../MemoryVerseNew';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const HomeStack = createStackNavigator();

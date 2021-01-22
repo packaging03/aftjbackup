@@ -408,7 +408,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
       },
       Mbutton: {
-        flex: 0.5},
+        flex: 0.5
+      },
     controlsView: {
         flexDirection: 'row',
         width: '100%',
