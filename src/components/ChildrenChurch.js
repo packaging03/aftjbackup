@@ -43,14 +43,54 @@ const ChildrenChurch = ({navigation}) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.item} onPress={()=>navigation.navigate('Grade17Intro', {option: 'Grade 1 - 7'})}>
+          style={styles.item} onPress={()=>navigation.navigate('Grade12Intro', {option: 'Grade 1 - 2'})}>
           <View>
             <ImageBackground
               style={styles.img}
               imageStyle={styles.imgStyle}
               source={require('../assets/grade-one-two.jpg')}>
               <View style={styles.overlay} />
-              <Text style={styles.text}>Grade 1st - 7th </Text>
+              <Text style={styles.text}>Grade 1st - 2nd </Text>
+            </ImageBackground>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.item} onPress={()=>navigation.navigate('Grade34Intro', {option: 'Grade 3 - 4'})}
+          >
+          <View>
+            <ImageBackground
+              style={styles.img}
+              imageStyle={styles.imgStyle}
+              source={require('../assets/grade-three-four.jpg')}>
+              <View style={styles.overlay} />
+              <Text style={styles.text}>Grade 3rd - 4th </Text>
+            </ImageBackground>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.item} onPress={()=>navigation.navigate('Grade56Intro', {option: 'Grade 5 - 6'})}
+          >
+          <View>
+            <ImageBackground
+              style={styles.img}
+              imageStyle={styles.imgStyle}
+              source={require('../assets/grade-three-four.jpg')}>
+              <View style={styles.overlay} />
+              <Text style={styles.text}>Grade 5th - 6th </Text>
+            </ImageBackground>
+          </View>
+        </TouchableOpacity>
+      
+        <TouchableOpacity
+          style={styles.item} onPress={()=>navigation.navigate('Grade17Intro', {option: 'Grade 7'})}>
+          <View>
+            <ImageBackground
+              style={styles.img}
+              imageStyle={styles.imgStyle}
+              source={require('../assets/grade-one-two.jpg')}>
+              <View style={styles.overlay} />
+              <Text style={styles.text}>Grade 7th </Text>
             </ImageBackground>
           </View>
         </TouchableOpacity>

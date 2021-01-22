@@ -15,7 +15,7 @@ function AddMemoryVerse({navigation, accessToken, user}) {
       return;
     }
     if (source === '' || content === '') {
-      alert('Both fields are required' + " " + source + " " + content + " " + JSON.parse(user).id);
+      alert('Both fields are required' + " " + source + " " + content);
     } else {
       
       fetch('https://church.aftjdigital.com/api/memoryverse', {
@@ -33,13 +33,10 @@ function AddMemoryVerse({navigation, accessToken, user}) {
       })
         .then(response => response.json())
         .then(responseJson => {
-          Toast.show('Memory verse successfully added!', Toast.LONG);
-          
+          Toast.show(responseJson.message, Toast.LONG);
             setSource('');
             setContent('');
             navigation.push('Grade Memory Verse');
-
-
         })
         .catch(error => {
           alert(error);

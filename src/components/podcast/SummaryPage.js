@@ -1,72 +1,95 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
+import TrackPlayer, {useProgress} from 'react-native-track-player';
 import {Container, Content, Thumbnail} from 'native-base';
-// import song from './data';
-const song = [
-  {
-    title: 'Death Bed',
-    artist: 'Powfu',
-    artwork: 'https://samplesongs.netlify.app/album-arts/death-bed.jpg',
-    url: 'https://samplesongs.netlify.app/Death%20Bed.mp3',
-    id: '1',
-  },
-  {
-    title: 'Bad Liar',
-    artist: 'Imagine Dragons',
-    artwork: 'https://samplesongs.netlify.app/album-arts/bad-liar.jpg',
-    url: 'https://samplesongs.netlify.app/Bad%20Liar.mp3',
-    id: '2',
-  },
-  {
-    title: 'Faded',
-    artist: 'Alan Walker',
-    artwork: 'https://samplesongs.netlify.app/album-arts/faded.jpg',
-    url: 'https://samplesongs.netlify.app/Faded.mp3',
-    id: '3',
-  },
-  {
-    title: 'Hate Me',
-    artist: 'Ellie Goulding',
-    artwork: 'https://samplesongs.netlify.app/album-arts/hate-me.jpg',
-    url: 'https://samplesongs.netlify.app/Hate%20Me.mp3',
-    id: '4',
-  },
-  {
-    title: 'Solo',
-    artist: 'Clean Bandit',
-    artwork: 'https://samplesongs.netlify.app/album-arts/solo.jpg',
-    url: 'https://samplesongs.netlify.app/Solo.mp3',
-    id: '5',
-  },
-  {
-    title: 'Without Me',
-    artist: 'Halsey',
-    artwork: 'https://samplesongs.netlify.app/album-arts/without-me.jpg',
-    url: 'https://samplesongs.netlify.app/Without%20Me.mp3',
-    id: '6',
-  },
-];
+import AsyncStorage from '@react-native-community/async-storage';
 
-const SummaryPage = () => {
-  const [data, setData] = useState(song);
-  const obj = data[0];
+// import song from './data';
+
+const SummaryPage = ({route}) => {
+  const [artist, setArtist] = useState('');
+  const [title, setTitle] = useState('');
+  const art = useRef('');
+
+  const {position, duration} = useProgress();
+
+  const formatTime = secs => {
+    let minutes = Math.floor(secs / 60);
+    let seconds = Math.ceil(secs - minutes * 60);
+
+    if (seconds < 10) seconds = `0${seconds}`;
+
+    return `${minutes}:${seconds}`;
+  };
+
+  // const [playerContextData, setPlayerContextData] = useState(null);
+  const playerContextData = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('fileTrack');
+        const data = jsonValue != null ? JSON.parse(jsonValue) : null;
+        // console.log(data);
+
+        // const value = {
+        //   artwork: data.artwork,
+        //   artist: data.artist,
+        //   title: data.title,
+        // };
+        playerContextData.current = data;
+
+        // console.log(data);
+      } catch (e) {
+        console.error(e.message);
+      }
+
+      // console.log(playerContextData.current.artwork);
+
+      if (playerContextData.current !== null) {
+        art.current = playerContextData.current.artwork;
+        console.log(art);
+        setArtist(playerContextData.current.artist);
+        setTitle(playerContextData.current.title);
+      }
+    })();
+
+    return () => {
+      (async () => {
+        try {
+          await AsyncStorage.removeItem('fileTrack');
+        } catch (e) {
+          console.error(e.message);
+        }
+      })();
+    };
+  }, [playerContextData.current]);
+
   return (
     <Container>
-      <View style={{alignItems: 'center'}}>
-        <Image
-          source={{uri: obj.artwork}}
-          style={{width: 160, height: 160, borderRadius: 10}}
-        />
-        <Text style={{fontSize: 18, fontFamily: 'Nunito-Bold', top: 10}}>
-          {obj.title}
-        </Text>
-        <Text style={{marginTop: 35}}>
-          By: <Text>{obj.artist}</Text>
-        </Text>
-        <Text style={{marginTop: 10}}>
-          Length: <Text>45 Mins 10 Seconds</Text>
-        </Text>
-      </View>
+      {playerContextData !== null ? (
+        <View style={{alignItems: 'center'}}>
+          <Thumbnail
+            square
+            style={{
+              width: 160,
+              marginTop: 20,
+              height: 160,
+              borderRadius: 10,
+            }}
+            source={{uri: route.params.art}}
+          />
+          <Text style={{fontSize: 18, fontFamily: 'Nunito-Bold', top: 10}}>
+            {route.params.title}
+          </Text>
+          <Text style={{marginTop: 35}}>
+            By: <Text>{route.params.artist}</Text>
+          </Text>
+          <Text style={{marginTop: 10}}>
+            Length: <Text>{formatTime(duration)}</Text>
+          </Text>
+        </View>
+      ) : null}
       <View style={{marginTop: 20, marginBottom: 10}}>
         <Text
           style={{
@@ -80,15 +103,7 @@ const SummaryPage = () => {
       </View>
       <Content>
         <Text style={{paddingLeft: 30, paddingRight: 30}}>
-          It is a long established fact that a reader will be distracted by the
-          readable content of a page when looking at its layout. The point of
-          using Lorem Ipsum is that it has a more-or-less normal distribution of
-          letters, as opposed to using 'Content here, content here', making it
-          look like readable English. Many desktop publishing packages and web
-          page editors now use Lorem Ipsum as their default model text, and a
-          search for 'lorem ipsum' will uncover many web sites still in their
-          infancy. Various versions have evolved over the years, sometimes by
-          accident, sometimes on purpose (injected humour and the like).
+          {route.params.summary}
         </Text>
       </Content>
     </Container>

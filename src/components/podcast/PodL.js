@@ -110,6 +110,7 @@ const PodL = ({navigation}) => {
           pod['artwork'] = element.image;
           pod['url'] = element.file;
           pod['id'] = element.id;
+          pod['summary'] = element.podcast_summary;
           pod['time'] = element.created_at.slice(11, -3);
 
           podc.push(pod);
@@ -144,6 +145,7 @@ const PodL = ({navigation}) => {
                   id: JSON.stringify(item.id),
                   url: item.url,
                   artist: item.artist,
+                  summary: item.summary,
                 })
               }
               thumbnail>
@@ -203,24 +205,25 @@ const PodL = ({navigation}) => {
           style={{}}
           onPress={() =>
             navigation.navigate('podcast', {
-              current: playerContext.currentTrack,
+              artwork: playerContext.currentTrack.artwork,
             })
           }>
           <View
             style={{
               width,
               height: 50,
-              backgroundColor: '#c5cad2',
-              elevation: 8,
-
+              backgroundColor: '#fff',
+              elevation: 7,
               alignItems: 'center',
               flexDirection: 'row',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
             }}>
-            <Image
-              style={{width: 40, height: 40, marginHorizontal: 30}}
-              source={{uri: playerContext.currentTrack.artwork}}
-            />
+            <View style={{marginLeft: 15}}>
+              <Image
+                style={{width: 40, height: 40}}
+                source={{uri: playerContext.currentTrack.artwork}}
+              />
+            </View>
             <View style={{marginRight: 90}}>
               <Text style={{fontFamily: 'Nunito-Bold'}}>
                 {playerContext.currentTrack.title}
@@ -235,12 +238,14 @@ const PodL = ({navigation}) => {
                 name="pause"
                 size={30}
                 color="#000"
+                style={{marginRight: 15}}
                 onPress={playerContext.pause}
               />
             ) : (
               <Icon
                 name="play-circle-fill"
                 size={30}
+                style={{marginRight: 15}}
                 color="#000000"
                 onPress={() => playerContext.play()}
               />

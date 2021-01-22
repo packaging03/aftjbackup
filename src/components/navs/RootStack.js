@@ -90,16 +90,11 @@ import ForumMessages from '../ForumMessages';
 import Activities from '../Profile/Activities';
 import NoteRoot from '../NoteRoot';
 import ChatRoom from '../ChatRoom';
-import Addnote from '../Addnote';
 import NoteDetails from '../NoteDetails';
+import Addnote from '../Addnote';
 import Editnote from '../Editnote';
-
-// import ChatRoom from '../ChatRoom';
-// import Addnote from '../Addnote';
-// import NoteDetails from '../NoteDetails';
-// import Editnote from '../Editnote';
 import Suggestion from '../suggestion/Suggestion';
-import MemoryVerseNew from '../MemoryVerseNew';
+// import MemoryVerseNew from '../MemoryVerseNew';
 
 const Stack = createStackNavigator();
 const RootStack = ({
@@ -310,7 +305,7 @@ const RootStack = ({
           headerTintColor: '#000',
         }}
       />
-      
+
       <Stack.Screen
         name="Schedulecalendar"
         component={Schedulecalendar}
@@ -844,61 +839,46 @@ const RootStack = ({
       />
 
       <Stack.Screen
-        name="Addnote"
-        component={Addnote}
+        name="NoteDetails"
+        component={NoteDetails}
         options={{
-          title: 'Notes',
+          title: 'Note Pad',
           headerStyle: {
             backgroundColor: '#fff',
+            headerTintColor: '#000',
           },
+          // headerRight: () => (
+          //   <View
+          //     style={{
+          //       flexDirection: 'row',
+          //       paddingRight: '30%',
+          //       alignItems: 'center',
+          //     }}>
+          //     <Image
+          //       onPress={() => navigation.navigate('Home')}
+          //       style={{width: 20, height: 20, marginRight: 15}}
+          //       source={require('../../assets/edit.png')}
+          //     />
+          //   </View>
+          // ),
           headerTitleStyle: styles.headerStyle,
           headerTintColor: '#000',
         }}
       />
 
-
-    <Stack.Screen
-      name="NoteDetails"
-      component={NoteDetails}
-      options={{
-        title: 'Note Pad',
-        headerStyle: {
-          backgroundColor: '#fff',
+      <Stack.Screen
+        name="Editnote"
+        component={Editnote}
+        options={{
+          title: 'Note Pad',
+          headerStyle: {
+            backgroundColor: '#fff',
+            headerTintColor: '#000',
+          },
+          headerTitleStyle: styles.headerStyle,
           headerTintColor: '#000',
-        },
-        // headerRight: () => (
-        //   <View
-        //     style={{
-        //       flexDirection: 'row',
-        //       paddingRight: '30%',
-        //       alignItems: 'center',
-        //     }}>
-        //     <Image
-        //       onPress={() => navigation.navigate('Home')}
-        //       style={{width: 20, height: 20, marginRight: 15}}
-        //       source={require('../../assets/edit.png')}
-        //     />
-        //   </View>
-        // ),
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    />
-
-
-    <Stack.Screen
-      name="Editnote"
-      component={Editnote}
-      options={{
-        title: 'Note Pad',
-        headerStyle: {
-          backgroundColor: '#fff',
-          headerTintColor: '#000',
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    />
+        }}
+      />
 
       <Stack.Screen
         name="DepartmentForm"
@@ -1323,18 +1303,18 @@ const RootStack = ({
         }}
       />
 
-<   Stack.Screen
-      name="ChatRoom"
-      component={ChatRoom}
-      options={{
-        title: 'Chat Page',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTintColor: '#000',
-        headerTitleStyle: styles.headerStyle,
-      }}
-    />
+      <Stack.Screen
+        name="ChatRoom"
+        component={ChatRoom}
+        options={{
+          title: 'Chat Page',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTintColor: '#000',
+          headerTitleStyle: styles.headerStyle,
+        }}
+      />
 
       <Stack.Screen
         name="ChildrenChurch"
@@ -1485,9 +1465,6 @@ const RootStack = ({
           headerTintColor: '#000',
         }}
       />
-
-
-     
 
       <Stack.Screen
         name="Preschoolplayer"
