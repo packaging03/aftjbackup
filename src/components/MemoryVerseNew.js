@@ -356,6 +356,7 @@ const styles = StyleSheet.create({
       },
       Mbutton: {
         flex: 0.5,
+      },
     controlsView: {
         flexDirection: 'row',
         width: '100%',

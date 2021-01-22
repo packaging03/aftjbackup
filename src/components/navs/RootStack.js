@@ -63,7 +63,7 @@ import BibleChapters from '../BibleChapters';
 import BibleVerse from '../BibleContent';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
-import MemoryVerseNew from '../MemoryVerseNew';
+// import MemoryVerseNew from '../MemoryVerseNew';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
 import Pastorschedule from '../Pastorschedule';
@@ -94,10 +94,10 @@ import Addnote from '../Addnote';
 import NoteDetails from '../NoteDetails';
 import Editnote from '../Editnote';
 
-import ChatRoom from '../ChatRoom';
-import Addnote from '../Addnote';
-import NoteDetails from '../NoteDetails';
-import Editnote from '../Editnote';
+// import ChatRoom from '../ChatRoom';
+// import Addnote from '../Addnote';
+// import NoteDetails from '../NoteDetails';
+// import Editnote from '../Editnote';
 import Suggestion from '../suggestion/Suggestion';
 import MemoryVerseNew from '../MemoryVerseNew';
 
