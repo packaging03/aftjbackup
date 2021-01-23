@@ -1,15 +1,43 @@
-import React, {useEffect} from 'react';
-import {View, Text, FlatList, Animated} from 'react-native';
-import {PanGestureHandler, State, RectButton } from 'react-native-gesture-handler';
-import AppleStyleSwipeableRow from './AppleStyleSwipeableRow';
-import GmailStyleSwipeableRow from './GmailStyleSwipeableRow';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Dimensions, Animated} from 'react-native';
+import {PanGestureHandler, TapGestureHandler, State, RectButton } from 'react-native-gesture-handler';
+
 
 const words = ['LOVE', 'JOY', 'PEACE', 'GOD', 
 'GRACE', 'TRUTH', 'JESUS', 'FATHER', 'MASTER', 'DISCIPLE',
 
 'HEAVEN', 'TEACHER', 'KINGDOM', 'PATIENCE', 'FAITH', 'WORD', 'TRUST', 'OBEY', 'ABBA', 'SPIRIT',
- 'CARNAL', 'CHRIST', 'SAVIOUR'
+ 'CARNAL', 'CHRIST', 'SAVIOUR', 'HEALER', 'ALTAR', 'APOSTLE', 'ATONEMENT', 'BAPTISM', 'BRETHREN', 'CHERUB', 
+ 'EXODUS', 'GOSPEL', 'MESSIAH', 'PARADISE', 'PRODIGAL', 'PROPHESY', 'RAPTURE', 'REJOICE', 'REDEMPTION', 
+ 'REPENTANCE', 'RESURRECTION', 'REVELATION', 'SACRIFICE', 'SCAPEGOAT', 'SERMON', 'TESTIMONY', 'TRIBULATION',
+ 'GENESIS', 'ANGEL', 'SABBATH', 'CHURCH', 'PRAYER', 'PRAISES', 'NATIONS', 'HOLY', 'HONOUR', 'RESPECT', 'PASTOR',
+ 'BIBLE', 'COVENANT', 'TESTAMENT', 'TABERNACLE', 'PSALMS', 'FORGIVE', 'CONQUEROR', 'BLESSINGS', 'SUBMIT', 'GENTLE',
+ 'POWER', 'GLORY', 'WORSHIP'
 ];
+
+var sixteenWords = [];
+
+const pick16Random = () => {
+   
+    for (let t = 0; t < 16; t++){
+        let num = Math.floor(Math.random() * 71);
+        
+        if (!sixteenWords.includes(num)){
+            sixteenWords.push(words[num]);
+        }else{
+           
+            while(sixteenWords.includes(num)){
+                num = Math.floor(Math.random() * 71);
+                
+            }
+            sixteenWords.push(words[num]);
+        }
+        
+    }
+}
+
+
+
  var arrList = [];
 
  function makeid(length) {
@@ -26,155 +54,91 @@ const words = ['LOVE', 'JOY', 'PEACE', 'GOD',
     for (let i = 0; i < 17 - length; i++){
         arrList.push(<Text style={styles.letter}>{makeid(1)}</Text>);
         
-    }
-    
-    
+    } 
  }
 
-
-  
-  const DATA = [
-    {
-      from: "D'Artagnan",
-      when: '3:11 PM',
-      message:
-        'Unus pro omnibus, omnes pro uno. Nunc scelerisque, massa non lacinia porta, quam odio dapibus enim, nec tincidunt dolor leo non neque',
-    },
-    {
-      from: 'Aramis',
-      when: '11:46 AM',
-      message:
-        'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus hendrerit ligula dignissim maximus aliquet. Integer tincidunt, tortor at finibus molestie, ex tellus laoreet libero, lobortis consectetur nisl diam viverra justo.',
-    },
-    {
-      from: 'Athos',
-      when: '6:06 AM',
-      message:
-        'Sed non arcu ullamcorper, eleifend velit eu, tristique metus. Duis id sapien eu orci varius malesuada et ac ipsum. Ut a magna vel urna tristique sagittis et dapibus augue. Vivamus non mauris a turpis auctor sagittis vitae vel ex. Curabitur accumsan quis mauris quis venenatis.',
-    },
-    {
-      from: 'Porthos',
-      when: 'Yesterday',
-      message:
-        'Vivamus id condimentum lorem. Duis semper euismod luctus. Morbi maximus urna ut mi tempus fermentum. Nam eget dui sed ligula rutrum venenatis.',
-    },
-    {
-      from: 'Domestos',
-      when: '2 days ago',
-      message:
-        'Aliquam imperdiet dolor eget aliquet feugiat. Fusce tincidunt mi diam. Pellentesque cursus semper sem. Aliquam ut ullamcorper massa, sed tincidunt eros.',
-    },
-    {
-      from: 'Cardinal Richelieu',
-      when: '2 days ago',
-      message:
-        'Pellentesque id quam ac tortor pellentesque tempor tristique ut nunc. Pellentesque posuere ut massa eget imperdiet. Ut at nisi magna. Ut volutpat tellus ut est viverra, eu egestas ex tincidunt. Cras tellus tellus, fringilla eget massa in, ultricies maximus eros.',
-    },
-    {
-      from: "D'Artagnan",
-      when: 'Week ago',
-      message:
-        'Aliquam non aliquet mi. Proin feugiat nisl maximus arcu imperdiet euismod nec at purus. Vestibulum sed dui eget mauris consequat dignissim.',
-    },
-    {
-      from: 'Cardinal Richelieu',
-      when: '2 weeks ago',
-      message:
-        'Vestibulum ac nisi non augue viverra ullamcorper quis vitae mi. Donec vitae risus aliquam, posuere urna fermentum, fermentum risus. ',
-    },
-  ];
-
-  const Row = ({ item }) => (
-    <RectButton style={styles.rectButton} onPress={() => alert(item.from)}>
-      <Text style={styles.fromText}>{item.from}</Text>
-      <Text numberOfLines={2} style={styles.messageText}>
-        {item.message}
-      </Text>
-      <Text style={styles.dateText}>
-        {item.when} {'❭'}
-      </Text>
-    </RectButton>
-  );
-  
-  const SwipeableRow = ({ item, index }) => {
-    if (index % 2 === 0) {
-      return (
-        <AppleStyleSwipeableRow>
-          <Row item={item} />
-        </AppleStyleSwipeableRow>
-      );
-    } else {
-      return (
-        <GmailStyleSwipeableRow>
-          <Row item={item} />
-        </GmailStyleSwipeableRow>
-      );
-    }
-  };
+ const windowWidth = Dimensions.get('window').width;
+const circleRadius = 30;
 
     
 const Crosswords = (props) => {
 
-    
-    const _translateX = new Animated.Value(0);
-    const _translateY = new Animated.Value(0);
-    const _lastOffset = { x: 0, y: 0 };
-    const _onGestureEvent = Animated.event(
+
+    useEffect(() => {
+        pick16Random();
+        console.log(sixteenWords );
+    }, []);
+
+
+    const _touchX = new Animated.Value(windowWidth / 2 - circleRadius);
+    const [width, setWidth] = useState(0);
+    const _translateX = Animated.add(
+       _touchX,
+      new Animated.Value(-circleRadius)
+    );
+    const _onPanGestureEvent = Animated.event(
       [
         {
           nativeEvent: {
-            translationX: _translateX,
-            translationY: _translateY,
+            x: _touchX, 
           },
-        },
+
+        }, 
       ],
       { useNativeDriver: true }
     );
-  
-  const _onHandlerStateChange = event => {
-    if (event.nativeEvent.oldState === State.ACTIVE) {
-      _lastOffset.x += event.nativeEvent.translationX;
-      _lastOffset.y += event.nativeEvent.translationY;
-      _translateX.setOffset(_lastOffset.x);
-      _translateX.setValue(0);
-      _translateY.setOffset(_lastOffset.y);
-      _translateY.setValue(0);
+
+  const _onTapHandlerStateChange = ({ nativeEvent }) => {
+    if (nativeEvent.oldState === State.ACTIVE) {
+      // Once tap happened we set the position of the circle under the tapped spot
+      _touchX.setValue(nativeEvent.x);
+    //   console.log('hi');
     }
   };
-
-  
+  const { tapRef, panRef } = props;
 
     return (
         <View style={{flex:1, backgroundColor:'white', padding:20}}>
-{/* 
-        <PanGestureHandler
-                {...props}
-                onGestureEvent={_onGestureEvent}
-                onHandlerStateChange={_onHandlerStateChange}>
-                <Animated.View
-                style={[
-                    styles.box,
-                    {
-                    transform: [
-                        { translateX: _translateX },
-                        { translateY: _translateY },
-                    ],
-                    },
-                    props.boxStyle,
-                ]}
-                />
-            </PanGestureHandler> */}
-{/* 
-            <FlatList
-        
-            style={{height:'100%'}}
-            data={DATA}
-            ItemSeparatorComponent={() => <View style={{height:1, backgroundColor:'red'}} />}
-            renderItem={({ item, index }) => (
-            <SwipeableRow item={item} index={index} />
-            )}
-            keyExtractor={(item, index) => `message ${index}`}
-        /> */}
+
+        {/* <TapGestureHandler
+                ref={tapRef}
+                waitFor={panRef}
+                onHandlerStateChange={_onTapHandlerStateChange}
+                shouldCancelWhenOutside>
+                <Animated.View style={styles.wrapper}>
+                <PanGestureHandler
+                    ref={panRef}
+                    activeOffsetX={[-20, 20]}
+                    onGestureEvent={()=>{
+                        console.log('ho');
+                        setWidth(width + 10);
+                    }}
+                    shouldCancelWhenOutside>
+                    <Animated.View style={styles.horizontalPan}>
+                    <Animated.View
+                        style={[{
+                            backgroundColor: '#f48fb1',
+                            borderRadius: 15,
+                            borderWidth:5,
+                            borderColor: '#42a5f5',
+                            height: circleRadius * 2,
+                            width: width,},
+                           {
+                            // width: 100,
+                            
+                            transform: [
+                            {
+                                // scaleY: {circleRadius},
+                                translateX: _translateX,
+                            },
+                            ],
+                        },
+                        ]}
+                    />
+                    </Animated.View>
+                </PanGestureHandler>
+                </Animated.View>
+            </TapGestureHandler> */}
             <Text style={
                 {fontSize:20, 
                 fontFamily:'Nunito', 
@@ -202,19 +166,25 @@ const Crosswords = (props) => {
             <View style={styles.accross}>
                 
                 {
-                    words.slice(0, 1).map(word=>{
+                    sixteenWords.slice(0, 1).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -240,19 +210,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                 {
-                    words.slice(1, 2).map(word=>{
+                    sixteenWords.slice(1, 2).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -261,19 +237,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
             {
-                    words.slice(2, 3).map(word=>{
+                    sixteenWords.slice(2, 3).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -282,19 +264,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                 {
-                    words.slice(3, 4).map(word=>{
+                    sixteenWords.slice(3, 4).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -303,19 +291,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
             {
-                    words.slice(4, 5).map(word=>{
+                    sixteenWords.slice(4, 5).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -324,19 +318,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                   {
-                      words.slice(5, 6).map(word=>{
+                      sixteenWords.slice(5, 6).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -345,19 +345,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
             {
-                    words.slice(6, 7).map(word=>{
+                    sixteenWords.slice(6, 7).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -366,19 +372,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                  {
-                    words.slice(7, 8).map(word=>{
+                    sixteenWords.slice(7, 8).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -387,19 +399,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                  {
-                    words.slice(8, 9).map(word=>{
+                    sixteenWords.slice(8, 9).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -408,19 +426,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                   {
-                    words.slice(9, 10).map(word=>{
+                    sixteenWords.slice(9, 10).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -429,19 +453,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                  {
-                    words.slice(10, 11).map(word=>{
+                    sixteenWords.slice(10, 11).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -450,19 +480,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                 {
-                    words.slice(11, 12).map(word=>{
+                    sixteenWords.slice(11, 12).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -471,7 +507,7 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                {
-                    words.slice(12, 13).map(word=>{
+                    sixteenWords.slice(12, 13).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
                             let array = word.split('');
@@ -492,19 +528,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                 {
-                    words.slice(13, 14).map(word=>{
+                    sixteenWords.slice(13, 14).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -513,19 +555,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                 {
-                    words.slice(14, 15).map(word=>{
+                    sixteenWords.slice(14, 15).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -534,19 +582,25 @@ const Crosswords = (props) => {
             </View>
             <View style={styles.accross}>
                 {
-                    words.slice(15, 16).map(word=>{
+                    sixteenWords.slice(15, 16).map(word=>{
                         arrList=[];
                         // for(let i = 0; i < word.length; i++){
-                            let array = word.split('');
-                            genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
-                            array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
-                                
-                                // return <Text style={styles.letter}>{i}</Text>
-                            })
+                        let array = word.split('');
+                        genLetters(word.length);
+                        var index = Math.floor(Math.random() * 10);
+                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                            height:24,
+                            position:'absolute',  backgroundColor: 'transparent',
+                            borderRadius: 10, 
+                            borderWidth: 2,
+                            left: index * 22,
+                            width: array.length * 25,
+                            borderColor: '#42a5f5',}}/>)
+
+                        array.map(i => {
+                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
                             
-                        // }
+                        })
                     })
                 }
                 {
@@ -556,8 +610,8 @@ const Crosswords = (props) => {
 
             <View style={{display:'flex', marginTop:20, flexWrap:'wrap', flexDirection:'row'}}>
             {
-                 words.map(i => {
-                    return <Text style={{width:60, fontSize:11}}>{i}</Text>;
+                 sixteenWords.slice(0, 16).map(i => {
+                    return <Text style={{width:70, marginRight:5, fontSize:11}}>{i}</Text>;
                 })
             }
             </View>
@@ -577,7 +631,8 @@ const styles = {
     }, 
     letter:{
         fontWeight:'bold',
-        fontSize: 15
+        fontSize: 15, 
+        zIndex:10
     },
     box: {
         width: 150,
@@ -586,6 +641,25 @@ const styles = {
         backgroundColor: 'plum',
         margin: 10,
         zIndex: 200,
+      },
+      horizontalPan: {
+        backgroundColor: '#f48fb1',
+        height: 150,
+        justifyContent: 'center',
+        marginVertical: 10,
+      },
+      circle: {
+        backgroundColor: '#f48fb1',
+        borderRadius: 15,
+        borderWidth:5,
+        borderColor: '#42a5f5',
+
+        height: circleRadius * 2,
+        width: circleRadius * 2,
+      },
+      wrapper: {
+        backgroundColor:'red',
+        flex: 1,
       },
 }
 
