@@ -1,28 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Dimensions, Animated} from 'react-native';
-import {PanGestureHandler, TapGestureHandler, State, RectButton } from 'react-native-gesture-handler';
+import {TouchableHighlight } from 'react-native-gesture-handler';
+import Toast from 'react-native-simple-toast';
 
 
 const words = ['LOVE', 'JOY', 'PEACE', 'GOD', 
 'GRACE', 'TRUTH', 'JESUS', 'FATHER', 'MASTER', 'DISCIPLE',
-
 'HEAVEN', 'TEACHER', 'KINGDOM', 'PATIENCE', 'FAITH', 'WORD', 'TRUST', 'OBEY', 'ABBA', 'SPIRIT',
  'CARNAL', 'CHRIST', 'SAVIOUR', 'HEALER', 'ALTAR', 'APOSTLE', 'ATONEMENT', 'BAPTISM', 'BRETHREN', 'CHERUB', 
  'EXODUS', 'GOSPEL', 'MESSIAH', 'PARADISE', 'PRODIGAL', 'PROPHESY', 'RAPTURE', 'REJOICE', 'REDEMPTION', 
- 'REPENTANCE', 'RESURRECTION', 'REVELATION', 'SACRIFICE', 'SCAPEGOAT', 'SERMON', 'TESTIMONY', 'TRIBULATION',
+ 'REPENTANCE', 'RESURRECTION', 'ANOINTING', 'SACRIFICE', 'JEW', 'SERMON', 'TESTIMONY', 'TRIBULATION',
  'GENESIS', 'ANGEL', 'SABBATH', 'CHURCH', 'PRAYER', 'PRAISES', 'NATIONS', 'HOLY', 'HONOUR', 'RESPECT', 'PASTOR',
- 'BIBLE', 'COVENANT', 'TESTAMENT', 'TABERNACLE', 'PSALMS', 'FORGIVE', 'CONQUEROR', 'BLESSINGS', 'SUBMIT', 'GENTLE',
- 'POWER', 'GLORY', 'WORSHIP'
+ 'BIBLE', 'COVENANT', 'PRIEST', 'CONFIDENCE', 'PSALMS', 'FORGIVE', 'CONQUEROR', 'BLESSINGS', 'SUBMIT', 'GENTLE',
+ 'POWER', 'GLORY', 'WORSHIP', 'PRIESTHOOD', 'PROPHET', ''
 ];
 
 var sixteenWords = [];
 
+let first = '';
+let last = '';
 const pick16Random = () => {
    
     for (let t = 0; t < 16; t++){
         let num = Math.floor(Math.random() * 71);
         
-        if (!sixteenWords.includes(num)){
+        if (!sixteenWords.includes(words[num])){
             sixteenWords.push(words[num]);
         }else{
            
@@ -35,8 +37,6 @@ const pick16Random = () => {
         
     }
 }
-
-
 
  var arrList = [];
 
@@ -52,93 +52,130 @@ const pick16Random = () => {
 
  const genLetters = (length) => {
     for (let i = 0; i < 17 - length; i++){
-        arrList.push(<Text style={styles.letter}>{makeid(1)}</Text>);
+        arrList.push(
+        <TouchableHighlight onPress={()=>{}} underlayColor={'#219653'} >
+             <Text style={styles.letter}>{makeid(1)}</Text>
+        </TouchableHighlight>);
         
     } 
  }
 
- const windowWidth = Dimensions.get('window').width;
 const circleRadius = 30;
 
-    
-const Crosswords = (props) => {
+const Crosswords = ({route}) => {
 
 
+    const [visibility1, setVisibility1] = 
+    useState(0);
+    const [visibility2, setVisibility2] = 
+    useState(0);
+    const [visibility3, setVisibility3] = 
+    useState(0);
+    const [visibility4, setVisibility4] = 
+    useState(0);
+    const [visibility5, setVisibility5] = 
+    useState(0);
+    const [visibility6, setVisibility6] = 
+    useState(0);
+    const [visibility7, setVisibility7] = 
+    useState(0);
+    const [visibility8, setVisibility8] = 
+    useState(0);
+    const [visibility9, setVisibility9] = 
+    useState(0);
+    const [visibility10, setVisibility10] = 
+    useState(0);
+    const [visibility11, setVisibility11] = 
+    useState(0);
+    const [visibility12, setVisibility12] = 
+    useState(0);
+    const [visibility13, setVisibility13] = 
+    useState(0);
+    const [visibility14, setVisibility14] = 
+    useState(0);
+    const [visibility15, setVisibility15] = 
+    useState(0);
+    const [visibility16, setVisibility16] = 
+    useState(0);
+    let {index1, index2, index3, index4, index5, index6, index7, index8, index9, index10, index11, index12, index13, index14, index15, index16} = route.params;
     useEffect(() => {
         pick16Random();
-        console.log(sixteenWords );
     }, []);
 
 
-    const _touchX = new Animated.Value(windowWidth / 2 - circleRadius);
-    const [width, setWidth] = useState(0);
-    const _translateX = Animated.add(
-       _touchX,
-      new Animated.Value(-circleRadius)
-    );
-    const _onPanGestureEvent = Animated.event(
-      [
-        {
-          nativeEvent: {
-            x: _touchX, 
-          },
+    const play = (position, currentLetter, firstLetter, lastLetter) => {
 
-        }, 
-      ],
-      { useNativeDriver: true }
-    );
+        if(first === ''){
+            first = currentLetter;
+        }else if (first !== '' && first !== ''){
+            last = currentLetter;
+            if (first === firstLetter && last === lastLetter ){
+                Toast.show('Correct!', Toast.LONG);
+                
+                
 
-  const _onTapHandlerStateChange = ({ nativeEvent }) => {
-    if (nativeEvent.oldState === State.ACTIVE) {
-      // Once tap happened we set the position of the circle under the tapped spot
-      _touchX.setValue(nativeEvent.x);
-    //   console.log('hi');
+                // setVisibility({[position]:1});
+                switch(position){
+                    case 'one':
+                        setVisibility1(1);
+                        break;
+                     case 'two':
+                        setVisibility2(2);
+                        break;
+                    case 'three':
+                        setVisibility3(3);
+                        break;
+                    case 'four':
+                        setVisibility4(4);
+                        break;
+                
+                    case 'five':
+                        setVisibility5(5);
+                        break;
+                    case 'six':
+                        setVisibility6(6);
+                        break;
+                    case 'seven':
+                        setVisibility7(7);
+                        break; 
+                    case 'eight':
+                        setVisibility8(8);
+                        break; 
+                    case 'nine':
+                        setVisibility9(9);
+                        break; 
+                    case 'ten':
+                        setVisibility10(10);
+                        break; 
+                    case 'eleven':
+                        setVisibility11(11);
+                        break; 
+                    case 'twelve':
+                        setVisibility12(12);
+                        break; 
+                    case 'thirteen':
+                        setVisibility13(13);
+                        break;
+                    case 'fourteen':
+                        setVisibility14(14);
+                        break; 
+                    case 'fifteen':
+                        setVisibility15(15);
+                        break; 
+                    case 'sixteen':
+                        setVisibility16(16);
+                        break;
+                }
+                
+            }
+            first = '';
+            last = '';
+        }
     }
-  };
-  const { tapRef, panRef } = props;
 
     return (
         <View style={{flex:1, backgroundColor:'white', padding:20}}>
 
-        {/* <TapGestureHandler
-                ref={tapRef}
-                waitFor={panRef}
-                onHandlerStateChange={_onTapHandlerStateChange}
-                shouldCancelWhenOutside>
-                <Animated.View style={styles.wrapper}>
-                <PanGestureHandler
-                    ref={panRef}
-                    activeOffsetX={[-20, 20]}
-                    onGestureEvent={()=>{
-                        console.log('ho');
-                        setWidth(width + 10);
-                    }}
-                    shouldCancelWhenOutside>
-                    <Animated.View style={styles.horizontalPan}>
-                    <Animated.View
-                        style={[{
-                            backgroundColor: '#f48fb1',
-                            borderRadius: 15,
-                            borderWidth:5,
-                            borderColor: '#42a5f5',
-                            height: circleRadius * 2,
-                            width: width,},
-                           {
-                            // width: 100,
-                            
-                            transform: [
-                            {
-                                // scaleY: {circleRadius},
-                                translateX: _translateX,
-                            },
-                            ],
-                        },
-                        ]}
-                    />
-                    </Animated.View>
-                </PanGestureHandler>
-                </Animated.View>
-            </TapGestureHandler> */}
             <Text style={
                 {fontSize:20, 
                 fontFamily:'Nunito', 
@@ -171,18 +208,23 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        
+                        arrList.splice(index1, 0, <View style={{ 
+                            zIndex:-10,
+                            opacity:visibility1,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            borderWidth: 1,
+                            left: index1 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index1++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('one', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -190,23 +232,6 @@ const Crosswords = (props) => {
                 {
                     arrList
                 }
-                {/* <Text style={styles.letter}>S</Text>
-                <Text style={styles.letter}>S</Text>
-                <Text style={styles.letter}>F</Text>
-                <Text style={styles.letter}>Q</Text>
-                <Text style={styles.letter}>Q</Text>
-                <Text style={styles.letter}>Q</Text>
-                <Text style={styles.letter}>Q</Text>
-                <Text style={styles.letter}>Q</Text>
-                <Text style={styles.letter}>Q</Text>
-                <Text style={styles.letter}>G</Text>
-                <Text style={styles.letter}>Q</Text>
-                <Text style={styles.letter}>Q</Text>
-                <Text style={styles.letter}>A</Text>
-                <Text style={styles.letter}>Q</Text>
-                <Text style={styles.letter}>Q</Text>
-                <Text style={styles.letter}>Q</Text>
-                <Text style={styles.letter}>Q</Text> */}
             </View>
             <View style={styles.accross}>
                 {
@@ -215,18 +240,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index2, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            opacity:visibility2,
+                            borderWidth: 1,
+                            left: index2 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index2++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('two', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -242,18 +270,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index3, 0, <View style={{ zIndex:-10,
                             height:24,
+                            opacity:visibility3,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            borderWidth: 1,
+                            left: index3 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index3++, 0,<TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('three', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -269,18 +300,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index4, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            opacity:visibility4,
+                            borderWidth: 1,
+                            left: index4 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index4++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('four', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -296,18 +330,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index5, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            borderWidth: 1,
+                            opacity:visibility5,
+                            left: index5 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index5++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('five', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -323,18 +360,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index6, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            borderWidth: 1,
+                            opacity:visibility6,
+                            left: index6 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index6++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('six', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -350,18 +390,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index7, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            opacity:visibility7,
+                            borderWidth: 1,
+                            left: index7 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index7++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('seven', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -377,18 +420,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index8, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            borderWidth: 1,
+                            opacity:visibility8,
+                            left: index8 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index8++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('eight', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -404,18 +450,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index9, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            borderWidth: 1,
+                            opacity:visibility9,
+                            left: index9 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index9++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('nine', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -431,18 +480,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index10, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            borderWidth: 1,
+                            left: index10 * 22,
+                            opacity:visibility10,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index10++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('ten', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -458,18 +510,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index11, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            opacity:visibility11,
+                            borderWidth: 1,
+                            left: index11 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index11++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('eleven', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -485,18 +540,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index12, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            borderWidth: 1,
+                            left: index12 * 22,
+                            opacity:visibility12,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index12++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('twelve', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -512,9 +570,20 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                             let array = word.split('');
                             genLetters(word.length);
-                            var index = Math.floor(Math.random() * 10);
+                            arrList.splice(index13, 0, <View style={{ zIndex:-10,
+                                height:24,
+                                position:'absolute',  backgroundColor: 'transparent',
+                                borderRadius: 6, 
+                                borderWidth: 1,
+                                left: index13 * 22,
+                                opacity:visibility13,
+                                width: array.length * 25,
+                                borderColor: '#219653',}}/>)
                             array.map(i => {
-                                arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                                arrList.splice(index13++, 0, <TouchableHighlight underlayColor={'#219653'}
+                                onPress={()=> play('thirteen', i, array[0], array[array.length - 1])}>
+                                    <Text style={styles.letter}>{i}</Text>
+                                    </TouchableHighlight>);
                                 
                                 // return <Text style={styles.letter}>{i}</Text>
                             })
@@ -533,18 +602,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index14, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            borderWidth: 1,
+                            left: index14 * 22,
+                            opacity:visibility14,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index14++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('fourteen', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -560,18 +632,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index15, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            borderWidth: 1,
+                            opacity:visibility15,
+                            left: index15 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index15++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('fifteen', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -587,18 +662,21 @@ const Crosswords = (props) => {
                         // for(let i = 0; i < word.length; i++){
                         let array = word.split('');
                         genLetters(word.length);
-                        var index = Math.floor(Math.random() * 10);
-                        arrList.splice(index, 0, <View style={{ zIndex:-10,
+                        arrList.splice(index16, 0, <View style={{ zIndex:-10,
                             height:24,
                             position:'absolute',  backgroundColor: 'transparent',
-                            borderRadius: 10, 
-                            borderWidth: 2,
-                            left: index * 22,
+                            borderRadius: 6, 
+                            borderWidth: 1,
+                            opacity:visibility16,
+                            left: index16 * 22,
                             width: array.length * 25,
-                            borderColor: '#42a5f5',}}/>)
+                            borderColor: '#219653',}}/>)
 
                         array.map(i => {
-                            arrList.splice(index++, 0, <Text style={styles.letter}>{i}</Text>);
+                            arrList.splice(index16++, 0, <TouchableHighlight underlayColor={'#219653'}
+                            onPress={()=> play('sixteen', i, array[0], array[array.length - 1])}>
+                                <Text style={styles.letter}>{i}</Text>
+                                </TouchableHighlight>);
                             
                         })
                     })
@@ -611,7 +689,7 @@ const Crosswords = (props) => {
             <View style={{display:'flex', marginTop:20, flexWrap:'wrap', flexDirection:'row'}}>
             {
                  sixteenWords.slice(0, 16).map(i => {
-                    return <Text style={{width:70, marginRight:5, fontSize:11}}>{i}</Text>;
+                    return <Text style={{width:80, marginRight:5, fontSize:11}}>{i}</Text>;
                 })
             }
             </View>
@@ -652,7 +730,7 @@ const styles = {
         backgroundColor: '#f48fb1',
         borderRadius: 15,
         borderWidth:5,
-        borderColor: '#42a5f5',
+        borderColor: '#219653',
 
         height: circleRadius * 2,
         width: circleRadius * 2,
