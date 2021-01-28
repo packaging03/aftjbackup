@@ -93,6 +93,8 @@ target 'JCCI' do
 
   pod 'react-native-image-base64', :path => '../node_modules/react-native-image-base64'
 
+  pod 'react-native-progress-bar-android', :path => '../node_modules/@react-native-community/progress-bar-android'
+
   target 'JCCITests' do
     inherit! :complete
     # Pods for testing

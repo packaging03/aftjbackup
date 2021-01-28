@@ -10,7 +10,7 @@ const CustomInput = ({ onChangeText, keyboardType, title, otherStyles, secureTex
         
         style={{
             fontFamily:'Nunito', 
-            fontSize: 10, 
+            fontSize: 14, 
             width:'100%', 
             color:'black', 
             fontWeight:'400' }}

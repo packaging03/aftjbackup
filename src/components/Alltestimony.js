@@ -85,18 +85,35 @@ function Alltestimonies({route, navigation, accessToken}) {
   const [data, setData] = useState([]);
   const [img, setImg] = useState([]);
 
-  const getTestimoniesFromApiAsync = async () => {
+      const getTestimoniesFromApiAsync = async () => {
+        
+        try {
+          let response = await fetch('https://church.aftjdigital.com/api/testimonies');
+          let json = await response.json();
+          console.log(json);
+          setData(json);
+          setLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      useEffect(() => {
+          if(accessToken==null){
+              alert('Please Login to access this page')
+          } 
+          else 
+          {
+              getTestimoniesFromApiAsync();
+          }
+      }, []);
      
-    try {
-      let response = await fetch('https://church.aftjdigital.com/api/testimonies');
-      let json = await response.json();
-      console.log(json);
-      setData(json);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+          console.log('Refreshed!');
+          getTestimoniesFromApiAsync();
+        });
+        return unsubscribe;
+      }, [navigation]);
 
   const getimgurl = async (id) => {
 
@@ -129,6 +146,7 @@ function Alltestimonies({route, navigation, accessToken}) {
   }
 
   const LikeTestimony = (id) => {
+    
 
     if (accessToken === null || accessToken === "") {
         alert('Kindly Login first');
@@ -146,19 +164,18 @@ function Alltestimonies({route, navigation, accessToken}) {
               })
               .then((response) => response.json())
               .then((responseJson) =>{
-                  if (JSON.stringify(responseJson.message) !== 'you liked this testimony' ){
-                    Toast.show(responseJson.message)
-                     return;
-                  }
-                  Toast.show(responseJson.message)
+                  // if (JSON.stringify(responseJson.message) !== 'you liked this testimony' ){
+                  //   Toast.show(responseJson.message)
+                  //    return;
+                  // }
+                  console.log(id + " clicked")
+                  Toast.show(responseJson.message + "!")
               })
               .catch((error) => {
                 alert(error)});
   };
   
-    useEffect(() => {
-      getTestimoniesFromApiAsync();
-    }, []);
+    
 
     const renderItem = ({item}) => (
 

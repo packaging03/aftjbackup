@@ -9,7 +9,7 @@ const ChildrenChurch = ({navigation}) => {
       <View style={styles.connect}>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
         <TouchableOpacity
-          style={styles.item} onPress={()=>navigation.navigate('PreSchool', {option:'Toddlers'})}>
+          style={styles.item} onPress={()=>navigation.navigate('ToddlerIntro', {option:'Toddlers'})}>
           <View>
             <ImageBackground
               style={styles.img}
@@ -20,7 +20,7 @@ const ChildrenChurch = ({navigation}) => {
             </ImageBackground>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item} onPress={()=>navigation.navigate('PreSchool', {option: 'Pre-school'})}>
+        <TouchableOpacity style={styles.item} onPress={()=>navigation.navigate('PreSchoolIntro', {option: 'Pre-school'})}>
           <View>
             <ImageBackground
               style={styles.img}
@@ -31,7 +31,7 @@ const ChildrenChurch = ({navigation}) => {
             </ImageBackground>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item} onPress={()=>navigation.navigate('Kindergarten',  {option: 'Kindergarten'})}>
+        <TouchableOpacity style={styles.item} onPress={()=>navigation.navigate('KindergartenIntro',  {option: 'Kindergarten'})}>
           <View>
             <ImageBackground
               style={styles.img}
@@ -43,7 +43,7 @@ const ChildrenChurch = ({navigation}) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.item} onPress={()=>navigation.navigate('Grade1', {title: 'Grade 1 - 2'})}>
+          style={styles.item} onPress={()=>navigation.navigate('Grade12Intro', {option: 'Grade 1 - 2'})}>
           <View>
             <ImageBackground
               style={styles.img}
@@ -55,7 +55,7 @@ const ChildrenChurch = ({navigation}) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.item} onPress={()=>navigation.navigate('Grade1', {title: 'Grade 3 - 4'})}
+          style={styles.item} onPress={()=>navigation.navigate('Grade34Intro', {option: 'Grade 3 - 4'})}
           >
           <View>
             <ImageBackground
@@ -67,6 +67,46 @@ const ChildrenChurch = ({navigation}) => {
             </ImageBackground>
           </View>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.item} onPress={()=>navigation.navigate('Grade56Intro', {option: 'Grade 5 - 6'})}
+          >
+          <View>
+            <ImageBackground
+              style={styles.img}
+              imageStyle={styles.imgStyle}
+              source={require('../assets/grade-three-four.jpg')}>
+              <View style={styles.overlay} />
+              <Text style={styles.text}>Grade 5th - 6th </Text>
+            </ImageBackground>
+          </View>
+        </TouchableOpacity>
+      
+        <TouchableOpacity
+          style={styles.item} onPress={()=>navigation.navigate('Grade17Intro', {option: 'Grade 7'})}>
+          <View>
+            <ImageBackground
+              style={styles.img}
+              imageStyle={styles.imgStyle}
+              source={require('../assets/grade-one-two.jpg')}>
+              <View style={styles.overlay} />
+              <Text style={styles.text}>Grade 7th </Text>
+            </ImageBackground>
+          </View>
+        </TouchableOpacity>
+        {/* <TouchableOpacity
+          style={styles.item} onPress={()=>navigation.navigate('Grade1', {title: 'Grade 3 - 4'})}
+          >
+          <View>
+            <ImageBackground
+              style={styles.img}
+              imageStyle={styles.imgStyle}
+              source={require('../assets/grade-three-four.jpg')}>
+              <View style={styles.overlay} />
+              <Text style={styles.text}>Grade 3rd - 4th </Text>
+            </ImageBackground>
+          </View>
+        </TouchableOpacity> */}
       </View>
     </ScrollView>
   );

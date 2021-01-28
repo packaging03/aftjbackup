@@ -1,12 +1,35 @@
 import React from 'react'
 import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-native'
 
-const data=[{id:1, videoSource:'MEgEugzifuw', img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', title:"Bible Story for kids", details:"The story of creation"
-
-},{id: 2, videoSource:'onnEaINBaGg&pbjreload=101',img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', title:"Noah's Ark", details:"Beginner Bible"}, 
-{id:3, videoSource:'f66rTdDAJZ8', img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', title:"Bible Rhymes compilation", details:"Jesus loves me and many more"}, 
-{id: 4, videoSource:'Yn3bb5gbaEA', img: 'https://www.inspirationalchristians.org/images/joseph-dreams-1-1024x640.jpg', title:"The Dreamer", details:"Bible Adventure"},
-{id:5, videoSource:'1EzW-tnZ-Lw', img: 'https://i.ytimg.com/vi/1EzW-tnZ-Lw/maxresdefault.jpg', title:"Jesus and 12 Disciples", details:"Call for disciples"},
+const data=[
+  
+  { 
+    id:1, 
+    videoSource:'VG3D9EOwSyc', 
+    img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', 
+    title:"Adam and Eve story", 
+    details:"Adam and Eve story"
+  },
+  { id:2, 
+    videoSource:'ddbb6hlSsBE', 
+    img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', 
+    title:"The fall man", 
+    details:"The fall man"
+  }, 
+  { 
+    id: 3, 
+    videoSource:'l7TDvJrjjz0', 
+    img: 'https://www.inspirationalchristians.org/images/joseph-dreams-1-1024x640.jpg', 
+    title:"The sin of Adam and Eve", 
+    details:"The sin of Adam and Eve"
+  },
+  { 
+    id:4, 
+    videoSource:'RkVm6Chgaww', 
+    img: 'https://i.ytimg.com/vi/1EzW-tnZ-Lw/maxresdefault.jpg', 
+    title:"Adam and Eve’s sin", 
+    details:"Adam and Eve’s sin"
+  },
 ];
 
 

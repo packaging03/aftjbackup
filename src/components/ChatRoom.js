@@ -190,10 +190,10 @@ const ChatRoom = ({accessToken, user, route, navigation})=>{
                     <View style={styles.audio}>
                         {activeSend? 
                         <TouchableOpacity>
-                            <Image style= {{width: 18, height: 18}} source={require('../assets/microphone.png')}/>
+                            {/* <Image style= {{width: 18, height: 18}} source={require('../assets/microphone.png')}/> */}
                         </TouchableOpacity>:
                         <TouchableOpacity onPress={sendButton}>
-                            <Image style= {{width: 15, height: 15}} source={require('../assets/send.png')}/>
+                            {/* <Image style= {{width: 15, height: 15}} source={require('../assets/send.png')}/> */}
                         </TouchableOpacity>}
                     </View>        
                 </View>

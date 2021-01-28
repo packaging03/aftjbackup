@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TextInput, ScrollView, Alert} from 'react-native';
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import CButton from '../components/common/CustomButton';
 import {connect} from 'react-redux';
 import Toast from 'react-native-simple-toast';
@@ -7,7 +7,7 @@ import {Picker} from '@react-native-community/picker';
 import ToggleSwitch from 'toggle-switch-react-native';
 
 
-function Addtestimonies({navigation, accessToken, user}) {
+function AddMemoryVerse({navigation, accessToken, user}) {
   const [content, setContent] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -17,243 +17,72 @@ function Addtestimonies({navigation, accessToken, user}) {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState('');
 
+
   const toggleBulletin = () => {
     setVisible(previousState => !previousState);
   };
 
-  function renderButton(loading, setLoading) {
-    if (loading) {
-      return <Spinner />;
+  const AddAMemoryVerse = () => {
+    if(visible)
+    {
+      setVisible(1)
+    } else {
+      setVisible(0)
     }
-
-    return (
-      <CButton
-        onPress={() => {
-
-          if (accessToken === null) {
-            alert('Kindly Login first');
-            return;
-          }
-      
-          let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-          var cleanStr = email;
-          setEmail(cleanStr.trim())
-          if (reg.test(email) === false) {
-            Toast.show("Your email is  Incorrect!")
-            return false;
-          }
-          else {
-            console.log("Email is Correct");
-            setLoading(true);
-            if (name === '' || email === '' || country === '' || mystate === '' || category === '' || content === '' || reg.test(email) === false) {
-              alert('All fields are required');
-              setLoading(false);
-              return
-            } else {
-        
-              fetch('https://church.aftjdigital.com/api/add-testimony', {
-                          method: 'POST',
-                          headers: {
-                            Accept: 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                          body: JSON.stringify({
-                            
-                            user_id: JSON.parse(user).id,
-                            category: category,
-                            body: content,
-                            state: mystate,
-                            email: email,
-                            country: country,
-                            name: name,
-                            status: false,
-                            token: accessToken,
-                          
-                          })
-                        })
-                        .then((response) => response.json())
-                        .then((responseJson) => {
-                            if (JSON.stringify(responseJson.message) !== 'Testimony Created succesfully') {
-                               alert(responseJson.message)
-                               setLoading(false);
-                                navigation.navigate('TestimonyRoot')
-                               return;
-                            }
-                            //alert(responseJson.message)
-                            setName('');
-                            setCategory('');
-                            setContent('');
-                            setCountry('');
-                            setEmail('');
-                            setMystate('');
-                            setVisible('');
-                            setLoading(false);
-                        })
-                        .catch((error) => {
-                          alert(error)});
-                          setLoading(false);
-            }
-          }
-      
-          // if (password != '' && newPassword != '' && (newPassword === newcPassword)) {
-          //       setLoading(true);
-          //       const emailCred = auth.EmailAuthProvider.credential(
-          //         auth().currentUser.email,
-          //         password,
-          //       );
-
-          //         auth()
-          //         .currentUser.reauthenticateWithCredential(emailCred)
-          //         .then(() => {
-          //           return auth()
-          //             .currentUser.updatePassword(newcPassword)
-          //             .then(() => {
-          //               fetch('https://church.aftjdigital.com/api/users/' +
-          //                   JSON.parse(user).id,
-          //                 {
-          //                   method: 'PUT',
-          //                   headers: {
-          //                     Accept: 'application/json',
-          //                     'Content-Type': 'application/json',
-          //                   },
-          //                   body: JSON.stringify({
-          //                     password: newPassword,
-          //                     token: accessToken,
-          //                   }),
-          //                 })
-          //                   .then(response => response.json())
-          //                   .then(responseJson => {
-                              
-          //                     try {
-          //                       setCurrentUser(auth().currentUser);
-          //                       setPassword('');
-          //                       setNewPassword('');
-          //                       setCNewPassword('');
-          //                       Toast.show('Your new password has been changed', Toast.LONG);
-          //                       setLoading(false);
-          //                       navigation.navigate("Profile");
-
-          //                     } catch (e) {
-          //                       alert(e);
-          //                       setLoading(false);
-          //                     }
-          //                   })
-          //                   .catch((error) => {
-          //                     Toast.show(error)
-          //                     setLoading(false);
-          //                 })
-          //             })
-          //             .catch(error => {
-          //               setLoading(false);
-          //               Toast.show(error.code)
-          //               switch (error.code) {
-                          
-          //                 case 'auth/wrong-password':
-          //                   return alert('Your Password is incorrect');
-
-          //                 case 'auth/weak-password':
-          //                   return alert(
-          //                     'Your Password should be at least 6 characters',
-          //                   );
-          //               }
-          //             });
-          //         })
-          //         .catch(error => {
-          //           setLoading(false);
-          //           Toast.show(error.code)
-          //           switch (error.code) {
-                      
-          //             case 'auth/wrong-password':
-          //               return alert('Your Password is incorrect');
-
-          //             case 'auth/weak-password':
-          //               return alert(
-          //                 'Your Password should be at least 6 characters',
-          //               );
-          //           }
-          //         });
-          //       } else {
-          //         setLoading(false);
-          //         alert('Ensure all fields are properly filled and your password matched!');
-          //       }
-        
-        } 
-      
-      }
-        >
-          
-          SHARE
-      </CButton>
-    );
-  }
-
-  const AddATestimony = () => {
+    console.log(visible)
     if (accessToken === null) {
-      alert('Kindly Login first');
+      alert('Please Login first');
       return;
     }
+    if (name === '' || email === '' || country === '' || mystate === '' || category === '' || content === '') {
+      alert('All fields are required');
+      
+    } else {
+      
+      fetch('https://church.aftjdigital.com/api/add-testimony', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: JSON.parse(user).id,
+          category: category,
+          body: content,
+          state: mystate,
+          email: email,
+          country: country,
+          name: name,
+          status: 0,
+          token: accessToken,
+        }),
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          Toast.show(responseJson.message, Toast.LONG);
+          //Toast.show(accessToken)
+          //Toast.show(JSON.parse(user).id)
+          setName('');
+          setCategory('');
+          setContent('');
+          setCountry('');
+          setEmail('');
+          setMystate('');
+          setVisible('');
+          navigation.push('TestimonyRoot');
 
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (reg.test(email.trim()) === false) {
-      Toast.show("Your email is  Incorrect!")
-      return false;
+
+        })
+        .catch(error => {
+          alert(error);
+        });
     }
-    else {
-      if (name === '' || email === '' || country === '' || mystate === '' || category === '' || content === '') {
-        alert('All fields are required');
-      } else {
-  
-        fetch('https://church.aftjdigital.com/api/add-testimony', {
-                    method: 'POST',
-                    headers: {
-                      Accept: 'application/json',
-                      'Content-Type': 'application/json'
-                  },
-                    body: JSON.stringify({
-                      
-                      user_id: JSON.parse(user).id,
-                      category: category,
-                      body: content,
-                      state: mystate,
-                      email: email,
-                      country: country,
-                      name: name,
-                      status: false,
-                      token: accessToken,
-                    
-                    })
-                  })
-                  .then((response) => response.json())
-                  .then((responseJson) => {
-                      if (JSON.stringify(responseJson.message) !== 'Testimony Created succesfully') {
-                         alert(responseJson.message)
-                          navigation.navigate('TestimonyRoot')
-                         return;
-                      }
-                      //alert(responseJson.message)
-                      setName('');
-                      setCategory('');
-                      setContent('');
-                      setCountry('');
-                      setEmail('');
-                      setMystate('');
-                      setVisible('');
-                  })
-                  .catch((error) => {
-                    alert(error)});
-      }
-
-
-
-    }
-
-
   };
 
   return (
     <ScrollView>
-    <View style={styles.container}>
-    
+        <View style={styles.container}>
+      
       <Text style={styles.header}>
         Name
       </Text>
@@ -318,7 +147,7 @@ function Addtestimonies({navigation, accessToken, user}) {
             setCategory(itemValue)
           }>
           <Picker.Item label="Family" value="Family" />
-          <Picker.Item label="Single" value="Career" />
+          <Picker.Item label="Single" value="Single" />
           <Picker.Item label="Others" value="Others" />
         </Picker>
 
@@ -335,6 +164,7 @@ function Addtestimonies({navigation, accessToken, user}) {
         style={styles.input}
       />
 
+
     <View style={styles.notification}>
         
         <Text style={styles.text}>Anonymous</Text>
@@ -350,57 +180,52 @@ function Addtestimonies({navigation, accessToken, user}) {
         </View>
       </View>
       
-      
       <View
         style={{
-          alignSelf: 'flex-end',
-          marginRight: -10,
-          width: 220,
-          flex: 1,
-          marginBottom: 100,
-          display: 'flex',
+          width: '100%',
+          flexDirection: 'row',
+          justifyContent: 'flex-end'
         }}>
-          {renderButton(loading, setLoading)}
-        {/* <CButton onPress={() => AddATestimony()}>SHARE</CButton> */}
+        <View>
+          <TouchableOpacity onPress={AddAMemoryVerse} style={styles.button}>
+            <Text style={styles.text}>ADD</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
-  
+
     </ScrollView>
-  );
+      );
 }
 
 const mapStateToProps = state => ({
   accessToken: state.user.accessToken,
   user: state.user.user,
 });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-export default connect(mapStateToProps)(Addtestimonies);
+
+export default connect(mapStateToProps)(AddMemoryVerse);
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     height: '100%',
-    marginBottom: 80,
+    marginBottom: 280,
   },
   input: {
     width: '90%',
     height: '25%',
     borderColor: '#c5cad2',
     borderWidth: 0.8,
-    borderRadius: 8,
-    textAlignVertical: 'top',
-    justifyContent: "flex-start",
     marginTop: 5,
     marginRight: 14,
     marginLeft: 14,
     fontSize: 12,
     marginBottom: '10%',
     alignSelf: 'center',
+    textAlignVertical: 'top'
   },
-  
-  
   source: {
     width: '90%',
-    height: 38,
+    height: 45,
     borderColor: '#c5cad2',
     borderWidth: 0.8,
     borderRadius: 8,
@@ -411,15 +236,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   header: {
-    marginTop: 15,
+    marginTop: 10,
     marginLeft: 17,
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'left',
     letterSpacing: 0.5,
     lineHeight: 25,
-    fontFamily: 'Nunito-Regular',
+    fontFamily: 'Nunito-Bold',
     fontWeight: '400',
   },
+
   notification: {
     padding: 15,
     display: 'flex',
@@ -431,10 +257,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.4,
     borderBottomColor: '#ccc'
   },
-  text: {
-    fontSize: 16,
-    width: '58%',
-    marginLeft: 8,
-    fontFamily: 'Nunito-Regular',
-  },
+  
+   button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#c5cad2',
+    width: '80%',
+    height: 35,
+    borderRadius: 6,
+    shadowOpacity: 1,
+    shadowRadius: 2,
+    elevation: 4,
+    flexDirection: 'row'
+  }
 });

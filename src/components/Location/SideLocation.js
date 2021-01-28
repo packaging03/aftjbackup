@@ -15,14 +15,18 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export default class SideLocation extends Component {
   state = {address: ''};
-  componentDidMount = () => {
-    this.getData();
-  };
+  componentDidMount(prevProps, prevState) {
+    if (prevState !== this.state) {
+      this.getData();
+    }
+  }
   getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('address');
       return jsonValue != null
-        ? this.setState({address: JSON.parse(jsonValue)})
+        ? this.setState({
+            address: JSON.parse(jsonValue),
+          })
         : null;
     } catch (e) {
       console.log(e.message);
@@ -31,7 +35,11 @@ export default class SideLocation extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#fff',
+        }}>
         <View
           style={{
             width: width / 2 + 40,
@@ -45,10 +53,20 @@ export default class SideLocation extends Component {
             borderRadius: 10,
             padding: 15,
           }}>
-          <Text style={{marginBottom: 10, fontSize: 18, marginTop: 5}}>
+          <Text
+            style={{
+              marginBottom: 10,
+              fontSize: 18,
+              marginTop: 5,
+            }}>
             5000 mi
           </Text>
-          <Text style={{marginBottom: 10, fontSize: 18, marginTop: 5}}>
+          <Text
+            style={{
+              marginBottom: 10,
+              fontSize: 18,
+              marginTop: 5,
+            }}>
             {this.state.address}
           </Text>
         </View>
