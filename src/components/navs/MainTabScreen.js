@@ -78,6 +78,11 @@ import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
 import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
+import HomeChat from '../Online Conferencing/HomeChat';
+import Participants from '../Online Conferencing/Participants';
+import AnonymousChats from '../Online Conferencing/AnonymousChats';
+import TestVoice from '../Online Conferencing/TestVoice';
+import Voice from '../Online Conferencing/Voice';
 
 const HomeStack = createStackNavigator();
 const SermonsStack = createStackNavigator();
@@ -617,6 +622,71 @@ const HomeStackScreen = ({navigation}) => (
       component={ChatRoom}
       options={{
         title: '',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+     <HomeStack.Screen
+      name="OnlineConference"
+      component={HomeChat}
+      options={{
+        title: 'Chat Forum',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Participants"
+      component={Participants}
+      options={{
+        title: 'Participants',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="TestVoice"
+      component={TestVoice}
+      options={{
+        title: 'Chat Forum',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Test"
+      component={Voice}
+      options={{
+        title: 'Test Voice',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="AnonymousChats"
+      component={AnonymousChats}
+      options={{
+        title: 'Chat',
         headerStyle: {
           backgroundColor: '#fff',
         },

@@ -25,4 +25,5 @@ export const dataArray2 = {
   '24': 'AvailableOnPaidVersion',
   '25': 'NM-Resources',
   '26': 'AvailableOnPaidVersion',
+  '27': 'OnlineConference'
 };
