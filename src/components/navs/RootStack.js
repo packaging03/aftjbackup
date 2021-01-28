@@ -304,7 +304,7 @@ const RootStack = ({
         name="Suggestion"
         component={Suggestion}
         options={{
-          title: 'New Member',
+          title: 'Suggestion',
           headerStyle: {
             backgroundColor: '#fff',
           },
