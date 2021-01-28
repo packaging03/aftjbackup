@@ -77,7 +77,7 @@ import Grade34Intro from '../Grade34Intro';
 import Grade56Intro from '../Grade56Intro';
 import Grade1 from '../Grade1-2';
 import SchoolCurriculumQuiz from '../SchoolCurriculumQuiz'
-import MemoryVerseNew from '../MemoryVerseNew'
+// import MemoryVerseNew from '../MemoryVerseNew'
 import Grade1MemoryVerse from '../Grade1MemoryVerse';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
@@ -98,7 +98,7 @@ import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
 import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
-import MemoryVerseNew from '../MemoryVerseNew';
+// import MemoryVerseNew from '../MemoryVerseNew';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const HomeStack = createStackNavigator();

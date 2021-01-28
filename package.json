@@ -42,6 +42,7 @@
     "react-native-app-intro-slider": "^4.0.4",
     "react-native-awesome-alerts": "^1.4.2",
     "react-native-camera": "^3.40.0",
+    "react-native-chart-kit": "^6.10.1",
     "react-native-communications": "^2.2.1",
     "react-native-confirmation-code-field": "^6.5.1",
     "react-native-contact-action-sheet": "^0.1.3",
