@@ -25,6 +25,9 @@ export const dataArray2 = {
   '24': 'Departments',
   '25': 'NM-Resources',
   '26': 'NoteRoot',
-  '27': 'Suggestion',
-  '28': 'OnlineConference',
+  '27': 'AvailableOnPaidVersion',
+  '28': 'Suggestion',
+  '29': 'Games',
+  '30': 'OnlineConference',
+
 };

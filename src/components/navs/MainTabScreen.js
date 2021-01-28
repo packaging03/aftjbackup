@@ -77,7 +77,7 @@ import Grade34Intro from '../Grade34Intro';
 import Grade56Intro from '../Grade56Intro';
 import Grade1 from '../Grade1-2';
 import SchoolCurriculumQuiz from '../SchoolCurriculumQuiz'
-import MemoryVerseNew from '../MemoryVerseNew'
+// import MemoryVerseNew from '../MemoryVerseNew'
 import Grade1MemoryVerse from '../Grade1MemoryVerse';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
@@ -98,12 +98,18 @@ import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
 import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
+
 import HomeChat from '../Online Conferencing/HomeChat';
 import Participants from '../Online Conferencing/Participants';
 import AnonymousChats from '../Online Conferencing/AnonymousChats';
 import TestVoice from '../Online Conferencing/TestVoice';
 import Voice from '../Online Conferencing/Voice';
+
 import AsyncStorage from '@react-native-community/async-storage';
+
+import Games from '../games/Games';
+import Quiz from '../games/Quiz';
+import Crossword from '../games/Crossword';
 
 const HomeStack = createStackNavigator();
 const SermonsStack = createStackNavigator();
@@ -376,7 +382,6 @@ const HomeStackScreen = ({navigation}) => (
       headerStyle: {
         backgroundColor: '#FFF',
       },
-      headerTintColor: '#000',
       headerTitleStyle: styles.headerStyle,
     }}>
     <HomeStack.Screen
@@ -387,7 +392,7 @@ const HomeStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#333560',
         },
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -398,9 +403,9 @@ const HomeStackScreen = ({navigation}) => (
         title: 'Search',
         headerStyle: {
           backgroundColor: '#fff',
-          headerTintColor: '#000',
+          
         },
-        headerTintColor: '#000',
+        
         headerTitleStyle: styles.headerStyle,
       }}
     />
@@ -432,7 +437,7 @@ const HomeStackScreen = ({navigation}) => (
           fontFamily: 'frankruhllibre-regular',
           fontSize: 20,
         },
-        headerTintColor: '#000',
+        
         headerShown: true,
         headerLeft: () => (
           <Icon.Button
@@ -459,7 +464,7 @@ const HomeStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
-        headerTintColor: '#000',
+        
         headerShown: true,
       }}
     />
@@ -472,10 +477,24 @@ const HomeStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
-        headerTintColor: '#000',
+        
         headerTitleStyle: styles.headerStyle,
       }}
     />
+
+    <HomeStack.Screen
+      name="Location"
+      component={LocationPage}
+      options={{
+        title: 'Location',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
 
     <HomeStack.Screen
       name="Forum"
@@ -513,7 +532,7 @@ const HomeStackScreen = ({navigation}) => (
         headerTintColor: {
           color: '#000',
         },
-        headerTintColor: '#000',
+        
         headerShown: true,
       }}
     />
@@ -531,7 +550,7 @@ const HomeStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
-        headerTintColor: '#000',
+        
         headerShown: true,
       }}
     />
@@ -549,7 +568,7 @@ const HomeStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
-        headerTintColor: '#000',
+        
         headerShown: true,
       }}
     />
@@ -576,7 +595,7 @@ const HomeStackScreen = ({navigation}) => (
             />
           </View>
         ),
-        headerTintColor: '#000',
+        
         headerShown: true,
       }}
     />
@@ -656,7 +675,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -667,10 +686,10 @@ const HomeStackScreen = ({navigation}) => (
         title: 'Note Pad',
         headerStyle: {
           backgroundColor: '#fff',
-          headerTintColor: '#000',
+          
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -696,7 +715,7 @@ const HomeStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
-        headerTintColor: '#000',
+        
         headerTitleStyle: styles.headerStyle,
       }}
     />
@@ -735,7 +754,7 @@ const HomeStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
-        headerTintColor: '#000',
+        
         headerTitleStyle: styles.headerStyle,
       }}
     />
@@ -785,7 +804,7 @@ const HomeStackScreen = ({navigation}) => (
       component={Giving}
       options={{
         title: 'Giving',
-        headerTintColor: '#000',
+        
         headerTitleStyle: styles.headerStyle,
         headerStyle: {
           backgroundColor: '#fff',
@@ -857,7 +876,7 @@ const HomeStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
-        headerTintColor: '#000',
+        
         headerShown: true,
       }}
     />
@@ -900,7 +919,7 @@ const HomeStackScreen = ({navigation}) => (
         // headerStyle: {
         // backgroundColor: '#fff',
         // },
-        // headerTintColor: '#000',
+        // 
         // headerTitleStyle: styles.headerStyle,
       }}
     />
@@ -913,7 +932,7 @@ const HomeStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
-        headerTintColor: '#000',
+        
         headerTitleStyle: styles.headerStyle,
       }}
     />
@@ -925,10 +944,10 @@ const HomeStackScreen = ({navigation}) => (
         title: 'Events',
         headerStyle: {
           backgroundColor: '#fff',
-          headerTintColor: '#000',
+          
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -949,7 +968,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -962,7 +981,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -975,7 +994,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -988,7 +1007,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1005,6 +1024,7 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
+
     <HomeStack.Screen
       name="NoteRoot"
       component={NoteRoot}
@@ -1014,7 +1034,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
         headerRight: () => (
           <TouchableOpacity onPress={() => navigation.navigate('Addnote')}>
             <View
@@ -1033,6 +1053,47 @@ const HomeStackScreen = ({navigation}) => (
         ),
       }}
     />
+
+      
+    <HomeStack.Screen
+      name="Games"
+      component={Games}
+      options={{
+        title: 'Games',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Quiz"
+      component={Quiz}
+      options={{
+        title: 'Quiz',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Crossword"
+      component={Crossword}
+      options={{
+        title: 'Crossword',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
 
     {/* <HomeStack.Screen
       name="Bulletin"
@@ -1063,7 +1124,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1074,10 +1135,10 @@ const HomeStackScreen = ({navigation}) => (
         title: 'Testimony',
         headerStyle: {
           backgroundColor: '#fff',
-          headerTintColor: '#000',
+          
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1088,10 +1149,10 @@ const HomeStackScreen = ({navigation}) => (
         title: 'Note Pad',
         headerStyle: {
           backgroundColor: '#fff',
-          headerTintColor: '#000',
+          
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
     <HomeStack.Screen
@@ -1129,7 +1190,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1144,7 +1205,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1157,7 +1218,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1170,7 +1231,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     /> */}
 
@@ -1183,7 +1244,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1219,7 +1280,7 @@ const HomeStackScreen = ({navigation}) => (
         headerTintColor: {
           color: '#000',
         },
-        headerTintColor: '#000',
+        
         headerShown: true,
         headerRight: () => (
           <View style={styles.iconContainer}>
@@ -1257,7 +1318,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1270,7 +1331,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff ',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1283,7 +1344,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1296,7 +1357,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1419,7 +1480,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
     <HomeStack.Screen
@@ -1444,7 +1505,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1463,7 +1524,7 @@ const HomeStackScreen = ({navigation}) => (
         headerTintColor: {
           color: '#000',
         },
-        headerTintColor: '#000',
+        
         headerShown: true,
 
         // headerLeft: () => (
@@ -1546,7 +1607,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1559,7 +1620,7 @@ const HomeStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1587,7 +1648,7 @@ const HomeStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
-        headerTintColor: '#000',
+        
       }}
     />
   </HomeStack.Navigator>
@@ -1601,7 +1662,7 @@ const SermonsStackScreen = ({navigation}) => (
         backgroundColor: '#fff',
       },
       headerTitleStyle: styles.headerStyle,
-      headerTintColor: '#000',
+      
     }}>
     <SermonsStack.Screen
       name="SermonDetails"
@@ -1613,7 +1674,7 @@ const SermonsStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
 
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1636,9 +1697,9 @@ const SermonsStackScreen = ({navigation}) => (
         title: 'Search',
         headerStyle: {
           backgroundColor: '#fff',
-          headerTintColor: '#000',
+          
         },
-        headerTintColor: '#000',
+        
         headerTitleStyle: styles.headerStyle,
       }}
     />
@@ -1681,7 +1742,7 @@ const BibleStackScreen = ({navigation}) => (
       headerStyle: {
         backgroundColor: '#fff',
       },
-      headerTintColor: '#000',
+      
       headerTitleStyle: styles.headerStyle,
     }}>
     <BibleStack.Screen
@@ -1707,7 +1768,7 @@ const BibleStackScreen = ({navigation}) => (
       options={{
         title: 'Todays Reading',
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
         headerStyle: {
           backgroundColor: '#fff',
         },
@@ -1728,7 +1789,7 @@ const BibleStackScreen = ({navigation}) => (
       component={BibleChapters}
       options={{
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
         title: 'Bible Book',
         headerStyle: {
           backgroundColor: '#fff',
@@ -1740,7 +1801,7 @@ const BibleStackScreen = ({navigation}) => (
       component={BibleVerse}
       options={{
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
         title: 'Bible Verses',
         headerStyle: {
           backgroundColor: '#fff',
@@ -1766,7 +1827,7 @@ const GivingStackScreen = ({navigation}) => (
         backgroundColor: '#fff',
       },
       headerTitleStyle: styles.headerStyle,
-      headerTintColor: '#000',
+      
     }}>
     <GivingStack.Screen
       name="Give whole heartedly"
@@ -1798,7 +1859,7 @@ const GivingStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
     <GivingStack.Screen
@@ -1810,7 +1871,7 @@ const GivingStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
     <GivingStack.Screen
@@ -1822,7 +1883,7 @@ const GivingStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
 
@@ -1835,7 +1896,7 @@ const GivingStackScreen = ({navigation}) => (
           backgroundColor: '#fff',
         },
         headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
+        
       }}
     />
   </GivingStack.Navigator>
@@ -1847,7 +1908,7 @@ const AboutStackScreen = ({navigation}) => (
       headerStyle: {
         backgroundColor: '#fff',
       },
-      headerTintColor: '#000',
+      
       headerTitleStyle: styles.headerStyle,
     }}>
     <AboutStack.Screen
@@ -1868,6 +1929,45 @@ const AboutStackScreen = ({navigation}) => (
             onPress={() => navigation.openDrawer()}
           />
         ),
+      }}
+    />
+
+    <AboutStack.Screen
+      name="Location"
+      component={Location}
+      options={{
+        title: 'Location',
+        headerTitleStyle: styles.headerStyle,
+        
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+      }}
+    />
+
+    <AboutStack.Screen
+      name="NewMember"
+      component={NewMember}
+      options={{
+        title: 'New Member',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        
+      }}
+    />
+
+    <AboutStack.Screen
+      name="newMemberSuccessPage"
+      component={newMemberSuccessPage}
+      options={{
+        title: 'New Member',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        
       }}
     />
 

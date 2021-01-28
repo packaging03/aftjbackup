@@ -17,6 +17,7 @@ import {
 import Spinner from './common/Spinner';
 import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-simple-toast';
+import {AuthContext} from '../components/common/context';
 
 function Resetsuccesful({navigation, route}) {
   const {userEmail, password} = route.params;
@@ -24,6 +25,7 @@ function Resetsuccesful({navigation, route}) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
 
+  const { goHome } = React.useContext(AuthContext);
   function loginUser(email, password, setError, setLoading) {
     setLoading(true);
     setError('');
@@ -50,6 +52,9 @@ function Resetsuccesful({navigation, route}) {
           alert(e);
         }
         onLoginSuccess(setLoading);
+        setUserToken(2);
+        goHome();
+        
       })
       .catch(error => {
         alert(error);
