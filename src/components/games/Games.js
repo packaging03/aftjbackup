@@ -4,9 +4,42 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 //  
 
 let index1 =  Math.floor(Math.random() * 10);
+const words = ['LOVE', 'JOY', 'PEACE', 'GOD', 
+'GRACE', 'TRUTH', 'JESUS', 'FATHER', 'MASTER', 'DISCIPLE',
+'HEAVEN', 'TEACHER', 'KINGDOM', 'PATIENCE', 'FAITH', 'WORD', 'TRUST', 'OBEY', 'ABBA', 'SPIRIT',
+ 'CARNAL', 'CHRIST', 'SAVIOUR', 'HEALER', 'ALTAR', 'APOSTLE', 'ATONEMENT', 'BAPTISM', 'BRETHREN', 'CHERUB', 
+ 'EXODUS', 'GOSPEL', 'MESSIAH', 'PARADISE', 'PRODIGAL', 'PROPHESY', 'RAPTURE', 'REJOICE', 'REDEMPTION', 
+ 'REPENTANCE', 'RESURRECTION', 'ANOINTING', 'SACRIFICE', 'JEW', 'SERMON', 'TESTIMONY', 'TRIBULATION',
+ 'GENESIS', 'ANGEL', 'SABBATH', 'CHURCH', 'PRAYER', 'PRAISES', 'NATIONS', 'HOLY', 'HONOUR', 'RESPECT', 'PASTOR',
+ 'BIBLE', 'COVENANT', 'PRIEST', 'CONFIDENCE', 'PSALMS', 'FORGIVE', 'CONQUEROR', 'BLESSINGS', 'SUBMIT', 'GENTLE',
+ 'POWER', 'GLORY', 'WORSHIP', 'PRIESTHOOD', 'PROPHET', 'INTERCESSOR'
+];
+
+var sixteenWords = [];
+
+const pick16Random = () => {
+   sixteenWords = [];
+    
+    for (let t = 0; t < 16; t++){
+        let num = Math.floor(Math.random() * 71);
+        
+        if (!sixteenWords.includes(words[num])){
+            sixteenWords.push(words[num]);
+        }else{
+           
+            while(sixteenWords.includes(num)){
+                num = Math.floor(Math.random() * 71);
+                
+            }
+            sixteenWords.push(words[num]);
+        }
+        
+    }
+}
 const Games = ({navigation}) => {
 
     useEffect(() => {
+        pick16Random();
         console.log("games: "+index1);
     }, [])
     const {imageStyle, textStyle, itemStyle} = styles;
@@ -57,7 +90,8 @@ const Games = ({navigation}) => {
                     index13:  Math.floor(Math.random() * 10),
                     index14:  Math.floor(Math.random() * 10),
                     index15:  Math.floor(Math.random() * 10),
-                    index16:  Math.floor(Math.random() * 10)
+                    index16:  Math.floor(Math.random() * 10),
+                    sixteenWords: sixteenWords
                 })}>
                 <View style={itemStyle}>
 
@@ -93,7 +127,7 @@ const styles = {
     },
     textStyle: {
         marginLeft:20,
-        fontFamily: 'Nunito',
+        fontFamily: 'Nunito-Regular',
         fontSize: 14,
         fontWeight: '400',
         lineHeight:  19.1
