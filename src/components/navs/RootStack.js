@@ -61,9 +61,12 @@ import BibleHome from '../BibleHome';
 import TodaysReading from '../DaysReading';
 import BibleChapters from '../BibleChapters';
 import BibleVerse from '../BibleContent';
+import PreSchool from '../PreSchool';
+
+import Kindergarten from '../Kindergarten';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
-// import MemoryVerseNew from '../MemoryVerseNew';
+import MemoryVerseNew from '../MemoryVerseNew';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
 import Pastorschedule from '../Pastorschedule';
@@ -869,37 +872,6 @@ const RootStack = ({
           
         }}
       />
-
-
-
-    <Stack.Screen
-      name="NoteDetails"
-      component={NoteDetails}
-      options={{
-        title: 'Note Pad',
-        headerStyle: {
-          backgroundColor: '#fff',
-          
-        },
-        // headerRight: () => (
-        //   <View
-        //     style={{
-        //       flexDirection: 'row',
-        //       paddingRight: '30%',
-        //       alignItems: 'center',
-        //     }}>
-        //     <Image
-        //       onPress={() => navigation.navigate('Home')}
-        //       style={{width: 20, height: 20, marginRight: 15}}
-        //       source={require('../../assets/edit.png')}
-        //     />
-        //   </View>
-        // ),
-        headerTitleStyle: styles.headerStyle,
-        
-      }}
-    />
-
 
     <Stack.Screen
       name="Editnote"

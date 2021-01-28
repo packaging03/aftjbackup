@@ -28,7 +28,7 @@ import payFail from '../giving/Failed';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconn from 'react-native-vector-icons/AntDesign';
-import MemoryVerseNew from '../MemoryVerseNew';
+// import MemoryVerseNew from '../MemoryVerseNew';
 import Icono from 'react-native-vector-icons/FontAwesome';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import Help from '../Help';
@@ -98,7 +98,7 @@ import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
 import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
-// import MemoryVerseNew from '../MemoryVerseNew';
+import MemoryVerseNew from '../MemoryVerseNew';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Games from '../games/Games';
@@ -476,18 +476,7 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
-    <HomeStack.Screen
-      name="Location"
-      component={LocationPage}
-      options={{
-        title: 'Location',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        
-        headerTitleStyle: styles.headerStyle,
-      }}
-    />
+ 
 
 
     <HomeStack.Screen
