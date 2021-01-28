@@ -62,7 +62,14 @@ function PrayerRequest({accessToken, user}) {
           var errorMsg = '';
 
           if (responseJson.message !== 'Prayer Request Created succesfully') {
-            alert('Error: ' + responseJson);
+            if (responseJson.errors.phone || responseJson.errors.email){
+              alert( responseJson.errors.phone+", "+responseJson.errors.email);
+            }
+
+            // if (responseJson.errors.email){
+            //   alert( responseJson.errors.email);
+            // }
+            
             return;
           } else {
             alert('Your prayer request has been successfully sent!');
