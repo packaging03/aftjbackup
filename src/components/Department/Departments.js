@@ -78,7 +78,7 @@ const Departments = ({navigation}) => {
       );
 
     return(
-        <View style={{backgroundColor:'white'}}>
+        <View style={{backgroundColor:'white', flex:1}}>
 
           <Text style={{marginLeft: 10,
                 color: '#000',

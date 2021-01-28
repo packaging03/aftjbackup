@@ -13,7 +13,7 @@ import {
 } from '@react-navigation/stack';
 import Sermons from '../Sermons';
 import SermonDetails from '../SermonDetails';
-
+import Location from '../Location';
 import Events from '../Events';
 import EventDetails from '../EventDetails';
 import TestimonyDetails from '../TestimonyDetails';
