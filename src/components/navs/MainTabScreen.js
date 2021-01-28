@@ -28,7 +28,7 @@ import payFail from '../giving/Failed';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconn from 'react-native-vector-icons/AntDesign';
-import MemoryVerseNew from '../MemoryVerseNew';
+// import MemoryVerseNew from '../MemoryVerseNew';
 import Icono from 'react-native-vector-icons/FontAwesome';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import Help from '../Help';
@@ -98,15 +98,13 @@ import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
 import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
-
 import HomeChat from '../Online Conferencing/HomeChat';
 import Participants from '../Online Conferencing/Participants';
 import AnonymousChats from '../Online Conferencing/AnonymousChats';
 import TestVoice from '../Online Conferencing/TestVoice';
 import Voice from '../Online Conferencing/Voice';
-
+import MemoryVerseNew from '../MemoryVerseNew';
 import AsyncStorage from '@react-native-community/async-storage';
-
 import Games from '../games/Games';
 import Quiz from '../games/Quiz';
 import Crossword from '../games/Crossword';
@@ -482,18 +480,7 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
-    <HomeStack.Screen
-      name="Location"
-      component={LocationPage}
-      options={{
-        title: 'Location',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        
-        headerTitleStyle: styles.headerStyle,
-      }}
-    />
+ 
 
 
     <HomeStack.Screen
