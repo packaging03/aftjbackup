@@ -135,7 +135,7 @@ const Resources = ({navigation}) => {
       <Item
         item={item}
         onPress={() =>
-          navigation.navigate('NMResource', {
+          navigation.navigate('NM-Resource', {
             uri: item.video,
             id: item.id,
             ids: ids,
