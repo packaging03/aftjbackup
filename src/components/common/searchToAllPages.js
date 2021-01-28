@@ -28,5 +28,6 @@ export const dataArray = [
   {id: '27', value: 'AvailableOnPaidVersion'},
   {id: '28', value: 'Suggestion'},
   {id: '29', value: 'Games'},
+   {id: '30', value: 'Online Conference'}
 
 ];

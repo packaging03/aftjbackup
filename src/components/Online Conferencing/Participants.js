@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { ImageBackground } from 'react-native';
 import {View, Image, Text, StyleSheet, TextInput, FlatList, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 
-const Chats = ({navigation, accessToken, user, route})=> {
+const Participants = ({navigation, accessToken, user})=>{
 
     const [userData, setUserData] = useState();
     const [refreshData, setRefreshData] = useState();
@@ -14,86 +13,34 @@ const Chats = ({navigation, accessToken, user, route})=> {
     const [userRegistration, setUserRegistration] = useState(false);
     const [firstRegistration, setFirstRegistration] = useState(false);
 
-    var firebaseChats = require("firebase");
-
-    const firebaseChatsConfig = {
-    databaseURL: 'https://aftj-chats-default-rtdb.firebaseio.com/',
-    projectId: 'aftj-chats'
-    };
-
-    if(!firebaseChats.apps.length){
-        firebaseChats.initializeApp(firebaseChatsConfig);
-    }
-
-    function checkIfRegisteredUser(){
-        
-        firebaseChats.database().ref('Users/').once('value').then((snapshot)=>{
-            snapshot.forEach((child)=>{
-                if(child.val().name==JSON.parse(user).name){
-                    setUserRegistration(true)
-                }
-            })   
-            console.log('here rather')
-            
-        })
-    }
-
     useEffect(()=>{
         if(accessToken==null){
             alert('Please Login to access this page')
         }else{
             
             fetch('https://church.aftjdigital.com/api/users', {
-                        method: 'GET',
-                        headers: {
-                          Accept: 'application/json',
-                          'Content-Type': 'application/json',
-                          'Authorization': `Bearer ${accessToken}`
-                      },
+            method: 'GET',
+            headers: {
+                    Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    },
                         
-                      })
-                      .then((response) => response.json())
-                      .then((responseJson) =>{
-                          //console.log(responseJson)
-                          setUserData(JSON.stringify(responseJson))
-                          setRefreshData(JSON.stringify(responseJson))
+                })
+                .then((response) => response.json())
+                .then((responseJson) =>{
+                    //console.log(responseJson)
+                    setUserData(JSON.stringify(responseJson))
+                    
                             
-                      })
-                      .catch((error) => {
-                        alert(error)});
+                })
+                .catch((error) => {
+                alert(error)}
+            );
 
-                        checkIfRegisteredUser()
-                        
-                        if(userRegistration==false && firstRegistration==false){
-                            firebaseChats.database().ref('Users/').push({'name': JSON.parse(user).name, 'activeState': '0', 'time':'05:30'})
-                            console.log('no its here')
-                        }  
-                                //setFirebaseKeys(JSON.stringify(Keys))
         }
         
     })
-
-    /*const updateSearch = text => {
-
-        let textData;
-        const newData = JSON.parse(userData).filter(item=>{
-          const itemData = `${item.name.toUpperCase()}`;
-    
-          textData = text.toUpperCase();
-    
-          return itemData.indexOf(textData)==0;
-        });
-          
-        if(textData){
-            setUserData(newData)
-        }else{
-            setUserData(JSON.parse(refreshData))
-        }
-    }*/
-
-    const ChatRoom = (item)=>{
-        navigation.navigate('ChatRoom', {'agent_id': item.id, 'image': item.image, 'name':item.name})
-    }
 
     const ChatActive = ()=>{
         return(
@@ -113,21 +60,6 @@ const Chats = ({navigation, accessToken, user, route})=> {
 
     return(
         <View style= {styles.container}>
-            <View style={styles.search}>
-                <View style={styles.bar}>
-                    <TextInput
-                        style={{flex:1}}
-                        placeholder={'Search'}
-                        onChangeText = {text => updateSearch(text)}
-                        />
-                    <Icon.Button
-                        name="search-outline"
-                        size={25}
-                        color="#ccc"
-                        backgroundColor="#fff"
-                    />
-                </View>
-            </View>
             <FlatList
                 data={userData?JSON.parse(userData):()=>{alert('A problem has occured')}}
                 keyExtractor={(item, index) => item.id}
@@ -136,7 +68,7 @@ const Chats = ({navigation, accessToken, user, route})=> {
                         <View style = {styles.card} >
                             <View style= {styles.profileImage}>
                                 {item.image==null?
-                                    <Image style= {{flex: 1, width: '100%', height: '100%'}} source={require('../assets/profile-user.png')} />:
+                                    <Image style= {{flex: 1, width: '100%', height: '100%'}} source={require('../../assets/profile-user.png')} />:
                                     <Image style= {{flex: 1, width: '100%', height: '100%'}} source={{uri: item.image}} />
                                 }
                                 
@@ -144,7 +76,7 @@ const Chats = ({navigation, accessToken, user, route})=> {
                             {activeState?<ChatActive/>:<ChatInactive/>}
                             <View style = {styles.cardText}>
                                 <Text style = {{fontWeight: 'bold'}}>{item.name}</Text>
-                                <Text>3 minutes ago</Text>
+                                <Text>Active now</Text>
                             </View>
                             
                         </View>
@@ -153,6 +85,7 @@ const Chats = ({navigation, accessToken, user, route})=> {
             />
         </View>
     )
+
 }
 
 const styles = StyleSheet.create({
@@ -160,6 +93,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         flexDirection: 'column',
+        paddingTop: 20
     },
 
     chatActivity:{
@@ -175,8 +109,8 @@ const styles = StyleSheet.create({
         height: 15,
         backgroundColor: 'white',
         position: 'absolute',
-        right: '80%',
-        top: '65%',
+        right: '82%',
+        top: '60%',
         borderRadius:15,
         justifyContent: 'center',
         alignItems:'center'
@@ -227,6 +161,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         marginLeft: 5
     }
+
 })
 
 const mapStateToProps = state => ({
@@ -234,4 +169,4 @@ const mapStateToProps = state => ({
     user: state.user.user,
   });
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-export default connect(mapStateToProps)(Chats);
+export default connect(mapStateToProps)(Participants);
