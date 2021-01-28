@@ -98,7 +98,7 @@ import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
 import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
-import HomeChat from '../Online Conferencing/HomeChat';
+import HomeChat from '../Online Conferencing/AnonymousChats';
 import Participants from '../Online Conferencing/Participants';
 import AnonymousChats from '../Online Conferencing/AnonymousChats';
 import TestVoice from '../Online Conferencing/TestVoice';

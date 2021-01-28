@@ -8,6 +8,7 @@ import {
   TextInput,
   FlatList,
   Image,
+  TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Iconn from 'react-native-vector-icons/AntDesign';
@@ -158,23 +159,30 @@ export default function Pastorschedule({navigation}) {
     {
       navigation.setOptions({
         headerRight: () => (
-          <View style={{flexDirection: 'row', margin: 20}}>
+          <View style={styles.iconContainer}>
+      <TouchableOpacity 
+       onPress={() => navigation.navigate('Bookappointment')}
+      >
             <Iconn
               name="plussquareo"
               size={25}
               backgroundColor="#fff"
               color="#000"
               style={{marginLeft: 20}}
-              onPress={() => navigation.navigate('Bookappointment')}
+             
             />
-
+      </TouchableOpacity>
+      <TouchableOpacity
+         onPress={() => navigation.navigate('Schedulecalendar')}
+      >
             <IconM
               name="calendar-blank-outline"
               size={25}
               backgroundColor="#fff"
               color="#000"
-              onPress={() => navigation.navigate('Schedulecalendar')}
+              
             />
+            </TouchableOpacity>
           </View>
         ),
       });
@@ -255,4 +263,12 @@ const styles = StyleSheet.create({
     margin: '2%',
     borderRadius: 5,
   },
+  iconContainer: {
+    width: '75%',
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin:20
+},
 });
