@@ -57,7 +57,7 @@ const Departments = ({navigation}) => {
                 flexWrap: 'wrap',
                 flex: 1,
               }}>
-              {title.trim()}
+              {title}
             </Text>
 
             <Icon name="chevron-forward-outline" size={20} color="black"/>

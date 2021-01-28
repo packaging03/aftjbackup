@@ -9,9 +9,11 @@ import {
 } from 'react-native';
 import {Container, Header, Left, Body, Right, Button, Title} from 'native-base';
 const {width, height} = Dimensions.get('window');
+import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const SuccessPage = ({navigation}) => {
+const SuccessPage = () => {
+  const navigation = useNavigation();
   return (
     <Container>
       <View style={{height: height - 250, marginTop: 80}}>

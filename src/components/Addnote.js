@@ -155,19 +155,7 @@ function Addnote({navigation, accessToken, user}) {
         </View>
       </View>
       
-      
-      {/* <View
-        style={{
-          alignSelf: 'flex-end',
-          marginRight: -10,
-          width: 220,
-          flex: 1,
-          marginBottom: 100,
-          display: 'flex',
-        }}>
-        <CButton onPress={() => AddATestimony()}>SHARE</CButton>
-      </View> */}
-<View
+      <View
         style={{
           alignSelf: 'flex-end',
           marginRight: -10,

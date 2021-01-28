@@ -61,11 +61,9 @@ import BibleHome from '../BibleHome';
 import TodaysReading from '../DaysReading';
 import BibleChapters from '../BibleChapters';
 import BibleVerse from '../BibleContent';
-import PreSchool from '../PreSchool';
-import Kindergarten from '../Kindergarten';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
-import Grade1MemoryVerse from '../Grade1MemoryVerse';
+// import MemoryVerseNew from '../MemoryVerseNew';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
 import Pastorschedule from '../Pastorschedule';
@@ -92,9 +90,11 @@ import ForumMessages from '../ForumMessages';
 import Activities from '../Profile/Activities';
 import NoteRoot from '../NoteRoot';
 import ChatRoom from '../ChatRoom';
-import Addnote from '../Addnote';
 import NoteDetails from '../NoteDetails';
+import Addnote from '../Addnote';
 import Editnote from '../Editnote';
+import Suggestion from '../suggestion/Suggestion';
+// import MemoryVerseNew from '../MemoryVerseNew';
 
 import Games from '../games/Games';
 import Quiz from '../games/Quiz';
@@ -296,6 +296,20 @@ const RootStack = ({
           
         }}
       />
+
+      <Stack.Screen
+        name="Suggestion"
+        component={Suggestion}
+        options={{
+          title: 'New Member',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          headerTintColor: '#000',
+        }}
+      />
+
       <Stack.Screen
         name="Schedulecalendar"
         component={Schedulecalendar}
@@ -319,6 +333,19 @@ const RootStack = ({
           },
           headerTitleStyle: styles.headerStyle,
           
+        }}
+      />
+
+<Stack.Screen
+        name="MemoryVerseNew"
+        component={MemoryVerseNew}
+        options={{
+          title: "Memory Verse",
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          headerTintColor: '#000',
         }}
       />
 
@@ -816,17 +843,33 @@ const RootStack = ({
       />
 
       <Stack.Screen
-        name="Addnote"
-        component={Addnote}
+        name="NoteDetails"
+        component={NoteDetails}
         options={{
-          title: 'Notes',
+          title: 'Note Pad',
           headerStyle: {
             backgroundColor: '#fff',
+            headerTintColor: '#000',
           },
+          // headerRight: () => (
+          //   <View
+          //     style={{
+          //       flexDirection: 'row',
+          //       paddingRight: '30%',
+          //       alignItems: 'center',
+          //     }}>
+          //     <Image
+          //       onPress={() => navigation.navigate('Home')}
+          //       style={{width: 20, height: 20, marginRight: 15}}
+          //       source={require('../../assets/edit.png')}
+          //     />
+          //   </View>
+          // ),
           headerTitleStyle: styles.headerStyle,
           
         }}
       />
+
 
 
     <Stack.Screen
@@ -1295,18 +1338,20 @@ const RootStack = ({
         }}
       />
 
-<   Stack.Screen
-      name="ChatRoom"
-      component={ChatRoom}
-      options={{
-        title: 'Chat Page',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        
-        headerTitleStyle: styles.headerStyle,
-      }}
-    />
+
+
+      <Stack.Screen
+        name="ChatRoom"
+        component={ChatRoom}
+        options={{
+          title: 'Chat Page',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTintColor: '#000',
+          headerTitleStyle: styles.headerStyle,
+        }}
+      />
 
       <Stack.Screen
         name="ChildrenChurch"
@@ -1485,6 +1530,7 @@ const RootStack = ({
       />
 
       <Stack.Screen
+
         name="Preschoolplayer"
         component={PreschoolVideoPlayer}
         options={{
@@ -1512,7 +1558,7 @@ const RootStack = ({
 
       <Stack.Screen
         name="Grade Memory Verse"
-        component={Grade1MemoryVerse}
+        component={MemoryVerseNew}
         options={{
           title: 'Memory Verses',
           headerStyle: {
@@ -1527,32 +1573,6 @@ const RootStack = ({
           },
           
           headerShown: true,
-          headerRight: () => (
-            <View style={styles.iconContainer2}>
-              <Icon
-                onPress={() => alert('Sharing Memory Verse...')}
-                size={30}
-                name="share-social-outline"
-              />
-
-              <Icono
-                size={30}
-                style={{marginRight: 20}}
-                name="plus-square-o"
-                onPress={() => navigation.navigate('AddMemoryVerse')}
-              />
-            </View>
-          ),
-
-          // headerLeft: () => (
-          //   <Icon.Button
-          //     name="ios-menu"
-          //     size={25}
-          //     color="#000"
-          //     backgroundColor="#fff"
-          //     onPress={() => navigation.openDrawer()}
-          //   />
-          // ),
         }}
       />
 
