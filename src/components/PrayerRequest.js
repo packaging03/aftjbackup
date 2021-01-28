@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,11 +6,13 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {TextInput} from 'react-native-gesture-handler';
 // import {RadioButton} from 'react-native-paper';
+import AsyncStorage from '@react-native-community/async-storage';
 import CustomInput from '../components/common/CustomInput';
 import RadioForm, {
   RadioButton,
@@ -28,72 +30,95 @@ function PrayerRequest({accessToken, user}) {
   const [phone, setPhone] = useState('');
   const [request, setRequest] = useState('');
 
-  const sendPrayerRequest = () => {
+  const sendPrayerRequest = async () => {
     if (accessToken === null) {
       alert('Please Login first');
       return;
     }
     if (request === '' || name === '' || email === '' || phone === '') {
-      alert('All fields are required');
+      Alert.alert('All fields are required');
     } else {
-      fetch('https://church.aftjdigital.com/api/prayerrequest', {
+      const config = {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          // 'Authorization': `bearer ${accessToken}`,
+          Authorization: `bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           user_id: JSON.parse(user).id,
           name: name,
-
           email: email,
           phone: phone,
           address: 'address',
           body: request,
           token: accessToken,
         }),
-      })
-        .then(response => response.json())
-        .then(responseJson => {
-          console.log('peter');
-          console.log(responseJson);
-          console.log('peter');
-          var errorMsg = '';
+      };
+      try {
+        const fetchResponse = await fetch(
+          'https://church.aftjdigital.com/api/prayerrequest',
+          config,
+        );
 
-          if (responseJson.message !== 'Prayer Request Created succesfully') {
-
-            
-            if(responseJson.errors){
-              if (responseJson.errors.phone || responseJson.errors.email){
-                alert( responseJson.errors.phone+", "+responseJson.errors.email);
-              }
-            }else if (responseJson.message){
-              alert( responseJson.message);
-            }
-
-            // if (responseJson.errors.email){
-            //   alert( responseJson.errors.email);
-            // }
-            
-            return;
-          } else {
-            alert('Your prayer request has been successfully sent!');
-            setName('');
-            setEmail('');
-            setRequest('');
-
-            setPhone('');
-          }
-          console.log('user:' + errorMsg);
-        })
-        .catch(error => {
-          console.log('user:' + user);
-
-          alert(error);
-        });
+        const data = await fetchResponse.json();
+        if (data.message === 'Prayer Request Created succesfully') {
+          Alert.alert('Your prayer request has been successfully sent!');
+          setName('');
+          setEmail('');
+          setRequest('');
+          setPhone('');
+        }
+      } catch (e) {
+        if (e.message === 'Network request failed') {
+          Alert.alert('Please connect to the internet ');
+        }
+      }
     }
   };
+
+  const [interv, setInterv] = useState(null);
+  const [time, setTime] = useState({s: 0, m: 0, h: 0});
+
+  var updatedMs = 0,
+    updatedS = time.m,
+    updatedM = time.m,
+    updatedH = time.h;
+
+  const run = async () => {
+    setTimeout(run, 10);
+    if (updatedM === 60) {
+      updatedH++;
+      updatedM = 0;
+    }
+    if (updatedS === 60) {
+      updatedM++;
+      updatedS = 0;
+    }
+    if (updatedMs === 100) {
+      updatedS++;
+      updatedMs = 0;
+    }
+    updatedMs++;
+    const j = JSON.stringify({s: updatedS, m: updatedM, h: updatedH});
+    try {
+      await AsyncStorage.setItem('prayT', j);
+    } catch (e) {
+      console.log(e);
+    }
+
+    return setTime({s: updatedS, m: updatedM, h: updatedH});
+  };
+
+  useEffect(() => {
+    run();
+    setInterv(setTimeout(run, 10));
+    // gatwayTime();
+    return () => {
+      clearTimeout(interv);
+    };
+  }, []);
+
   return (
     <ScrollView>
       <View style={styles.container}>
