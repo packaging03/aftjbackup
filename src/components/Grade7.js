@@ -62,8 +62,6 @@ export default function Grade7({navigation, route}) {
                     {item.details}
                   </Text>
                 </View>
-
-               
               </View>
               </TouchableOpacity>
 

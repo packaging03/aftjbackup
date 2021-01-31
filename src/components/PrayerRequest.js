@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,11 +6,13 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {Card} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {TextInput} from 'react-native-gesture-handler';
 // import {RadioButton} from 'react-native-paper';
+import AsyncStorage from '@react-native-community/async-storage';
 import CustomInput from '../components/common/CustomInput';
 import RadioForm, {
   RadioButton,
@@ -22,105 +24,139 @@ import CustomButton from '../components/common/CustomButton';
 radio_props = [{label: 'Yes', value: 0}, {label: 'No', value: 1}];
 
 function PrayerRequest({accessToken, user}) {
-
   const [checked, setChecked] = useState('Yes');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [request, setRequest] = useState('');
 
-  const sendPrayerRequest = () => {
-
-    if (accessToken === null){
+  const sendPrayerRequest = async () => {
+    if (accessToken === null) {
       alert('Please Login first');
       return;
     }
-    if(request==='' || name === '' || email === '' || phone === ''){
-      alert('All fields are required')
-    }else{
-      fetch('https://church.aftjdigital.com/api/prayerrequest', {
+    if (request === '' || name === '' || email === '' || phone === '') {
+      Alert.alert('All fields are required');
+    } else {
+      const config = {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          // 'Authorization': `bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-      },
+          Authorization: `bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
-          
           user_id: JSON.parse(user).id,
           name: name,
-          
           email: email,
           phone: phone,
-          address:'address',
+          address: 'address',
           body: request,
-          token: accessToken
-        
-        })
-      })
-      .then((response) => response.json())
-      .then((responseJson) =>{
-          console.log("Res:" + JSON.stringify(responseJson));
-          var errorMsg = '';
-          if (JSON.stringify(responseJson.message) !== 'Prayer Request Created succesfully' ){
-            console.log('error '+ JSON.stringify(responseJson.errors.phone));
-            if (JSON.stringify(responseJson.errors.phone) !== undefined){
-                errorMsg += responseJson.errors.phone+' ';
-            }
-            if (JSON.stringify(responseJson.errors.email) !== undefined){
-              errorMsg += responseJson.errors.email;
-             }
-             alert(errorMsg)
-             return;
-          }
-          console.log("user:" + errorMsg);
-          alert('Your prayer request has been successfully sent!')
+          token: accessToken,
+        }),
+      };
+      try {
+        const fetchResponse = await fetch(
+          'https://church.aftjdigital.com/api/prayerrequest',
+          config,
+        );
+
+        const data = await fetchResponse.json();
+        if (data.message === 'Prayer Request Created succesfully') {
+          Alert.alert('Your prayer request has been successfully sent!');
           setName('');
           setEmail('');
           setRequest('');
-
           setPhone('');
-      })
-      .catch((error) => {
-        console.log("user:" + user);
-         
-        alert(error)});
+        }
+      } catch (e) {
+        if (e.message === 'Network request failed') {
+          Alert.alert('Please connect to the internet ');
+        }
+      }
     }
-    
-  
-  }
+  };
+
+  const [interv, setInterv] = useState(null);
+  const [time, setTime] = useState({s: 0, m: 0, h: 0});
+
+  var updatedMs = 0,
+    updatedS = time.m,
+    updatedM = time.m,
+    updatedH = time.h;
+
+  const run = async () => {
+    setTimeout(run, 10);
+    if (updatedM === 60) {
+      updatedH++;
+      updatedM = 0;
+    }
+    if (updatedS === 60) {
+      updatedM++;
+      updatedS = 0;
+    }
+    if (updatedMs === 100) {
+      updatedS++;
+      updatedMs = 0;
+    }
+    updatedMs++;
+    const j = JSON.stringify({s: updatedS, m: updatedM, h: updatedH});
+    try {
+      await AsyncStorage.setItem('prayT', j);
+    } catch (e) {
+      console.log(e);
+    }
+
+    return setTime({s: updatedS, m: updatedM, h: updatedH});
+  };
+
+  useEffect(() => {
+    run();
+    setInterv(setTimeout(run, 10));
+    // gatwayTime();
+    return () => {
+      clearTimeout(interv);
+    };
+  }, []);
+
   return (
     <ScrollView>
       <View style={styles.container}>
-        
-          <Image
-            source={require('../assets/prayer-request.png')}
-            style={styles.img}
-          />
-       
+        <Image
+          source={require('../assets/prayer-request.png')}
+          style={styles.img}
+        />
+
         <Text style={styles.title}>PRAYER REQUEST</Text>
         <Text style={styles.description}>
-        Our Prayer team at Jubilee Christian Church Int’l would be honored to pray for you or someone you know. We pray for all the prayer request we recieve on a regular basis.
+          Our Prayer team at Jubilee Christian Church Int’l would be honored to
+          pray for you or someone you know. We pray for all the prayer request
+          we recieve on a regular basis.
         </Text>
         <Text style={styles.otherText}>FILL THE FORM BELOW</Text>
 
         <View style={styles.card}>
-          <Text style={{ fontFamily: 'Nunito',
+          <Text
+            style={{
+              fontFamily: 'Nunito',
               alignSelf: 'baseline',
-              fontWeight:'400',
-              letterSpacing:0.5,
-              lineHeight:24,}}>
+              fontWeight: '400',
+              letterSpacing: 0.5,
+              lineHeight: 24,
+            }}>
             How can we pray for you?
           </Text>
           <CustomInput
             value={request}
-            onChangeText={(value) => setRequest(value)}
+            onChangeText={value => setRequest(value)}
             title="Enter Your prayer request"
             style={{marginRight: 20, fontSize: 18}}
             multiline={true}
           />
-        
-          <Text style={styles.inputLabel}>Would you like someone to follow up with you?</Text>
+
+          <Text style={styles.inputLabel}>
+            Would you like someone to follow up with you?
+          </Text>
           <RadioForm
             radio_props={radio_props}
             initial={0}
@@ -139,34 +175,31 @@ function PrayerRequest({accessToken, user}) {
             style={{marginTop: 10}}
             animation={true}
           />
-        
-        
+
           <Text style={styles.inputLabel}>Name</Text>
           <CustomInput
-           onChangeText={value => setName(value)}
-           value={name}
+            onChangeText={value => setName(value)}
+            value={name}
+            title="Enter Full Name"
+          />
 
-           title="Enter Full Name" />
-       
-
-        
           <Text style={styles.inputLabel}>Email Address</Text>
           <CustomInput
             value={email}
-            onChangeText={(value) => setEmail(value)}
+            onChangeText={value => setEmail(value)}
             keyboardType="email-address"
             title="Your Email Address "
           />
-      
+
           <Text style={styles.inputLabel}>Contact Number</Text>
           <CustomInput
             value={phone}
-            onChangeText={(value) => setPhone(value)}
+            onChangeText={value => setPhone(value)}
             keyboardType="phone-pad"
             title="Type your phone number here"
           />
-    
-{/* 
+
+          {/* 
         <View
           style={{
             alignSelf: 'flex-end',
@@ -177,12 +210,17 @@ function PrayerRequest({accessToken, user}) {
             marginBottom: 20,
             display: 'flex',
           }}> */}
-          <CustomButton 
-          
-            onPress={() => sendPrayerRequest()} 
-            buttonStyle={{ width:'60%', marginRight:-20, marginTop:40, alignSelf:'flex-end', marginBottom:20}}>
-              SUBMIT</CustomButton>
-      
+          <CustomButton
+            onPress={() => sendPrayerRequest()}
+            buttonStyle={{
+              width: '60%',
+              marginRight: -20,
+              marginTop: 40,
+              alignSelf: 'flex-end',
+              marginBottom: 20,
+            }}>
+            SUBMIT
+          </CustomButton>
         </View>
       </View>
     </ScrollView>
@@ -190,14 +228,11 @@ function PrayerRequest({accessToken, user}) {
 }
 
 const mapStateToProps = state => ({
-
   accessToken: state.user.accessToken,
-  user: state.user.user
-
+  user: state.user.user,
 });
 
 export default connect(mapStateToProps)(PrayerRequest);
-
 
 const styles = StyleSheet.create({
   card: {
@@ -205,7 +240,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     marginLeft: 20,
     marginTop: 15,
-    padding:24,
+    padding: 24,
     marginRight: 20,
     flexDirection: 'column',
     padding: 24,
@@ -233,7 +268,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     lineHeight: 22,
     fontSize: 14,
-    fontWeight:'400',
+    fontWeight: '400',
     textAlign: 'justify',
   },
   img: {
@@ -241,26 +276,25 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
     width: '95%',
     marginTop: 20,
-    marginLeft:20,
-    marginRight:20,
+    marginLeft: 20,
+    marginRight: 20,
     alignSelf: 'center',
   },
   inputLabel: {
     fontFamily: 'Nunito',
     alignSelf: 'baseline',
-    fontWeight:'400',
-    letterSpacing:0.5,
-    lineHeight:24,
-    marginTop:40
-  
+    fontWeight: '400',
+    letterSpacing: 0.5,
+    lineHeight: 24,
+    marginTop: 40,
   },
   otherText: {
     marginLeft: 20,
     marginTop: 10,
     fontFamily: 'Nunito',
     alignSelf: 'baseline',
-    fontWeight:'400',
-    lineHeight:32,
+    fontWeight: '400',
+    lineHeight: 32,
     fontSize: 18,
   },
   title: {

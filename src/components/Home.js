@@ -14,6 +14,7 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
 import Geocoder from 'react-native-geocoding';
 import {color} from 'react-native-reanimated';
@@ -26,6 +27,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {SCLAlert, SCLAlertButton} from 'react-native-scl-alert';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import {BlurView} from '@react-native-community/blur';
+import {connect} from 'react-redux';
 import Dialog, {
   DialogTitle,
   DialogContent,
@@ -40,8 +42,19 @@ import RNReverseGeocode from '@kiwicom/react-native-reverse-geocode';
 import {Dimensions} from 'react-native';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 var {height, width} = Dimensions.get('window');
+Geocoder.init('AIzaSyDcQ3x2xO0zFeh2EKF3Ilguctn8KXyDpmo', {language: 'en'});
 
-export default function Home({navigation}) {
+const Home = ({
+  currentUser,
+  user,
+
+  accessToken,
+  setCurrentUser,
+  setUser,
+  setUserToken,
+  setAccessToken,
+}) => {
+  const navigation = useNavigation();
   const ITEM_SIZE = width * 0.85;
   const img = '../assets/jcci_logo.png';
   const closeIcon = '../assets/closebtn.png';
@@ -50,7 +63,23 @@ export default function Home({navigation}) {
   const [show, setShow] = useState(false);
   const [attendance, setAttendance] = useState('');
   const [covid, setCovid] = useState(false);
+  const [addy, setAddy] = useState('');
+  const status = useRef('');
   const [userCordinate, setUserCordinate] = useState('');
+
+  const getAddy = (currentLatitude, currentLongitude) => {
+    Geocoder.from(currentLatitude, currentLongitude)
+      .then(json => {
+        var addressComponent = json.results[0].formatted_address;
+        if (addressComponent) {
+          setAddy(addressComponent);
+        } else {
+          alert('Enable location service.');
+        }
+        console.log(addressComponent);
+      })
+      .catch(error => console.warn(error));
+  };
 
   const fetchNearestPlacesFromGoogle = (lati, longi) => {
     const latitude = lati; // you can update it with user's latitude & Longitude
@@ -91,19 +120,14 @@ export default function Home({navigation}) {
           places.push(place);
         }
 
-        console.log(places);
+        // console.log(places);
 
         for (let AFTj = 0; AFTj < places.length; AFTj++) {
-          if (
-            places[AFTj].placeName === 'JCCI Glory Tabernacle' &&
-            places[AFTj].placeTypes[0] === 'church'
-          ) {
-            console.log(places[AFTj].placeName);
-            // alert(places[AFTj].placeName);
-            // setAttendance(places[AFTj].placeName);
-            // console.log(places[AFTj].placeTypes[0]);
+          if (places[AFTj].placeName === 'JCCI Glory Tabernacle') {
+            status.current = 'Present';
           } else {
-            console.log('Not in Church radius');
+            console.log('Not withen the Church radius');
+            status.current = 'Absent';
           }
         }
       })
@@ -160,15 +184,33 @@ export default function Home({navigation}) {
             latitudeDelta: 0.01,
             longitudeDelta: 0.01,
           };
+
           setUserCordinate(dataCord);
-          console.log(dataCord);
+          // console.log(dataCord);
           fetchNearestPlacesFromGoogle(currentLatitude, currentLongitude);
-          Geocoder.from(currentLatitude, currentLongitude)
-            .then(json => {
-              var addressComponent = json.results[0].address_components[0];
-              console.log(addressComponent);
-            })
-            .catch(error => console.warn(error));
+          getAddy(currentLatitude, currentLongitude);
+          if (status.current !== '' && addy !== '') {
+            console.log(status.current);
+            console.log(addy);
+
+            if (accessToken == null) {
+              alert('Please Login');
+            } else {
+              fetch('https://church.aftjdigital.com/api/attendance_status', {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                  status: status.current,
+                  user_id: JSON.parse(user).id,
+                  user_location: addy,
+                }),
+              });
+            }
+          }
         }
         // console.log(cord);
       },
@@ -182,17 +224,6 @@ export default function Home({navigation}) {
       },
     );
   };
-
-  // const getUserAddress = () => {
-  //   try {
-  //     const searchText = 'JCCI GLORY TABERNACLE';
-  //     RNReverseGeocode.searchForLocations(searchText, region, (err, res) => {
-  //       storeAddress(res[0].address);
-  //     });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
 
   //function to show auth alert
   showAlert = () => {
@@ -608,10 +639,7 @@ export default function Home({navigation}) {
                 <Text style={styles.textbelow}>2Tim. 2 : 15</Text>
                 <Button3
                   text="     LISTEN     "
-
                   onPress={() => navigation.navigate('PodcastList')}
-
-
                 />
               </View>
             </ImageBackground>
@@ -1313,7 +1341,24 @@ export default function Home({navigation}) {
       </SafeAreaView>
     );
   }
-}
+};
+
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser,
+  accessToken: state.user.accessToken,
+  user: state.user.user,
+});
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
+  setUserToken: token => dispatch(setUserToken(token)),
+  setAccessToken: token => dispatch(setAccessToken(token)),
+  setUser: user => dispatch(setUser(user)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Home);
 
 const styles = StyleSheet.create({
   bannerContainer: {

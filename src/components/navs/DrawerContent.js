@@ -28,6 +28,7 @@ import {
   setUserToken,
   setAccessToken,
   setRouteName,
+  setUser,
 } from '../../redux/user/user.actions';
 import Dialog, {
   DialogTitle,
@@ -96,9 +97,12 @@ const DrawerContent = ({...props}) => {
         response.json();
       })
       .then(responseJson => {
+        
         setAccessToken(null);
-        setUserToken(3);
+        setUser(null);
+        // setUserToken(3);
         setData();
+        goHome();
         closeme();
       })
       .catch(error => {
