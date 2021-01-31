@@ -6,7 +6,7 @@ export const dataArray2 = {
   '5': 'Chats',
   '6': 'ChildrenChurch',
   '7': 'Location',
-  '8': 'Connect',
+  '8': 'Connect', it
   '9': 'Contacts',
   '10': 'Downloads',
   '11': 'Events',
@@ -28,6 +28,6 @@ export const dataArray2 = {
   '27': 'AvailableOnPaidVersion',
   '28': 'Suggestion',
   '29': 'Games',
-  '30': 'OnlineConference',
+  '30': 'HomeChat',
 
 };
