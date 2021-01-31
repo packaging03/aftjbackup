@@ -9,7 +9,7 @@ const ChildrenChurch = ({navigation}) => {
       <View style={styles.connect}>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
         <TouchableOpacity
-          style={styles.item} onPress={()=>navigation.navigate('ToddlerIntro', {option:'Toddlers'})}>
+          style={styles.item} onPress={()=>navigation.navigate('ToddlerIntro', {option:'Toddler'})}>
           <View>
             <ImageBackground
               style={styles.img}
@@ -94,19 +94,6 @@ const ChildrenChurch = ({navigation}) => {
             </ImageBackground>
           </View>
         </TouchableOpacity>
-        {/* <TouchableOpacity
-          style={styles.item} onPress={()=>navigation.navigate('Grade1', {title: 'Grade 3 - 4'})}
-          >
-          <View>
-            <ImageBackground
-              style={styles.img}
-              imageStyle={styles.imgStyle}
-              source={require('../assets/grade-three-four.jpg')}>
-              <View style={styles.overlay} />
-              <Text style={styles.text}>Grade 3rd - 4th </Text>
-            </ImageBackground>
-          </View>
-        </TouchableOpacity> */}
       </View>
     </ScrollView>
   );

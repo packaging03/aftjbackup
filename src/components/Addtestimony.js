@@ -60,6 +60,10 @@ function AddMemoryVerse({navigation, accessToken, user}) {
         .then(response => response.json())
         .then(responseJson => {
           Toast.show(responseJson.message, Toast.LONG);
+          if(responseJson.message != "Testimony Created succesfully")
+          {
+            Toast.show("You may need to log out and login again for this feature to work correctly!")
+          }
           //Toast.show(accessToken)
           //Toast.show(JSON.parse(user).id)
           setName('');

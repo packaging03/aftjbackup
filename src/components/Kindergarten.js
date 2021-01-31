@@ -4,47 +4,12 @@ import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-n
 const data=[
   { 
     id:1, 
-    videoSource:'4qFg3QD2li8', 
-    img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', 
-    title:"All about Jesus", 
-    details:"All about Jesus"
-  },
-  { 
-    id: 2, 
-    videoSource:'JyVXIvdTF20', //onnEaINBaGg&pbjreload=101
-    img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', 
-    title:"The birth of Jesus Christ", 
-    details:"The birth of Jesus Christ"
-  }, 
-  { 
-    id:3, videoSource:'1EzW-tnZ-Lw', 
-    img: 'https://i.ytimg.com/vi/1EzW-tnZ-Lw/maxresdefault.jpg', 
-    title:"Jesus and the disciples", 
-    details:"Jesus and the disciples",
-  }, 
-  { 
-    id: 4, 
-    videoSource:'pKcTXDgt5iI', 
-    img: 'https://www.inspirationalchristians.org/images/joseph-dreams-1-1024x640.jpg', 
-    title:"Miracles of Jesus", 
-    details:"Miracles of Jesus"
-  },
-  { 
-    id:5, 
-    videoSource:'-Xb9svrR3kY', 
-    img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', 
-    title:"Jesus is anointed", 
-    details:"Jesus is anointed"
-  },
-  { 
-    id:6, 
-    videoSource:'l2KxzMm68GE', 
-    img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', 
-    title:"Stories of Jesus", 
-    details:"Stories of Jesus"
+    videoSource:'bLHB_hNk42g', 
+    img: 'https://i.ibb.co/gyMDTxT/Rectangle-105.png', 
+    title:"Bible Story Series", 
+    details:"Genesis The Creation of World"
   },
 ];
-//- https://www.youtube.com/watch?v=l2KxzMm68GE
 
 const renderSeparator = () => {
     return (
@@ -67,11 +32,12 @@ export default function Kindergarten({navigation, route}) {
           data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title} )}> 
+            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title, pageId: 11} )}> 
             <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
+                  marginTop: 24,
                   margin: 16,
                 }}>
                 <Image style={styles.img} source ={{uri:item.img}} />

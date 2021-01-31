@@ -152,24 +152,39 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
                     style={{
                         flexDirection: 'row',
                         justifyContent: 'space-around',
-                        width: '100%',
+                        width: '125%',
                     }}>
 
                             {TtsresumeState ? (
                                 
                                     <>
 
-                                        <TouchableOpacity
-                                            onPress={() => pauseReading()}
-                                            style={{alignSelf: 'center'}}>
+                                            <TouchableOpacity> 
                                                 <Image
-                                                    onPress={() => pauseReading()}
-                                                    style={{width: 70, height: 70, marginLeft: -15, marginBottom: 16, color: '#000'}}
-                                                    source={require('../assets/pausebtn.png')}
+                                                    style={{width: 50, height: 50, marginLeft: -15, marginTop: 6}}
+                                                    source={require('../assets/backbtn.png')}
                                                 />
-                                        </TouchableOpacity>
+                                            </TouchableOpacity>
+                                            
+                                                <TouchableOpacity
+                                                    onPress={() => pauseReading()}
+                                                    style={{alignSelf: 'center'}}>
+                                                        <Image
+                                                            onPress={() => pauseReading()}
+                                                            style={{width: 50, height: 50, marginLeft: 5, marginBottom: 10, color: '#000'}}
+                                                            source={require('../assets/pausebtn.png')}
+                                                        />
+                                                </TouchableOpacity>
+                                            
+                                            <TouchableOpacity>
+                                                <Image
+                                                    style={{width: 50, height: 50, marginTop: 6}}
+                                                    source={require('../assets/rightbtn.png')}
+                                                />
+                                            </TouchableOpacity>
+                                        
 
-                                        <TouchableOpacity
+                                        {/* <TouchableOpacity
                                             onPress={() => stopReading()}
                                             style={{alignSelf: 'center'}}>
                                                 <Image
@@ -177,24 +192,39 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
                                                     style={{width: 50, height: 50, marginRight: 1, marginBottom: 16}}
                                                     source={require('../assets/stopbtn.png')}
                                                 />
-                                        </TouchableOpacity>
+                                        </TouchableOpacity> */}
 
                                     
                                 </>
                             
                                 ) : (
                                     <>
-                                        <TouchableOpacity
-                                        onPress={() => resumeReading()}
-                                        style={{alignSelf: 'center'}}>
-                                            <Image
+                                            <TouchableOpacity> 
+                                                <Image
+                                                    style={{width: 50, height: 50, marginLeft: -15, marginTop: 6}}
+                                                    source={require('../assets/backbtn.png')}
+                                                />
+                                            </TouchableOpacity>
+                                            
+                                            <TouchableOpacity
                                                 onPress={() => resumeReading()}
-                                                style={{width: 50, height: 50, marginLeft: -15, marginBottom: 16, color: '#000'}}
-                                                source={require('../assets/resumebtn.png')}
-                                            />
-                                        </TouchableOpacity>
+                                                style={{alignSelf: 'center'}}>
+                                                    <Image
+                                                        onPress={() => resumeReading()}
+                                                        style={{width: 50, height: 50, marginLeft: 5, marginBottom: 10, color: '#000'}}
+                                                        source={require('../assets/playbtn.png')}
+                                                    />
+                                                </TouchableOpacity>
+                                            
+                                            <TouchableOpacity>
+                                                <Image
+                                                    style={{width: 50, height: 50, marginTop: 6}}
+                                                    source={require('../assets/rightbtn.png')}
+                                                />
+                                            </TouchableOpacity>
+                                                
 
-                                        <TouchableOpacity
+                                        {/* <TouchableOpacity
                                             onPress={() => stopReading()}
                                             style={{alignSelf: 'center'}}>
                                                 <Image
@@ -202,7 +232,7 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
                                                     style={{width: 50, height: 50, marginRight: 1, marginBottom: 16}}
                                                     source={require('../assets/stopbtn.png')}
                                                 />
-                                        </TouchableOpacity>
+                                        </TouchableOpacity> */}
                                         
                                     </>
                                 )}
@@ -215,12 +245,12 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
                     style={{
                         flexDirection: 'row',
                         justifyContent: 'space-around',
-                        width: '103%',
+                        width: '105%',
                     }}>
 
                         <TouchableOpacity> 
                             <Image
-                                style={{width: 50, height: 50, marginLeft: -15, marginTop: 6}}
+                                style={{width: 50, height: 50, marginLeft: -20, marginTop: 6}}
                                 source={require('../assets/backbtn.png')}
                             />
                         </TouchableOpacity>
@@ -228,14 +258,14 @@ const MemoryVerseNew = ({navigation, accessToken})=>{
                         <TouchableOpacity onPress={() => read()}>
                             <Image
                                 onPress={() => read}
-                                style={{width: 65, height: 65, marginRight: 1, marginBottom: 10}}
+                                style={{width: 50, height: 50, marginRight: 10, marginBottom: 10}}
                                 source={require('../assets/playbtn.png')}
                             />
                         </TouchableOpacity>
                         
                         <TouchableOpacity>
                             <Image
-                                style={{width: 50, height: 50, marginTop: 6}}
+                                style={{width: 50, height: 50, marginRight: 10, marginTop: 6}}
                                 source={require('../assets/rightbtn.png')}
                             />
                         </TouchableOpacity>

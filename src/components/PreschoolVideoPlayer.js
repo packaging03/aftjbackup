@@ -8,7 +8,9 @@ import Spinner from './common/Spinner';
 import CButton from '../components/common/CustomButton';
 
 export default function PreschoolVideoPlayer({navigation, route}) {
-    const {videoLink, videoTitle} = route.params;
+    const {videoLink, videoTitle, pageId} = route.params;
+    console.log("videoLink: " + videoLink);
+    console.log("pageId: " + pageId);
     const [isready, setIsReady] = useState(false);
     {{navigation.setOptions({title:videoTitle})}}
     // return (
@@ -56,52 +58,14 @@ export default function PreschoolVideoPlayer({navigation, route}) {
                         />
                 </View>
               
-                {/* <Text 
-                style={{
-                    textTransform:'uppercase',
-                     fontFamily:'Nunito-Bold',
-                      fontSize:18, 
-                      paddingLeft:20,
-                     paddingRight:20,
-                       marginTop:10}}>{sermonName}</Text>
-            
-                <Text  */}
-                {/* style={{
-                    fontSize:14, 
-                    paddingLeft:20,
-           paddingRight:20,
-                    marginTop:8,
-                    fontFamily:'Nunito-ExtraLight', 
-                letterSpacing:0.6}}>{Moment(date).format(' DD MMM YYYY')}, {preacher}</Text> */}
             <View style={styles.options}>
-
-            {/* <View style={styles.optionContainer}>
-            <TouchableWithoutFeedback onPress={
-                ()=>{
-                        try {
-                            Toast.show('You Clicked Like Button...', Toast.LONG);
-                            LikeSermon();
-                            } catch (e) {
-                            console.log(`cannot like the sermon`, e)
-                          }
-                    } 
-                    
-                    }  style={styles.option}>
-                <View>
-                    
-                    <Icons  name='heart-outline' size={25} color='#000'/>
-                   
-                     </View>
-                </TouchableWithoutFeedback>
-                <Text 
-                      style={{fontSize:14, fontFamily:'Nunito-Light'}}>Assessment</Text>
-               </View> */}
 
 
                <View>
                         <CButton
                             onPress={() => {
-                                    navigation.navigate('SchoolCurriculumQuiz')
+                                //navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title, pageId: 10} )
+                                    navigation.navigate('SchoolCurriculumQuiz', {pageId: pageId})
                                 } 
                             }>
                                 View Assessment
@@ -109,26 +73,10 @@ export default function PreschoolVideoPlayer({navigation, route}) {
                </View>
 
             </View>
-
-            {/* <View style={styles.overview}>
-                <Text style={styles.title}>Overview</Text>
-                <Text 
-                style={{ 
-                    fontFamily:'Nunito-ExtraLight', 
-                    fontSize:14,
-                marginTop:10}}>{overview}</Text>
-            </View> */}
-                
             </View>
          </ScrollView>
     );
 }
-
-// const styles = StyleSheet.create({ video:{height: '60%', //100%
-//     alignSelf: 'stretch',
-//      width: '100%',
-//     marginBottom: 160}, })
-
 
     const styles = {
 

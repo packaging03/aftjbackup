@@ -104,7 +104,6 @@ const Resource = ({route, navigation}) => {
             
         }
         sendResults(ids[item], array);
-        console.log('array: '+JSON.stringify(array));
         if (item === (ids.length - 1)){
 
             
