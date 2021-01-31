@@ -28,6 +28,6 @@ export const dataArray2 = {
   '27': 'AvailableOnPaidVersion',
   '28': 'Suggestion',
   '29': 'Games',
-  '30': 'HomeChat',
+  '30': 'OnlineConference',
 
 };
