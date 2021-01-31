@@ -2,22 +2,48 @@ import React from 'react'
 import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-native'
 
 const data=[
-  
   { 
     id:1, 
-    videoSource:'YalBsd56iTQ', 
-    img: 'https://i.ibb.co/T0c03Nz/Rectangle-101-8.png', 
-    title:"The Beginning of the world", 
-    details:"The story of creation"
+    videoSource:'4qFg3QD2li8', 
+    img: 'https://i.ibb.co/HYbxdmc/Rectangle-102-1.png', 
+    title:"All about Jesus", 
+    details:"All about Jesus"
   },
   { id:2, 
-    videoSource:'teu7BCZTgDs', 
-    img: 'https://i.ibb.co/HYbxdmc/Rectangle-102-1.png', 
-    title:"The Story of the Bible", 
-    details:"The story of creation"
+    videoSource:'JyVXIvdTF20', 
+    img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', 
+    title:"The birth of Jesus Christ", 
+    details:"The birth of Jesus Christ"
+  }, 
+  { 
+    id: 3, 
+    videoSource:'1EzW-tnZ-Lw', 
+    img: 'https://www.inspirationalchristians.org/images/joseph-dreams-1-1024x640.jpg', 
+    title:"Jesus and the disciples", 
+    details:"Jesus and the disciples"
+  },
+  { 
+    id:4, 
+    videoSource:'pKcTXDgt5iI', 
+    img: 'https://i.ibb.co/txRRLXq/Rectangle-104.png', 
+    title:"Miracles of Jesus", 
+    details:"Miracles of Jesus"
+  },
+  { 
+    id:4, 
+    videoSource:'-Xb9svrR3kY', 
+    img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', 
+    title:"Jesus is anointed", 
+    details:"Jesus is anointed"
+  },
+  { 
+    id:4, 
+    videoSource:'l2KxzMm68GE', 
+    img: 'https://i.ytimg.com/vi/1EzW-tnZ-Lw/maxresdefault.jpg', 
+    title:"Stories of Jesus", 
+    details:"Stories of Jesus"
   },
 ];
-
 
 const renderSeparator = () => {
     return (
@@ -31,7 +57,7 @@ const renderSeparator = () => {
     );
   };
 
-export default function PreSchool({navigation, route}) {
+export default function Grade34({navigation, route}) {
     const {option} = route.params;
     {{navigation.setOptions({title:option})}}
     return (
@@ -40,7 +66,7 @@ export default function PreSchool({navigation, route}) {
           data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title, pageId: 16} )}> 
+            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title, pageId: 18} )}> 
             <View
                 style={{
                   flexDirection: 'row',
@@ -55,8 +81,8 @@ export default function PreSchool({navigation, route}) {
                     style={{
                       fontSize: 16,
                       marginLeft: 10,
-                      color: '#000',
-                      fontWeight: '600',
+                      color: '#191C52',
+                      fontWeight: 'light',
                     }}>
                     {item.title}
                   </Text>
@@ -64,7 +90,7 @@ export default function PreSchool({navigation, route}) {
                     style={{
                       fontSize: 12,
                       marginLeft: 10,
-                      color: '#808080',
+                      color: '#a6a6a6',
                     }}>
                     {item.details}
                   </Text>
@@ -82,9 +108,9 @@ export default function PreSchool({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
-    img:{width:127, 
-        height:80,
-        borderRadius: 4,
+    img:{width:120, 
+        height:75,
+        borderRadius: 6,
         shadowOpacity: 1,
         shadowRadius: 2,
         resizeMode:'cover',

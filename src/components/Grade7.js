@@ -2,22 +2,14 @@ import React from 'react'
 import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-native'
 
 const data=[
-  
   { 
     id:1, 
-    videoSource:'YalBsd56iTQ', 
+    videoSource:'FVtTB71Mxkc', 
     img: 'https://i.ibb.co/T0c03Nz/Rectangle-101-8.png', 
-    title:"The Beginning of the world", 
-    details:"The story of creation"
-  },
-  { id:2, 
-    videoSource:'teu7BCZTgDs', 
-    img: 'https://i.ibb.co/HYbxdmc/Rectangle-102-1.png', 
-    title:"The Story of the Bible", 
-    details:"The story of creation"
+    title:"Salvation", 
+    details:"Salvation Story for Kids"
   },
 ];
-
 
 const renderSeparator = () => {
     return (
@@ -31,7 +23,7 @@ const renderSeparator = () => {
     );
   };
 
-export default function PreSchool({navigation, route}) {
+export default function Grade7({navigation, route}) {
     const {option} = route.params;
     {{navigation.setOptions({title:option})}}
     return (
@@ -40,7 +32,7 @@ export default function PreSchool({navigation, route}) {
           data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title, pageId: 16} )}> 
+            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title, pageId: 27} )}> 
             <View
                 style={{
                   flexDirection: 'row',
@@ -55,22 +47,21 @@ export default function PreSchool({navigation, route}) {
                     style={{
                       fontSize: 16,
                       marginLeft: 10,
-                      color: '#000',
-                      fontWeight: '600',
+                      color: '#191C52',
+                      fontWeight: 'light',
                     }}>
                     {item.title}
                   </Text>
                   <Text
                     style={{
-                      fontSize: 12,
+                      fontSize: 13,
                       marginLeft: 10,
-                      color: '#808080',
+                      marginTop: 4,
+                      color: '#a6a6a6',
                     }}>
                     {item.details}
                   </Text>
                 </View>
-
-               
               </View>
               </TouchableOpacity>
 
@@ -82,9 +73,9 @@ export default function PreSchool({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
-    img:{width:127, 
-        height:80,
-        borderRadius: 4,
+    img:{width:120, 
+        height:75,
+        borderRadius: 6,
         shadowOpacity: 1,
         shadowRadius: 2,
         resizeMode:'cover',

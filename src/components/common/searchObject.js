@@ -6,7 +6,7 @@ export const dataArray2 = {
   '5': 'Chats',
   '6': 'ChildrenChurch',
   '7': 'Location',
-  '8': 'Connect', it
+  '8': 'Connect',
   '9': 'Contacts',
   '10': 'Downloads',
   '11': 'Events',
@@ -29,5 +29,4 @@ export const dataArray2 = {
   '28': 'Suggestion',
   '29': 'Games',
   '30': 'OnlineConference',
-
 };

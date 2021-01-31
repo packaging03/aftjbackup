@@ -24,6 +24,7 @@ const SermonDetails = ({route, navigation, accessToken}) => {
 const [isPlaying, setPlaying] = useState(false);
 const {sermonName, preacher, date, id, overview, audio, sermonId} = route.params;
 
+console.log("videoLink: " + id);
 
     const shareMe = async() => {
 

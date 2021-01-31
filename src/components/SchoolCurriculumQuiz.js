@@ -1,61 +1,45 @@
 import React, {useState, useEffect} from 'react';
-import {ActivityIndicator, View, Text} from 'react-native';
-import CustomButton from '../components/common/CustomButton';
+import {ActivityIndicator, View, Text, TouchableOpacity, Image, ImageBackground} from 'react-native';
+import CustomButton from './common/CustomButton';
 import CheckBox from '@react-native-community/checkbox';
 import Toast from 'react-native-simple-toast';
 import { WebView } from 'react-native-webview';
 import { FlatList } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {BlurView} from '@react-native-community/blur';
+import Button from '../components/common/PopButton';
+import Dialog, {
+  DialogFooter,
+  DialogButton,
+} from 'react-native-popup-dialog';
 
 let item = 0;
-const SchoolCurriculumQuiz = ({route, navigation}) => {
 
+
+const SchoolCurriculumQuiz = ({route, navigation}) => {
+    const {pageId} = route.params;
+    console.log("pageId: " + pageId);
     const [data, setData] = useState([]);
+    const [result, setResult] = useState([]);
+    const [answer, setAnswer] = useState([]);
     const [isLoading, setLoading] = useState(true);
-    //const ids = route.params.ids;
-    //const [currentVideo, setCurrentVideo] = useState(route.params.uri);
-    //var videos = route.params.videos;
-    
+    var testresult = [];
+    const [show, setShow] = useState(false);
+    const [res, setRes] = useState(false);
+    const closeIcon = '../assets/closebtn.png';
     
     var answers = []
     var obj = {};
 
-    
-    const sendResults  = async(id, array) => {
-
-        fetch('https://church.aftjdigital.com/api/assessment/'+id+'/validate', {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              // 'Authorization': `bearer ${accessToken}`,
-              'Content-Type': 'application/json'
-          },
-            body: JSON.stringify({
-              
-              payload:array
-            
-            })
-          })
-          .then((response) => response.json())
-          .then((responseJson) =>{
-              console.log("Res:" + JSON.stringify(responseJson));
-             
-          })
-          .catch((error) => {
-            console.log("error:" + error);
-             
-            alert(error)
-        });
-
-
-    }
+    hideAlert = () => {
+        setRes(true);
+        setShow(false);
+      };
             
     async function getData(id) {
 
         try {
-            
-            
-            let response = await fetch('https://church.aftjdigital.com/api/retrieve/'+id+'/assessment');
+            let response = await fetch('https://church.aftjdigital.com/api/retrieve/'+id+'/question');
             let json = await response.json();
             console.log('json: '+JSON.stringify(json.data));
             var questionsandanswers = json.data;
@@ -65,8 +49,6 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
                 
                 num = num + 1;
                 questionsandanswers[i]["num"] = num;
-                // Object.assign(questionsandanswers[i], {num: ++i});
-                
                 
             }
     
@@ -82,8 +64,7 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
 
 
     useEffect(() => {
-        //getData(route.params.id);
-      
+        getData(pageId);
     }, []);
 
 
@@ -91,6 +72,8 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
         
         var array = [];
         var answer = { };
+        var rarray = [];
+        testresult = [];
         
         if(Object.keys(obj).length < data.length){
             Toast.show("Please attempt all questions first",Toast.LONG);
@@ -99,36 +82,26 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
         var i = 0;
         for (i = 0; i < Object.keys(obj).length; i++) {
 
-            answer = {"questionId": Object.keys(obj)[i], "answer": obj[Object.keys(obj)[0]]};
+            answer = {"id": Object.keys(obj)[i], "answer": obj[Object.keys(obj)[0]]};
             array.push(answer);
             
         }
-       // sendResults(ids[item], array);
-        // console.log('array: '+JSON.stringify(array));
-        // if (item === (ids.length - 1)){
-
-            
-        //     navigation.navigate('NM-Confirmation');
-        //     return;
-            
-        // }else{
-
-        //     console.log('anwer: '+ JSON.stringify(array));
-        //     console.log(item);
-        //     item = item + 1;
-            
-        //     getData(ids[item]);
-        //     // setQuestionNums();
-
-        //     var index = videos.indexOf(currentVideo) +  1;
-        //     setCurrentVideo(videos[index]);
-
-            
-        // }
+        rarray = [...array].reverse();
+        var i = 0;
+        for (i = 0; i < data.length; i++) {
+            if(data[i].id == Number(rarray[i].id))
+            {
+                if(data[i].answer == rarray[i].answer)
+                {
+                    testresult.push(data[i].answer)
+                }
+            }
+        }
+        setAnswer(rarray);
+        setResult(testresult);
+        setShow(true);
         obj = [];
        
-        
-        // 
     }
         
     const renderSeparator = () => {
@@ -143,6 +116,12 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
           />
         );
       };
+      
+       function chk(idd)
+       {
+            var ares = answer[answer.findIndex(x => x.id == idd)]
+            return ares.answer
+       }
 
       const Item = ({item}) => {
         const [isSelected1, setSelection1] = useState(false);
@@ -258,10 +237,137 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
           </View>
       )}
 
+      const ResItem = ({item}) => {
+        const [isSelected1, setSelection1] = useState(false);
+        return (
+          <View>
+            <Text style={{...styles.question2, marginTop:15}}>Question {item.num} : {item.question}</Text>
+                    <View style={styles.option}>
+                        <View>
+                            {(item.answer === "option1") ? (
+                               <ImageBackground
+                               style={styles.img}
+                               source={require('../assets/correct.png')}
+                             />
+                                
+                            ) : (
+                                <View>
+                                    {(chk(item.id) === "option1") ? (
+                                        <ImageBackground
+                                            style={styles.img}
+                                            source={require('../assets/incorrect.png')}
+                                        />
+                                    ) : (
+                                        
+                                        <CheckBox
+                                        value={isSelected1}
+                                        style={styles.checkbox}
+                                        />
+                                    )}
+                                </View>
+                            )}
+                        </View>
+                    
+                    <Text 
+                    style={{...styles.text, width:'85%', marginLeft:-1}}>{item.option1}</Text>
+
+                    </View>
+                    <View style={styles.option}>
+                            <View>
+                                {(item.answer === "option2") ? (
+                                    <ImageBackground
+                                        style={styles.img}
+                                        source={require('../assets/correct.png')}
+                                    />
+                                ) : (
+
+                                    <View>
+                                    {(chk(item.id) === "option2") ? (
+                                            <ImageBackground
+                                            style={styles.img}
+                                            source={require('../assets/incorrect.png')}
+                                        />
+                                    ) : (
+                                        
+                                        <CheckBox
+                                        value={isSelected1}
+                                        style={styles.checkbox}
+                                        />
+                                    )}
+                                </View>
+                                )}
+                            </View>
+                        <Text style={{...styles.text, width:'85%', marginLeft:-1}}>{item.option2}</Text>
+
+                    </View>
+                    <View style={styles.option}>
+                            <View>
+                                {(item.answer === "option3") ? (
+                                        <ImageBackground
+                                            style={styles.img}
+                                            source={require('../assets/correct.png')}
+                                        />
+                                ) : (
+
+                                    <View>
+                                    {(chk(item.id) === "option3") ? (
+                                            <ImageBackground
+                                            style={styles.img}
+                                            source={require('../assets/incorrect.png')}
+                                        />
+                                    ) : (
+                                        <CheckBox
+                                        value={isSelected1}
+                                        style={styles.checkbox}
+                                        />
+                                    )}
+                                </View>
+                                )}
+                            </View>
+                        <Text style={{...styles.text, width:'85%', marginLeft:-1}}>{item.option3}</Text>
+
+                    </View>
+                    <View style={{...styles.option, marginBottom:10}}>
+                            <View>
+                                {(item.answer === "option4") ? (
+                                    <ImageBackground
+                                        style={styles.img}
+                                        source={require('../assets/correct.png')}
+                                    />
+                                ) : (
+
+                                    <View>
+                                    {(chk(item.id) === "option4") ? (
+                                            <ImageBackground
+                                            style={styles.img}
+                                            source={require('../assets/incorrect.png')}
+                                        />
+                                        
+                                    ) : (
+                                        
+                                        <CheckBox
+                                        value={isSelected1}
+                                        style={styles.checkbox}
+                                        />
+                                    )}
+                                </View>
+                                )}
+                            </View>
+                        <Text style={{...styles.text, width:'85%', marginLeft:-1}}>{item.option4}</Text>
+
+                    </View>
+          </View>
+      )}
+
       const renderItem = ({item}) => (
         <Item
           item={item}
-          
+        />
+      );
+
+      const renderResItem = ({item}) => (
+        <ResItem
+          item={item}
         />
       );
 
@@ -272,8 +378,8 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
                    fontWeight:'400',
                    marginLeft:16,
                    fontSize:16, marginBottom:8}}>Assessment</Text>
-               <Text style={styles.text}>Please take this assessment test when you are done with</Text>
-               <Text style={styles.text}>this Session in other for you to move to the next Session</Text>
+               <Text style={styles.text}>Please take this assessment test when you are done with
+               this Session in other for you to move to the next Session</Text>
                <View
                    style={{
                    height: 1,
@@ -330,7 +436,7 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
                      cacheEnabled
                      
                      style={{backgroundColor: 'transparent',  borderWidth:0, marginLeft: -20, marginRight: -20}}
-                     //source={{uri: currentVideo}}
+                     source={{uri: "DAEcoanMA6Q"}}
                      />
                 <View style={{
                     width:'99.5%', 
@@ -364,20 +470,122 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
                     {isLoading ? (
                     <ActivityIndicator size="large" style={{marginTop: 50}} />
                     ) : (
-                    <FlatList
-                        data={data}
-                        ItemSeparatorComponent={renderSeparator}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.id.toString()}
-                        ListHeaderComponent={getHeader}
-                        ListFooterComponent={getFooter}
-                    />
-                    )}
+                    <View>
+                            {!res ? (
+                                <FlatList
+                                    data={data}
+                                    ItemSeparatorComponent={renderSeparator}
+                                    renderItem={renderItem}
+                                    keyExtractor={item => item.id.toString()}
+                                    ListHeaderComponent={getHeader}
+                                    ListFooterComponent={getFooter}
+                                />
+                            ) : (
 
-                    
+                                <FlatList
+                                    data={data}
+                                    ItemSeparatorComponent={renderSeparator}
+                                    renderItem={renderResItem}
+                                    keyExtractor={item => item.id.toString()}
+                                    ListHeaderComponent={getHeader}
+                                    ListFooterComponent={getFooter}
+                                />
+                            )}
+                        </View>
+                    )}
                 </View>
 
                 
+                <Dialog
+            width={0.9}
+            visible={show}
+            rounded
+            actionsBordered
+            dialogStyle={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}
+            footer={
+              <BlurView
+                showBlur={false}
+                blurType="light"
+                show={show}
+                blurAmount={8}
+                reducedTransparencyFallbackColor="white">
+                <DialogFooter>
+                  <DialogButton
+                    text=""
+                    onPress={() => {
+                        hideAlert();
+                    }}
+                    textStyle={{color: 'white'}}
+                    key="button-2"
+                  />
+                  <View style={{
+                      borderRadius: 5,
+                  }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        hideAlert();
+                      }}>
+                      <Button
+                        text="Corrections"
+                        onPress={() => {
+                            hideAlert();
+                        }}
+                      />
+                    </TouchableOpacity>
+                   
+                  </View>
+
+                  <View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'flex-end',
+                        marginTop: 20,
+                        marginRight: 20,
+                        width: '10%',
+                        marginTop: -180,
+                        alignSelf: 'flex-end',
+                      }}>
+                      <TouchableOpacity onPress={() => hideAlert()}>
+                        <Image
+                          source={require(closeIcon)}
+                          style={{height: 10, width: 10}}
+                        />
+                      </TouchableOpacity>
+                    </View>
+
+                    
+
+                    <Text
+                      style={{
+                        color: 'red',
+                        marginTop: -120,
+                        alignContent: 'center',
+                        alignSelf: 'center',
+                        lineHeight: 40,
+                        fontSize: 30,
+                      }}>
+                      {result.length.toString() + "/" + data.length.toString()}
+                    </Text>
+
+
+                    <Text
+                      style={{
+                        color: 'white',
+                        marginTop: -110,
+                        alignContent: 'center',
+                        alignSelf: 'center',
+                        lineHeight: 40,
+                        fontSize: 20,
+                      }}>
+                      Good Work!
+                    </Text>
+                  </View>
+
+                </DialogFooter>
+              </BlurView>
+            }
+          />
         </View>
     )
 
@@ -397,8 +605,26 @@ const styles = {
         alignSelf: "flex-start",
         marginTop:-8,
         opacity:0.9,
-      },
+    },
+    checkbox2: {
+        alignSelf: "flex-start",
+        marginTop: -8,
+        backgroundColor:'red',
+        borderColor:'red',
+        opacity:0.4,
+        background: '',
+        color: 'red',
+    },
     question:{
+        fontFamily:'Nunito',
+        fontWeight:'400',
+        marginLeft:16,
+        fontSize:14,
+        marginBottom:8,
+        marginLeft:16,
+        marginTop:10,
+    },
+    question2:{
         fontFamily:'Nunito',
         fontWeight:'400',
         marginLeft:16,
@@ -410,6 +636,7 @@ const styles = {
     text:{
         fontFamily:'Nunito-Light',
         fontSize:12,
+        marginRight: 8,
         lineHeight:16,
         letterSpacing:0.5,
         color:'#000',
@@ -426,7 +653,14 @@ const styles = {
         borderRadius: 6,
         zIndex:-1,
 
-         },
+    },
+    img: 
+    {
+        marginLeft: 10,
+        paddingLeft: 20,
+        width: 12,
+        height: 12,
+    },
 }
 
 export default SchoolCurriculumQuiz;

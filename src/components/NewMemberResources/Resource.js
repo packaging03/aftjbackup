@@ -79,29 +79,86 @@ const Resource = ({route, navigation}) => {
       Toast.show('Please attempt all questions first', Toast.LONG);
       return;
     }
-    var i = 0;
-    for (i = 0; i < Object.keys(obj).length; i++) {
-      answer = {
-        questionId: Object.keys(obj)[i],
-        answer: obj[Object.keys(obj)[0]],
-      };
-      array.push(answer);
-    }
-    sendResults(ids[item], array);
-    console.log('array: ' + JSON.stringify(array));
-    if (item === ids.length - 1) {
-      navigation.navigate('NM-Confirmation');
-      return;
-    } else {
-      console.log('anwer: ' + JSON.stringify(array));
-      console.log(item);
-      item = item + 1;
+            
+    async function getData(id) {
 
-      getData(ids[item]);
-      // setQuestionNums();
+        try {
+            
+            
+            let response = await fetch('https://church.aftjdigital.com/api/retrieve/'+id+'/assessment');
+            let json = await response.json();
+            console.log('json: '+JSON.stringify(json.data));
+            var questionsandanswers = json.data;
 
-      var index = videos.indexOf(currentVideo) + 1;
-      setCurrentVideo(videos[index]);
+            var i; var num = 0;
+            for (i = 0; i < json.data.length; i++) {
+                
+                num = num + 1;
+                questionsandanswers[i]["num"] = num;
+                // Object.assign(questionsandanswers[i], {num: ++i});
+                
+                
+            }
+    
+            setData(questionsandanswers);
+            setLoading(false);
+        } catch (error) {
+          
+          if (error.message == 'Network request failed'){
+             Toast.show('Internet Connection Error', Toast.LONG);
+          }
+        }
+    };
+
+
+    useEffect(() => {
+        getData(route.params.id);
+      
+    }, []);
+
+
+    const submit = () => {
+        
+        var array = [];
+        var answer = { };
+        
+        if(Object.keys(obj).length < data.length){
+            Toast.show("Please attempt all questions first",Toast.LONG);
+            return;
+        }
+        var i = 0;
+        for (i = 0; i < Object.keys(obj).length; i++) {
+
+            answer = {"questionId": Object.keys(obj)[i], "answer": obj[Object.keys(obj)[0]]};
+            array.push(answer);
+            
+        }
+        sendResults(ids[item], array);
+        if (item === (ids.length - 1)){
+
+            
+            navigation.navigate('NM-Confirmation');
+            return;
+            
+        }else{
+
+            console.log('anwer: '+ JSON.stringify(array));
+            console.log(item);
+            item = item + 1;
+            
+            getData(ids[item]);
+            // setQuestionNums();
+
+            var index = videos.indexOf(currentVideo) +  1;
+            setCurrentVideo(videos[index]);
+
+            
+        }
+
+        obj = [];
+       
+        
+        // 
     }
 
     obj = [];

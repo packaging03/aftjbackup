@@ -4,30 +4,30 @@ import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-n
 const data=[
   { 
     id:1, 
-    videoSource:'j0SYDCok0OU', 
-    img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', 
-    title:"Redemption", 
-    details:"Redemption"
+    videoSource:'VG3D9EOwSyc', 
+    img: 'https://i.ibb.co/JdSvYPm/Rectangle-103-1.png', 
+    title:"Adam and Eve story", 
+    details:"Adam and Eve story"
+  },
+  { id:2, 
+    videoSource:'ddbb6hlSsBE', 
+    img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', 
+    title:"The fall man", 
+    details:"The fall man"
+  }, 
+  { 
+    id: 3, 
+    videoSource:'l7TDvJrjjz0', 
+    img: 'https://www.inspirationalchristians.org/images/joseph-dreams-1-1024x640.jpg', 
+    title:"The sin of Adam and Eve", 
+    details:"The sin of Adam and Eve"
   },
   { 
-    id: 2, 
-    videoSource:'7z1XufT7IMg', //onnEaINBaGg&pbjreload=101 
-    img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', 
-    title:"Salvation", 
-    details:"Salvation"
-  }, 
-  { 
-    id:3, videoSource:'yDIhBpcebTI', 
+    id:4, 
+    videoSource:'RkVm6Chgaww', 
     img: 'https://i.ytimg.com/vi/1EzW-tnZ-Lw/maxresdefault.jpg', 
-    title:"The greatest gift", 
-    details:"The greatest gift",
-  }, 
-  { 
-    id: 4, 
-    videoSource:'FVtTB71Mxkc', 
-    img: 'https://www.inspirationalchristians.org/images/joseph-dreams-1-1024x640.jpg', 
-    title:"Salvation story", 
-    details:"Salvation story"
+    title:"Adam and Eve’s sin", 
+    details:"Adam and Eve’s sin"
   },
 ];
 
@@ -52,11 +52,12 @@ export default function Grade1({navigation, route}) {
           data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title} )}> 
+            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title, pageId: 12} )}> 
             <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
+                  marginTop: 24,
                   margin: 16,
                 }}>
                 <Image style={styles.img} source ={{uri:item.img}} />

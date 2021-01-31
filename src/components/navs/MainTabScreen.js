@@ -76,6 +76,9 @@ import Grade12Intro from '../Grade12Intro';
 import Grade34Intro from '../Grade34Intro';
 import Grade56Intro from '../Grade56Intro';
 import Grade1 from '../Grade1-2';
+import Grade34 from '../Grade3-4';
+import Grade56 from '../Grade5-6';
+import Grade7 from '../Grade7';
 import SchoolCurriculumQuiz from '../SchoolCurriculumQuiz'
 // import MemoryVerseNew from '../MemoryVerseNew'
 import Grade1MemoryVerse from '../Grade1MemoryVerse';
@@ -1495,6 +1498,48 @@ const HomeStackScreen = ({navigation}) => (
         
       }}
     />
+
+    <HomeStack.Screen
+      name="Grade34"
+      component={Grade34}
+      options={{
+        title: 'Grade 3-4',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Grade56"
+      component={Grade56}
+      options={{
+        title: 'Grade 5-6',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
+
+
+    <HomeStack.Screen
+        name="Grade7"
+        component={Grade7}
+        options={{
+          title: 'Grade 7',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          headerTintColor: '#000',
+        }}
+      />
+
+
 
     <HomeStack.Screen
       name="Grade Memory Verse"

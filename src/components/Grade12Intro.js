@@ -6,7 +6,7 @@ const data=[
   { 
     id:1, 
     topic:'Church Videos', 
-    img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', 
+    img: 'https://i.ibb.co/4KFmktL/Rectangle-101-6.png', 
     title:"Lesson", 
     details:"Videos",
     link: "Grade1",
@@ -15,7 +15,7 @@ const data=[
   { 
     id: 2, 
     topic:'',
-    img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', 
+    img: 'https://i.ibb.co/hL5PBPc/Rectangle-102.png', 
     title:"God Loves Me", 
     details:"Memory Verses",
     link: "Grade Memory Verse",
@@ -24,14 +24,13 @@ const data=[
   { 
     id: 3, 
     topic:'School Videos',
-    img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', 
+    img: 'https://i.ibb.co/y5scyZt/Rectangle-101-7.png', 
     title:"Lesson", 
     details:"Videos",
     link: "Grade1",
     showtopic: true,
   },
 ];
-
 
 const renderSeparator = () => {
     return (
@@ -57,7 +56,7 @@ export default function Grade12Intro({navigation, route}) {
             
             (!item.showtopic) ? 
             <TouchableOpacity 
-            onPress={()=> navigation.navigate(item.link, {option: 'School Curriculum'})}>
+            onPress={()=> navigation.navigate(item.link, {option: 'Grade 1-2'})}>
             <View
                 style={{
                   flexDirection: 'row',
@@ -73,14 +72,17 @@ export default function Grade12Intro({navigation, route}) {
                     style={{
                       fontSize: 16,
                       marginLeft: 10,
+                      fontFamily: 'Nunito',
                       color: '#212121',
                     }}>
                     {item.title}
                   </Text>
                   <Text
                     style={{
-                      fontSize: 10,
-                      marginLeft: 10,
+                      fontSize: 12,
+                      marginLeft: 12,
+                      fontFamily: 'Nunito',
+                      marginTop: 6,
                       color: '#8d8b8b',
                     }}>
                     {item.details}
@@ -90,14 +92,14 @@ export default function Grade12Intro({navigation, route}) {
               </TouchableOpacity>
             : 
             <TouchableOpacity 
-            onPress={()=> navigation.navigate(item.link, {option: 'School Curriculum'})}> 
+            onPress={()=> navigation.navigate(item.link, {option: 'Grade 1-2'})}> 
                   <Text
                     style={{
                       fontSize: 20,
-                      marginLeft: 10,
                       marginLeft: 20,
                       marginBottom: 12,
-                      marginTop: 16,
+                      marginTop: 30,
+                      fontFamily: 'Nunito',
                       color: '#000',
                     }}>
                     {item.topic}
@@ -118,14 +120,17 @@ export default function Grade12Intro({navigation, route}) {
                     style={{
                       fontSize: 16,
                       marginLeft: 10,
+                      fontFamily: 'Nunito',
                       color: '#212121',
                     }}>
                     {item.title}
                   </Text>
                   <Text
                     style={{
-                      fontSize: 10,
-                      marginLeft: 10,
+                      fontSize: 12,
+                      marginLeft: 12,
+                      fontFamily: 'Nunito',
+                      marginTop: 6,
                       color: '#8d8b8b',
                     }}>
                     {item.details}
