@@ -1,70 +1,47 @@
-import React,{useState} from 'react'
+import React,{useState, useCallback} from 'react'
 import { StyleSheet, Text, View, StatusBar, } from 'react-native'
 import { TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+
 import { WebView } from 'react-native-webview';
 import Icon from 'react-native-vector-icons/Ionicons';
 import YouTube from 'react-native-youtube';
 import Spinner from './common/Spinner';
 import CButton from '../components/common/CustomButton';
+import YoutubePlayer from "react-native-yt-player";
 
 export default function PreschoolVideoPlayer({navigation, route}) {
     const {videoLink, videoTitle, pageId} = route.params;
     console.log("videoLink: " + videoLink);
     console.log("pageId: " + pageId);
     const [isready, setIsReady] = useState(false);
+    const [playing, setPlaying] = useState(false);
+
     {{navigation.setOptions({title:videoTitle})}}
-    // return (
-    //     <View style = {{backgroundColor:'#fff'}}>
-    //         <YouTube 
-    //                 style={styles.video}
-    //                 key='AIzaSyB1K6hMGSyf1jznInofqdrP3turp5TzvxI'
-    //                 apiKey='AIzaSyB1K6hMGSyf1jznInofqdrP3turp5TzvxI'
-    //                 videoId={videoLink}
-    //                 fullscreen ={false}
-    //                 play={true}
-    //                 loop={false}
-    //         />
-
-
-    //         <TouchableOpacity onPress={()=>navigation.navigate('SchoolCurriculumQuiz')}> 
-    //             <CButton
-    //                 style={{marginBottom: 20}}
-    //                 onPress={() => {
-    //                         navigation.navigate('SchoolCurriculumQuiz')
-    //                     } 
-    //                 }>
-    //                     View Assessment
-    //             </CButton>
    
-    //         </TouchableOpacity>
-            
-           
-    //     </View>
-    // )
 
     return (
 
         <ScrollView>
            <StatusBar backgroundColor="transparent" translucent />  
             <View  style={styles.sermon}>
-                <View style={{backgroundColor:'white', borderColor:'white', borderWidth:0, margin:15, borderRadius:15}}>
-                 <WebView
-                        containerStyle={styles.video}
-                        allowsFullscreenVideo
-                        allowsInlineMediaPlayback
-                        cacheEnabled
-                        style={{backgroundColor: 'transparent',  borderWidth:0, marginHorizontal: -50, }}
-                        source={{uri: videoLink}}
-                        />
+                
+                <View style={{backgroundColor:'white', borderColor:'white', borderWidth:0, borderRadius:15,}}>
+                
+                    
+                    <YoutubePlayer
+                        //loop
+                        videoId={videoLink}
+                        autoPlay
+                        onStart={() => console.log("onStart")}
+                        onEnd={() => console.log("onEnd")}
+                    />
+
                 </View>
               
             <View style={styles.options}>
-
-
                <View>
                         <CButton
                             onPress={() => {
-                                //navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title, pageId: 10} )
                                     navigation.navigate('SchoolCurriculumQuiz', {pageId: pageId})
                                 } 
                             }>
@@ -77,6 +54,18 @@ export default function PreschoolVideoPlayer({navigation, route}) {
          </ScrollView>
     );
 }
+
+const TopBar = ({ play, fullScreen }) => (
+    <View
+      style={{
+        alignSelf: "center",
+        position: "absolute",
+        top: 0
+      }}
+    >
+      <Text style={{ color: "#FFF" }}> Custom Top bar</Text>
+    </View>
+  );
 
     const styles = {
 
