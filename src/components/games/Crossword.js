@@ -61,8 +61,27 @@ const Crosswords = ({route}) => {
         },
         onMoveShouldSetPanResponder: (event, gestureState) => false,
         onMoveShouldSetPanResponderCapture: (event, gestureState) => false,
-        onPanResponderGrant: (event, gestureState) => false,
-        onPanResponderMove: (event, gestureState) => {},
+        onPanResponderStart: (event, gestureState) => {
+            setTouchXY({
+                startTouchX: event.nativeEvent.locationX.toFixed(2),
+                startTouchY: event.nativeEvent.locationY.toFixed(2),
+               
+            });
+        },
+        onPanResponderGrant: (event, gestureState)  => {
+            setTouchXY({
+                startTouchX: event.nativeEvent.locationX.toFixed(2),
+                startTouchY: event.nativeEvent.locationY.toFixed(2),
+               
+            });
+        },
+        onPanResponderMove: (event, gestureState) => {
+            setTouchXY({
+                startTouchX: event.nativeEvent.locationX.toFixed(2),
+                startTouchY: event.nativeEvent.locationY.toFixed(2),
+               
+            });
+        },
         onPanResponderRelease: (event, gestureState) => {
             setTouchXY({
               

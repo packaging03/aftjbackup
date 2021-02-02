@@ -21,7 +21,7 @@ const pick16Random = () => {
    sixteenWords = [];
     
     for (let t = 0; t < 16; t++){
-        let num = Math.floor(Math.random() * 71);
+        let num = Math.floor(Math.random() * 73);
         
         if (!sixteenWords.includes(words[num])){
             sixteenWords.push(words[num]);
