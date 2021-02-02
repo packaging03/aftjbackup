@@ -70,19 +70,19 @@ console.log("videoLink: " + id);
 
 
     useEffect(() => {
-        TrackPlayer.setupPlayer();
-        TrackPlayer.updateOptions({
-        stopWithApp: true,
-        capabilities: [
-            TrackPlayer.CAPABILITY_PLAY,
-            TrackPlayer.CAPABILITY_PAUSE,
-            TrackPlayer.CAPABILITY_STOP
-        ],
-        compactCapabilities: [
-            TrackPlayer.CAPABILITY_PLAY,
-            TrackPlayer.CAPABILITY_PAUSE
-        ]
-        });
+        // TrackPlayer.setupPlayer();
+        // TrackPlayer.updateOptions({
+        // stopWithApp: true,
+        // capabilities: [
+        //     TrackPlayer.CAPABILITY_PLAY,
+        //     TrackPlayer.CAPABILITY_PAUSE,
+        //     TrackPlayer.CAPABILITY_STOP
+        // ],
+        // compactCapabilities: [
+        //     TrackPlayer.CAPABILITY_PLAY,
+        //     TrackPlayer.CAPABILITY_PAUSE
+        // ]
+        // });
 
     }, []);
 
