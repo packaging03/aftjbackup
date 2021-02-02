@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   View,
   Text,
+  Pressable
 } from 'react-native';
 import CustomButton from '../common/CustomButton';
 import Toast from 'react-native-simple-toast';
@@ -57,7 +58,7 @@ const Resources = ({navigation}) => {
     ids.push(item.id);
 
     return (
-      <TouchableWithoutFeedback onPress={onPress}>
+      <Pressable onPress={onPress}>
         <View
           style={{
             display: 'flex',
@@ -125,7 +126,7 @@ const Resources = ({navigation}) => {
             </Text>
           </View>
         </View>
-      </TouchableWithoutFeedback>
+      </Pressable>
     );
   };
 
