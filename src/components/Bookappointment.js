@@ -10,6 +10,19 @@ import {
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {connect} from 'react-redux';
+import {BlurView} from '@react-native-community/blur';
+
+import Dialog, {
+    DialogTitle,
+    DialogContent,
+    DialogFooter,
+    DialogButton,
+    SlideAnimation,
+    ScaleAnimation,
+  } from 'react-native-popup-dialog';
+
+  import Button from '../components/common/PopupButton';
+import Button2 from '../components/common/PopupButton2';
 
 function Bookappointment({navigation,user,accessToken}) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -17,12 +30,15 @@ function Bookappointment({navigation,user,accessToken}) {
   const [name, setName] = useState('');
   const [maritalStatus, setMarritalStatus] = useState('');
   const [reason, setReasons] = useState('');
-
+  const [show, setShow] = useState(false);
   
   const bookAppointments=(names, status,apdate,reasons)=>{
     if(accessToken==null){
       alert('You cannot book an appointment, Login and try again ');
-  }else{
+  }else if(name==''||maritalStatus==''||reason==''){
+    alert('You cannot submit an empty form')
+  }
+  else{
       fetch('https://church.aftjdigital.com/api/book-appointment', {
                   method: 'POST',
                   headers: {
@@ -41,6 +57,7 @@ function Bookappointment({navigation,user,accessToken}) {
                 .then((response) => response.json())
                 .then((responseJson) =>{
                     let value = JSON.stringify(responseJson)
+                    navigation.navigate('Pastorschedule');
                     console.log(value)
                 })
                 .catch((error) => {
@@ -152,11 +169,72 @@ function Bookappointment({navigation,user,accessToken}) {
       </View>
       <TouchableOpacity
         style={styles.book}
-        onPress={() => bookAppointments(name, maritalStatus,appointmentDate,reason)}>
+        onPress={() => setShow(true)}>
         <Text style={{color: '#000', fontSize: 18, alignSelf: 'center'}}>
           Book Appointment
         </Text>
       </TouchableOpacity>
+      <Dialog
+            width={0.9}
+            visible={show}
+            rounded
+            actionsBordered
+            dialogStyle={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}
+            footer={
+              <BlurView
+                showBlur={false}
+                blurType="light"
+                show={show}
+                style={{marginTop: -60}}
+                blurAmount={8}
+                reducedTransparencyFallbackColor="white">
+                <DialogFooter>
+                  <DialogButton
+                    text=""
+                    bordered
+                    textStyle={{color: 'white'}}
+                    key="button-2"
+                  />
+                  <View style={styles.MbuttonContainer}>
+                    <TouchableOpacity
+                    >
+                      <Button2
+                        style={styles.Mbutton}
+                        text="YES"
+                        onPress={() => {
+                          // deleteItem(selectedItem);
+                          bookAppointments(name, maritalStatus,appointmentDate,reason)
+                          setShow(false);
+                        }}
+                      />
+                    </TouchableOpacity>
+                    <Button
+                      style={styles.Mbutton}
+                      text="CANCEL"
+                      onPress={() => {
+                        setShow(false);
+                      }}
+                    />
+                  </View>
+
+                  <View>
+                    <Text
+                      style={{
+                        color: 'white',
+                        marginTop: -120,
+                        lineHeight: 22,
+                        fontSize: 12,
+                        alignSelf: 'center',
+                        padding: 5,
+                      }}>
+                      Are you sure you want to book an appointment with the pastor?
+                    </Text>
+                  </View>
+                </DialogFooter>
+              </BlurView>
+            }>
+            
+          </Dialog>
     </ScrollView>
   );
 }
@@ -246,6 +324,16 @@ const styles = StyleSheet.create({
   icon: {
     alignSelf: 'center',
     margin: '1%',
+  },
+  MbuttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  Mbutton: {
+    flex: 0.5,
   },
 });
 

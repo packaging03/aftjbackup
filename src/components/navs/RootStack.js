@@ -61,6 +61,9 @@ import BibleHome from '../BibleHome';
 import TodaysReading from '../DaysReading';
 import BibleChapters from '../BibleChapters';
 import BibleVerse from '../BibleContent';
+import PreSchool from '../PreSchool';
+
+import Kindergarten from '../Kindergarten';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
 import MemoryVerseNew from '../MemoryVerseNew';
@@ -95,6 +98,10 @@ import Addnote from '../Addnote';
 import Editnote from '../Editnote';
 import Suggestion from '../suggestion/Suggestion';
 // import MemoryVerseNew from '../MemoryVerseNew';
+
+import Games from '../games/Games';
+import Quiz from '../games/Quiz';
+import Crossword from '../games/Crossword';
 
 const Stack = createStackNavigator();
 const RootStack = ({
@@ -180,7 +187,7 @@ const RootStack = ({
           headerTintColor: {
             color: '#000',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -224,7 +231,7 @@ const RootStack = ({
           headerTintColor: {
             color: '#000',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -237,7 +244,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerTitleStyle: styles.headerStyle,
         }}
       />
@@ -250,7 +257,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerTitleStyle: styles.headerStyle,
         }}
       />
@@ -275,7 +282,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
             headerTitleStyle: styles.headerStyle,
-            headerTintColor: '#000',
+            
           },
         }}
       />
@@ -289,7 +296,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -315,7 +322,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -328,7 +335,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -354,7 +361,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -367,7 +374,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -388,7 +395,7 @@ const RootStack = ({
             fontFamily: 'frankruhllibre-regular',
             fontSize: 20,
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
           headerLeft: () => (
             <Icon.Button
@@ -419,7 +426,7 @@ const RootStack = ({
             fontFamily: 'frankruhllibre-regular',
             fontSize: 20,
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
           headerLeft: () => (
             <Icon.Button
@@ -441,7 +448,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -453,7 +460,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerTitleStyle: styles.headerStyle,
         }}
       />
@@ -467,7 +474,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -480,7 +487,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -518,7 +525,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -536,7 +543,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -553,7 +560,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -570,7 +577,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -592,7 +599,7 @@ const RootStack = ({
           headerTintColor: {
             color: '#000',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -614,7 +621,7 @@ const RootStack = ({
           headerTintColor: {
             color: '#000',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -759,7 +766,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -776,7 +783,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -795,7 +802,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
 
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -814,7 +821,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
 
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -833,7 +840,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
 
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -862,23 +869,23 @@ const RootStack = ({
           //   </View>
           // ),
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
-      <Stack.Screen
-        name="Editnote"
-        component={Editnote}
-        options={{
-          title: 'Note Pad',
-          headerStyle: {
-            backgroundColor: '#fff',
-            headerTintColor: '#000',
-          },
-          headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
-        }}
-      />
+    <Stack.Screen
+      name="Editnote"
+      component={Editnote}
+      options={{
+        title: 'Note Pad',
+        headerStyle: {
+          backgroundColor: '#fff',
+          
+        },
+        headerTitleStyle: styles.headerStyle,
+        
+      }}
+    />
 
       <Stack.Screen
         name="DepartmentForm"
@@ -894,7 +901,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
 
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -913,7 +920,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
 
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -932,7 +939,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
 
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -951,7 +958,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
 
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -970,7 +977,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
 
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -997,7 +1004,7 @@ const RootStack = ({
               />
             </View>
           ),
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1026,7 +1033,7 @@ const RootStack = ({
             </View>
           ),
 
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1058,7 +1065,7 @@ const RootStack = ({
           //     />
           //   </View>
           // ),
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1076,7 +1083,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1094,7 +1101,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1112,7 +1119,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1129,7 +1136,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1147,7 +1154,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1165,7 +1172,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1182,7 +1189,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1209,7 +1216,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1257,7 +1264,7 @@ const RootStack = ({
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#000',
+          
           headerTitleStyle: styles.headerStyle,
         }}
       />
@@ -1269,10 +1276,10 @@ const RootStack = ({
           title: 'Events',
           headerStyle: {
             backgroundColor: '#fff',
-            headerTintColor: '#000',
+            
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1283,10 +1290,10 @@ const RootStack = ({
           title: 'Connect',
           headerStyle: {
             backgroundColor: '#fff',
-            headerTintColor: '#000',
+            
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1299,9 +1306,11 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
+
+
 
       <Stack.Screen
         name="ChatRoom"
@@ -1325,7 +1334,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1338,7 +1347,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1355,7 +1364,7 @@ const RootStack = ({
           headerTintColor: {
             color: '#000',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
 
           headerLeft: () => (
@@ -1385,7 +1394,7 @@ const RootStack = ({
           headerTintColor: {
             color: '#000',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
           headerRight: () => (
             <View style={styles.iconContainer}>
@@ -1423,7 +1432,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1436,7 +1445,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1449,7 +1458,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1462,11 +1471,38 @@ const RootStack = ({
             backgroundColor: '#fff ',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
       <Stack.Screen
+        name="PreSchool"
+        component={PreSchool}
+        options={{
+          title: 'Pre-school',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          
+        }}
+      />
+
+      <Stack.Screen
+        name="Kindergarten"
+        component={Kindergarten}
+        options={{
+          title: 'Kindergarten',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: styles.headerStyle,
+          
+        }}
+      />
+
+      <Stack.Screen
+
         name="Preschoolplayer"
         component={PreschoolVideoPlayer}
         options={{
@@ -1475,7 +1511,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1488,7 +1524,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1507,7 +1543,7 @@ const RootStack = ({
           headerTintColor: {
             color: '#000',
           },
-          headerTintColor: '#000',
+          
           headerShown: true,
         }}
       />
@@ -1521,7 +1557,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1534,7 +1570,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1548,7 +1584,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
 
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1606,7 +1642,7 @@ const RootStack = ({
         options={{
           title: 'Todays Reading',
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
           headerStyle: {
             backgroundColor: '#fff',
           },
@@ -1627,7 +1663,7 @@ const RootStack = ({
         component={BibleChapters}
         options={{
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
           title: 'Bible Book',
           headerStyle: {
             backgroundColor: '#fff',
@@ -1639,7 +1675,7 @@ const RootStack = ({
         component={BibleVerse}
         options={{
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
           title: 'Bible Verses',
           headerStyle: {
             backgroundColor: '#fff',
@@ -1684,7 +1720,7 @@ const RootStack = ({
         options={{
           title: 'Location',
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
           headerStyle: {
             backgroundColor: '#fff',
           },
@@ -1700,7 +1736,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
       <Stack.Screen
@@ -1712,7 +1748,7 @@ const RootStack = ({
             backgroundColor: '#fff',
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
 
@@ -1723,12 +1759,53 @@ const RootStack = ({
           title: 'Testimony',
           headerStyle: {
             backgroundColor: '#fff',
-            headerTintColor: '#000',
+            
           },
           headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
+          
         }}
       />
+
+         <Stack.Screen
+        name="Games"
+        component={Games}
+        options={{
+          title: 'Games',
+          headerStyle: {
+            backgroundColor: '#fff',
+            
+          },
+          headerTitleStyle: styles.headerStyle,
+          
+        }}
+      />
+
+
+         <Stack.Screen
+          name="Quiz"
+          component={Quiz}
+          options={{
+            title: 'Quiz',
+            headerStyle: {
+              backgroundColor: '#fff',
+            },
+            
+            headerTitleStyle: styles.headerStyle,
+          }}
+        />
+
+        <Stack.Screen
+          name="Crossword"
+          component={Crossword}
+          options={{
+            title: 'Crossword',
+            headerStyle: {
+              backgroundColor: '#fff',
+            },
+            
+            headerTitleStyle: styles.headerStyle,
+          }}
+        />
     </Stack.Navigator>
   );
 };
