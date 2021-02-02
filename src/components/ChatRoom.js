@@ -24,7 +24,7 @@ const ChatRoom = ({accessToken, user, route, navigation})=>{
     }
 
     useEffect(()=>{
-        firebaseChats.database().ref('NormalChats/'+JSON.parse(user).id).once('value', function(snapshot){
+        firebaseChats.database().ref('NormalChats/'+JSON.parse(user).id+'/'+route.params.agent_id).once('value', function(snapshot){
             var data=[]
             snapshot.forEach(function(userSnapshot){
                 var userKey = userSnapshot.key;
@@ -76,10 +76,10 @@ const ChatRoom = ({accessToken, user, route, navigation})=>{
         /*let chats = chatMessages=>[...JSON.parse(chatMessages), {'message':text, 'time': time, 'date':date}]
         setChatMessage(JSON.stringify(chats))*/
     
-        firebaseChats.database().ref('NormalChats/'+JSON.parse(user).id).push({'messages': chat, 'time': time, 'id':JSON.parse(user).id})
+        firebaseChats.database().ref('NormalChats/'+JSON.parse(user).id + '/'+route.params.agent_id).push({'messages': chat, 'time': time, 'id':JSON.parse(user).id})
         .then((data)=>{console.log('data', data)}).catch((error)=>console.log(error))
 
-        firebaseChats.database().ref('NormalChats/'+route.params.agent_id).push({'messages': chat, 'time': time, 'id':JSON.parse(user).id})
+        firebaseChats.database().ref('NormalChats/'+route.params.agent_id+'/'+JSON.parse(user).id).push({'messages': chat, 'time': time, 'id':JSON.parse(user).id})
         .then((data)=>{console.log('data', data)}).catch((error)=>console.log(error))
     
         setChat("")
