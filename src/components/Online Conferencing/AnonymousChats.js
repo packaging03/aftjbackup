@@ -84,8 +84,9 @@ const AnonymousChats = ({accessToken, user, route, navigation})=>{
                     keyExtractor={(item, index) => item.id}
                     renderItem={({item}) => (
                         item.id==JSON.parse(user).id?
-                        <ChatCardSender message={item.messages} time={item.time} date={item.date}/>:
-                        <ChatCardReciever message={item.messages} time={item.time} date={item.date}/>
+			<ChatCardReciever message={item.messages} time={item.time} date={item.date}/>:
+                        <ChatCardSender message={item.messages} time={item.time} date={item.date}/>
+                        
                     )}   
                 />
             </View>
