@@ -461,14 +461,18 @@ const Resource = ({route, navigation}) => {
         {isLoading ? (
           <ActivityIndicator size="large" style={{marginTop: 50}} />
         ) : (
-          <FlatList
-            data={data}
-            ItemSeparatorComponent={renderSeparator}
-            renderItem={renderItem}
-            keyExtractor={item => item.id.toString()}
-            ListHeaderComponent={getHeader}
-            ListFooterComponent={getFooter}
-          />
+          
+              data.length !== 0 ? <FlatList
+
+              data={data}
+              ItemSeparatorComponent={renderSeparator}
+              renderItem={renderItem}
+              keyExtractor={item => item.id.toString()}
+              ListHeaderComponent={getHeader}
+              ListFooterComponent={getFooter}
+            /> : <Text style={{fontSize:14, fontStyle:'italic', alignSelf:'center'}}>Awaiting questions, please check back later</Text>
+          
+          
         )}
       </View>
     </View>
