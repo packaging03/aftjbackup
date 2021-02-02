@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Keyboard, FlatList, Image, TouchableOpacity, BackHandler} from 'react-native';
+import {View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Keyboard, FlatList, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import Icono from 'react-native-vector-icons/FontAwesome';
 
 const ChatRoom = ({accessToken, user, route, navigation})=>{
 
+    const [chat, setChat] = useState();
     const [activeSend, setActiveSend] = useState(true);
-    const [messages, setMessages] = useState();
     const [image, setImage] = useState(route.params.image);
-    const [chatMessages, setChatMessage] = useState('');
+    const [chatData, setChatData] = useState('');
+    
 
     var firebaseChats = require("firebase");
 
@@ -23,34 +24,18 @@ const ChatRoom = ({accessToken, user, route, navigation})=>{
     }
 
     useEffect(()=>{
-        const interval = setInterval(()=>{
-                fetch('https://church.aftjdigital.com/api/allchats', {
-                    method: 'GET',
-                    headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                    },
-                    })
-                    .then(response => response.json())
-                    .then(responseJson => {
-                        //console.log(responseJson)
-                        let chatHistory = new Array();
-                        for(let i=0; i<responseJson.length; i++){
-                            if(responseJson[i].agent_id==route.params.agent_id||responseJson[i].user_id==route.params.agent_id){
-                                chatHistory[i]=responseJson[i]
-                            }
-                            
-                        }
-                        console.log(chatHistory)
-                        setMessages(JSON.stringify(chatHistory.reverse()))
-                    })
-                    .catch(error => {
-                    alert(error);
-                    });
-        }, 3000);
-        return ()=> clearInterval(interval);
-    }, [])
+        firebaseChats.database().ref('NormalChats/'+JSON.parse(user).id).once('value', function(snapshot){
+            var data=[]
+            snapshot.forEach(function(userSnapshot){
+                var userKey = userSnapshot.key;
+                var userData = userSnapshot.val();
+
+                data.push(userData)
+            })
+            console.log(JSON.stringify(data))
+            setChatData(data)
+        })
+    })
 
     React.useLayoutEffect(()=>{
         navigation.setOptions({
@@ -62,7 +47,7 @@ const ChatRoom = ({accessToken, user, route, navigation})=>{
                   <View style={styles.headerImage}>
                         <Image style= {{flex: 1, width: '100%', height: '100%'}} source={{uri: route.params.image}} />
                   </View>
-                  <View style={{marginLeft:10 }}>
+                  <View style={{marginLeft:'10%', width:'150%' }}>
                       <Text style={{fontSize:15}}>{route.params.name}</Text>
                       <Text style={{fontSize:10}}>Typing...</Text>
                   </View>
@@ -86,38 +71,19 @@ const ChatRoom = ({accessToken, user, route, navigation})=>{
 
     const sendButton = ()=>{
         let today = new Date();
-        let time = today.getHours()+" : "+ today.getMinutes();
+        let time = today.getHours()+":"+ today.getMinutes();
+    
+        /*let chats = chatMessages=>[...JSON.parse(chatMessages), {'message':text, 'time': time, 'date':date}]
+        setChatMessage(JSON.stringify(chats))*/
+    
+        firebaseChats.database().ref('NormalChats/'+JSON.parse(user).id).push({'messages': chat, 'time': time, 'id':JSON.parse(user).id})
+        .then((data)=>{console.log('data', data)}).catch((error)=>console.log(error))
 
-        if(messages){
-            let chats = messages=>[...JSON.parse(messages), {'message':chatMessages, 'currentTime': '02/11/20 '+time}]
-            setMessages(JSON.stringify(chats))
-            
-            fetch('https://church.aftjdigital.com/api/receivemessage', {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`
-                    },
-                        body: JSON.stringify({
-                            user_id: JSON.parse(user).id,
-                            agent_id: route.params.agent_id,
-                            message: chatMessages,
-                        }),
-                    })
-                    .then(response => response.json())
-                    .then(responseJson => {
-                        console.log(responseJson.message)
-                        
-                    })
-                        .catch(error => {
-                        alert(error);
-                    });
-            
-        }
-        setChatMessage("")
-        setActiveSend(true);
-        Keyboard.dismiss();
+        firebaseChats.database().ref('NormalChats/'+route.params.agent_id).push({'messages': chat, 'time': time, 'id':JSON.parse(user).id})
+        .then((data)=>{console.log('data', data)}).catch((error)=>console.log(error))
+    
+        setChat("")
+        Keyboard.dismiss()
     }
 
     const ChatCardSender = (props)=>{
@@ -157,49 +123,7 @@ const ChatRoom = ({accessToken, user, route, navigation})=>{
         )
     }
 
-    const connectFirebase = ()=>{
-        firebaseChats.database().ref('User/').set({'email':'farukumar41@gmail.com', 'First Name':'Umar', 'Last Name':'Aminu'}).then((data)=>{
-            console.log(data)
-        }).catch((error)=>{
-            console.log(error)
-        })
-    }
-
-    const ChatBoxActive = ()=> {
-        return(
-            <View style={styles.controls}>
-                    <View style={styles.input}>
-                        <TouchableOpacity onPress={connectFirebase}>
-                            <Image style= {{width: 22, height: 22, marginLeft:10, marginRight:5}} source={require('../assets/happy.png')}/>
-                        </TouchableOpacity>
-                        <TextInput
-                            multiline={true}
-                            style={{flex:1}}
-                            autoFocus={true}
-                            onFocus={()=>{setActiveSend(false)}}
-                            onChangeText={text=>setChatMessage(text)}
-                            value={chatMessages}
-                        />
-                        <TouchableOpacity>
-                            <Image style= {{width: 22, height: 22, marginLeft:10, marginRight:5}} source={require('../image/file.png')}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Image style= {{width: 22, height: 22, marginLeft:5, marginRight:15}} source={require('../assets/camera.png')}/>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.audio}>
-                        {activeSend? 
-                        <TouchableOpacity>
-                            {/* <Image style= {{width: 18, height: 18}} source={require('../assets/microphone.png')}/> */}
-                        </TouchableOpacity>:
-                        <TouchableOpacity onPress={sendButton}>
-                            {/* <Image style= {{width: 15, height: 15}} source={require('../assets/send.png')}/> */}
-                        </TouchableOpacity>}
-                    </View>        
-                </View>
-        )
-    }
-
+   
     const ChatBoxInactive = ()=>{
         return(
             <View style={styles.controls}>
@@ -226,18 +150,40 @@ const ChatRoom = ({accessToken, user, route, navigation})=>{
         <View style={styles.container}>
             <View style={styles.chatFlow}>
                 <FlatList
-                    data={messages? JSON.parse(messages):()=>{}}
+                    data={chatData}
                     keyExtractor={(item, index) => item.user_id}
                     renderItem={({item}) => (
                         item.agent_id==JSON.parse(user).id?
-                        <ChatCardSender message={item.message} time={item.currentime.substr(10)}/>:
-                        <ChatCardReciever message={item.message} time={item.currentime.substr(10)}/> 
+                        <ChatCardSender message={item.message} time={item.time}/>:
+                        <ChatCardReciever message={item.message} time={item.time}/> 
                         
                     )}   
                 />
             </View>
             <KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={-167}>
-                {activeSend? <ChatBoxInactive/>:<ChatBoxActive/>}
+                <View style={styles.main}>
+                    <View style={styles.box}>
+                        <TouchableOpacity>
+                            <Image style= {{width: 22, height: 22, marginLeft:10, marginRight:5}} source={require('../assets/happy.png')}/>
+                        </TouchableOpacity>
+                        <TextInput
+                            style={{flex:1}}
+                            multiline={true}
+                            onChangeText={text=>setChat(text)}
+                            defaultValue={chat}
+                        />
+                        <TouchableOpacity>
+                            <Image style= {{width: 22, height: 22, marginLeft:10, marginRight:5}} source={require('../image/file.png')}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Image style= {{width: 22, height: 22, marginLeft:5, marginRight:15}} source={require('../assets/camera.png')}/>
+                        </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity style={styles.send} onPress={sendButton}>
+                        <Image style= {{width: 20, height: 20}} source={require('../assets/send.png')}/>
+                    </TouchableOpacity>
+                    
+                </View>
             </KeyboardAvoidingView>
         </View>
     )
@@ -265,17 +211,6 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         paddingTop:10
     },
-
-    controls:{
-        width: '100%',
-        height: 45,
-        backgroundColor: '#fff',
-        flexDirection: 'row',
-        justifyContent:'space-around',
-        marginTop:10,
-        marginBottom:10
-        
-    }, 
 
     iconContainer2: {
         width: 105,
@@ -317,12 +252,31 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
 
-    audio:{
-        width: 45,
-        height: 45,
+    main:{
+        width:'100%',
+        height:50,
+        marginBottom:10,
+        flexDirection:'row'
+    },
+
+    box:{
+        flex:1,
+        borderRadius:50,
         backgroundColor:'#fff',
-        borderRadius: 30,
-        elevation: 4,
+        marginLeft:4,
+        marginRight:6,
+        elevation:4,
+        flexDirection:'row',
+        alignItems:'center'
+    },
+
+    send:{
+        width:50,
+        height:50,
+        borderRadius:50,
+        backgroundColor:'#fff',
+        elevation:4,
+        marginRight:5,
         justifyContent:'center',
         alignItems:'center'
     },

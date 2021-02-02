@@ -69,7 +69,7 @@ const AnonymousChats = ({accessToken, user, route, navigation})=>{
         /*let chats = chatMessages=>[...JSON.parse(chatMessages), {'message':text, 'time': time, 'date':date}]
         setChatMessage(JSON.stringify(chats))*/
 
-        firebaseChats.database().ref('Chats/').push({'messages': text, 'date':date, 'time': time, 'id':'30'})
+        firebaseChats.database().ref('Chats/').push({'messages': text, 'date':date, 'time': time, 'id':JSON.parse(user).id})
         .then((data)=>{console.log('data', data)}).catch((error)=>console.log(error))
 
         setText("")
@@ -84,8 +84,9 @@ const AnonymousChats = ({accessToken, user, route, navigation})=>{
                     keyExtractor={(item, index) => item.id}
                     renderItem={({item}) => (
                         item.id==JSON.parse(user).id?
-                        <ChatCardSender message={item.messages} time={item.time} date={item.date}/>:
-                        <ChatCardReciever message={item.messages} time={item.time} date={item.date}/>
+			<ChatCardReciever message={item.messages} time={item.time} date={item.date}/>:
+                        <ChatCardSender message={item.messages} time={item.time} date={item.date}/>
+                        
                     )}   
                 />
             </View>

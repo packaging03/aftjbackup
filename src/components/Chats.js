@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
         height: 15,
         backgroundColor: 'white',
         position: 'absolute',
-        right: '80%',
+        right: '82%',
         top: '65%',
         borderRadius:15,
         justifyContent: 'center',
