@@ -42,12 +42,12 @@ const TestVoice = ({navigation})=>{
                     
                         <View style={{...styles.male, backgroundColor: selectedUser? '#c5cad3':'#fff'}}>
                             <Image style= {{ width: 20, height: 20, marginLeft:20, marginRight:10}} source={require('../../assets/male-user.png')} />
-                            <Text style={{fontSize:16}}>Male Voive</Text>
+                            <Text style={{fontSize:16}}>Male Voice</Text>
                             <Image style= {{ width: 20, height: 20, marginLeft:'52%'}} source={require('../../assets/play-button.png')} />
                         </View>
                         <View style={{...styles.female, backgroundColor: selectedUser? '#fff':'#c5cad3'}}>
                             <Image style= {{ width: 20, height: 20, marginLeft:20, marginRight:10}} source={require('../../assets/female.png')} />
-                            <Text style={{fontSize:16}}>Female Voive</Text>
+                            <Text style={{fontSize:16}}>Female Voice</Text>
                             <Image style= {{ width: 20, height: 20, marginLeft:'47%'}} source={require('../../assets/play-button.png')} />
                         </View>
                     
