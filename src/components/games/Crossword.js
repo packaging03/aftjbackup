@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, SafeAreaView} from 'react-native';
-import {ScrollView, TouchableHighlight, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import {View, Text, Image,  PanResponder, Dimensions, SafeAreaView} from 'react-native';
+import Svg, {Line} from 'react-native-svg';
+import {ScrollView,
+     TouchableHighlight, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Toast from 'react-native-simple-toast';
 import Dialog from 'react-native-popup-dialog';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,7 +10,8 @@ import {BlurView} from '@react-native-community/blur';
 import DialogContent from 'react-native-popup-dialog/dist/components/DialogContent';
 
 
-
+var width = Dimensions.get('window').width;
+var height = Dimensions.get('window').height;
 
  var arrList = [];
 
@@ -39,6 +42,37 @@ const circleRadius = 30;
 
 const Crosswords = ({route}) => {
 
+    const  [touchXY, setTouchXY] = useState({
+        startTouchX: 0,
+        startTouchY: 0,
+        endTouchX: 0,
+        endTouchY: 0,
+    });
+
+    const panResponder =  PanResponder.create({
+        
+        onStartShouldSetPanResponder: (event, gestureState) => true,
+        onStartShouldSetPanResponderCapture: (event, gestureState) => {
+            setTouchXY({
+                startTouchX: event.nativeEvent.locationX.toFixed(2),
+                startTouchY: event.nativeEvent.locationY.toFixed(2),
+               
+            });
+        },
+        onMoveShouldSetPanResponder: (event, gestureState) => false,
+        onMoveShouldSetPanResponderCapture: (event, gestureState) => false,
+        onPanResponderGrant: (event, gestureState) => false,
+        onPanResponderMove: (event, gestureState) => {},
+        onPanResponderRelease: (event, gestureState) => {
+            setTouchXY({
+              
+                endTouchX: event.nativeEvent.locationX.toFixed(2),
+                endTouchY: event.nativeEvent.locationY.toFixed(2),
+            });
+        },
+        
+    });
+
 
     const [visibility1, setVisibility1] =  useState(0);
     const [visibility2, setVisibility2] =  useState(0);
@@ -56,19 +90,28 @@ const Crosswords = ({route}) => {
     const [visibility14, setVisibility14] =  useState(0);
     const [visibility15, setVisibility15] =  useState(0);
     const [visibility16, setVisibility16] =  useState(0);
-
     const [show, setShow] = useState(false);
 
+
+    useEffect(()=>{
+        panResponder;
+        setTouchXY({
+            startTouchX: 0,
+            startTouchY: 0,
+            endTouchX: 0,
+            endTouchY: 0,
+        });
+
+    }, []);
    
     const displayModal = show => {
         setShow(show);
       };
-
     
     let {sixteenWords, index1, index2, index3, index4, index5, index6, index7, index8, index9, index10, index11, index12, index13, index14, index15, index16} = route.params;
 
     const play = (position, currentLetter, firstLetter, lastLetter) => {
-      
+
         if(first === ''){
             first = currentLetter;
         }else if (first !== '' && first !== ''){
@@ -139,143 +182,112 @@ const Crosswords = ({route}) => {
     }
 
     return (
-        <ScrollView style={{flex:1, backgroundColor:'white',}}>
-        <View  style={{flex:1,  padding:20}} >
+        <ScrollView style={{flex:1, }} >
+        <View  style={{flex:1, padding:20}} >
+
+                
+                <View style={{
+                        flex: 1,
+                        width:'100%',
+                        height:'100%',
+                        overflow: 'hidden',
+                        alignSelf:'center',
+                        position:'absolute',
+                        zIndex:100,
+                    }}>
+                    <Svg height={height} width={width} position="absolute">
+                        <Line
+                            x1={touchXY.startTouchX}
+                            y1={touchXY.startTouchY}
+                            x2={touchXY.endTouchX}
+                            y2={touchXY.endTouchY}
+                            stroke="red"
+                            strokeWidth="20"
+                            strokeOpacity="0.3"
+                            strokeLinecap="round"
+                            
+                        />
+                    </Svg>
+                    <View
+                        style={
+                            {flex: 1,  
+                            backgroundColor:'transparent', zIndex:200,
+                            }}
+                        {...panResponder.panHandlers}
+                    />
+                </View>
 
             {
-                show? (<View  style={{
-                    height:200,
-                    backgroundColor:'rgba(255, 255, 255, 0.3)',
-                    position:'absolute',
-                    top:100,
-                    zIndex:100,
-                    borderRadius:8,
-                    width: '90%',
-                    alignSelf:'center'}} >
-                        <BlurView
-                            showBlur={true}
-                            o
-                            blurType="light"
-                            show={show}
-                            style={{height:'100%', zIndex:-10}}
-                            blurAmount={10}
-                            reducedTransparencyFallbackColor="white" >
-                    <TouchableWithoutFeedback  style={{
-                        height:200,
-                        width:'100%',
-                        display:'flex', 
-                        borderRadius:8,
-                        justifyContent:'center',
-                        width: '100%',
-                        alignItems:'center'}} onPress={()=>displayModal(false)} >
+            //     show? (<View  style={{
+            //         height:200,
+            //         backgroundColor:'rgba(255, 255, 255, 0.3)',
+            //         position:'absolute',
+            //         top:100,
+            //         zIndex:100,
+            //         borderRadius:8,
+            //         width: '90%',
+            //         alignSelf:'center'}} >
+            //             <BlurView
+            //                 showBlur={true}
+            //                 o
+            //                 blurType="light"
+            //                 show={show}
+            //                 style={{height:'100%', zIndex:-10}}
+            //                 blurAmount={10}
+            //                 reducedTransparencyFallbackColor="white" >
+            //         <TouchableWithoutFeedback  style={{
+            //             height:200,
+            //             width:'100%',
+            //             display:'flex', 
+            //             borderRadius:8,
+            //             justifyContent:'center',
+            //             width: '100%',
+            //             alignItems:'center'}} onPress={()=>displayModal(false)} >
                             
-                        <View 
-                            style={{
-                                height:'100%',
-                                width:'100%',
-                                backgroundColor:'rgba(255, 255, 255, 0.3)',
-                                borderRadius:8,
-                                position:'relative',
-                                zIndex:10,
-                                display:'flex',
-                                position:'absolute',
-                                alignSelf:'center',
-                                justifyContent:'center', 
-                                alignItems:'center'}}>
+            //             <View 
+            //                 style={{
+            //                     height:'100%',
+            //                     width:'100%',
+            //                     backgroundColor:'rgba(255, 255, 255, 0.3)',
+            //                     borderRadius:8,
+            //                     position:'relative',
+            //                     zIndex:10,
+            //                     display:'flex',
+            //                     position:'absolute',
+            //                     alignSelf:'center',
+            //                     justifyContent:'center', 
+            //                     alignItems:'center'}}>
 
-                        <Image
-                            style={{
+            //             <Image
+            //                 style={{
                                 
-                                alignSelf:'center'
-                            }}
-                            source={require('../../assets/crossword-cup.png')} />
-                        <Text style={{
-                            color:'#FB13C8',
-                            lineHeight:40.92,
-                            letterSpacing:0.5,
-                            position:'absolute',
-                            fontSize:30,
-                            alignSelf:'center',
-                            fontFamily:'Nunito-Regular',
-                            fontWeight:'700'
-                        }}>GAME WON</Text>
+            //                     alignSelf:'center'
+            //                 }}
+            //                 source={require('../../assets/crossword-cup.png')} />
+            //             <Text style={{
+            //                 color:'#FB13C8',
+            //                 lineHeight:40.92,
+            //                 letterSpacing:0.5,
+            //                 position:'absolute',
+            //                 fontSize:30,
+            //                 alignSelf:'center',
+            //                 fontFamily:'Nunito-Regular',
+            //                 fontWeight:'700'
+            //             }}>GAME WON</Text>
                 
-                    </View>
+            //         </View>
                     
-            </TouchableWithoutFeedback>
-            </BlurView>
-            </View>) : null
+            // </TouchableWithoutFeedback>
+            // </BlurView>
+            // </View>) : null
             }
-            {/* <Dialog
-                visible={show}
-                rounded
-                actionsBordered
-                dialogStyle={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.3)', 
-                    position:'absolute', 
-                    height:'28%', 
-                    top:'20%', 
-                    paddingVertical:20,
-                    width:'80%',}}>
 
-             <BlurView
-                showBlur={false}
-                blurType="light"
-                show={show}
-                style={{height:'100%'}}
-                blurAmount={10}
-                reducedTransparencyFallbackColor="white" >
-
-                <DialogContent  style={{display:'flex', 
-                            height:'100%',
-                            width:'100%',
-                            justifyContent:'center', 
-                            alignItems:'center'}}>
-                            
-                    <TouchableWithoutFeedback  style={{
-                                height:'100%',
-                                backgroundColor:'red',
-                                display:'flex', 
-                                justifyContent:'center',
-                                width:'100%',
-                                alignItems:'center'}} onPress={()=>displayModal(false)} >
-                        <View 
-                            style={{
-                                display:'flex', 
-                                height:'100%',
-                                width:'100%',
-                                alignSelf:'center',
-                                justifyContent:'center', 
-                                alignItems:'center'}}>
-
-                                <Image
-                                    style={{
-                                        position:'absolute',
-                                        alignSelf:'center'
-                                    }}
-                                    source={require('../../assets/crossword-cup.png')} />
-                                <Text style={{
-                                    color:'#FB13C8',
-                                    lineHeight:40.92,
-                                    letterSpacing:0.5,
-                                    fontSize:30,
-                                    fontFamily:'Nunito-Regular',
-                                    fontWeight:'700'
-                                }}>GAME WON</Text>
-                        
-                            </View>
-                    </TouchableWithoutFeedback>
-                      
-                </DialogContent>
-              </BlurView>
-            </Dialog> */}
-
-
-            <Text style={
+             <Text style={
                 {fontSize:20, 
                 fontFamily:'Nunito', 
                 lineHeight:22, 
                 letterSpacing:0.5, 
+                zIndex:-1,
                 alignSelf:'center',
                 fontWeight:'600',}}>Welcome To Today's Game</Text>
             
@@ -797,15 +809,15 @@ const Crosswords = ({route}) => {
             </View>
 
             <View style={{display:'flex', marginTop:20, flexWrap:'wrap', flexDirection:'row'}}>
-            {/* {
+             {/* {
                 sixteenWords.slice(0, 16).map(i => {
                     return <View style={{display:'flex', flexDirection:'row',}}> 
                              <Icon name={'md-checkmark-sharp'}  color='#219653' size={17} />
                             <Text style={{width:80, marginRight:5, fontSize:11}}>{i}</Text>
                         </View>
                     })
-            } */}
-            <View style={{display:'flex', flexDirection:'row',}}> 
+            }  */}
+             <View style={{display:'flex', flexDirection:'row',}}> 
                     <Icon name={'md-checkmark-sharp'} style={{opacity:visibility1}}  color='#219653' size={17} />
                 <Text style={{width:80, marginRight:5, fontSize:11}}>{sixteenWords[0]}</Text>
             </View>
@@ -870,10 +882,7 @@ const Crosswords = ({route}) => {
                 <Text style={{width:80, marginRight:5, fontSize:11}}>{sixteenWords[15]}</Text>
             </View>
 
-            
-
-
-            </View>
+            </View>  
 
 
         </View>
@@ -908,6 +917,12 @@ const styles = {
         fontSize: 14, 
         zIndex:10
     },
+    childView: {
+        flex: 1,
+        overflow: 'hidden',
+        backgroundColor:'red',
+        zIndex:100,
+    },
     box: {
         width: 150,
         height: 150,
@@ -938,3 +953,91 @@ const styles = {
 }
 
 export default Crosswords;
+
+
+// export default class Crosswords extends Component {
+//     constructor() {
+//         super();
+//         //initialize state
+//         this.panResponder;
+//         this.state = {
+//             startTouchX: 0,
+//             startTouchY: 0,
+
+//             endTouchX: 0,
+//             endTouchY: 0,
+//         };
+
+//         //panResponder initialization
+//         this.panResponder = PanResponder.create({
+//             onStartShouldSetPanResponder: (event, gestureState) => true,
+//             onStartShouldSetPanResponderCapture: (event, gestureState) => {
+//                 this.setState({
+//                     startTouchX: event.nativeEvent.locationX.toFixed(2),
+//                     startTouchY: event.nativeEvent.locationY.toFixed(2),
+//                 });
+//             },
+//             onMoveShouldSetPanResponder: (event, gestureState) => false,
+//             onMoveShouldSetPanResponderCapture: (event, gestureState) => false,
+//             onPanResponderGrant: (event, gestureState) => false,
+//             onPanResponderMove: (event, gestureState) => {},
+//             onPanResponderRelease: (event, gestureState) => {
+//                 this.setState({
+//                     endTouchX: event.nativeEvent.locationX.toFixed(2),
+//                     endTouchY: event.nativeEvent.locationY.toFixed(2),
+//                 });
+//             },
+//         });
+//         this.setState({
+//             startTouchX: 0,
+//             startTouchY: 0,
+
+//             endTouchX: 0,
+//             endTouchY: 0,
+//         });
+//     }
+//     render() {
+//         return (
+//             <View style={styles.MainContainer}>
+//                 <View style={styles.childView}>
+//                     <Svg height={height} width={width} position="absolute">
+//                         <Line
+//                             x1={this.state.startTouchX}
+//                             y1={this.state.startTouchY}
+//                             x2={this.state.endTouchX}
+//                             y2={this.state.endTouchY}
+//                             stroke="red"
+//                             strokeWidth="20"
+//                             strokeOpacity="0.3"
+//                             strokeLinecap="round"
+                            
+//                         />
+//                     </Svg>
+//                     <View
+//                         style={{flex: 1, backgroundColor: 'transparent'}}
+//                         {...this.panResponder.panHandlers}
+//                     />
+//                 </View>
+//             </View>
+//         );
+//     }
+// }
+
+// const styles = StyleSheet.create({
+//     MainContainer: {
+//         flex: 1,
+//     },
+
+//     childView: {
+//         flex: 1,
+//         overflow: 'hidden',
+//     },
+//     point: {
+//         height: 22,
+//         width: 22,
+//         marginTop: 5,
+//         position: 'absolute',
+//         borderRadius: 14,
+//         backgroundColor: '#afeeee',
+//     },
+// });

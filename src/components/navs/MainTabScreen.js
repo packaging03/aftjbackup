@@ -477,20 +477,6 @@ const HomeStackScreen = ({navigation}) => (
     />
 
     <HomeStack.Screen
-      name="Location"
-      component={LocationPage}
-      options={{
-        title: 'Location',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        
-        headerTitleStyle: styles.headerStyle,
-      }}
-    />
-
-
-    <HomeStack.Screen
       name="Forum"
       component={Forum}
       options={{
