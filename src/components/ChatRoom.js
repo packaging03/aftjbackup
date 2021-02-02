@@ -154,8 +154,9 @@ const ChatRoom = ({accessToken, user, route, navigation})=>{
                     keyExtractor={(item, index) => item.user_id}
                     renderItem={({item}) => (
                         item.agent_id==JSON.parse(user).id?
-                        <ChatCardSender message={item.message} time={item.time}/>:
-                        <ChatCardReciever message={item.message} time={item.time}/> 
+			<ChatCardReciever message={item.messages} time={item.time}/>:
+                        <ChatCardSender message={item.messages} time={item.time}/>
+                        
                         
                     )}   
                 />
