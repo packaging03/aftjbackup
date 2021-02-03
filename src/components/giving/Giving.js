@@ -8,16 +8,19 @@ import {
   Dimensions,
   Image,
   StatusBar,
+  Linking,
   Platform,
+  Picker,
 } from 'react-native';
 import {Container} from 'native-base';
+import PayPal from 'react-native-paypal-gateway';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import {Picker} from '@react-native-community/picker';
+// import {Picker} from '@react-native-community/picker';
 // import Side from '../../image/';
 
 export default class Giving extends Component {
@@ -29,6 +32,7 @@ export default class Giving extends Component {
   openDrawer = () => {
     this.drawer._root.open();
   };
+
   render() {
     const {navigation} = this.props;
     return (
@@ -105,7 +109,17 @@ export default class Giving extends Component {
               OR
             </Text>
             <Pressable
-              onPress={() => console.log('pay with cash app pressed')}
+              onPress={() => {
+                if (Platform.OS === 'android') {
+                  Linking.openURL(
+                    'https://play.google.com/store/apps/details?id=com.squareup.cash&hl=en&gl=US',
+                  );
+                } else if (Platform.OS === 'ios') {
+                  Linking.openURL(
+                    'https://apps.apple.com/us/app/cash-app/id711923939',
+                  );
+                }
+              }}
               style={[
                 styles.pay,
                 {

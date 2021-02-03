@@ -9,12 +9,13 @@ import {
   TextInput,
   // ToastAndroid,
   TouchableOpacity,
+  Picker,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-simple-toast';
 
 import {Container} from 'native-base';
-import {Picker} from '@react-native-community/picker';
+// import {Picker} from '@react-native-community/picker';
 
 const {width, height} = Dimensions.get('window');
 const CancelToken = axios.CancelToken;

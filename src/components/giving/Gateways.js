@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,18 +7,99 @@ import {
   Pressable,
   Image,
   TextInput,
+  Alert,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {Container} from 'native-base';
 import {Switch} from 'react-native-paper';
 const {height, width} = Dimensions.get('window');
+import PayPal from 'react-native-paypal-gateway';
+import {GooglePay} from 'react-native-google-pay';
 
-const Gateways = ({navigation}) => {
+const allowedCardNetworks = ['VISA', 'MASTERCARD'];
+const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
+// import PaymentRequest from 'react-native-payments';
+
+const gatewayRequestData = {
+  cardPaymentMethod: {
+    tokenizationSpecification: {
+      type: 'PAYMENT_GATEWAY',
+      gateway: 'square',
+      gatewayMerchantId: 'chijiokepeter1@gmail.com',
+    },
+    allowedCardNetworks,
+    allowedCardAuthMethods,
+  },
+  transaction: {
+    totalPrice: '123',
+    totalPriceStatus: 'FINAL',
+    currencyCode: 'USD',
+  },
+  merchantName: 'Example Merchant',
+};
+
+const Gateways = ({navigation, route}) => {
   const [cardNumber, setCardNumber] = useState('');
   const [expiration, setExpiration] = useState('');
   const [cvv, setCVV] = useState('');
   const [cardName, setCardName] = useState('');
   const [isSwitchOn, setIsSwitchOn] = useState(false);
+
+  useEffect(() => {
+    PayPal.initialize(
+      PayPal.SANDBOX,
+      'AU3lEA5_gSXn7EQiHcYN73adepQ4sv9RaUmImkBgBRap04kdl_7imWAgrcZG70lWTgDOqZFQLOcuIwJ8',
+    );
+    // Alert.alert(route.params.amount);
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST);
+    }
+    return () => {};
+  }, []);
+
+  const _handleGPay = () => {
+    console.log('clicked_Gpay');
+    GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods).then(
+      ready => {
+        if (ready) {
+          console.log('ready');
+
+          GooglePay.requestPayment(gatewayRequestData)
+            .then(handleSuccess)
+            .catch(handleError);
+        } else {
+          Alert.alert(
+            'Ooops!',
+            'Google pay is not available, you do not meet the payment requirements.',
+          );
+        }
+      },
+    );
+  };
+
+  const handleSuccess = token => {
+    // Send a token to your payment gateway
+    Alert.alert('Success', `token: ${token}`);
+  };
+
+  const handleError = error =>
+    Alert.alert('Error', `${error.code}\n${error.message}`);
+
+  const _handlePayWithPayPal = () => {
+    PayPal.pay({
+      price: `${route.params.amount}`,
+      currency: 'USD',
+      description: 'Your description goes here',
+    })
+      .then(confirm => console.log(confirm))
+      .catch(error => Alert.alert(error.message));
+  };
+
   const _handlingCardNumber = number => {
     const num = number
       .replace(/\s?/g, '')
@@ -82,14 +163,29 @@ const Gateways = ({navigation}) => {
           Payment Method
         </Text>
         <View style={{flexDirection: 'row'}}>
-          <Pressable style={styles.press}>
+          <Pressable
+            style={({pressed}) => [
+              {
+                backgroundColor: pressed ? 'rgb(210, 230, 255)' : 'white',
+                marginHorizontal: 12,
+              },
+              styles.press,
+            ]}>
             <Image
               source={require('../../assets/applePay.png')}
               style={{width: 49, height: 20}}
             />
           </Pressable>
           {/* ======================================================================== */}
-          <Pressable style={{...styles.press, marginHorizontal: 12}}>
+          <Pressable
+            onPress={_handlePayWithPayPal}
+            style={({pressed}) => [
+              {
+                backgroundColor: pressed ? 'rgb(210, 230, 255)' : 'white',
+                marginHorizontal: 12,
+              },
+              styles.press,
+            ]}>
             <Image
               source={require('../../assets/PayPal-Logo.wine.png')}
               style={{width: 80, height: 50}}
@@ -97,16 +193,19 @@ const Gateways = ({navigation}) => {
           </Pressable>
           {/* ================================================================================== */}
           <Pressable
-            style={{
-              backgroundColor: '#fff',
-              width: 90,
-              justifyContent: 'center',
-              height: 48,
-              alignItems: 'center',
-              borderRadius: 10,
-              marginHorizontal: 14,
-              elevation: 7,
-            }}>
+            onPress={_handleGPay}
+            style={({pressed}) => [
+              {
+                backgroundColor: pressed ? 'rgb(210, 230, 255)' : 'white',
+                width: 90,
+                justifyContent: 'center',
+                height: 48,
+                alignItems: 'center',
+                borderRadius: 10,
+                marginHorizontal: 14,
+                elevation: 7,
+              },
+            ]}>
             <Image
               source={require('../../assets/Gpay.png')}
               style={{width: 49, height: 20}}
@@ -232,7 +331,7 @@ export default Gateways;
 
 const styles = StyleSheet.create({
   press: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     width: 90,
     justifyContent: 'center',
     height: 48,

@@ -1,4 +1,12 @@
 rootProject.name = 'JCCI'
+include ':react-native-google-pay'
+project(':react-native-google-pay').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-pay/android')
+include ':react-native-payments'
+project(':react-native-payments').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-payments/android')
+include ':react-native-paypal-gateway'
+project(':react-native-paypal-gateway').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-paypal-gateway/android')
+include ':react-native-square-in-app-payments'
+project(':react-native-square-in-app-payments').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-square-in-app-payments/android')
 include ':@react-native-community_progress-bar-android'
 project(':@react-native-community_progress-bar-android').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/progress-bar-android/android')
 include ':react-native-image-base64'
