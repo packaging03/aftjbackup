@@ -32,7 +32,7 @@ export default function Grade7({navigation, route}) {
           data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title, pageId: 27} )}> 
+            <TouchableOpacity onPress={()=>navigation.navigate('SchoolCurriculumQuiz',{videoLink: item.videoSource, videoTitle:item.title, pageId: 27} )}> 
             <View
                 style={{
                   flexDirection: 'row',

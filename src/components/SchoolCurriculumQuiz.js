@@ -17,7 +17,8 @@ let item = 0;
 
 
 const SchoolCurriculumQuiz = ({route, navigation}) => {
-    const {pageId} = route.params;
+    const {videoLink, videoTitle, pageId} = route.params;
+    //const {pageId} = route.params;
     console.log("pageId: " + pageId);
     const [data, setData] = useState([]);
     const [result, setResult] = useState([]);
@@ -27,6 +28,12 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
     const [show, setShow] = useState(false);
     const [res, setRes] = useState(false);
     const closeIcon = '../assets/closebtn.png';
+
+    var link = '';
+
+    console.log("videoLink: " + videoLink);
+    link = 'https://www.youtube.com/embed/' + videoLink;
+    console.log("videoLink: " + link);
     
     var answers = []
     var obj = {};
@@ -434,9 +441,8 @@ const SchoolCurriculumQuiz = ({route, navigation}) => {
                      allowsFullscreenVideo
                      allowsInlineMediaPlayback
                      cacheEnabled
-                     
                      style={{backgroundColor: 'transparent',  borderWidth:0, marginLeft: -20, marginRight: -20}}
-                     source={{uri: "DAEcoanMA6Q"}}
+                     source={{uri: link}}
                      />
                 <View style={{
                     width:'99.5%', 

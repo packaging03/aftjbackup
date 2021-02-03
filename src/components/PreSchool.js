@@ -39,8 +39,8 @@ export default function PreSchool({navigation, route}) {
             <FlatList
           data={data}
           keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title, pageId: 16} )}> 
+          renderItem={({item}) => ( //navigation.navigate('SchoolCurriculumQuiz', {pageId: pageId})
+            <TouchableOpacity onPress={()=>navigation.navigate('SchoolCurriculumQuiz',{videoLink: item.videoSource, videoTitle:item.title, pageId: 16} )}> 
             <View
                 style={{
                   flexDirection: 'row',
