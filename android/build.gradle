@@ -7,6 +7,11 @@ buildscript {
         compileSdkVersion = 28
         targetSdkVersion = 28
         sqipVersion="1.4.0"
+
+
+
+        // supportLibVersion = "28.0.0"
+    
     }
     repositories {
         google()
