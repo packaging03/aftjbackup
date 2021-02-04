@@ -15,15 +15,12 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
-
 import Geocoder from 'react-native-geocoding';
-import {color} from 'react-native-reanimated';
 import Swiper from './common/Swiper';
 import Button from '../components/common/PopupButton';
 import Button2 from '../components/common/PopupButton2';
 import Button3 from '../components/common/PopupButton3';
 import AsyncStorage from '@react-native-community/async-storage';
-import {SCLAlert, SCLAlertButton} from 'react-native-scl-alert';
 import {BlurView} from '@react-native-community/blur';
 import {connect} from 'react-redux';
 import Dialog, {
@@ -35,9 +32,7 @@ import Dialog, {
   ScaleAnimation,
 } from 'react-native-popup-dialog';
 import Geolocation from 'react-native-geolocation-service';
-import RNReverseGeocode from '@kiwicom/react-native-reverse-geocode';
 import {Dimensions} from 'react-native';
-import {TouchableHighlight} from 'react-native-gesture-handler';
 var {height, width} = Dimensions.get('window');
 Geocoder.init('AIzaSyDcQ3x2xO0zFeh2EKF3Ilguctn8KXyDpmo', {language: 'en'});
 
@@ -132,13 +127,24 @@ const Home = ({
       });
   };
 
-  //timer for covid 19
+  // useEffect(() => {
+  //   AsyncStorage.getItem('popup').then(obj => {
+  //     if (obj == 'setup') {
+  //       //AsyncStorage.setItem('popup', "setup");
+  //     } else {
+  //       displayCovid(true);
+  //       AsyncStorage.setItem('popup', 'setup');
+  //     }
+  //   });
+  // }, [1]);
+
+  //covid 19 pop up timer, runs every 24 hours
     useEffect(() => {
         function getAlerts() {
           displayCovid(true);
         }
-        getAlerts()
-        const interval = setInterval(() => getAlerts(), 86,400,000)
+        //getAlerts()
+        const interval = setInterval(() => getAlerts(), 86400000);
         return () => {
           clearInterval(interval);
         }
