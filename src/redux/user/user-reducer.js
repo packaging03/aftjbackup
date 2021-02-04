@@ -23,12 +23,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 user: action.payload
         }
 
-        // case UserActionTypes.SET_USER:
-        //     return {
-        //         ...state,
-        //         currentUser: action.payload
-        //     }
-
         case UserActionTypes.SET_USER_TOKEN:
             return {
                 ...state,
@@ -45,6 +39,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 routeName: action.payload
+            }
+
+        case UserActionTypes.SET_LOGOUT_USER:
+            return {
+                ...state,
+                currentUser: null,
+                userToken: action.payload,
+                accessToken: null,
+                user: null,
+                routeName: 'Home',
             }
             
         default:

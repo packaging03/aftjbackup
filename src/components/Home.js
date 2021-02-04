@@ -22,10 +22,8 @@ import Swiper from './common/Swiper';
 import Button from '../components/common/PopupButton';
 import Button2 from '../components/common/PopupButton2';
 import Button3 from '../components/common/PopupButton3';
-import CustumButton from '../components/common/CustumButton';
 import AsyncStorage from '@react-native-community/async-storage';
 import {SCLAlert, SCLAlertButton} from 'react-native-scl-alert';
-import AwesomeAlert from 'react-native-awesome-alerts';
 import {BlurView} from '@react-native-community/blur';
 import {connect} from 'react-redux';
 import Dialog, {
@@ -38,7 +36,6 @@ import Dialog, {
 } from 'react-native-popup-dialog';
 import Geolocation from 'react-native-geolocation-service';
 import RNReverseGeocode from '@kiwicom/react-native-reverse-geocode';
-// import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {Dimensions} from 'react-native';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 var {height, width} = Dimensions.get('window');
@@ -47,7 +44,6 @@ Geocoder.init('AIzaSyDcQ3x2xO0zFeh2EKF3Ilguctn8KXyDpmo', {language: 'en'});
 const Home = ({
   currentUser,
   user,
-
   accessToken,
   setCurrentUser,
   setUser,
@@ -136,16 +132,17 @@ const Home = ({
       });
   };
 
-  useEffect(() => {
-    AsyncStorage.getItem('popup').then(obj => {
-      if (obj == 'setup') {
-        //AsyncStorage.setItem('popup', "setup");
-      } else {
-        displayCovid(true);
-        AsyncStorage.setItem('popup', 'setup');
-      }
-    });
-  }, [1]);
+  //timer for covid 19
+    useEffect(() => {
+        function getAlerts() {
+          displayCovid(true);
+        }
+        getAlerts()
+        const interval = setInterval(() => getAlerts(), 86,400,000)
+        return () => {
+          clearInterval(interval);
+        }
+    }, [])
 
   useEffect(() => {
     (async () => {
@@ -311,7 +308,7 @@ const Home = ({
               source={require('../assets/intro3.png')}
               style={styles.img}>
               <View style={styles.child}>
-                <Text style={styles.header}>Sermon</Text>
+                <Text style={styles.header}>Podcast</Text>
                 <Text style={styles.text}>
                   Study to shew thyself approved unto God, a workman that
                   needeth not to be ashamed, rightly dividing the word of truth.
@@ -319,7 +316,7 @@ const Home = ({
                 <Text style={styles.textbelow}>2Tim. 2 : 15</Text>
                 <Button3
                   text="     LISTEN     "
-                  onPress={() => navigation.navigate('Sermons')}
+                  onPress={() => navigation.navigate('PodcastList')}
                 />
               </View>
             </ImageBackground>
@@ -631,7 +628,7 @@ const Home = ({
               source={require('../assets/intro3.png')}
               style={styles.img}>
               <View style={styles.child}>
-                <Text style={styles.header}>Sermon</Text>
+                <Text style={styles.header}>Podcast</Text>
                 <Text style={styles.text}>
                   Study to shew thyself approved unto God, a workman that
                   needeth not to be ashamed, rightly dividing the word of truth.
