@@ -257,11 +257,12 @@ const Sermons = ({navigation}) => {
                   </TouchableOpacity>
                   <Button
                     style={styles.Mbutton}
-                    text="    SKIP    "
+                    text="    Login    "
                     // onPress={() => {
                     //   dop
                     // }}
                     onPress={() => {
+                      navigation.navigate('Login');
                       displayModal(false);
                     }}
                   />

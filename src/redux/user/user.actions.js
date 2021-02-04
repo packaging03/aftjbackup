@@ -24,3 +24,9 @@ export const setRouteName = token => ({
     type: UserActionTypes.SET_ROUTE_NAME,
     payload: token
 });
+
+export const setLogoutUser = token => ({
+    type: UserActionTypes.SET_LOGOUT_USER,
+    payload: token
+});
+

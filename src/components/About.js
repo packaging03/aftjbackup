@@ -194,11 +194,9 @@ const About = ({navigation}) => {
                   </TouchableOpacity>
                   <Button
                     style={styles.Mbutton}
-                    text="    SKIP    "
-                    // onPress={() => {
-                    //   dop
-                    // }}
+                    text="    Login    "
                     onPress={() => {
+                      navigation.navigate('Login');
                       displayModal(false);
                     }}
                   />
