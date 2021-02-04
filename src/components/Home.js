@@ -11,18 +11,18 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  PermissionsAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {color} from 'react-native-reanimated';
+import {useNavigation} from '@react-navigation/native';
+import Geocoder from 'react-native-geocoding';
 import Swiper from './common/Swiper';
 import Button from '../components/common/PopupButton';
 import Button2 from '../components/common/PopupButton2';
 import Button3 from '../components/common/PopupButton3';
-import CustumButton from '../components/common/CustumButton';
 import AsyncStorage from '@react-native-community/async-storage';
-import {SCLAlert, SCLAlertButton} from 'react-native-scl-alert';
-import AwesomeAlert from 'react-native-awesome-alerts';
 import {BlurView} from '@react-native-community/blur';
+import {connect} from 'react-redux';
 import Dialog, {
   DialogTitle,
   DialogContent,
@@ -31,30 +31,202 @@ import Dialog, {
   SlideAnimation,
   ScaleAnimation,
 } from 'react-native-popup-dialog';
-
+import Geolocation from 'react-native-geolocation-service';
 import {Dimensions} from 'react-native';
-import {TouchableHighlight} from 'react-native-gesture-handler';
 var {height, width} = Dimensions.get('window');
+Geocoder.init('AIzaSyDcQ3x2xO0zFeh2EKF3Ilguctn8KXyDpmo', {language: 'en'});
 
-export default function Home({navigation}) {
+const Home = ({
+  currentUser,
+  user,
+  accessToken,
+  setCurrentUser,
+  setUser,
+  setUserToken,
+  setAccessToken,
+}) => {
+  const navigation = useNavigation();
   const ITEM_SIZE = width * 0.85;
   const img = '../assets/jcci_logo.png';
   const closeIcon = '../assets/closebtn.png';
   const aftjIcon = '../assets/aftj_logo.png';
   const [salert, setAlert] = useState(false);
   const [show, setShow] = useState(false);
+  const [attendance, setAttendance] = useState('');
   const [covid, setCovid] = useState(false);
+  const [addy, setAddy] = useState('');
+  const status = useRef('');
+  const [userCordinate, setUserCordinate] = useState('');
+
+  const getAddy = (currentLatitude, currentLongitude) => {
+    Geocoder.from(currentLatitude, currentLongitude)
+      .then(json => {
+        var addressComponent = json.results[0].formatted_address;
+        if (addressComponent) {
+          setAddy(addressComponent);
+        } else {
+          alert('Enable location service.');
+        }
+        console.log(addressComponent);
+      })
+      .catch(error => console.warn(error));
+  };
+
+  const fetchNearestPlacesFromGoogle = (lati, longi) => {
+    const latitude = lati; // you can update it with user's latitude & Longitude
+    const longitude = longi;
+    let radMetter = 1 * 1000; // Search withing 1 KM radius
+    let apiKey = 'AIzaSyDcQ3x2xO0zFeh2EKF3Ilguctn8KXyDpmo';
+
+    const url =
+      'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+      latitude +
+      ',' +
+      longitude +
+      '&radius=' +
+      radMetter +
+      '&key=' +
+      apiKey;
+
+    fetch(url)
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        var places = [];
+        for (let googlePlace of res.results) {
+          var place = {};
+          var lat = googlePlace.geometry.location.lat;
+          var lng = googlePlace.geometry.location.lng;
+          var coordinate = {
+            latitude: lat,
+            longitude: lng,
+          };
+
+          place['placeTypes'] = googlePlace.types;
+          place['coordinate'] = coordinate;
+          place['placeId'] = googlePlace.place_id;
+          place['placeName'] = googlePlace.name;
+
+          places.push(place);
+        }
+
+        // console.log(places);
+
+        for (let AFTj = 0; AFTj < places.length; AFTj++) {
+          if (places[AFTj].placeName === 'JCCI Glory Tabernacle') {
+            status.current = 'Present';
+          } else {
+            console.log('Not withen the Church radius');
+            status.current = 'Absent';
+          }
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  // useEffect(() => {
+  //   AsyncStorage.getItem('popup').then(obj => {
+  //     if (obj == 'setup') {
+  //       //AsyncStorage.setItem('popup', "setup");
+  //     } else {
+  //       displayCovid(true);
+  //       AsyncStorage.setItem('popup', 'setup');
+  //     }
+  //   });
+  // }, [1]);
+
+  //covid 19 pop up timer, runs every 24 hours
+    useEffect(() => {
+        function getAlerts() {
+          displayCovid(true);
+        }
+        //getAlerts()
+        const interval = setInterval(() => getAlerts(), 86400000);
+        return () => {
+          clearInterval(interval);
+        }
+    }, [])
 
   useEffect(() => {
-    AsyncStorage.getItem('popup').then(obj => {
-      if (obj == 'setup') {
-        //AsyncStorage.setItem('popup', "setup");
-      } else {
-        displayCovid(true);
-        AsyncStorage.setItem('popup', 'setup');
+    (async () => {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Access Required',
+            message: 'AFTj needs to Access your location',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //To Check, If Permission was granted
+
+          getOneTimeLocation();
+          console.log('location permission granted');
+        } else {
+          alert('Permission Denied');
+        }
+      } catch (e) {
+        console.log(e);
       }
-    });
-  }, [1]);
+    })();
+  }, []);
+
+  // request location cord.
+  const getOneTimeLocation = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        if (currentLatitude !== null && currentLatitude !== null) {
+          const dataCord = {
+            longitude: JSON.parse(currentLongitude),
+            latitude: JSON.parse(currentLatitude),
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          };
+
+          setUserCordinate(dataCord);
+          // console.log(dataCord);
+          fetchNearestPlacesFromGoogle(currentLatitude, currentLongitude);
+          getAddy(currentLatitude, currentLongitude);
+          if (status.current !== '' && addy !== '') {
+            console.log(status.current);
+            console.log(addy);
+
+            if (accessToken == null) {
+              alert('Please Login');
+            } else {
+              fetch('https://church.aftjdigital.com/api/attendance_status', {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                  status: status.current,
+                  user_id: JSON.parse(user).id,
+                  user_location: addy,
+                }),
+              });
+            }
+          }
+        }
+        // console.log(cord);
+      },
+      error => {
+        console.log(error);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 30000,
+        maximumAge: 1000,
+      },
+    );
+  };
 
   //function to show auth alert
   showAlert = () => {
@@ -142,7 +314,7 @@ export default function Home({navigation}) {
               source={require('../assets/intro3.png')}
               style={styles.img}>
               <View style={styles.child}>
-                <Text style={styles.header}>Sermon</Text>
+                <Text style={styles.header}>Podcast</Text>
                 <Text style={styles.text}>
                   Study to shew thyself approved unto God, a workman that
                   needeth not to be ashamed, rightly dividing the word of truth.
@@ -150,7 +322,7 @@ export default function Home({navigation}) {
                 <Text style={styles.textbelow}>2Tim. 2 : 15</Text>
                 <Button3
                   text="     LISTEN     "
-                  onPress={() => navigation.navigate('Sermons')}
+                  onPress={() => navigation.navigate('PodcastList')}
                 />
               </View>
             </ImageBackground>
@@ -462,7 +634,7 @@ export default function Home({navigation}) {
               source={require('../assets/intro3.png')}
               style={styles.img}>
               <View style={styles.child}>
-                <Text style={styles.header}>Sermon</Text>
+                <Text style={styles.header}>Podcast</Text>
                 <Text style={styles.text}>
                   Study to shew thyself approved unto God, a workman that
                   needeth not to be ashamed, rightly dividing the word of truth.
@@ -470,7 +642,7 @@ export default function Home({navigation}) {
                 <Text style={styles.textbelow}>2Tim. 2 : 15</Text>
                 <Button3
                   text="     LISTEN     "
-                  onPress={() => navigation.navigate('NoteRoot')}
+                  onPress={() => navigation.navigate('PodcastList')}
                 />
               </View>
             </ImageBackground>
@@ -1172,7 +1344,24 @@ export default function Home({navigation}) {
       </SafeAreaView>
     );
   }
-}
+};
+
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser,
+  accessToken: state.user.accessToken,
+  user: state.user.user,
+});
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
+  setUserToken: token => dispatch(setUserToken(token)),
+  setAccessToken: token => dispatch(setAccessToken(token)),
+  setUser: user => dispatch(setUser(user)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Home);
 
 const styles = StyleSheet.create({
   bannerContainer: {

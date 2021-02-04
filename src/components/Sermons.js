@@ -1,6 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {exp, Value} from 'react-native-reanimated';
-import firebase from 'firebase';
 import {
   View,
   Text,
@@ -199,7 +197,7 @@ const Sermons = ({navigation}) => {
   );
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <StatusBar backgroundColor="transparent" translucent />
       <View style={{margin: 10}}>
         <ImageBackground
@@ -259,11 +257,12 @@ const Sermons = ({navigation}) => {
                   </TouchableOpacity>
                   <Button
                     style={styles.Mbutton}
-                    text="    SKIP    "
+                    text="    Login    "
                     // onPress={() => {
                     //   dop
                     // }}
                     onPress={() => {
+                      navigation.navigate('Login');
                       displayModal(false);
                     }}
                   />
@@ -308,17 +307,17 @@ const Sermons = ({navigation}) => {
         />
 
         {isLoading ? (
-          <ActivityIndicator size="large" style={{marginTop: 50}} />
+          <Spinner  size="large" style={{marginTop: 50}} />
         ) : (
           <FlatList
             data={data}
             ItemSeparatorComponent={renderSeparator}
             renderItem={renderItem}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
           />
         )}
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 

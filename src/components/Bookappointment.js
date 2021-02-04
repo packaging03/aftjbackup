@@ -9,10 +9,62 @@ import {
 } from 'react-native';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {connect} from 'react-redux';
+import {BlurView} from '@react-native-community/blur';
 
-export default function Bookappointment() {
+import Dialog, {
+    DialogTitle,
+    DialogContent,
+    DialogFooter,
+    DialogButton,
+    SlideAnimation,
+    ScaleAnimation,
+  } from 'react-native-popup-dialog';
+
+  import Button from '../components/common/PopupButton';
+import Button2 from '../components/common/PopupButton2';
+
+function Bookappointment({navigation,user,accessToken}) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [appointmentDate, setAppointmentDate] = useState('');
+  const [name, setName] = useState('');
+  const [maritalStatus, setMarritalStatus] = useState('');
+  const [reason, setReasons] = useState('');
+  const [show, setShow] = useState(false);
+  
+  const bookAppointments=(names, status,apdate,reasons)=>{
+    if(accessToken==null){
+      alert('You cannot book an appointment, Login and try again ');
+  }else if(name==''||maritalStatus==''||reason==''){
+    alert('You cannot submit an empty form')
+  }
+  else{
+      fetch('https://church.aftjdigital.com/api/book-appointment', {
+                  method: 'POST',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({
+                  user_id: JSON.parse(user).id,
+                  marital_status:status,
+                  reason: reasons,
+                  name: names,
+                  date: apdate
+                }),
+                })
+                .then((response) => response.json())
+                .then((responseJson) =>{
+                    let value = JSON.stringify(responseJson)
+                    navigation.navigate('Pastorschedule');
+                    console.log(value)
+                })
+                .catch((error) => {
+                  alert(error)});
+  }
+  }
+  
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -79,19 +131,29 @@ export default function Bookappointment() {
       />
       <Text style={styles.title}>Book an Appointment</Text>
       <Text style={styles.caption}>Name</Text>
-      <TextInput style={styles.input} />
+      <TextInput style={styles.input} 
+       value ={name}
+       onChangeText={text=>setName(text)}
+      />
       <Text style={styles.caption}>Marital Status</Text>
-      <TextInput style={styles.input} />
+      <TextInput style={styles.input} 
+       value={maritalStatus}
+       onChangeText={status=>setMarritalStatus(status)}
+      />
       <Text style={styles.caption}>Departmen (Optional)</Text>
       <TextInput style={styles.input} />
       <Text style={styles.caption}>Reason in Summary</Text>
-      <TextInput multiline={true} style={styles.inputBox} />
+      <TextInput multiline={true} style={styles.inputBox}
+        value={reason}
+        onChangeText={thisReason =>setReasons(thisReason)}
+      />
       <Text style={styles.caption}>Pick a Date</Text>
       <View style={styles.datepicker}>
         <TextInput
           style={styles.inputPicker}
           value={appointmentDate}
           //   editable={false}
+          onChangeText={thisDate=>setAppDate(thisDate)}
           onPress={showDatePicker}
         />
         <View style={styles.pickerBox}>
@@ -107,11 +169,72 @@ export default function Bookappointment() {
       </View>
       <TouchableOpacity
         style={styles.book}
-        onPress={() => navigation.navigate('Bookappointment')}>
+        onPress={() => setShow(true)}>
         <Text style={{color: '#000', fontSize: 18, alignSelf: 'center'}}>
           Book Appointment
         </Text>
       </TouchableOpacity>
+      <Dialog
+            width={0.9}
+            visible={show}
+            rounded
+            actionsBordered
+            dialogStyle={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}
+            footer={
+              <BlurView
+                showBlur={false}
+                blurType="light"
+                show={show}
+                style={{marginTop: -60}}
+                blurAmount={8}
+                reducedTransparencyFallbackColor="white">
+                <DialogFooter>
+                  <DialogButton
+                    text=""
+                    bordered
+                    textStyle={{color: 'white'}}
+                    key="button-2"
+                  />
+                  <View style={styles.MbuttonContainer}>
+                    <TouchableOpacity
+                    >
+                      <Button2
+                        style={styles.Mbutton}
+                        text="YES"
+                        onPress={() => {
+                          // deleteItem(selectedItem);
+                          bookAppointments(name, maritalStatus,appointmentDate,reason)
+                          setShow(false);
+                        }}
+                      />
+                    </TouchableOpacity>
+                    <Button
+                      style={styles.Mbutton}
+                      text="CANCEL"
+                      onPress={() => {
+                        setShow(false);
+                      }}
+                    />
+                  </View>
+
+                  <View>
+                    <Text
+                      style={{
+                        color: 'white',
+                        marginTop: -120,
+                        lineHeight: 22,
+                        fontSize: 12,
+                        alignSelf: 'center',
+                        padding: 5,
+                      }}>
+                      Are you sure you want to book an appointment with the pastor?
+                    </Text>
+                  </View>
+                </DialogFooter>
+              </BlurView>
+            }>
+            
+          </Dialog>
     </ScrollView>
   );
 }
@@ -202,4 +325,21 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     margin: '1%',
   },
+  MbuttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  Mbutton: {
+    flex: 0.5,
+  },
 });
+
+const mapStateToProps = state => ({
+  accessToken: state.user.accessToken,
+  user: state.user.user,
+});
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+export default connect(mapStateToProps)(Bookappointment);  

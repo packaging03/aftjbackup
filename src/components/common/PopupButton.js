@@ -23,6 +23,23 @@ export class Button extends Component {
   }
 }
 
+export class GamesButton extends Component {
+  render({ onPress } = this.props) {
+    return (
+      <TouchableOpacity style={{width:150,  height:45}} onPress={onPress}>
+        <View style={{alignSelf:'center', borderRadius: 5,         // Rounded border
+                      borderWidth: 1,           // 2 point border widht
+                      borderColor: '#FFFFFF', 
+                      marginTop:20,
+                      justifyContent:'center',
+                      alignItems: 'center', width:190,  height:45}}>
+          <Text style={{fontSize:16, color:'white', lineHeight:18, fontFamily:'Nunito-Regular'}}>{this.props.text}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
 export class Button2 extends Component {
   render({ onPress } = this.props) {
     return (
@@ -33,6 +50,26 @@ export class Button2 extends Component {
           // height:40,
           paddingVertical:8,
           width: 200,
+          alignSelf:'center',
+          alignItems: 'center',}}>
+          <Text style={styles.text}>{this.props.text.toUpperCase()}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
+
+export class Button3 extends Component {
+  render({ onPress } = this.props) {
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <View style={{borderRadius: 5,         // Rounded border
+          borderWidth: 1,           // 2 point border widht
+          borderColor: '#FFFFFF',   // White colored border
+           height:80,
+          paddingVertical: 8,
+          width: 500,
           alignSelf:'center',
           alignItems: 'center',}}>
           <Text style={styles.text}>{this.props.text.toUpperCase()}</Text>

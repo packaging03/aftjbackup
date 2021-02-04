@@ -123,7 +123,11 @@ const About = ({navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Location')}>
+            onPress={() =>
+              Linking.openURL(
+                'https://www.google.com/maps/place/JCCI+GLORY+TABERNACLE/@33.8745141,-84.6397579,13z/data=!4m5!3m4!1s0x88f53d24892de1e3:0x45070693fba9652c!8m2!3d33.8745141!4d-84.6397579',
+              )
+            }>
             <Text style={styles.text}>Location</Text>
           </TouchableOpacity>
         </View>
@@ -190,11 +194,9 @@ const About = ({navigation}) => {
                   </TouchableOpacity>
                   <Button
                     style={styles.Mbutton}
-                    text="    SKIP    "
-                    // onPress={() => {
-                    //   dop
-                    // }}
+                    text="    Login    "
                     onPress={() => {
+                      navigation.navigate('Login');
                       displayModal(false);
                     }}
                   />

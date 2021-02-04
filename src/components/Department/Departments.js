@@ -57,7 +57,7 @@ const Departments = ({navigation}) => {
                 flexWrap: 'wrap',
                 flex: 1,
               }}>
-              {title.trim()}
+              {title}
             </Text>
 
             <Icon name="chevron-forward-outline" size={20} color="black"/>
@@ -78,7 +78,7 @@ const Departments = ({navigation}) => {
       );
 
     return(
-        <View style={{backgroundColor:'white'}}>
+        <View style={{backgroundColor:'white', flex:1}}>
 
           <Text style={{marginLeft: 10,
                 color: '#000',
