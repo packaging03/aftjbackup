@@ -111,6 +111,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Games from '../games/Games';
 import Quiz from '../games/Quiz';
 import Crossword from '../games/Crossword';
+import Comments from '../BibleOptions/Comments';
+import Favourites from '../BibleOptions/Favourites';
 
 const HomeStack = createStackNavigator();
 const SermonsStack = createStackNavigator();
@@ -1847,6 +1849,32 @@ const BibleStackScreen = ({navigation}) => (
             // onPress={() => navigation.openDrawer()}
           />*/
         // ),
+      }}
+    />
+
+<BibleStack.Screen
+      name="Comments"
+      component={Comments}
+      options={{
+        headerTitleStyle: styles.headerStyle,
+        
+        title: 'Favourite Scriptures',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+      }}
+    />
+
+<BibleStack.Screen
+      name="Favourites"
+      component={Favourites}
+      options={{
+        headerTitleStyle: styles.headerStyle,
+        
+        title: 'Favourite Scriptures',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
       }}
     />
   </BibleStack.Navigator>
