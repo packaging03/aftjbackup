@@ -34,7 +34,7 @@ import LocationPage from '../Location/LocationPage';
 import ChildrenChurch from '../ChildrenChurch';
 import TestimonyRoot from '../TestimonyRoot';
 import NoteRoot from '../NoteRoot';
-import Editnote from '../Editnote'
+import Editnote from '../Editnote';
 import NoteDetails from '../NoteDetails';
 import Alltestimony from '../Alltestimony';
 import SpecialAnnouncements from '../SpecialAnnouncements';
@@ -613,8 +613,6 @@ const HomeStackScreen = ({navigation}) => (
       }}
     />
 
-    
-
     <HomeStack.Screen
       name="Chats"
       component={Chats}
@@ -854,17 +852,17 @@ const HomeStackScreen = ({navigation}) => (
     />
 
     <HomeStack.Screen
-        name="Addnote"
-        component={Addnote}
-        options={{
-          title: 'Notes',
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-          headerTitleStyle: styles.headerStyle,
-          headerTintColor: '#000',
-        }}
-      />
+      name="Addnote"
+      component={Addnote}
+      options={{
+        title: 'Notes',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTitleStyle: styles.headerStyle,
+        headerTintColor: '#000',
+      }}
+    />
 
     <HomeStack.Screen
       name="NoteRoot"
@@ -878,26 +876,23 @@ const HomeStackScreen = ({navigation}) => (
         headerTintColor: '#000',
         headerRight: () => (
           <TouchableOpacity onPress={() => navigation.navigate('Addnote')}>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingRight: '30%',
-              alignItems: 'center',
-            }}>
-            
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingRight: '30%',
+                alignItems: 'center',
+              }}>
               <Image
                 onPress={() => navigation.navigate('Addnote')}
                 style={{width: 30, height: 30, marginRight: 15}}
                 source={require('../../assets/add_icon.png')}
               />
-            
-            
-          </View></TouchableOpacity>
+            </View>
+          </TouchableOpacity>
         ),
       }}
     />
 
-      
     <HomeStack.Screen
       name="Games"
       component={Games}
@@ -936,7 +931,6 @@ const HomeStackScreen = ({navigation}) => (
         headerTitleStyle: styles.headerStyle,
       }}
     />
-
 
     {/* <HomeStack.Screen
       name="Bulletin"
@@ -1247,8 +1241,6 @@ const HomeStackScreen = ({navigation}) => (
         headerTintColor: '#000',
       }}
     />
-
-    
 
     <HomeStack.Screen
       name="Share Memory Verse"

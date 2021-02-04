@@ -17,6 +17,7 @@ const {height, width} = Dimensions.get('window');
 import PayPal from 'react-native-paypal-gateway';
 import {GooglePay} from 'react-native-google-pay';
 import {ApplePay} from 'react-native-apay';
+import {useNavigation} from '@react-navigation/native';
 
 const allowedCardNetworks = ['VISA', 'MASTERCARD'];
 const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
@@ -24,13 +25,14 @@ const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
 
 // sq0idp-lREoTP6sgS5hXFGUBICUFQ => app_id
 
-const Gateways = ({navigation, route}) => {
+const Gateways = ({route}) => {
   const [cardNumber, setCardNumber] = useState('');
   const [expiration, setExpiration] = useState('');
   const [cvv, setCVV] = useState('');
   const [cardName, setCardName] = useState('');
   const [BTN, setBTN] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const navigation = useNavigation();
 
   const gatewayRequestData = {
     cardPaymentMethod: {
@@ -97,29 +99,28 @@ const Gateways = ({navigation, route}) => {
   useEffect(() => {
     if (Platform.OS === 'android') {
       GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST);
-
-      GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods).then(
-        ready => {
-          if (ready) {
-            console.log('ready');
-            true;
-            setBTN(true);
-          } else {
-            Alert.alert(
-              'Ooops!',
-              'Google pay is not supported by the current device or browser for your specific payment method.',
-            );
-          }
-        },
-      );
+      setBTN(true);
     }
     return () => {};
   }, []);
 
   const _handleGPay = () => {
-    GooglePay.requestPayment(gatewayRequestData)
-      .then(handleSuccess)
-      .catch(handleError);
+    GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods).then(
+      ready => {
+        if (ready) {
+          console.log('ready');
+          GooglePay.requestPayment(gatewayRequestData)
+            .then(handleSuccess)
+            .catch(handleError);
+        } else {
+          Alert.alert(
+            'Ooops!',
+            'Google pay is not supported by the current device or browser for your specific payment method.',
+          );
+        }
+      },
+    );
+
     console.log('clicked_Gpay');
   };
 
@@ -137,8 +138,12 @@ const Gateways = ({navigation, route}) => {
       currency: 'USD',
       description: 'Your description goes here',
     })
-      .then(confirm => console.log(confirm))
-      .catch(error => Alert.alert(error.message));
+      .then(confirm => Alert.alert(confirm))
+      .catch(error => {
+        if (error) {
+          navigation.navigate('payFailed', {error: error.message});
+        }
+      });
   };
 
   const _handlingCardNumber = number => {
@@ -209,7 +214,7 @@ const Gateways = ({navigation, route}) => {
             style={({pressed}) => [
               {
                 backgroundColor: pressed ? 'rgb(210, 230, 255)' : 'white',
-                marginHorizontal: 12,
+                marginHorizontal: '6%',
               },
               styles.press,
             ]}>
