@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,18 +7,145 @@ import {
   Pressable,
   Image,
   TextInput,
+  Alert,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {Container} from 'native-base';
 import {Switch} from 'react-native-paper';
 const {height, width} = Dimensions.get('window');
+import PayPal from 'react-native-paypal-gateway';
+import {GooglePay} from 'react-native-google-pay';
+import {ApplePay} from 'react-native-apay';
+import {useNavigation} from '@react-navigation/native';
 
-const Gateways = ({navigation}) => {
+const allowedCardNetworks = ['VISA', 'MASTERCARD'];
+const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
+// import PaymentRequest from 'react-native-payments';
+
+// sq0idp-lREoTP6sgS5hXFGUBICUFQ => app_id
+
+const Gateways = ({route}) => {
   const [cardNumber, setCardNumber] = useState('');
   const [expiration, setExpiration] = useState('');
   const [cvv, setCVV] = useState('');
   const [cardName, setCardName] = useState('');
+  const [BTN, setBTN] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const navigation = useNavigation();
+
+  const gatewayRequestData = {
+    cardPaymentMethod: {
+      tokenizationSpecification: {
+        type: 'PAYMENT_GATEWAY',
+        gateway: 'square',
+        gatewayMerchantId: 'L183EDXAE37FC',
+        // L183EDXAE37FC= locationid => merchant id
+      },
+      allowedCardNetworks,
+      allowedCardAuthMethods,
+    },
+    transaction: {
+      totalPrice: '123',
+      totalPriceStatus: 'FINAL',
+      currencyCode: 'USD',
+    },
+    merchantName: 'Example Merchant',
+  };
+
+  const requestDataIOS = {
+    merchantIdentifier: 'merchant.com.example',
+    supportedNetworks: ['mastercard', 'visa'],
+    countryCode: 'US',
+    currencyCode: 'USD',
+    paymentSummaryItems: [
+      {
+        label: 'AFTj church',
+        amount: `${route.params.amount}`,
+      },
+    ],
+  };
+
+  const _handleIOSPay = () => {
+    if (ApplePay.canMakePayments) {
+      ApplePay.requestPayment(requestDataIOS).then(paymentData => {
+        console.log(paymentData);
+        // Simulate a request to the gateway
+        setTimeout(() => {
+          // Show status to user ApplePay.SUCCESS || ApplePay.FAILURE
+          ApplePay.complete(ApplePay.SUCCESS).then(() => {
+            Alert.alert('completed');
+            // do something
+          });
+        }, 1000);
+      });
+    } else {
+      Alert.alert(
+        'Ooops!',
+        'Apple pay is not available , you do not meet the payment requirements.',
+      );
+    }
+  };
+
+  useEffect(() => {
+    PayPal.initialize(
+      PayPal.SANDBOX,
+      'AU3lEA5_gSXn7EQiHcYN73adepQ4sv9RaUmImkBgBRap04kdl_7imWAgrcZG70lWTgDOqZFQLOcuIwJ8',
+    );
+    // Alert.alert(route.params.amount);
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST);
+      setBTN(true);
+    }
+    return () => {};
+  }, []);
+
+  const _handleGPay = () => {
+    GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods).then(
+      ready => {
+        if (ready) {
+          console.log('ready');
+          GooglePay.requestPayment(gatewayRequestData)
+            .then(handleSuccess)
+            .catch(handleError);
+        } else {
+          Alert.alert(
+            'Ooops!',
+            'Google pay is not supported by the current device or browser for your specific payment method.',
+          );
+        }
+      },
+    );
+
+    console.log('clicked_Gpay');
+  };
+
+  const handleSuccess = token => {
+    // Send a token to your payment gateway
+    Alert.alert('Success', `token: ${token}`);
+  };
+
+  const handleError = error =>
+    Alert.alert('Error', `${error.code}\n${error.message}`);
+
+  const _handlePayWithPayPal = () => {
+    PayPal.pay({
+      price: `${route.params.amount}`,
+      currency: 'USD',
+      description: 'Your description goes here',
+    })
+      .then(confirm => Alert.alert(confirm))
+      .catch(error => {
+        if (error) {
+          navigation.navigate('payFailed', {error: error.message});
+        }
+      });
+  };
+
   const _handlingCardNumber = number => {
     const num = number
       .replace(/\s?/g, '')
@@ -82,36 +209,57 @@ const Gateways = ({navigation}) => {
           Payment Method
         </Text>
         <View style={{flexDirection: 'row'}}>
-          <Pressable style={styles.press}>
+          <Pressable
+            onPress={_handleIOSPay}
+            style={({pressed}) => [
+              {
+                backgroundColor: pressed ? 'rgb(210, 230, 255)' : 'white',
+                marginHorizontal: '6%',
+              },
+              styles.press,
+            ]}>
             <Image
               source={require('../../assets/applePay.png')}
               style={{width: 49, height: 20}}
             />
           </Pressable>
           {/* ======================================================================== */}
-          <Pressable style={{...styles.press, marginHorizontal: 12}}>
+          <Pressable
+            onPress={_handlePayWithPayPal}
+            style={({pressed}) => [
+              {
+                backgroundColor: pressed ? 'rgb(210, 230, 255)' : 'white',
+                marginHorizontal: 12,
+              },
+              styles.press,
+            ]}>
             <Image
               source={require('../../assets/PayPal-Logo.wine.png')}
               style={{width: 80, height: 50}}
             />
           </Pressable>
           {/* ================================================================================== */}
-          <Pressable
-            style={{
-              backgroundColor: '#fff',
-              width: 90,
-              justifyContent: 'center',
-              height: 48,
-              alignItems: 'center',
-              borderRadius: 10,
-              marginHorizontal: 14,
-              elevation: 7,
-            }}>
-            <Image
-              source={require('../../assets/Gpay.png')}
-              style={{width: 49, height: 20}}
-            />
-          </Pressable>
+          {!BTN ? null : (
+            <Pressable
+              onPress={_handleGPay}
+              style={({pressed}) => [
+                {
+                  backgroundColor: pressed ? 'rgb(210, 230, 255)' : 'white',
+                  width: 90,
+                  justifyContent: 'center',
+                  height: 48,
+                  alignItems: 'center',
+                  borderRadius: 10,
+                  marginHorizontal: 14,
+                  elevation: 7,
+                },
+              ]}>
+              <Image
+                source={require('../../assets/Gpay.png')}
+                style={{width: 49, height: 20}}
+              />
+            </Pressable>
+          )}
         </View>
 
         <View style={{marginTop: 30}}>
@@ -232,7 +380,7 @@ export default Gateways;
 
 const styles = StyleSheet.create({
   press: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     width: 90,
     justifyContent: 'center',
     height: 48,

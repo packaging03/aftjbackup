@@ -8,16 +8,19 @@ import {
   Dimensions,
   Image,
   StatusBar,
+  Linking,
   Platform,
+  Picker,
 } from 'react-native';
-import {Container,Content} from 'native-base';
+import {Container} from 'native-base';
+import PayPal from 'react-native-paypal-gateway';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import {Picker} from '@react-native-community/picker';
+// import {Picker} from '@react-native-community/picker';
 // import Side from '../../image/';
 
 export default class Giving extends Component {
@@ -29,6 +32,7 @@ export default class Giving extends Component {
   openDrawer = () => {
     this.drawer._root.open();
   };
+
   render() {
     const {navigation} = this.props;
     return (
@@ -38,104 +42,102 @@ export default class Giving extends Component {
             Platform.OS === 'android' ? 'dark-content' : 'light-content'
           }
         />
-        <Content>
-          <View style={{height}}>
-            <View style={{margin: 18}}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  marginTop: 10,
-                  fontFamily: 'Nunito-Regular',
-                }}>
-                For your convenience, donate to AFTj Church via the below
-                link to our secure donation site. God bless you as you do
-                so.
-              </Text>
-            </View>
-            <View style={styles.secPicker}>
-              <Picker
-                selectedValue={this.state.checked}
-                style={{height: 50, width: 280}}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({checked: itemValue})
-                }>
-                <Picker.Item
-                  label="Select Category"
-                  value="Select Category"
-                />
-                <Picker.Item label="Offering" value="Offering" />
-                <Picker.Item label="Tithe" value="Tithe" />
-                <Picker.Item
-                  label="Mission Support"
-                  value="Mission Support"
-                />
-                <Picker.Item
-                  label="Church Project"
-                  value="Church Project"
-                />
-                <Picker.Item label="Others" value="Others" />
-              </Picker>
-            </View>
-            {/* ============================================================ */}
-
-            <View style={[styles.secPicker, {marginTop: 35}]}>
-              <Picker
-                selectedValue={this.state.oneOff}
-                style={{height: 50, width: 280}}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({oneOff: itemValue})
-                }>
-                <Picker.Item label="One-Off" value="0ne-Off" />
-                <Picker.Item label="Monthly" value="Monthly" />
-              </Picker>
-            </View>
-            <View
+        <View style={{height}}>
+          <View style={{margin: 18}}>
+            <Text
               style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: 95,
+                fontSize: 16,
+                marginTop: 10,
+                fontFamily: 'Nunito-Regular',
               }}>
-              <Pressable
-                style={styles.pay}
-                onPress={() => navigation.navigate('amount')}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: 'Nunito-Bold',
-                  }}>
-                  Pay
-                </Text>
-              </Pressable>
+              For your convenience, donate to AFTj Church via the below link to
+              our secure donation site. God bless you as you do so.
+            </Text>
+          </View>
+          <View style={styles.secPicker}>
+            <Picker
+              selectedValue={this.state.checked}
+              style={{height: 50, width: 280}}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({checked: itemValue})
+              }>
+              <Picker.Item label="Select Category" value="Select Category" />
+              <Picker.Item label="Offering" value="Offering" />
+              <Picker.Item label="Tithe" value="Tithe" />
+              <Picker.Item label="Mission Support" value="Mission Support" />
+              <Picker.Item label="Church Project" value="Church Project" />
+              <Picker.Item label="Others" value="Others" />
+            </Picker>
+          </View>
+          {/* ============================================================ */}
+
+          <View style={[styles.secPicker, {marginTop: 35}]}>
+            <Picker
+              selectedValue={this.state.oneOff}
+              style={{height: 50, width: 280}}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({oneOff: itemValue})
+              }>
+              <Picker.Item label="One-Off" value="0ne-Off" />
+              <Picker.Item label="Monthly" value="Monthly" />
+            </Picker>
+          </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 95,
+            }}>
+            <Pressable
+              style={styles.pay}
+              onPress={() => navigation.navigate('amount')}>
               <Text
                 style={{
-                  fontSize: 23,
-                  marginTop: 40,
-                  marginBottom: 40,
-                  fontFamily: 'Nunito-Regular',
+                  fontSize: 20,
+                  fontFamily: 'Nunito-Bold',
                 }}>
-                OR
+                Pay
               </Text>
-              <Pressable
-                onPress={() => console.log('pay with cash app pressed')}
-                style={[
-                  styles.pay,
-                  {
-                    backgroundColor: '#fff',
-                    elevation: 7,
-                    flexDirection: 'row',
-                  },
-                ]}>
-                <Image
-                  source={require('../../image/cash.png')}
-                  style={{width: 30, height: 30, marginRight: 15}}
-                />
-                <Text style={{fontSize: 20, fontFamily: 'Nunito-Bold'}}>
-                  Cash App
-                </Text>
-              </Pressable>
-            </View>
+            </Pressable>
+            <Text
+              style={{
+                fontSize: 23,
+                marginTop: 40,
+                marginBottom: 40,
+                fontFamily: 'Nunito-Regular',
+              }}>
+              OR
+            </Text>
+            <Pressable
+              onPress={() => {
+                if (Platform.OS === 'android') {
+                  Linking.openURL(
+                    'https://play.google.com/store/apps/details?id=com.squareup.cash&hl=en&gl=US',
+                  );
+                } else if (Platform.OS === 'ios') {
+                  Linking.openURL(
+                    'https://apps.apple.com/us/app/cash-app/id711923939',
+                  );
+                }
+              }}
+              style={[
+                styles.pay,
+                {
+                  backgroundColor: '#fff',
+                  elevation: 7,
+                  flexDirection: 'row',
+                },
+              ]}>
+              <Image
+                source={require('../../image/cash.png')}
+                style={{width: 30, height: 30, marginRight: 15}}
+              />
+              <Text style={{fontSize: 20, fontFamily: 'Nunito-Bold'}}>
+                Cash App
+              </Text>
+            </Pressable>
           </View>
-        </Content>
+        </View>
       </Container>
     );
   }
