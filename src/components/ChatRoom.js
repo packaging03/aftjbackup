@@ -76,10 +76,10 @@ const ChatRoom = ({accessToken, user, route, navigation})=>{
         /*let chats = chatMessages=>[...JSON.parse(chatMessages), {'message':text, 'time': time, 'date':date}]
         setChatMessage(JSON.stringify(chats))*/
     
-        firebaseChats.database().ref('NormalChats/'+JSON.parse(user).id+'/'+route.params.agent_id).push({'messages': chat, 'time': time, 'id':'22'})
+        firebaseChats.database().ref('NormalChats/'+JSON.parse(user).id + '/'+route.params.agent_id).push({'messages': chat, 'time': time, 'id':JSON.parse(user).id})
         .then((data)=>{console.log('data', data)}).catch((error)=>console.log(error))
 
-        firebaseChats.database().ref('NormalChats/'+route.params.agent_id+'/'+JSON.parse(user).id).push({'messages': chat, 'time': time, 'id':'22'})
+        firebaseChats.database().ref('NormalChats/'+route.params.agent_id+'/'+JSON.parse(user).id).push({'messages': chat, 'time': time, 'id':JSON.parse(user).id})
         .then((data)=>{console.log('data', data)}).catch((error)=>console.log(error))
     
         setChat("")
