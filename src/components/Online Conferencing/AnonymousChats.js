@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, createRef} from 'react';
 import {View,StyleSheet, TextInput, KeyboardAvoidingView, Image, Text, TouchableOpacity, FlatList, Keyboard} from 'react-native';
 import {connect} from 'react-redux';
 
@@ -6,6 +6,8 @@ const AnonymousChats = ({accessToken, user, route, navigation})=>{
 
     const [text, setText] = useState('');
     const [chatMessages, setChatMessage] = useState();
+
+    var data = ['#000','#219653', '#4340DA', '#FBBD00', '#1F78B4', '#FD3E40', '#8A0303', '#0475ed', '#aaaaaa']
 
     var firebaseChats = require("firebase");
 
@@ -35,7 +37,7 @@ const AnonymousChats = ({accessToken, user, route, navigation})=>{
     const ChatCardSender = (props)=>{
         return(
             <View style={styles.chatCardContainer}>
-                <View style={styles.chatCardMessage}>
+                <View style={{...styles.chatCardMessage, backgroundColor:props.color}}>
                     <Text style={{color:'#fff', fontFamily: 'Nunito'}}>{props.message}</Text>
                     <View style={styles.credentials}>
                         <Text style={{color: '#fff', fontSize: 10, fontFamily: 'Nunito'}}>{props.date}</Text>
@@ -49,11 +51,11 @@ const AnonymousChats = ({accessToken, user, route, navigation})=>{
     const ChatCardReciever = (props)=>{
         return(
             <View style={styles.chatCardContainer2}>
-                <View style={styles.chatCardMessage2}>
-                    <Text style={{color:'#000', fontFamily: 'Nunito'}}>{props.message}</Text>
+                <View style={{...styles.chatCardMessage2, backgroundColor:props.color}}>
+                    <Text style={{color:'#fff', fontFamily: 'Nunito'}}>{props.message}</Text>
                     <View style={styles.credentials2}>
-                        <Text style={{color: '#000', fontSize: 10, fontFamily: 'Nunito'}}>{props.date}</Text>
-                        <Text style={{color: '#000', fontSize: 10, fontFamily: 'Nunito'}}>{props.time}</Text>
+                        <Text style={{color: '#fff', fontSize: 10, fontFamily: 'Nunito'}}>{props.date}</Text>
+                        <Text style={{color: '#fff', fontSize: 10, fontFamily: 'Nunito'}}>{props.time}</Text>
                     </View>
                 </View>
             </View>
@@ -64,12 +66,13 @@ const AnonymousChats = ({accessToken, user, route, navigation})=>{
         let today = new Date();
         let time = today.getHours()+":"+ today.getMinutes();
         let date = today.getDate()+"/"+today.getMonth()+"/"+today.getFullYear()
+        var random = Math.floor(Math.random()*8)+1;
         console.log(date)
 
         /*let chats = chatMessages=>[...JSON.parse(chatMessages), {'message':text, 'time': time, 'date':date}]
         setChatMessage(JSON.stringify(chats))*/
 
-        firebaseChats.database().ref('Chats/').push({'messages': text, 'date':date, 'time': time, 'id':JSON.parse(user).id})
+        firebaseChats.database().ref('Chats/').push({'messages': text, 'date':date, 'time': time, 'id':JSON.parse(user).id, 'color': data[random]})
         .then((data)=>{console.log('data', data)}).catch((error)=>console.log(error))
 
         setText("")
@@ -84,8 +87,8 @@ const AnonymousChats = ({accessToken, user, route, navigation})=>{
                     keyExtractor={(item, index) => item.id}
                     renderItem={({item}) => (
                         item.id==JSON.parse(user).id?
-			<ChatCardReciever message={item.messages} time={item.time} date={item.date}/>:
-                        <ChatCardSender message={item.messages} time={item.time} date={item.date}/>
+                        <ChatCardReciever message={item.messages} time={item.time} date={item.date} color={item.color}/>:
+                        <ChatCardSender message={item.messages} time={item.time} date={item.date} color={item.color}/>
                         
                     )}   
                 />
@@ -183,27 +186,26 @@ const styles = StyleSheet.create({
 
     chatCardMessage:{
         width:'65%',
-        backgroundColor:'#0475ed',
         flexDirection: 'column',
         borderRadius: 10,
         overflow: 'hidden',
-        padding:10
+        padding:10,
+        elevation:2
     },
 
     chatCardMessage2:{
         width:'65%',
-        backgroundColor:'#aaaaaa',
         flexDirection: 'column',
         borderRadius: 10,
         overflow: 'hidden',
         padding:10,
         justifyContent: 'flex-start',
         marginRight:10,
-        marginTop:5
+        marginTop:5,
+        elevation:2
     },
 
     credentials:{width:'100%', 
-        backgroundColor:'#0475ed', 
         height:15, 
         marginTop:10, 
         flexDirection:'row', 
@@ -211,8 +213,7 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
 
-    credentials2:{width:'100%', 
-        backgroundColor:'#aaaaaa', 
+    credentials2:{width:'100%',  
         height:15, 
         marginTop:13, 
         flexDirection:'row', 
