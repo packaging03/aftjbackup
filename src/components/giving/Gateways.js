@@ -18,6 +18,8 @@ import PayPal from 'react-native-paypal-gateway';
 import {GooglePay} from 'react-native-google-pay';
 import {ApplePay} from 'react-native-apay';
 import {useNavigation} from '@react-navigation/native';
+import {Client, Environment} from 'square';
+import {uuid} from 'uuidv4';
 
 const allowedCardNetworks = ['VISA', 'MASTERCARD'];
 const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
@@ -33,6 +35,11 @@ const Gateways = ({route}) => {
   const [BTN, setBTN] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const navigation = useNavigation();
+
+  const client = new Client({
+    environment: Environment.Sandbox,
+    accessToken: process.env.SQUARE_ACCESS_TOKEN,
+  });
 
   const gatewayRequestData = {
     cardPaymentMethod: {
@@ -124,9 +131,35 @@ const Gateways = ({route}) => {
     console.log('clicked_Gpay');
   };
 
-  const handleSuccess = token => {
+  const handleSuccess = async token => {
     // Send a token to your payment gateway
-    Alert.alert('Success', `token: ${token}`);
+    // Alert.alert('Success', `token: ${token}`);
+    const newClient = newClient.withConfiguration({
+      accessToken: token,
+    });
+
+    try {
+      // const paymentsApi = client.paymentsApi;
+      const response = await newClient.paymentsApi.createPayment({
+        sourceId: token,
+        idempotencyKey: uuid(),
+        amountMoney: {
+          amount: route.params.amount,
+          currency: 'USD',
+        },
+        autocomplete: true,
+      });
+
+      if (respondse.status === 'COMPLETED') {
+        navigation.navigate('paySuccess');
+      }
+      console.log(response.httpResponse);
+    } catch (e) {
+      if (e.message === 'Network request failed') {
+        Alert.alert('Please connect to the internet ');
+      }
+      console.log(e.message);
+    }
   };
 
   const handleError = error =>
