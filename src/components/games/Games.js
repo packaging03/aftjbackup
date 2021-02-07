@@ -4,6 +4,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 //  
 
 let index1 =  Math.floor(Math.random() * 10);
+
 const words = ['LOVE', 'JOY', 'PEACE', 'GOD', 
 'GRACE', 'TRUTH', 'JESUS', 'FATHER', 'MASTER', 'DISCIPLE',
 'HEAVEN', 'TEACHER', 'KINGDOM', 'PATIENCE', 'FAITH', 'WORD', 'TRUST', 'OBEY', 'ABBA', 'SPIRIT',
@@ -15,7 +16,50 @@ const words = ['LOVE', 'JOY', 'PEACE', 'GOD',
  'POWER', 'GLORY', 'WORSHIP', 'PRIESTHOOD', 'PROPHET', 'INTERCESSOR'
 ];
 
+var crosswordArray = [];
 var sixteenWords = [];
+
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
+
+const  genLetters = (length) => {
+
+    let array = [];
+    for (let i = 0; i < 14 - length; i++){
+        array.push(makeid(1));
+        
+    } 
+    return array;
+ }
+
+ const generateCrossword = () => {
+
+    
+    sixteenWords.map(word => {
+        
+        // for(let i = 0; i < word.length; i++){
+        let wordArray = word.split('');
+        let index = Math.floor(Math.random() * 10);
+        
+        let array = [];
+        genLetters(word.length).map(i=>{
+            array.push(i);
+        });
+        wordArray.map(i => {
+            array.splice(index++, 0, i);
+        });
+        crosswordArray.push(array);
+
+    });
+    console.log(crosswordArray);
+ }
 
 const pick16Random = () => {
    sixteenWords = [];
@@ -35,11 +79,14 @@ const pick16Random = () => {
         }
         
     }
+    
 }
 const Games = ({navigation}) => {
 
     useEffect(() => {
         pick16Random();
+        generateCrossword();
+
         console.log("games: "+index1);
     }, [])
     const {imageStyle, textStyle, itemStyle} = styles;
@@ -75,23 +122,8 @@ const Games = ({navigation}) => {
             <TouchableWithoutFeedback 
                 onPress={() => 
                     navigation.navigate("Crossword", {
-                    index1:  Math.floor(Math.random() * 10),
-                    index2:  Math.floor(Math.random() * 10),
-                    index3:  Math.floor(Math.random() * 10),
-                    index4: Math.floor(Math.random() * 10),
-                    index5:  Math.floor(Math.random() * 10),
-                    index6:  Math.floor(Math.random() * 10),
-                    index7:  Math.floor(Math.random() * 10),
-                    index8:  Math.floor(Math.random() * 10),
-                    index9:  Math.floor(Math.random() * 10),
-                    index10:  Math.floor(Math.random() * 10),
-                    index11:  Math.floor(Math.random() * 10),
-                    index12:  Math.floor(Math.random() * 10),
-                    index13:  Math.floor(Math.random() * 10),
-                    index14:  Math.floor(Math.random() * 10),
-                    index15:  Math.floor(Math.random() * 10),
-                    index16:  Math.floor(Math.random() * 10),
-                    sixteenWords: sixteenWords
+                    sixteenWords: sixteenWords,
+                    crosswordArray: crosswordArray
                 })}>
                 <View style={itemStyle}>
 
