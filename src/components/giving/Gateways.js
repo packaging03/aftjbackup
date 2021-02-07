@@ -14,12 +14,16 @@ import {
 import {Container} from 'native-base';
 import {Switch} from 'react-native-paper';
 const {height, width} = Dimensions.get('window');
-import PayPal from 'react-native-paypal-gateway';
+
 import {GooglePay} from 'react-native-google-pay';
 import {ApplePay} from 'react-native-apay';
 import {useNavigation} from '@react-navigation/native';
-import {Client, Environment} from 'square';
-import {uuid} from 'uuidv4';
+import {
+  requestOneTimePayment,
+  requestBillingAgreement,
+} from 'react-native-paypal';
+
+// import {uuid} from 'uuidv4';
 
 const allowedCardNetworks = ['VISA', 'MASTERCARD'];
 const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
@@ -29,17 +33,23 @@ const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
 
 const Gateways = ({route}) => {
   const [cardNumber, setCardNumber] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState({
+    nonce: '',
+    payerId: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+  });
+  const [token, setToken] = useState('');
+  const [amount, setAmount] = useState(route.params.amount);
   const [expiration, setExpiration] = useState('');
   const [cvv, setCVV] = useState('');
   const [cardName, setCardName] = useState('');
   const [BTN, setBTN] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const navigation = useNavigation();
-
-  const client = new Client({
-    environment: Environment.Sandbox,
-    accessToken: process.env.SQUARE_ACCESS_TOKEN,
-  });
 
   const gatewayRequestData = {
     cardPaymentMethod: {
@@ -93,15 +103,25 @@ const Gateways = ({route}) => {
       );
     }
   };
-
   useEffect(() => {
-    PayPal.initialize(
-      PayPal.SANDBOX,
-      'AU3lEA5_gSXn7EQiHcYN73adepQ4sv9RaUmImkBgBRap04kdl_7imWAgrcZG70lWTgDOqZFQLOcuIwJ8',
-    );
-    // Alert.alert(route.params.amount);
+    tokenC();
     return () => {};
   }, []);
+
+  const tokenC = async () => {
+    try {
+      const res = await fetch(
+        'https://braintree-sample-merchant.herokuapp.com/client_token',
+      );
+      let json = await res.json();
+      console.log(json.client_token);
+      setToken(json.client_token);
+    } catch (e) {
+      if (e.message === 'Network request failed') {
+        Alert.alert('Please connect to the internet ');
+      }
+    }
+  };
 
   useEffect(() => {
     if (Platform.OS === 'android') {
@@ -133,49 +153,30 @@ const Gateways = ({route}) => {
 
   const handleSuccess = async token => {
     // Send a token to your payment gateway
-    // Alert.alert('Success', `token: ${token}`);
-    const newClient = newClient.withConfiguration({
-      accessToken: token,
-    });
-
-    try {
-      // const paymentsApi = client.paymentsApi;
-      const response = await newClient.paymentsApi.createPayment({
-        sourceId: token,
-        idempotencyKey: uuid(),
-        amountMoney: {
-          amount: route.params.amount,
-          currency: 'USD',
-        },
-        autocomplete: true,
-      });
-
-      if (respondse.status === 'COMPLETED') {
-        navigation.navigate('paySuccess');
-      }
-      console.log(response.httpResponse);
-    } catch (e) {
-      if (e.message === 'Network request failed') {
-        Alert.alert('Please connect to the internet ');
-      }
-      console.log(e.message);
-    }
+    Alert.alert('Success', `token: ${token}`);
   };
 
-  const handleError = error =>
+  const handleError = error => {
     Alert.alert('Error', `${error.code}\n${error.message}`);
+  };
+
+  // paypal=============================================================
 
   const _handlePayWithPayPal = () => {
-    PayPal.pay({
-      price: `${route.params.amount}`,
+    requestOneTimePayment(token, {
+      amount: '12',
       currency: 'USD',
-      description: 'Your description goes here',
+      localeCode: 'en_US',
+      // shippingAddressRequired: false,
+      // userAction: 'commit',
+      // intent: 'authorize',
+      // // MerchantID: '',
     })
-      .then(confirm => Alert.alert(confirm))
-      .catch(error => {
-        if (error) {
-          navigation.navigate('payFailed', {error: error.message});
-        }
+      .then(setSuccess)
+      .then(() => setError(''))
+      .catch(err => {
+        console.log(err.message);
+        setError(err.message);
       });
   };
 

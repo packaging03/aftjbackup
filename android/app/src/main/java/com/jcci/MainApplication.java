@@ -4,8 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.smarkets.paypal.RNPaypalPackage;
 import com.busfor.RNGooglePayPackage;
-import com.taessina.paypal.RNPaypalWrapperPackage;
+
 import com.reactnativecommunity.androidprogressbar.RNCProgressBarPackage;
 import fr.snapp.imagebase64.RNImgToBase64Package;
 import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          // packages.add(new RNPaypalPackage());
           return packages;
         }
 

@@ -101,6 +101,8 @@ target 'JCCI' do
 
   pod 'RNApplePay', :path => '../node_modules/react-native-apay'
 
+  pod 'RNPaypal', :path => '../node_modules/react-native-paypal'
+
   target 'JCCITests' do
     inherit! :complete
     # Pods for testing
