@@ -18,16 +18,17 @@ const {height, width} = Dimensions.get('window');
 import {GooglePay} from 'react-native-google-pay';
 import {ApplePay} from 'react-native-apay';
 import {useNavigation} from '@react-navigation/native';
-import {
-  requestOneTimePayment,
-  requestBillingAgreement,
-} from 'react-native-paypal';
+// import {
+//   requestOneTimePayment,
+//   requestBillingAgreement,
+// } from 'react-native-paypal';
 
 // import {uuid} from 'uuidv4';
 
 const allowedCardNetworks = ['VISA', 'MASTERCARD'];
 const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
 // import PaymentRequest from 'react-native-payments';
+import PayPal from 'react-native-paypal-gateway';
 
 // sq0idp-lREoTP6sgS5hXFGUBICUFQ => app_id
 
@@ -104,7 +105,7 @@ const Gateways = ({route}) => {
     }
   };
   useEffect(() => {
-    tokenC();
+    // tokenC();
     return () => {};
   }, []);
 
@@ -128,6 +129,7 @@ const Gateways = ({route}) => {
       GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST);
       setBTN(true);
     }
+
     return () => {};
   }, []);
 
@@ -163,24 +165,44 @@ const Gateways = ({route}) => {
   // paypal=============================================================
 
   const _handlePayWithPayPal = () => {
-    requestOneTimePayment(token, {
-      amount: '12',
-      currency: 'USD',
-      localeCode: 'en_US',
-      // shippingAddressRequired: false,
-      // userAction: 'commit',
-      // intent: 'authorize',
-      // // MerchantID: '',
-    })
-      .then(setSuccess => {
-        setSuccess(setSuccess);
-        console.log(setSuccess);
+    try {
+      PayPal.initialize(
+        PayPal.NO_NETWORK,
+        'AU3lEA5_gSXn7EQiHcYN73adepQ4sv9RaUmImkBgBRap04kdl_7imWAgrcZG70lWTgDOqZFQLOcuIwJ8',
+      );
+      PayPal.pay({
+        price: amount,
+        currency: 'USD',
+        description: 'tithe',
       })
-      .then(() => setError(''))
-      .catch(err => {
-        console.log(err.message);
-        setError(err.message);
-      });
+        .then(confirm => {
+          console.log('pay success', confirm);
+          navigation.navigate('paySuccess');
+          // setIsVisible(false)
+        })
+        .catch(error => console.log(error));
+    } catch (error) {
+      console.log(error);
+    }
+    // requestOneTimePayment(token, {
+    //   amount: '12',
+    //   currency: 'USD',
+    //   localeCode: 'en_US',
+    //   // shippingAddressRequired: false,
+    //   // userAction: 'commit',
+    //   // intent: 'authorize',
+    //   // // MerchantID: '',
+    // })
+    //   .then(da => {
+    //     setSuccess(da);
+    //     console.log(da);
+    //   })
+    //   .then(() => setError(''))
+    //   .catch(err => {
+    //     console.log(err.message);
+    //     setError(err.message);
+    //   });
+    // console.log(success);
   };
 
   const _handlingCardNumber = number => {
