@@ -172,7 +172,10 @@ const Gateways = ({route}) => {
       // intent: 'authorize',
       // // MerchantID: '',
     })
-      .then(setSuccess)
+      .then(setSuccess => {
+        setSuccess(setSuccess);
+        console.log(setSuccess);
+      })
       .then(() => setError(''))
       .catch(err => {
         console.log(err.message);
