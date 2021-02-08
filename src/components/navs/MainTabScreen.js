@@ -77,7 +77,13 @@ import ForumMessages from '../ForumMessages';
 import SliderBase from '../common/sliderBase';
 import ChatRoom from '../ChatRoom';
 import Addnote from '../Addnote';
-
+import HomeChat from '../Online Conferencing/HomeChat';
+import Participant from '../Online Conferencing/Participant';
+import AnonymousChats from '../Online Conferencing/AnonymousChats';
+import TestVoice from '../Online Conferencing/TestVoice';
+import Voice from '../Online Conferencing/Voice';
+import AsyncStorage from '@react-native-community/async-storage';
+import TestPage from '../Online Conferencing/TestPage';
 import Games from '../games/Games';
 import Quiz from '../games/Quiz';
 import Crossword from '../games/Crossword';
@@ -426,18 +432,6 @@ const HomeStackScreen = ({navigation}) => (
         headerTitleStyle: styles.headerStyle,
       }}
     />
-    <HomeStack.Screen
-      name="Location"
-      component={LocationPage}
-      options={{
-        title: 'Location',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTintColor: '#000',
-        headerTitleStyle: styles.headerStyle,
-      }}
-    />
 
     <HomeStack.Screen
       name="Forum"
@@ -627,7 +621,7 @@ const HomeStackScreen = ({navigation}) => (
       name="ChatRoom"
       component={ChatRoom}
       options={{
-        title: 'Chat Page',
+        title: '',
         headerStyle: {
           backgroundColor: '#fff',
         },
@@ -637,6 +631,84 @@ const HomeStackScreen = ({navigation}) => (
     />
 
     <HomeStack.Screen
+      name="TestPage"
+      component={TestPage}
+      options={{
+        title: 'Conference',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+
+     <HomeStack.Screen
+      name="OnlineConference"
+      component={HomeChat}
+      options={{
+        title: 'Chat Forum',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Participant"
+      component={Participant}
+      options={{
+        title: 'Participants',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="TestVoice"
+      component={TestVoice}
+      options={{
+        title: 'Chat Forum',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Test"
+      component={Voice}
+      options={{
+        title: 'Test Voice',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
+    <HomeStack.Screen
+      name="AnonymousChats"
+      component={AnonymousChats}
+      options={{
+        title: 'Chat',
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
+        headerTintColor: '#000',
+        headerTitleStyle: styles.headerStyle,
+      }}
+    />
+
       name="Give whole heartedly"
       component={Giving}
       options={{
@@ -889,46 +961,6 @@ const HomeStackScreen = ({navigation}) => (
         ),
       }}
     />
-
-    <HomeStack.Screen
-      name="Games"
-      component={Games}
-      options={{
-        title: 'Games',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTintColor: '#000',
-        headerTitleStyle: styles.headerStyle,
-      }}
-    />
-
-    <HomeStack.Screen
-      name="Quiz"
-      component={Quiz}
-      options={{
-        title: 'Quiz',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTintColor: '#000',
-        headerTitleStyle: styles.headerStyle,
-      }}
-    />
-
-    <HomeStack.Screen
-      name="Crossword"
-      component={Crossword}
-      options={{
-        title: 'Crossword',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTintColor: '#000',
-        headerTitleStyle: styles.headerStyle,
-      }}
-    />
-
     {/* <HomeStack.Screen
       name="Bulletin"
       component={Bulletin}
@@ -1568,45 +1600,6 @@ const AboutStackScreen = ({navigation}) => (
             onPress={() => navigation.openDrawer()}
           />
         ),
-      }}
-    />
-
-    <AboutStack.Screen
-      name="Location"
-      component={Location}
-      options={{
-        title: 'Location',
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-      }}
-    />
-
-    <AboutStack.Screen
-      name="NewMember"
-      component={NewMember}
-      options={{
-        title: 'New Member',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
-      }}
-    />
-
-    <AboutStack.Screen
-      name="newMemberSuccessPage"
-      component={newMemberSuccessPage}
-      options={{
-        title: 'New Member',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTitleStyle: styles.headerStyle,
-        headerTintColor: '#000',
       }}
     />
 
