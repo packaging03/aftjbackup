@@ -8,7 +8,7 @@ const TestPage = ({navigation, accessToken, user})=>{
 
     const {width} = Dimensions.get('window');
     const [showTestButton, setShowTestButton] = useState(false);
-    const [turnOnVisibility, setTurnOnVisibility] = useState()
+    const [turnOnVisibility, setTurnOnVisibility] = useState();
 
     var firebaseChats = require("firebase");
 
@@ -26,7 +26,7 @@ const TestPage = ({navigation, accessToken, user})=>{
             alert('Please Login to access this page')
         }else{
             
-            firebaseChats.database().ref('Conference/'+JSON.parse(user).id).set({'name': JSON.parse(user).name, 'activity':'0', 'visibility':'0', 'tuneVoice':'0', 'audioActive': '0', 'videoActive':'0', 'image':JSON.parse(user).image})
+            firebaseChats.database().ref('Conference/'+JSON.parse(user).id).set({'name': JSON.parse(user).name, 'activity':'0', 'visibility':'0', 'tuneVoice':'0', 'audioActive': '0', 'videoActive':'0', 'image':JSON.parse(user).image, 'host':'0'})
             .then((data)=>{console.log('data', data)}).catch((error)=>console.log(error))
         }
         
@@ -50,6 +50,7 @@ const TestPage = ({navigation, accessToken, user})=>{
                 setTurnOnVisibility(false)
             }
         })
+
     }, [])
 
     useEffect(()=>{

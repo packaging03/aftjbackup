@@ -1,7 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { _ScrollView } from 'react-native';
 import {View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions, FlatList} from 'react-native';
 import {connect} from 'react-redux';
+import 'react-native-get-random-values';
+import {v4 as uuid} from 'uuid';
+import {PermissionsAndroid} from 'react-native';
+import { Platform } from 'react-native';
+
 
 const HomeChat = ({navigation, accessToken, user})=>{
 
@@ -13,6 +18,58 @@ const HomeChat = ({navigation, accessToken, user})=>{
     const [showTestButton, setShowTestButton] = useState(false);
     const [userData, setUserData] = useState();
     const [visibility, setVisibility]  =  useState();
+    const [leave, setLeave] = useState(true);
+
+    /*const AgoraEngine = useRef();
+
+    const init = async ()=>{
+        AgoraEngine.current = await RtcEngine.create('1a85096b8bfb4156ba864148658f470d');
+        AgoraEngine.current.enableVideo();
+        AgoraEngine.current.setChannelProfile(ChannelProfile.LiveBroadcasting);
+    };
+
+    async function requestCameraAndAudioPermission(){
+        try{
+            const granted = await PermissionsAndroid.requestMultiple([
+                PermissionsAndroid.PERMISSIONS.CAMERA,
+                PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+            ]);
+
+            if(
+                granted['android.permission.RECORD_AUDIO']=== PermissionsAndroid.RESULTS.GRANTED &&
+                granted['android.permission.CAMERA'] === PermissionsAndroid.RESULTS.GRANTED
+            ){
+                console.log('you can use the camera and mic');
+            }else{
+                console.log('Permission Denied');
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    useEffect(()=>{
+        if(Platform.OS === 'android') requestCameraAndAudioPermission();
+        init();
+        return ()=>{
+            AgoraEngine.current.destroy();
+        };
+    }, []);*/
+
+    React.useLayoutEffect(()=>{
+        navigation.setOptions({
+            headerRight: () => (
+            
+                <TouchableOpacity style={styles.leave}>
+                    <View style={styles.button}>
+                        <Text style={{fontSize:16, color:'#fff'}}>Leave</Text>
+                    </View>
+                </TouchableOpacity>
+        
+                
+            ),
+        }, [navigation]);
+    })
 
     var firebaseChats = require("firebase");
 
@@ -82,6 +139,9 @@ const HomeChat = ({navigation, accessToken, user})=>{
         navigation.navigate('AnonymousChats')
     }
 
+    var Width = Dimensions.get('window').width;
+    var Height = Dimensions.get('window').height;
+
     return(
         <View style={styles.container}>
             <View style={{width:'100%', height:60, justifyContent:'flex-end', alignItems:'center', flexDirection: 'row', paddingRight:25}}>
@@ -111,12 +171,16 @@ const HomeChat = ({navigation, accessToken, user})=>{
                             data = {userData}
                             keyExtractor={(item, index) => item.id}
                             numColumns={2}
+                            style={{width:'100%'}}
                             renderItem={({item}) => (
                                 <View style={styles.cards}>
                                     <View style={styles.img}>
                                         {item.visibility=='1'?
-                                        <Image style= {{flex:1, width: '100%', height: '100%', alignSelf:'center'}} source={{uri: item.image}} />:
+                                        <Image style= {{ width: '100%', height: '100%', alignSelf:'center'}} source={{uri: item.image}} />:
                                         <Image style= {{ width: 40, height: 40, alignSelf:'center'}} source={require('../../assets/user.png')}/>}
+                                        {micOn?
+                                        <Image style= {{ width: 25, height: 25, alignSelf:'flex-start', position:'absolute', top:'80%', left:'2%'}} source={require('../../assets/micro-on.png')}/>:
+                                        <Image style= {{ width: 25, height: 25, alignSelf:'flex-start', position:'absolute', top:'80%', left:'2%'}} source={require('../../assets/micro-off.png')}/>}
                                     </View>
                                     <Text style={{fontSize: 16, margin:5}}>{item.name}</Text>
                                 </View>
@@ -145,7 +209,7 @@ const HomeChat = ({navigation, accessToken, user})=>{
                     <TouchableOpacity onPress={goToChats}>
                         <Image style= {{width: 23, height: 23}} source={require('../../assets/chats.png')}/>
                     </TouchableOpacity>
-                    <Text style={{fontSize:10}}>Chats</Text>    
+                    <Text style={{fontSize:10}}>Chats</Text>   
                 </View>
                 <View style={styles.items}>
                     <TouchableOpacity onPress={goToParticipants}>
@@ -176,44 +240,6 @@ const styles= StyleSheet.create({
         alignItems:'center'
     },
 
-    button:{
-        alignSelf: 'center',
-        marginTop:'15%',
-        width: '65%',
-        height: 45,
-        backgroundColor: '#c5cad3',
-        justifyContent:'center',
-        alignItems: 'center',
-        borderRadius: 5,
-        borderColor: 'black',
-        borderWidth: 0.3
-    },
-
-    button2:{
-        alignSelf: 'center',
-        marginTop:'5%',
-        width: '65%',
-        height: 45,
-        justifyContent:'center',
-        alignItems: 'center',
-        borderRadius: 5,
-        borderColor: 'black',
-        borderWidth: 1
-    },
-
-    button3:{
-        alignSelf: 'center',
-        marginTop:'5%',
-        width: '140%',
-        height: 40,
-        justifyContent:'center',
-        alignItems: 'center',
-        borderRadius: 5,
-        elevation: 4,
-        backgroundColor: '#c5cad3',
-        
-    },
-
     img:{
         width: '100%',
         height: '80%',
@@ -235,12 +261,18 @@ const styles= StyleSheet.create({
     },
 
     cards:{
-        width: '60%',
-        height: 180,
+        flex:0.5,
+        margin:7,
+        padding:2,
+        height: 190,
         backgroundColor:'#fff',
         borderRadius: 10,
-        marginLeft: '5%',
-        marginTop: '5%'
+    },
+
+    leavePage:{
+        position:'absolute',
+        backgroundColor:'black',
+        bottom:50
     },
 
     roundsecond:{
@@ -250,6 +282,22 @@ const styles= StyleSheet.create({
         borderRadius:200,
         justifyContent:'center',
         alignItems:'center'
+    },
+
+    button:{
+        alignSelf: 'center',
+        width: '100%',
+        height: 35,
+        backgroundColor: 'red',
+        justifyContent:'center',
+        alignItems: 'center',
+        borderRadius: 10,
+    },
+
+    leave:{
+        width:'180%',
+        height:35,
+        marginRight:25
     },
 
     roundThird:{
