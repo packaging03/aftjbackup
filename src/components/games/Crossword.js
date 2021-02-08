@@ -21,6 +21,7 @@ let score = 0;
 const circleRadius = 30;
 
 
+
 const Crosswords = ({route}) => {
 
    const [startTouchX, setStartTouchX] = useState(0);
@@ -28,6 +29,7 @@ const Crosswords = ({route}) => {
    const [endTouchX, setEndTouchX] = useState(0);
    const [endTouchY, setEndTouchY] = useState(0);
    const [lines, setLines] = useState([]);
+   const [yCoords, setYCoords] = useState([]);
 
    const [x1, setX1] = useState(0);
    const [y1, setY1] = useState(0);
@@ -80,7 +82,7 @@ const Crosswords = ({route}) => {
             console.log("4x: "+event.nativeEvent.locationX.toFixed(0)+"y: "+(event.nativeEvent.locationY ));
             addLine(startTouchX, startTouchY, endTouchX, endTouchY);
             console.log('lines: '+startTouchX+'-'+startTouchY+'-'+endTouchX+'-'+endTouchY);
-            console.log('array: '+lines.length);
+            console.log('array: '+coord1);
         },
     });
 
@@ -119,21 +121,240 @@ const Crosswords = ({route}) => {
     
      const addLine = (x1, y1, x2, y2) => {
 
-        setLines(oldArray => [...oldArray, <Line
-            x1={x1}
-            y1={y1}
-            x2={x2}
-            y2={y2}
-            stroke="green"
-            strokeWidth="20"
-            strokeOpacity="0.3"
-            strokeLinecap="round"
+        if (x1  - coord1[0] > 10  && y1 - coord1[2] > 10  && x2 - coord1[1] > 10 && y2 -coord1[2] > 10){
+            console.log('not a match');
+        }else if (x1  - coord1[0] <= 10  && y1 - coord1[2] <= 10  && x2 - coord1[1] <= 10 && y2 -coord1[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }else if (x1  - coord2[0] <= 10  && y1 - coord2[2] <= 10  && x2 - coord2[1] <= 10 && y2 -coord2[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }else if (x1  - coord3[0] <= 10  && y1 - coord3[2] <= 10  && x2 - coord3[1] <= 10 && y2 -coord3[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }else if (x1  - coord4[0] <= 10  && y1 - coord4[2] <= 10  && x2 - coord4[1] <= 10 && y2 -coord4[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }else if (x1  - coord5[0] <= 10  && y1 - coord5[2] <= 10  && x2 - coord5[1] <= 10 && y2 -coord5[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }else if (x1  - coord6[0] <= 10  && y1 - coord6[2] <= 10  && x2 - coord6[1] <= 10 && y2 -coord6[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }else if (x1  - coord7[0] <= 10  && y1 - coord7[2] <= 10  && x2 - coord7[1] <= 10 && y2 -coord7[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }else if (x1  - coord8[0] <= 10  && y1 - coord8[2] <= 10  && x2 - coord8[1] <= 10 && y2 -coord8[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }else if (x1  - coord9[0] <= 10  && y1 - coord9[2] <= 10  && x2 - coord9[1] <= 10 && y2 -coord9[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }else if (x1  - coord10[0] <= 10  && y1 - coord10[2] <= 10  && x2 - coord10[1] <= 10 && y2 -coord10[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }else if (x1  - coord11[0] <= 10  && y1 - coord11[2] <= 10  && x2 - coord11[1] <= 10 && y2 -coord11[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }else if (x1  - coord12[0] <= 10  && y1 - coord12[2] <= 10  && x2 - coord12[1] <= 10 && y2 -coord12[2] <= 10){
+            console.log('its a match');
+            setLines(oldArray => [...oldArray, <Line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="green"
+                strokeWidth="20"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                
+            />])
+            score = score + 1;
             
-        />])
-     }
-     
+            setStartTouchX(0);
+            setStartTouchY(0);
+            setEndTouchX(0);
+            setEndTouchY(0);
+        }
 
-   let {crosswordArray, sixteenWords} = route.params;
+        if (score === 1){
+            displayModal(true);
+        }
+
+        console.log(x1+'-'+coord2[0]);
+        console.log(y1+'-'+coord2[2]);
+        console.log(x2+'-'+coord2[1]);
+        console.log(y2+'-'+coord2[2]);
+        
+     }
+
+
+   let {crosswordArray, sixteenWords, coordinates} = route.params;
 
    const play = (position, currentLetter, firstLetter, lastLetter) => {
 
@@ -212,68 +433,68 @@ const Crosswords = ({route}) => {
 
            {
                
-           //     show? (<View  style={{
-           //         height:200,
-           //         backgroundColor:'rgba(255, 255, 255, 0.3)',
-           //         position:'absolute',
-           //         top:100,
-           //         zIndex:100,
-           //         borderRadius:8,
-           //         width: '90%',
-           //         alignSelf:'center'}} >
-           //             <BlurView
-           //                 showBlur={true}
-           //                 o
-           //                 blurType="light"
-           //                 show={show}
-           //                 style={{height:'100%', zIndex:-10}}
-           //                 blurAmount={10}
-           //                 reducedTransparencyFallbackColor="white" >
-           //         <TouchableWithoutFeedback  style={{
-           //             height:200,
-           //             width:'100%',
-           //             display:'flex', 
-           //             borderRadius:8,
-           //             justifyContent:'center',
-           //             width: '100%',
-           //             alignItems:'center'}} onPress={()=>displayModal(false)} >
+               show? (<View  style={{
+                   height:200,
+                   backgroundColor:'rgba(255, 255, 255, 0.3)',
+                   position:'absolute',
+                   top:100,
+                   zIndex:100,
+                   borderRadius:8,
+                   width: '90%',
+                   alignSelf:'center'}} >
+                       <BlurView
+                           showBlur={true}
+                           blurType="light"
+                           show={show}
+                           style={{height:'100%', zIndex:-10}}
+                           blurAmount={10}
+                           reducedTransparencyFallbackColor="white" >
+                   <TouchableWithoutFeedback  style={{
+                       height:200,
+                       width:'100%',
+                       display:'flex', 
+                       borderRadius:8,
+                       justifyContent:'center',
+                       width: '100%',
+                       alignItems:'center'}} onPress={()=>displayModal(false)} >
                            
-           //             <View 
-           //                 style={{
-           //                     height:'100%',
-           //                     width:'100%',
-           //                     backgroundColor:'rgba(255, 255, 255, 0.3)',
-           //                     borderRadius:8,
-           //                     position:'relative',
-           //                     zIndex:10,
-           //                     display:'flex',
-           //                     position:'absolute',
-           //                     alignSelf:'center',
-           //                     justifyContent:'center', 
-           //                     alignItems:'center'}}>
+                       <View 
+                           style={{
+                               height:'100%',
+                               width:'100%',
+                               backgroundColor:'rgba(255, 255, 255, 0.3)',
+                               borderRadius:8,
+                               position:'relative',
+                               zIndex:100,
+                               display:'flex',
+                               position:'absolute',
+                               alignSelf:'center',
+                               justifyContent:'center', 
+                               alignItems:'center'}}>
 
-           //             <Image
-           //                 style={{
-                               
-           //                     alignSelf:'center'
-           //                 }}
-           //                 source={require('../../assets/crossword-cup.png')} />
-           //             <Text style={{
-           //                 color:'#FB13C8',
-           //                 lineHeight:40.92,
-           //                 letterSpacing:0.5,
-           //                 position:'absolute',
-           //                 fontSize:30,
-           //                 alignSelf:'center',
-           //                 fontFamily:'Nunito-Regular',
-           //                 fontWeight:'700'
-           //             }}>GAME WON</Text>
+                       <Image
+                           style={{
+                               width:'70%',
+                               height:'100%',
+                               alignSelf:'center'
+                           }}
+                           source={require('../../assets/crossword-cup.png')} />
+                       <Text style={{
+                           color:'#FB13C8',
+                           lineHeight:40.92,
+                           letterSpacing:0.5,
+                           position:'absolute',
+                           fontSize:30,
+                           alignSelf:'center',
+                           fontFamily:'Nunito-Regular',
+                           fontWeight:'700'
+                       }}>GAME WON</Text>
                
-           //         </View>
+                   </View>
                    
-           // </TouchableWithoutFeedback>
-           // </BlurView>
-           // </View>) : null
+           </TouchableWithoutFeedback>
+           </BlurView>
+           </View>) : null
            }
 
             <Text style={
@@ -305,7 +526,7 @@ const Crosswords = ({route}) => {
               
         <View style={{display:'flex', flexDirection:'column', justifyContent:'space-between', height:'60%', width:'100%',}}    {...panResponder.panHandlers}>
                 
-                <Svg style={{zIndex:100, marginLeft:15, marginRight:15, alignSelf:'center',}} position="absolute">
+                <Svg style={{zIndex:50, marginLeft:15, marginRight:15, alignSelf:'center',}} position="absolute">
                     <Line
                         x1={startTouchX}
                         y1={startTouchY}
@@ -319,11 +540,11 @@ const Crosswords = ({route}) => {
                     />
 
                     {/* <Line
-                        x1={295}
-                        y1={53.9921875}
-                        x2={296}
-                        y2={152.98}
-                        stroke="green"
+                        x1={55}
+                        y1={55}
+                        x2={200}
+                        y2={55}
+                        stroke="orange"
                         strokeWidth="20"
                         strokeOpacity="0.3"
                         strokeLinecap="round"
@@ -334,78 +555,176 @@ const Crosswords = ({route}) => {
                     }
                 </Svg>
 
-          
             <View style={styles.accross} onLayout={event => {
-                    console.log(" event y0: "+(event.nativeEvent.layout.y+6));
-                    setCoord1([...coord1, event.nativeEvent.layout.y])
+                    console.log(" event y0: "+(event.nativeEvent.layout.y));
+                    setCoord1([...coord1, event.nativeEvent.layout.y]);
+                    console.log('coord1: '+coord1);
                 }}>
             {
-                crosswordArray[0].map(i =>( <Text style={styles.letter}  onLayout={event => {
-                    console.log("event x0: "+event.nativeEvent.layout.x);
+                crosswordArray[0].map((i, index) =>
+                    
+                    ( <Text style={styles.letter}  onLayout={event => {
+                        if (index === coordinates[0][0]){
+
+                            setCoord1([...coord1, event.nativeEvent.layout.x]);
+                        }else if ((index === coordinates[0][1])){
+
+                            setCoord1([...coord1, event.nativeEvent.layout.x]);
+                        }
+                        
                 }}>{i}</Text>))
             }
            </View>
            <View style={styles.accross} onLayout={event => {
-                    console.log(" event y1: "+(event.nativeEvent.layout.y+6));
+                    setCoord2([...coord2, event.nativeEvent.layout.y]);
+                    console.log('coord2: '+coord2);
                 }}>
             {
-                crosswordArray[1].map(i =>( <Text style={styles.letter}  onLayout={event => {
-                    console.log("event x1: "+event.nativeEvent.layout.x);
+                crosswordArray[1].map((i, index)=>( <Text style={styles.letter}  onLayout={event => {
+                    if (index === coordinates[1][0]){
+                        setCoord2([...coord2, event.nativeEvent.layout.x]);
+                    }else if ((index === coordinates[1][1])){
+                        setCoord2([...coord2, event.nativeEvent.layout.x]);
+                    }
+                    
                 }}>{i}</Text>))
             }
            </View>
            <View style={styles.accross} onLayout={event => {
-                    console.log(" event y2: "+(event.nativeEvent.layout.y+6));
+                    setCoord3([...coord3, event.nativeEvent.layout.y]);
+                    console.log('coord3: '+coord3);
                 }}>
             {
-                crosswordArray[2].map(i =>( <Text style={styles.letter}  onLayout={event => {
-                    console.log("event x2: "+event.nativeEvent.layout.x);
+                crosswordArray[2].map((i, index)=>(
+                     <Text style={styles.letter}  onLayout={event => {
+                         console.log(index);
+                    if (index === coordinates[2][0]){
+                        console.log('first coordinates: '+coordinates[2][0]);
+                        setCoord3([...coord3, event.nativeEvent.layout.x]);
+                    }else if (index === coordinates[2][1]){
+                        console.log('last coordinates: '+coordinates[2][1]);
+                        setCoord3([...coord3, event.nativeEvent.layout.x]);
+                    }
                 }}>{i}</Text>))
             }
            </View>
-           <View style={styles.accross}>
+           <View style={styles.accross} onLayout={event => {
+                    setCoord4([...coord4, event.nativeEvent.layout.y]);
+                    console.log('coord4: '+coord4);
+                }}>
             {
-                crosswordArray[3].map(i =>( <Text style={styles.letter}>{i}</Text>))
+                crosswordArray[3].map((i, index)=>( <Text style={styles.letter} onLayout={event => {
+                    if (index === coordinates[3][0]){
+                        setCoord4([...coord4, event.nativeEvent.layout.x]);
+                    }else if (index === coordinates[3][1]){
+                        setCoord4([...coord4, event.nativeEvent.layout.x]);
+                    }
+                }}>{i}</Text>))
             }
            </View>
-           <View style={styles.accross}>
+           <View style={styles.accross} onLayout={event => {
+                    setCoord5([...coord5, event.nativeEvent.layout.y]);
+                    console.log('coord5: '+coord5);
+                }}>
             {
-                crosswordArray[4].map(i =>( <Text style={styles.letter}>{i}</Text>))
+                crosswordArray[4].map((i, index)=>( <Text style={styles.letter} onLayout={event => {
+                    if (index === coordinates[4][0]){
+                        setCoord5([...coord5, event.nativeEvent.layout.x]);
+                    }else if (index === coordinates[4][1]){
+                        setCoord5([...coord5, event.nativeEvent.layout.x]);
+                    }
+                }}>{i}</Text>))
             }
            </View>
-           <View style={styles.accross}>
+           <View style={styles.accross} onLayout={event => {
+                    setCoord6([...coord6, event.nativeEvent.layout.y]);
+                }}>
             {
-                crosswordArray[5].map(i =>( <Text style={styles.letter}>{i}</Text>))
+                crosswordArray[5].map((i, index)=>( <Text style={styles.letter} onLayout={event => {
+                    if (index === coordinates[5][0]){
+                        setCoord6([...coord6, event.nativeEvent.layout.x]);
+                    }else if (index === coordinates[5][1]){
+                        setCoord6([...coord6, event.nativeEvent.layout.x]);
+                    }
+                }}>{i}</Text>))
             }
            </View>
-           <View style={styles.accross}>
+           <View style={styles.accross} onLayout={event => {
+                    setCoord7([...coord7, event.nativeEvent.layout.y]);
+                }}>
             {
-                crosswordArray[6].map(i =>( <Text style={styles.letter}>{i}</Text>))
+                crosswordArray[6].map((i, index)=>( <Text style={styles.letter} onLayout={event => {
+                    if (index === coordinates[6][0]){
+                        setCoord7([...coord7, event.nativeEvent.layout.x]);
+                    }else if (index === coordinates[6][1]){
+                        setCoord7([...coord7, event.nativeEvent.layout.x]);
+                    }
+                }}>{i}</Text>))
             }
            </View>
-           <View style={styles.accross}>
+           <View style={styles.accross}  onLayout={event => {
+                    setCoord8([...coord8, event.nativeEvent.layout.y]);
+                }}>
             {
-                crosswordArray[7].map(i =>( <Text style={styles.letter}>{i}</Text>))
+                crosswordArray[7].map((i, index)=>( <Text style={styles.letter} onLayout={event => {
+                    if (index === coordinates[7][0]){
+                        setCoord8([...coord8, event.nativeEvent.layout.x]);
+                    }else if (index === coordinates[7][1]){
+                        setCoord8([...coord8, event.nativeEvent.layout.x]);
+                    }
+                }}>{i}</Text>))
             }
            </View>
-           <View style={styles.accross}>
+           <View style={styles.accross} onLayout={event => {
+                    setCoord9([...coord9, event.nativeEvent.layout.y]);
+                }}>
             {
-                crosswordArray[8].map(i =>( <Text style={styles.letter}>{i}</Text>))
+                crosswordArray[8].map((i, index)=>( <Text style={styles.letter} onLayout={event => {
+                    if (index === coordinates[8][0]){
+                        setCoord9([...coord9, event.nativeEvent.layout.x]);
+                    }else if (index === coordinates[8][1]){
+                        setCoord9([...coord9, event.nativeEvent.layout.x]);
+                    }
+                }}>{i}</Text>))
             }
            </View>
-           <View style={styles.accross}>
+           <View style={styles.accross} onLayout={event => {
+                    setCoord10([...coord10, event.nativeEvent.layout.y]);
+                }}>
             {
-                crosswordArray[9].map(i =>( <Text style={styles.letter}>{i}</Text>))
+                crosswordArray[9].map((i, index)=>( <Text style={styles.letter} onLayout={event => {
+                    if (index === coordinates[9][0]){
+                        setCoord10([...coord10, event.nativeEvent.layout.x]);
+                    }else if (index === coordinates[9][1]){
+                        setCoord10([...coord10, event.nativeEvent.layout.x]);
+                    }
+                }}>{i}</Text>))
             }
            </View>
-           <View style={styles.accross}>
+           <View style={styles.accross} onLayout={event => {
+                    setCoord11([...coord11, event.nativeEvent.layout.y]);
+                }}>
             {
-                crosswordArray[10].map(i =>( <Text style={styles.letter}>{i}</Text>))
+                crosswordArray[10].map((i, index)=>( <Text style={styles.letter} onLayout={event => {
+                    if (index === coordinates[10][0]){
+                        setCoord11([...coord11, event.nativeEvent.layout.x]);
+                    }else if (index === coordinates[10][1]){
+                        setCoord11([...coord11, event.nativeEvent.layout.x]);
+                    }
+                }}>{i}</Text>))
             }
            </View>
-           <View style={styles.accross}>
+           <View style={styles.accross} onLayout={event => {
+                    setCoord12([...coord12, event.nativeEvent.layout.y]);
+                }}>
             {
-                crosswordArray[11].map(i =>( <Text style={styles.letter}>{i}</Text>))
+                crosswordArray[11].map((i, index)=>( <Text style={styles.letter} onLayout={event => {
+                    if (index === coordinates[11][0]){
+                        setCoord12([...coord11, event.nativeEvent.layout.x]);
+                    }else if (index === coordinates[11][1]){
+                        setCoord12([...coord11, event.nativeEvent.layout.x]);
+                    }
+                }}>{i}</Text>))
             }
            </View>
           
@@ -413,7 +732,7 @@ const Crosswords = ({route}) => {
         </View>
            <View style={{display:'flex', marginTop:10, flexWrap:'wrap', flexDirection:'row'}}>
             {/* {
-               sixteenWords.slice(0, 16).map(i => {
+               sixteenWords.slice(0, 16).map(i=> {
                    return <View style={{display:'flex', flexDirection:'row',}}> 
                             <Icon name={'md-checkmark-sharp'}  color='#219653' size={17} />
                            <Text style={{width:80, marginRight:5, fontSize:11}}>{i}</Text>

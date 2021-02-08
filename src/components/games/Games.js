@@ -38,7 +38,7 @@ const  genLetters = (length) => {
     } 
     return array;
  }
-
+const wordCoords = [];
  const generateCrossword = () => {
 
     
@@ -49,16 +49,26 @@ const  genLetters = (length) => {
         let index = Math.floor(Math.random() * 10);
         
         let array = [];
+        let coordArray = [];
         genLetters(word.length).map(i=>{
             array.push(i);
         });
-        wordArray.map(i => {
-            array.splice(index++, 0, i);
+        wordArray.map((i, ind) => {
+            const currIndex = ++index;
+          
+            if (ind === 0 ){
+                coordArray.push(currIndex);
+            }else if (ind === wordArray.length - 1){
+                coordArray.push(currIndex);
+            }
+            
+            array.splice(currIndex, 0, i);
         });
+        wordCoords.push(coordArray);
         crosswordArray.push(array);
 
     });
-    console.log(crosswordArray);
+    console.log(wordCoords);
  }
 
 const pick16Random = () => {
@@ -123,7 +133,8 @@ const Games = ({navigation}) => {
                 onPress={() => 
                     navigation.navigate("Crossword", {
                     sixteenWords: sixteenWords,
-                    crosswordArray: crosswordArray
+                    crosswordArray: crosswordArray,
+                    coordinates: wordCoords
                 })}>
                 <View style={itemStyle}>
 
