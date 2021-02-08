@@ -61,9 +61,11 @@ import BibleHome from '../BibleHome';
 import TodaysReading from '../DaysReading';
 import BibleChapters from '../BibleChapters';
 import BibleVerse from '../BibleContent';
+import PreSchool from '../PreSchool';
+
+import Kindergarten from '../Kindergarten';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
-import PreSchool from '../PreSchool';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
 import Pastorschedule from '../Pastorschedule';
@@ -301,7 +303,7 @@ const RootStack = ({
         name="Suggestion"
         component={Suggestion}
         options={{
-          title: 'New Member',
+          title: 'Suggestion',
           headerStyle: {
             backgroundColor: '#fff',
           },
@@ -842,7 +844,6 @@ const RootStack = ({
         }}
       />
 
-
     <Stack.Screen
       name="NoteDetails"
       component={NoteDetails}
@@ -870,7 +871,6 @@ const RootStack = ({
         
       }}
     />
-
 
     <Stack.Screen
       name="Editnote"

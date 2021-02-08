@@ -118,9 +118,6 @@ const Giving = ({navigation}) => {
                   onPress={() => {
                     dop
                   }}
-                  // onPress={() => 
-                  //   navigation.navigate('SignUp')
-                  // }
                   textStyle={{color:"white"}}
                   key="button-2"/>
                             <View style={styles.MbuttonContainer}>
@@ -139,11 +136,12 @@ const Giving = ({navigation}) => {
                                         </TouchableOpacity>
                                         <Button
                                           style={styles.Mbutton}
-                                          text="    SKIP    "
+                                          text="    Login    "
                                           // onPress={() => {
                                           //   dop
                                           // }}
                                           onPress={() => {
+                                            navigation.navigate('Login');
                                             displayModal(false);}}
                                         />
                             </View>

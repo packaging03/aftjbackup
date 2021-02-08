@@ -9,8 +9,10 @@ import {
 } from 'react-native';
 import {Container} from 'native-base';
 const {width, height} = Dimensions.get('window');
+import {useNavigation} from '@react-navigation/native';
 
-const Success = ({navigation}) => {
+const Success = ({}) => {
+  const navigation = useNavigation();
   return (
     <Container>
       <View style={{height: height - 250, marginTop: 80}}>
@@ -47,12 +49,12 @@ const Success = ({navigation}) => {
                 marginBottom: 30,
                 fontFamily: 'Nunito-Regular',
               }}>
-              Your Tithe Payment was successfull
+              Your Payment was successfull
             </Text>
           </View>
         </View>
         <Pressable
-          onPress={() => navigation.navigate('payFailed')}
+          onPress={() => navigation.navigate('Give whole heartedly')}
           style={{
             marginTop: 35,
             alignSelf: 'center',

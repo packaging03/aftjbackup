@@ -4,11 +4,16 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-// import com.reactnativecommunity.androidprogressbar.RNCProgressBarPackage;
+
+import com.taessina.paypal.RNPaypalWrapperPackage;
+import com.smarkets.paypal.RNPaypalPackage;
+import com.busfor.RNGooglePayPackage;
+
+import com.reactnativecommunity.androidprogressbar.RNCProgressBarPackage;
 import fr.snapp.imagebase64.RNImgToBase64Package;
 import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
 import com.rnfs.RNFSPackage;
-import com.guichaguri.trackplayer.TrackPlayer;
+// import com.guichaguri.trackplayer.TrackPlayer;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import com.airbnb.android.react.maps.MapsPackage;
@@ -37,6 +42,7 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          // packages.add(new RNPaypalPackage());
           return packages;
         }
 

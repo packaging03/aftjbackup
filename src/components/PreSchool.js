@@ -5,30 +5,16 @@ const data=[
   
   { 
     id:1, 
-    videoSource:'VG3D9EOwSyc', 
-    img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', 
-    title:"Adam and Eve story", 
-    details:"Adam and Eve story"
+    videoSource:'YalBsd56iTQ', 
+    img: 'https://i.ibb.co/T0c03Nz/Rectangle-101-8.png', 
+    title:"The Beginning of the world", 
+    details:"The story of creation"
   },
   { id:2, 
-    videoSource:'ddbb6hlSsBE', 
-    img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', 
-    title:"The fall man", 
-    details:"The fall man"
-  }, 
-  { 
-    id: 3, 
-    videoSource:'l7TDvJrjjz0', 
-    img: 'https://www.inspirationalchristians.org/images/joseph-dreams-1-1024x640.jpg', 
-    title:"The sin of Adam and Eve", 
-    details:"The sin of Adam and Eve"
-  },
-  { 
-    id:4, 
-    videoSource:'RkVm6Chgaww', 
-    img: 'https://i.ytimg.com/vi/1EzW-tnZ-Lw/maxresdefault.jpg', 
-    title:"Adam and Eve’s sin", 
-    details:"Adam and Eve’s sin"
+    videoSource:'teu7BCZTgDs', 
+    img: 'https://i.ibb.co/HYbxdmc/Rectangle-102-1.png', 
+    title:"The Story of the Bible", 
+    details:"The story of creation"
   },
 ];
 
@@ -53,13 +39,14 @@ export default function PreSchool({navigation, route}) {
             <FlatList
           data={data}
           keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <TouchableOpacity onPress={()=>navigation.navigate('Preschoolplayer',{videoLink: item.videoSource, videoTitle:item.title} )}> 
+          renderItem={({item}) => ( //navigation.navigate('SchoolCurriculumQuiz', {pageId: pageId})
+            <TouchableOpacity onPress={()=>navigation.navigate('SchoolCurriculumQuiz',{videoLink: item.videoSource, videoTitle:item.title, pageId: 16} )}> 
             <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  margin: 12,
+                  marginTop: 24,
+                  margin: 16,
                 }}>
                 <Image style={styles.img} source ={{uri:item.img}} />
                  
