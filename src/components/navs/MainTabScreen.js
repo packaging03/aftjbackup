@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, {useEffect} from 'react';
 import {Image, TouchableOpacity, Text} from 'react-native';
 
@@ -216,7 +215,6 @@ function MyTabBar({
                 </Text>
                 {/* {renderIcon({
                   route,
-
                   tintColor: isFocused ? activeTintColor : inactiveTintColor,
                 })} */}
               </View>
@@ -374,7 +372,6 @@ const HomeStackScreen = ({navigation}) => (
       options={{
         title: '',
         headerTitleStyle: {color: 'black'},
-
         headerStyle: {
           backgroundColor: '#fff',
         },

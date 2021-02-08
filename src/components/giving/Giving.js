@@ -47,9 +47,8 @@ export default class Giving extends Component {
             <View style={{margin: 18}}>
               <Text
                 style={{
-                  fontSize: 16,
-                  marginTop: 10,
-                  fontFamily: 'Nunito-Regular',
+                  fontSize: 20,
+                  fontFamily: 'Nunito-Bold',
                 }}>
                 For your convenience, donate to AFTj Church via the below link
                 to our secure donation site. God bless you as you do so.
@@ -85,9 +84,10 @@ export default class Giving extends Component {
             </View>
             <View
               style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: 95,
+                fontSize: 23,
+                marginTop: 40,
+                marginBottom: 40,
+                fontFamily: 'Nunito-Regular',
               }}>
               <Pressable
                 style={({pressed}) => [
@@ -144,7 +144,7 @@ export default class Giving extends Component {
               </Pressable>
             </View>
           </View>
-        </Content>
+        </View>
       </Container>
     );
   }

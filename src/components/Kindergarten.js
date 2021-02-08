@@ -4,7 +4,7 @@ import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-n
 const data=[
   { 
     id:1, 
-    videoSource:'bLHB_hNk42g', 
+    videoSource:'teu7BCZTgDs', 
     img: 'https://i.ibb.co/gyMDTxT/Rectangle-105.png', 
     title:"Bible Story Series", 
     details:"Genesis The Creation of World"

@@ -14,7 +14,10 @@ import {
 import {Container} from 'native-base';
 import {Switch} from 'react-native-paper';
 const {height, width} = Dimensions.get('window');
-
+import PayPal from 'react-native-paypal-gateway';
+import {GooglePay} from 'react-native-google-pay';
+import {ApplePay} from 'react-native-apay';
+import {useNavigation} from '@react-navigation/native';
 import {GooglePay} from 'react-native-google-pay';
 import {ApplePay} from 'react-native-apay';
 import {useNavigation} from '@react-navigation/native';
@@ -123,7 +126,6 @@ const Gateways = ({route}) => {
       }
     }
   };
-
   useEffect(() => {
     if (Platform.OS === 'android') {
       GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST);
@@ -152,6 +154,7 @@ const Gateways = ({route}) => {
 
     console.log('clicked_Gpay');
   };
+
 
   const handleSuccess = async token => {
     // Send a token to your payment gateway

@@ -30,13 +30,24 @@ import {
   setUserToken,
   setCurrentUser,
   setAccessToken,
+  setLogoutUser,
   setUser,
 } from '../redux/user/user.actions';
 import CustomInput from '../components/common/CustomInput';
 import {add} from 'react-native-track-player';
 import ImagePicker from 'react-native-image-picker';
-import DocumentPicker from 'react-native-document-picker';
-import ImgToBase64 from 'react-native-image-base64';
+import Button from '../components/common/PopupButton';
+import Button2 from '../components/common/PopupButton2';
+import {BlurView} from '@react-native-community/blur';
+
+import Dialog, {
+  DialogTitle,
+  DialogContent,
+  DialogFooter,
+  DialogButton,
+  SlideAnimation,
+  ScaleAnimation,
+} from 'react-native-popup-dialog';
 
 const Profile = ({
   currentUser,
@@ -44,6 +55,7 @@ const Profile = ({
   navigation,
   accessToken,
   setCurrentUser,
+  setLogoutUser,
   setUser,
   setUserToken,
   setAccessToken,
@@ -156,6 +168,7 @@ const Profile = ({
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newcPassword, setCNewPassword] = useState('');
+  const [show, setShow] = useState(false);
 
   const [phone, setPhone] = useState(JSON.parse(user).address);
   const [address, setAddress] = useState(JSON.parse(user).address);
@@ -183,6 +196,47 @@ const Profile = ({
       .catch(error => {
         alert(error);
       });
+  };
+
+
+  const signout = () => {
+    console.log(accessToken);
+    //Toast.show(accessToken, Toast.LONG)
+    fetch('https://church.aftjdigital.com/api/logout', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: accessToken,
+      }),
+    })
+      .then(response => {
+        response.json();
+      })
+      .then(responseJson => {
+        //setAccessToken(null);
+        //setUser(null);
+        //setLogoutUser(0);
+        // setUserToken(3);
+        setData();
+        //goHome();
+        closeme();
+      })
+      .catch(error => {
+        console.log(error);
+        Toast.show('Failed to sign out', Toast.LONG)
+      });
+  };
+
+  const displayModal = show => {
+    setShow(show);
+  };
+
+  const closeme = () => {
+    //setLogout(false);
+    navigation.navigate('Login or Signup');
   };
 
   const openGallery = () => {
@@ -1108,34 +1162,16 @@ const Profile = ({
                 size={25}
               />
               <TouchableOpacity
-                onPress={() => {
+              onPress={() => {
+                displayModal(true);
+              }}
+                // onPress={() => {
                   // auth()
                   //   .signOut()
                   //   .then(() => {
-                  fetch('https://church.aftjdigital.com/api/logout', {
-                    method: 'POST',
-                    headers: {
-                      Accept: 'application/json',
-                      'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                      token: accessToken,
-                    }),
-                  })
-                    .then(response => response.json())
-                    .then(responseJson => {
-                      setUserToken(2);
-                      setData();
-                      setAccessToken(null);
-                      // setCurrentUser(null);
-                    })
-                    .catch(error => {
-                      alert(error);
-                    });
-
-                  // })
-                  // .catch(error => alert(error));
-                }}>
+                  
+                // }}
+                >
                 <Text
                   style={{
                     fontFamily: 'Nunito-Regular',
@@ -1163,6 +1199,68 @@ const Profile = ({
           </View>
         )}
       </View>
+
+
+      <Dialog
+            width={0.9}
+            visible={show}
+            rounded
+            actionsBordered
+            dialogStyle={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}
+            footer={
+              <BlurView
+                showBlur={false}
+                blurType="light"
+                show={show}
+                style={{marginTop: -60}}
+                blurAmount={8}
+                reducedTransparencyFallbackColor="white">
+                <DialogFooter>
+                  <DialogButton
+                    text=""
+                    bordered
+                    textStyle={{color: 'white'}}
+                    key="button-2"
+                  />
+                  <View style={styles.MbuttonContainer}>
+                    <TouchableOpacity
+                    >
+                      <Button2
+                        style={styles.Mbutton}
+                        text="YES"
+                        onPress={() => {
+                          signout();
+                          displayModal(false);
+                        }}
+                      />
+                    </TouchableOpacity>
+                    <Button
+                      style={styles.Mbutton}
+                      text="CANCEL"
+                      onPress={() => {
+                        displayModal(false);
+                      }}
+                    />
+                  </View>
+
+                  <View>
+                    <Text
+                      style={{
+                        color: 'white',
+                        marginTop: -100,
+                        lineHeight: 22,
+                        fontSize: 12,
+                        alignSelf: 'center',
+                      }}>
+                      Are you sure you want to Log Out?
+                    </Text>
+                  </View>
+                </DialogFooter>
+              </BlurView>
+            }>
+            
+          </Dialog>
+  
     </ScrollView>
   );
 };
@@ -1327,6 +1425,16 @@ const styles = {
     alignItems: 'center',
     fontSize: 19,
   },
+  MbuttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  Mbutton: {
+    flex: 0.5,
+  },
   personIcon: {
     margin: 15,
   },
@@ -1349,6 +1457,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
   setUserToken: token => dispatch(setUserToken(token)),
+  setLogoutUser: token => dispatch(setLogoutUser(token)),
   setAccessToken: token => dispatch(setAccessToken(token)),
   setUser: user => dispatch(setUser(user)),
 });
