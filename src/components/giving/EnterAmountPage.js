@@ -49,7 +49,7 @@ const EnterAmountPage = ({navigation}) => {
                 amount: amount,
               });
             } else {
-              Alert.alert('Add an amount');
+              Alert.alert('Ooops...', 'Add an amount');
             }
           }}>
           <Text
