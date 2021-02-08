@@ -14,16 +14,12 @@ var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
 
-
-
-
-var arrList = [];
-
 let first = '';
 let last = '';
 let score = 0;
 
 const circleRadius = 30;
+
 
 const Crosswords = ({route}) => {
 
@@ -31,27 +27,60 @@ const Crosswords = ({route}) => {
    const [startTouchY, setStartTouchY] = useState(0);
    const [endTouchX, setEndTouchX] = useState(0);
    const [endTouchY, setEndTouchY] = useState(0);
+   const [lines, setLines] = useState([]);
+
+   const [x1, setX1] = useState(0);
+   const [y1, setY1] = useState(0);
+   const [x2, setX2] = useState(0);
+   const [y2, setY2] = useState(0);
+
+   const [coord1, setCoord1] = useState([]);
+   const [coord2, setCoord2] = useState([]);
+   const [coord3, setCoord3] = useState([]);
+   const [coord4, setCoord4] = useState([]);
+   const [coord5, setCoord5] = useState([]);
+   const [coord6, setCoord6] = useState([]);
+   const [coord7, setCoord7] = useState([]);
+   const [coord8, setCoord8] = useState([]);
+   const [coord9, setCoord9] = useState([]);
+   const [coord10, setCoord10] = useState([]);
+   const [coord11, setCoord11] = useState([]);
+   const [coord12, setCoord12] = useState([]);
+
 
    const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (event, gestureState) => true,
         onStartShouldSetPanResponderCapture: (event, gestureState) => {
             setStartTouchX(event.nativeEvent.locationX.toFixed(2));
             setStartTouchY(event.nativeEvent.locationY.toFixed(2));
-            console.log("x: "+event.nativeEvent.locationX.toFixed(0)+"y: "+(event.nativeEvent.locationY ));
+            setX1(event.nativeEvent.locationX);
+            setY1(event.nativeEvent.locationX);
+
+            console.log("1x: "+event.nativeEvent.locationX.toFixed(0)+"y: "+(event.nativeEvent.locationY ));
         },
         onMoveShouldSetPanResponder: (event, gestureState) => false,
         onMoveShouldSetPanResponderCapture: (event, gestureState) => false,
         onPanResponderGrant: (event, gestureState) => {
             setEndTouchX(event.nativeEvent.locationX.toFixed(2));
             setEndTouchY(event.nativeEvent.locationY.toFixed(2));
+            console.log("2x: "+event.nativeEvent.locationX.toFixed(0)+"y: "+(event.nativeEvent.locationY ));
         },
         onPanResponderMove: (event, gestureState) => {
             setEndTouchX(event.nativeEvent.locationX.toFixed(2));
             setEndTouchY(event.nativeEvent.locationY.toFixed(2));
+            console.log("3x: "+event.nativeEvent.locationX.toFixed(0)+"y: "+(event.nativeEvent.locationY ));
         },
         onPanResponderRelease: (event, gestureState) => {
             setEndTouchX(event.nativeEvent.locationX.toFixed(2));
             setEndTouchY(event.nativeEvent.locationY.toFixed(2));
+
+            setX2(event.nativeEvent.locationX.toFixed(2));
+            setY2(event.nativeEvent.locationY.toFixed(2));
+          
+            console.log("4x: "+event.nativeEvent.locationX.toFixed(0)+"y: "+(event.nativeEvent.locationY ));
+            addLine(startTouchX, startTouchY, endTouchX, endTouchY);
+            console.log('lines: '+startTouchX+'-'+startTouchY+'-'+endTouchX+'-'+endTouchY);
+            console.log('array: '+lines.length);
         },
     });
 
@@ -76,20 +105,34 @@ const Crosswords = ({route}) => {
 
    useEffect(()=>{
        panResponder;
-    //    setTouchXY({
-    //        startTouchX: 0,
-    //        startTouchY: 0,
-    //        endTouchX: 0,
-    //        endTouchY: 0,
-    //    });
-
+         setStartTouchX(0);
+        setStartTouchY(0);
+        setEndTouchX(0);
+        setEndTouchY(0);
    }, []);
 
   
-   const displayModal = show => {
+    const displayModal = show => {
        setShow(show);
      };
    
+    
+     const addLine = (x1, y1, x2, y2) => {
+
+        setLines(oldArray => [...oldArray, <Line
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+            stroke="green"
+            strokeWidth="20"
+            strokeOpacity="0.3"
+            strokeLinecap="round"
+            
+        />])
+     }
+     
+
    let {crosswordArray, sixteenWords} = route.params;
 
    const play = (position, currentLetter, firstLetter, lastLetter) => {
@@ -165,27 +208,7 @@ const Crosswords = ({route}) => {
    return (
        
        <View  style={{flex:1, padding:15, backgroundColor:'white'}} >
-
                
-            {/* <View style={{
-                    
-                    height:'60%', width:'100%',
-                    overflow: 'hidden',
-                    top:'20%',
-                    alignSelf:'center',
-                    position:'absolute',
-                    backgroundColor:'pink',
-                    zIndex:100,
-                }}> */}
-                
-                {/* <View
-                    style={
-                        {flex: 1,  
-                        zIndex:200,
-                        }}
-                    {...panResponder.panHandlers}
-                />
-            </View> */}
 
            {
                
@@ -279,11 +302,10 @@ const Crosswords = ({route}) => {
                marginBottom:16,
                letterSpacing:0.5}}>the game</Text>
            
-           
+              
         <View style={{display:'flex', flexDirection:'column', justifyContent:'space-between', height:'60%', width:'100%',}}    {...panResponder.panHandlers}>
-         
-
-        <Svg style={{zIndex:100, marginLeft:15, marginRight:15, alignSelf:'center',}} position="absolute">
+                
+                <Svg style={{zIndex:100, marginLeft:15, marginRight:15, alignSelf:'center',}} position="absolute">
                     <Line
                         x1={startTouchX}
                         y1={startTouchY}
@@ -295,10 +317,27 @@ const Crosswords = ({route}) => {
                         strokeLinecap="round"
                         
                     />
+
+                    {/* <Line
+                        x1={295}
+                        y1={53.9921875}
+                        x2={296}
+                        y2={152.98}
+                        stroke="green"
+                        strokeWidth="20"
+                        strokeOpacity="0.3"
+                        strokeLinecap="round"
+                        
+                    /> */}
+                    {
+                        lines
+                    }
                 </Svg>
+
           
             <View style={styles.accross} onLayout={event => {
                     console.log(" event y0: "+(event.nativeEvent.layout.y+6));
+                    setCoord1([...coord1, event.nativeEvent.layout.y])
                 }}>
             {
                 crosswordArray[0].map(i =>( <Text style={styles.letter}  onLayout={event => {
@@ -372,7 +411,7 @@ const Crosswords = ({route}) => {
           
           
         </View>
-           <View style={{display:'flex', marginTop:20, flexWrap:'wrap', flexDirection:'row'}}>
+           <View style={{display:'flex', marginTop:10, flexWrap:'wrap', flexDirection:'row'}}>
             {/* {
                sixteenWords.slice(0, 16).map(i => {
                    return <View style={{display:'flex', flexDirection:'row',}}> 
@@ -381,7 +420,7 @@ const Crosswords = ({route}) => {
                        </View>
                    })
            }  */}
-            {/* <View style={{display:'flex', flexDirection:'row',}}> 
+            <View style={{display:'flex', flexDirection:'row',}}> 
                    <Icon name={'md-checkmark-sharp'} style={{opacity:visibility1}}  color='#219653' size={17} />
                <Text style={{width:80, marginRight:5, fontSize:11}}>{sixteenWords[0]}</Text>
            </View>
@@ -428,7 +467,7 @@ const Crosswords = ({route}) => {
            <View style={{display:'flex', flexDirection:'row',}}> 
                    <Icon name={'md-checkmark-sharp'} style={{opacity:visibility12}} color='#219653' size={17} />
                <Text style={{width:80, marginRight:5, fontSize:11}}>{sixteenWords[11]}</Text>
-           </View> */}
+           </View>
            {/* <View style={{display:'flex', flexDirection:'row',}}> 
                    <Icon name={'md-checkmark-sharp'} style={{opacity:visibility13}} color='#219653' size={17} />
                <Text style={{width:80, marginRight:5, fontSize:11}}>{sixteenWords[12]}</Text>
