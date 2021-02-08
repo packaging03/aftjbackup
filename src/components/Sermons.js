@@ -149,6 +149,7 @@ const Sermons = ({navigation}) => {
 
   //function to hide auth alert
   hideAlert = () => {
+    dop
     setShow(false);
   };
 
@@ -214,8 +215,15 @@ const Sermons = ({navigation}) => {
 
         <Dialog
           // onDismiss={() => {
-          //   dop
+          //   displayModal(false);
           // }}
+          onDismiss={() => {
+            displayModal(false);
+            dop
+          }}
+          onPress={() =>
+            dop
+          }
           width={0.9}
           visible={show}
           rounded
@@ -235,9 +243,6 @@ const Sermons = ({navigation}) => {
                   onPress={() => {
                     dop;
                   }}
-                  // onPress={() =>
-                  //   navigation.navigate('SignUp')
-                  // }
                   textStyle={{color: 'white'}}
                   key="button-2"
                 />
@@ -258,9 +263,6 @@ const Sermons = ({navigation}) => {
                   <Button
                     style={styles.Mbutton}
                     text="    Login    "
-                    // onPress={() => {
-                    //   dop
-                    // }}
                     onPress={() => {
                       navigation.navigate('Login');
                       displayModal(false);
@@ -282,7 +284,7 @@ const Sermons = ({navigation}) => {
                     <TouchableOpacity onPress={() => hideAlert()}>
                       <Image
                         source={require(closeIcon)}
-                        style={{height: 10, width: 10}}
+                        style={{height: 18, width: 18}}
                       />
                     </TouchableOpacity>
                   </View>

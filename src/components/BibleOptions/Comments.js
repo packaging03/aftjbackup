@@ -17,13 +17,10 @@ export default function Comments() {
     }, [1])
     return (
         <View style ={{height:'100%', width:'100%', backgroundColor:'#fff'}}>
-            <FlatList
+        <FlatList
         data={datag}
         keyExtractor={item => item.id}
-        extraData = {dataChanged}
         renderItem={({item}) => (
-          
-           
            <View style={{margin:'1%'}}>
             <Text style = {styles.title}>{item.title}</Text>
             <Text
@@ -31,7 +28,7 @@ export default function Comments() {
               {item.details}
             </Text>
             <TouchableOpacity style={styles.button}
-             onPress={()=>{showHide?setShowHide(false):setShowHide(true)}}
+             onPress={()=>{showHide?setShowHide(!showHide):setShowHide(!showHide)}}
             >
             {showHide?(<Text>Hide Comment</Text>):(<Text>Show Comment</Text>)}
             </TouchableOpacity>

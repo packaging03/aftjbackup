@@ -1,10 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, TextInput, Pressable} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  Alert,
+} from 'react-native';
 import {Container, Header, Body, Title, Right, Left, Button} from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const EnterAmountPage = ({navigation}) => {
+  const [amount, setAmount] = useState(null);
   return (
     <Container>
       <View style={styles.secPicker}>
@@ -22,12 +30,28 @@ const EnterAmountPage = ({navigation}) => {
           placeholder="Enter amount"
           style={styles.textInput}
           keyboardType="number-pad"
+          onChangeText={text => {
+            setAmount(text);
+          }}
         />
 
         {/* ======================================== */}
         <Pressable
-          style={styles.pay}
-          onPress={() => navigation.navigate('paymentGateway')}>
+          style={({pressed}) => [
+            {
+              backgroundColor: pressed ? 'rgb(210, 230, 255)' : '#c5cad2',
+            },
+            styles.pay,
+          ]}
+          onPress={() => {
+            if (amount !== null) {
+              navigation.navigate('paymentGateway', {
+                amount: amount,
+              });
+            } else {
+              Alert.alert('Add an amount');
+            }
+          }}>
           <Text
             style={{
               fontSize: 20,
@@ -56,7 +80,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   pay: {
-    backgroundColor: '#c5cad2',
     width: 300,
     height: 50,
     elevation: 7,

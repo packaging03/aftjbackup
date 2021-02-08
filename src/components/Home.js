@@ -144,7 +144,7 @@ const Home = ({
           displayCovid(true);
         }
         //getAlerts()
-        const interval = setInterval(() => getAlerts(), 86400000);
+        const interval = setInterval(() => getAlerts(), 3600000);
         return () => {
           clearInterval(interval);
         }

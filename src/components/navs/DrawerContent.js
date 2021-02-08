@@ -20,7 +20,6 @@ import {
   Switch,
 } from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
-
 import Icon from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-simple-toast';
 import {AuthContext} from '../common/context';
@@ -99,7 +98,6 @@ const DrawerContent = ({setUser, setUserToken, setAccessToken, ...props}) => {
         response.json();
       })
       .then(responseJson => {
-        //NativeModules.DevSettings.reload();
         setAccessToken(null);
         setUser(null);
         setLogoutUser(0);

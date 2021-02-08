@@ -66,14 +66,13 @@ const Resources = ({navigation}) => {
             alignItems: 'center',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginLeft: 8,
-            marginRight: 8,
-            width: '85%',
+            paddingLeft: 15,
+            paddingRight: 15,
           }}>
           <Text style={{marginRight: 5}}>{x}.</Text>
           <Image
             style={{
-              width: '40%',
+              width: '38%',
               height: 80,
               borderRadius: 5,
               shadowOpacity: 1,
@@ -84,7 +83,7 @@ const Resources = ({navigation}) => {
           />
           <View
             style={{
-              width: '70%',
+              width: '50%',
               // height:'80%',
               display: 'flex',
               flexDirection: 'column',
@@ -176,12 +175,12 @@ const Resources = ({navigation}) => {
           height: 1,
           width: '100%',
           marginTop: 20,
-          marginBottom: 20,
+          marginBottom: 10,
           backgroundColor: '#CED0CE',
         }}
       />
       {isLoading ? (
-        <ActivityIndicator size="large" style={{marginTop: 50}} />
+        <ActivityIndicator color='blue' size="large" style={{marginTop: 50,}} />
       ) : (
         <FlatList
           style={{flex: 1}}

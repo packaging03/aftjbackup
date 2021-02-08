@@ -7,7 +7,7 @@ import App from './App';
 import {name as appName} from './app.json';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
-import TrackPlayer from 'react-native-track-player';
+// import TrackPlayer from 'react-native-track-player';
 import {app} from 'firebase';
 const Application = () => {
   return (
@@ -17,4 +17,4 @@ const Application = () => {
   );
 };
 AppRegistry.registerComponent(appName, () => Application);
-TrackPlayer.registerPlaybackService(() => require('./service'));
+// TrackPlayer.registerPlaybackService(() => require('./service'));

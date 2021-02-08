@@ -9,8 +9,11 @@ import {
 } from 'react-native';
 import {Container} from 'native-base';
 const {width, height} = Dimensions.get('window');
+import {useNavigation} from '@react-navigation/native';
 
-const Failed = props => {
+const Failed = ({route}) => {
+  const navigation = useNavigation();
+  const {error} = route.params;
   return (
     <Container>
       <View style={{height: height - 250, marginTop: 80}}>
@@ -48,11 +51,12 @@ const Failed = props => {
                 fontFamily: 'Nunito-Regular',
               }}>
               Your {'Tithe'} Payment was Unsuccessfull
+              <Text>, {error}</Text>
             </Text>
           </View>
         </View>
         <Pressable
-          onPress={() => props.navigation.navigate('Give whole heartedly')}
+          onPress={() => navigation.navigate('Give whole heartedly')}
           style={{
             marginTop: 35,
             alignSelf: 'center',

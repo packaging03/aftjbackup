@@ -5,7 +5,7 @@ const data=[
   
   { 
     id:1, 
-    videoSource:'YalBsd56iTQ&t=236s', 
+    videoSource:'YalBsd56iTQ', 
     img: 'https://i.ibb.co/T0c03Nz/Rectangle-101-8.png', 
     title:"Bible Stories for Kids", 
     details:"The Story of Creation"

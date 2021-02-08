@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, {useEffect} from 'react';
 import {Image, TouchableOpacity, Text} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -256,7 +255,6 @@ function MyTabBar({
                 </Text>
                 {/* {renderIcon({
                   route,
-
                   tintColor: isFocused ? activeTintColor : inactiveTintColor,
                 })} */}
               </View>
@@ -427,7 +425,6 @@ const HomeStackScreen = ({navigation}) => (
       options={{
         title: '',
         headerTitleStyle: {color: 'black'},
-
         headerStyle: {
           backgroundColor: '#fff',
         },
