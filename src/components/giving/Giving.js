@@ -12,8 +12,8 @@ import {
   Platform,
   Picker,
 } from 'react-native';
-import {Container} from 'native-base';
-import PayPal from 'react-native-paypal-gateway';
+import {Container, Content} from 'native-base';
+// import PayPal from 'react-native-paypal-gateway';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -37,105 +37,112 @@ export default class Giving extends Component {
     const {navigation} = this.props;
     return (
       <Container>
-        <StatusBar
-          barStyle={
-            Platform.OS === 'android' ? 'dark-content' : 'light-content'
-          }
-        />
-        <View style={{height}}>
-          <View style={{margin: 18}}>
-            <Text
-              style={{
-                fontSize: 16,
-                marginTop: 10,
-                fontFamily: 'Nunito-Regular',
-              }}>
-              For your convenience, donate to AFTj Church via the below link to
-              our secure donation site. God bless you as you do so.
-            </Text>
-          </View>
-          <View style={styles.secPicker}>
-            <Picker
-              selectedValue={this.state.checked}
-              style={{height: 50, width: 280}}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({checked: itemValue})
-              }>
-              <Picker.Item label="Select Category" value="Select Category" />
-              <Picker.Item label="Offering" value="Offering" />
-              <Picker.Item label="Tithe" value="Tithe" />
-              <Picker.Item label="Mission Support" value="Mission Support" />
-              <Picker.Item label="Church Project" value="Church Project" />
-              <Picker.Item label="Others" value="Others" />
-            </Picker>
-          </View>
-          {/* ============================================================ */}
-
-          <View style={[styles.secPicker, {marginTop: 35}]}>
-            <Picker
-              selectedValue={this.state.oneOff}
-              style={{height: 50, width: 280}}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({oneOff: itemValue})
-              }>
-              <Picker.Item label="One-Off" value="0ne-Off" />
-              <Picker.Item label="Monthly" value="Monthly" />
-            </Picker>
-          </View>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 95,
-            }}>
-            <Pressable
-              style={styles.pay}
-              onPress={() => navigation.navigate('amount')}>
+        <Content>
+          <StatusBar
+            barStyle={
+              Platform.OS === 'android' ? 'dark-content' : 'light-content'
+            }
+          />
+          <View style={{height}}>
+            <View style={{margin: 18}}>
               <Text
                 style={{
                   fontSize: 20,
                   fontFamily: 'Nunito-Bold',
                 }}>
-                Pay
+                For your convenience, donate to AFTj Church via the below link
+                to our secure donation site. God bless you as you do so.
               </Text>
-            </Pressable>
-            <Text
+            </View>
+            <View style={styles.secPicker}>
+              <Picker
+                selectedValue={this.state.checked}
+                style={{height: 50, width: 280}}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({checked: itemValue})
+                }>
+                <Picker.Item label="Select Category" value="Select Category" />
+                <Picker.Item label="Offering" value="Offering" />
+                <Picker.Item label="Tithe" value="Tithe" />
+                <Picker.Item label="Mission Support" value="Mission Support" />
+                <Picker.Item label="Church Project" value="Church Project" />
+                <Picker.Item label="Others" value="Others" />
+              </Picker>
+            </View>
+            {/* ============================================================ */}
+
+            <View style={[styles.secPicker, {marginTop: 35}]}>
+              <Picker
+                selectedValue={this.state.oneOff}
+                style={{height: 50, width: 280}}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({oneOff: itemValue})
+                }>
+                <Picker.Item label="One-Off" value="0ne-Off" />
+                <Picker.Item label="Monthly" value="Monthly" />
+              </Picker>
+            </View>
+            <View
               style={{
                 fontSize: 23,
                 marginTop: 40,
                 marginBottom: 40,
                 fontFamily: 'Nunito-Regular',
               }}>
-              OR
-            </Text>
-            <Pressable
-              onPress={() => {
-                if (Platform.OS === 'android') {
-                  Linking.openURL(
-                    'https://play.google.com/store/apps/details?id=com.squareup.cash&hl=en&gl=US',
-                  );
-                } else if (Platform.OS === 'ios') {
-                  Linking.openURL(
-                    'https://apps.apple.com/us/app/cash-app/id711923939',
-                  );
-                }
-              }}
-              style={[
-                styles.pay,
-                {
-                  backgroundColor: '#fff',
-                  elevation: 7,
-                  flexDirection: 'row',
-                },
-              ]}>
-              <Image
-                source={require('../../image/cash.png')}
-                style={{width: 30, height: 30, marginRight: 15}}
-              />
-              <Text style={{fontSize: 20, fontFamily: 'Nunito-Bold'}}>
-                Cash App
+              <Pressable
+                style={({pressed}) => [
+                  {
+                    backgroundColor: pressed ? 'rgb(210, 230, 255)' : '#c5cad2',
+                  },
+                  styles.pay,
+                ]}
+                onPress={() => navigation.navigate('amount')}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontFamily: 'Nunito-Bold',
+                  }}>
+                  Pay
+                </Text>
+              </Pressable>
+              <Text
+                style={{
+                  fontSize: 23,
+                  marginTop: 40,
+                  marginBottom: 40,
+                  fontFamily: 'Nunito-Regular',
+                }}>
+                OR
               </Text>
-            </Pressable>
+              <Pressable
+                onPress={() => {
+                  if (Platform.OS === 'android') {
+                    Linking.openURL(
+                      'https://play.google.com/store/apps/details?id=com.squareup.cash&hl=en&gl=US',
+                    );
+                  } else if (Platform.OS === 'ios') {
+                    Linking.openURL(
+                      'https://apps.apple.com/us/app/cash-app/id711923939',
+                    );
+                  }
+                }}
+                style={[
+                  styles.pay,
+                  {
+                    backgroundColor: '#fff',
+                    elevation: 7,
+                    flexDirection: 'row',
+                  },
+                ]}>
+                <Image
+                  source={require('../../image/cash.png')}
+                  style={{width: 30, height: 30, marginRight: 15}}
+                />
+                <Text style={{fontSize: 20, fontFamily: 'Nunito-Bold'}}>
+                  Cash App
+                </Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </Container>
@@ -157,7 +164,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   pay: {
-    backgroundColor: '#c5cad2',
     width: 280,
     height: 50,
     elevation: 7,

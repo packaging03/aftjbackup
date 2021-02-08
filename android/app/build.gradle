@@ -224,6 +224,12 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.facebook.fresco:fresco:2.0.0'
+    // implementation "com.braintreepayments.api:braintree:3.14.1"
+    // implementation "com.braintreepayments.api:braintree:3.+"
+    // implementation "com.braintreepayments.api:braintree:3.+"
+    // implementation "com.braintreepayments.api:data-collector:3.+"
+    //  implementation project(':react-native-paypal')
+     
     implementation 'com.facebook.fresco:animated-gif:2.0.0'
 
    

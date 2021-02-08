@@ -18,15 +18,36 @@ import PayPal from 'react-native-paypal-gateway';
 import {GooglePay} from 'react-native-google-pay';
 import {ApplePay} from 'react-native-apay';
 import {useNavigation} from '@react-navigation/native';
+import {GooglePay} from 'react-native-google-pay';
+import {ApplePay} from 'react-native-apay';
+import {useNavigation} from '@react-navigation/native';
+// import {
+//   requestOneTimePayment,
+//   requestBillingAgreement,
+// } from 'react-native-paypal';
+
+// import {uuid} from 'uuidv4';
 
 const allowedCardNetworks = ['VISA', 'MASTERCARD'];
 const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
 // import PaymentRequest from 'react-native-payments';
+import PayPal from 'react-native-paypal-gateway';
 
 // sq0idp-lREoTP6sgS5hXFGUBICUFQ => app_id
 
 const Gateways = ({route}) => {
   const [cardNumber, setCardNumber] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState({
+    nonce: '',
+    payerId: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+  });
+  const [token, setToken] = useState('');
+  const [amount, setAmount] = useState(route.params.amount);
   const [expiration, setExpiration] = useState('');
   const [cvv, setCVV] = useState('');
   const [cardName, setCardName] = useState('');
@@ -86,21 +107,31 @@ const Gateways = ({route}) => {
       );
     }
   };
-
   useEffect(() => {
-    PayPal.initialize(
-      PayPal.SANDBOX,
-      'AU3lEA5_gSXn7EQiHcYN73adepQ4sv9RaUmImkBgBRap04kdl_7imWAgrcZG70lWTgDOqZFQLOcuIwJ8',
-    );
-    // Alert.alert(route.params.amount);
+    // tokenC();
     return () => {};
   }, []);
 
+  const tokenC = async () => {
+    try {
+      const res = await fetch(
+        'https://braintree-sample-merchant.herokuapp.com/client_token',
+      );
+      let json = await res.json();
+      console.log(json.client_token);
+      setToken(json.client_token);
+    } catch (e) {
+      if (e.message === 'Network request failed') {
+        Alert.alert('Please connect to the internet ');
+      }
+    }
+  };
   useEffect(() => {
     if (Platform.OS === 'android') {
       GooglePay.setEnvironment(GooglePay.ENVIRONMENT_TEST);
       setBTN(true);
     }
+
     return () => {};
   }, []);
 
@@ -124,26 +155,57 @@ const Gateways = ({route}) => {
     console.log('clicked_Gpay');
   };
 
-  const handleSuccess = token => {
+
+  const handleSuccess = async token => {
     // Send a token to your payment gateway
     Alert.alert('Success', `token: ${token}`);
   };
 
-  const handleError = error =>
+  const handleError = error => {
     Alert.alert('Error', `${error.code}\n${error.message}`);
+  };
+
+  // paypal=============================================================
 
   const _handlePayWithPayPal = () => {
-    PayPal.pay({
-      price: `${route.params.amount}`,
-      currency: 'USD',
-      description: 'Your description goes here',
-    })
-      .then(confirm => Alert.alert(confirm))
-      .catch(error => {
-        if (error) {
-          navigation.navigate('payFailed', {error: error.message});
-        }
-      });
+    try {
+      PayPal.initialize(
+        PayPal.NO_NETWORK,
+        'AU3lEA5_gSXn7EQiHcYN73adepQ4sv9RaUmImkBgBRap04kdl_7imWAgrcZG70lWTgDOqZFQLOcuIwJ8',
+      );
+      PayPal.pay({
+        price: amount,
+        currency: 'USD',
+        description: 'tithe',
+      })
+        .then(confirm => {
+          console.log('pay success', confirm);
+          navigation.navigate('paySuccess');
+          // setIsVisible(false)
+        })
+        .catch(error => console.log(error));
+    } catch (error) {
+      console.log(error);
+    }
+    // requestOneTimePayment(token, {
+    //   amount: '12',
+    //   currency: 'USD',
+    //   localeCode: 'en_US',
+    //   // shippingAddressRequired: false,
+    //   // userAction: 'commit',
+    //   // intent: 'authorize',
+    //   // // MerchantID: '',
+    // })
+    //   .then(da => {
+    //     setSuccess(da);
+    //     console.log(da);
+    //   })
+    //   .then(() => setError(''))
+    //   .catch(err => {
+    //     console.log(err.message);
+    //     setError(err.message);
+    //   });
+    // console.log(success);
   };
 
   const _handlingCardNumber = number => {
