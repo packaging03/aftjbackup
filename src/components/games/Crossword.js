@@ -342,7 +342,7 @@ const Crosswords = ({route}) => {
             setEndTouchY(0);
         }
 
-        if (score === 1){
+        if (score === 12){
             displayModal(true);
         }
 
