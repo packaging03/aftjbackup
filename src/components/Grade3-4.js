@@ -4,10 +4,44 @@ import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-n
 const data=[
   { 
     id:1, 
-    videoSource:'teu7BCZTgDs', 
-    img: 'https://i.ibb.co/gyMDTxT/Rectangle-105.png', 
-    title:"Bible Story Series", 
-    details:"Genesis The Creation of World"
+    videoSource:'4qFg3QD2li8', 
+    img: 'https://i.ibb.co/HYbxdmc/Rectangle-102-1.png', 
+    title:"All about Jesus", 
+    details:"All about Jesus"
+  },
+  { id:2, 
+    videoSource:'JyVXIvdTF20', 
+    img: 'https://i.pinimg.com/originals/83/45/46/83454612be99ab58069b6c860c97c301.jpg', 
+    title:"The birth of Jesus Christ", 
+    details:"The birth of Jesus Christ"
+  }, 
+  { 
+    id: 3, 
+    videoSource:'1EzW-tnZ-Lw', 
+    img: 'https://www.inspirationalchristians.org/images/joseph-dreams-1-1024x640.jpg', 
+    title:"Jesus and the disciples", 
+    details:"Jesus and the disciples"
+  },
+  { 
+    id:4, 
+    videoSource:'pKcTXDgt5iI', 
+    img: 'https://i.ibb.co/txRRLXq/Rectangle-104.png', 
+    title:"Miracles of Jesus", 
+    details:"Miracles of Jesus"
+  },
+  { 
+    id:5, 
+    videoSource:'-Xb9svrR3kY', 
+    img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', 
+    title:"Jesus is anointed", 
+    details:"Jesus is anointed"
+  },
+  { 
+    id:6, 
+    videoSource:'4ERy98wuO8o', 
+    img: 'https://i.ytimg.com/vi/1EzW-tnZ-Lw/maxresdefault.jpg', 
+    title:"Stories of Jesus", 
+    details:"Stories of Jesus"
   },
 ];
 
@@ -23,7 +57,7 @@ const renderSeparator = () => {
     );
   };
 
-export default function Kindergarten({navigation, route}) {
+export default function Grade34({navigation, route}) {
     const {option} = route.params;
     {{navigation.setOptions({title:option})}}
     return (
@@ -32,7 +66,7 @@ export default function Kindergarten({navigation, route}) {
           data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={()=>navigation.navigate('SchoolCurriculumQuiz',{videoLink: item.videoSource, videoTitle:item.title, pageId: 11} )}> 
+            <TouchableOpacity onPress={()=>navigation.navigate('SchoolCurriculumQuiz',{videoLink: item.videoSource, videoTitle:item.title, pageId: 18} )}> 
             <View
                 style={{
                   flexDirection: 'row',
@@ -54,7 +88,7 @@ export default function Kindergarten({navigation, route}) {
                   </Text>
                   <Text
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       marginLeft: 10,
                       color: '#a6a6a6',
                     }}>

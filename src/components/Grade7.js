@@ -2,25 +2,14 @@ import React from 'react'
 import { StyleSheet, Text, View,Image,FlatList, TouchableOpacity } from 'react-native'
 
 const data=[
-  
   { 
     id:1, 
-    topic:'Church Videos', 
-    img: 'https://i.ibb.co/175Syt2/Rectangle-101-2.png', 
-    title:"Lesson", 
-    details:"Videos",
-    link: "PreSchool"
-  },
-  { 
-    id: 2, 
-    topic:'School Videos',
-    img: 'https://i.ibb.co/w0D48T4/Rectangle-101-3.png', 
-    title:"Lesson", 
-    details:"Videos",
-    link: "PreSchool"
+    videoSource:'FVtTB71Mxkc', 
+    img: 'https://i.ibb.co/T0c03Nz/Rectangle-101-8.png', 
+    title:"Salvation", 
+    details:"Salvation Story for Kids"
   },
 ];
-
 
 const renderSeparator = () => {
     return (
@@ -28,13 +17,13 @@ const renderSeparator = () => {
         style={{
           height: 1,
           width: '100%',
-          backgroundColor: '#e8e8e8',
+          backgroundColor: '#CED0CE',
         }}
       />
     );
   };
 
-export default function PreSchoolIntro({navigation, route}) {
+export default function Grade7({navigation, route}) {
     const {option} = route.params;
     {{navigation.setOptions({title:option})}}
     return (
@@ -43,28 +32,13 @@ export default function PreSchoolIntro({navigation, route}) {
           data={data}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <TouchableOpacity 
-            onPress={()=> navigation.navigate(item.link, {option: 'Pre School'})}> 
-
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      marginLeft: 10,
-                      marginLeft: 20,
-                      marginBottom: 12,
-                      marginTop: 16,
-                      color: '#000',
-                    }}>
-                    {item.topic}
-                  </Text>
-
+            <TouchableOpacity onPress={()=>navigation.navigate('SchoolCurriculumQuiz',{videoLink: item.videoSource, videoTitle:item.title, pageId: 27} )}> 
             <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  margin: 10,
-                  marginLeft: 20,
-                  marginBottom: 16,
+                  marginTop: 24,
+                  margin: 16,
                 }}>
                 <Image style={styles.img} source ={{uri:item.img}} />
                  
@@ -73,21 +47,21 @@ export default function PreSchoolIntro({navigation, route}) {
                     style={{
                       fontSize: 16,
                       marginLeft: 10,
-                      color: '#212121',
+                      color: '#191C52',
+                      fontWeight: 'light',
                     }}>
                     {item.title}
                   </Text>
                   <Text
                     style={{
-                      fontSize: 10,
+                      fontSize: 13,
                       marginLeft: 10,
-                      color: '#8d8b8b',
+                      marginTop: 4,
+                      color: '#a6a6a6',
                     }}>
                     {item.details}
                   </Text>
                 </View>
-
-               
               </View>
               </TouchableOpacity>
 
@@ -99,9 +73,9 @@ export default function PreSchoolIntro({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
-    img:{width:80, 
-        height:80,
-        borderRadius: 5,
+    img:{width:120, 
+        height:75,
+        borderRadius: 6,
         shadowOpacity: 1,
         shadowRadius: 2,
         resizeMode:'cover',

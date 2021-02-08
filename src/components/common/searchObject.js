@@ -29,5 +29,4 @@ export const dataArray2 = {
   '28': 'Suggestion',
   '29': 'Games',
   '30': 'TestPage',
-
 };
