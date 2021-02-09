@@ -1,6 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {exp, Value} from 'react-native-reanimated';
-import firebase from 'firebase';
 import {
   View,
   Text,
@@ -151,6 +149,7 @@ const Sermons = ({navigation}) => {
 
   //function to hide auth alert
   hideAlert = () => {
+    dop
     setShow(false);
   };
 
@@ -199,7 +198,7 @@ const Sermons = ({navigation}) => {
   );
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <StatusBar backgroundColor="transparent" translucent />
       <View style={{margin: 10}}>
         <ImageBackground
@@ -216,8 +215,15 @@ const Sermons = ({navigation}) => {
 
         <Dialog
           // onDismiss={() => {
-          //   dop
+          //   displayModal(false);
           // }}
+          onDismiss={() => {
+            displayModal(false);
+            dop
+          }}
+          onPress={() =>
+            dop
+          }
           width={0.9}
           visible={show}
           rounded
@@ -237,9 +243,6 @@ const Sermons = ({navigation}) => {
                   onPress={() => {
                     dop;
                   }}
-                  // onPress={() =>
-                  //   navigation.navigate('SignUp')
-                  // }
                   textStyle={{color: 'white'}}
                   key="button-2"
                 />
@@ -259,11 +262,9 @@ const Sermons = ({navigation}) => {
                   </TouchableOpacity>
                   <Button
                     style={styles.Mbutton}
-                    text="    SKIP    "
-                    // onPress={() => {
-                    //   dop
-                    // }}
+                    text="    Login    "
                     onPress={() => {
+                      navigation.navigate('Login');
                       displayModal(false);
                     }}
                   />
@@ -283,7 +284,7 @@ const Sermons = ({navigation}) => {
                     <TouchableOpacity onPress={() => hideAlert()}>
                       <Image
                         source={require(closeIcon)}
-                        style={{height: 10, width: 10}}
+                        style={{height: 18, width: 18}}
                       />
                     </TouchableOpacity>
                   </View>
@@ -308,17 +309,17 @@ const Sermons = ({navigation}) => {
         />
 
         {isLoading ? (
-          <ActivityIndicator size="large" style={{marginTop: 50}} />
+          <Spinner  size="large" style={{marginTop: 50}} />
         ) : (
           <FlatList
             data={data}
             ItemSeparatorComponent={renderSeparator}
             renderItem={renderItem}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
           />
         )}
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 

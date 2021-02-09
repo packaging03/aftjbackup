@@ -4,6 +4,7 @@ import {
   Text,
   View,
   FlatList,
+  KeyboardAvoidingView,
   TouchableOpacity,
   Modal,
   TextInput,
@@ -140,7 +141,8 @@ export default function BibleContent({navigation, route}) {
   const [bibleActions, setBibleActions] = useState('color');
   const [modalVisible, setModalVisible] = useState(false);
   const [highlightColor, setHilightColor] = useState('#FF6E04');
-  const [value, onChangedText] = useState('');
+  const [userComments, setUserComment] = useState('');
+  const [value, onChangeText] = React.useState('Useless Placeholder');
   const [verse, setVerse] =useState('');
   const [details, setDetails] =useState('');
 
@@ -238,7 +240,7 @@ export default function BibleContent({navigation, route}) {
   }
 
   const saveComment=async (book, chapter,verse_id,verse,comments)=>{
-    if (value==""){
+    if (comments==""){
 
     }else{
       var data = {id:book+chapter+verse_id, title:book+" "+chapter+":"+verse_id, details:verse, comment:comments};
@@ -248,7 +250,7 @@ export default function BibleContent({navigation, route}) {
       var dataArr =[];
       dataArr.push(data);
       await AsyncStorage.setItem("_comments", JSON.stringify(dataArr));
-      setModalVisible(!modalVisible);
+      setModalVisible(false);
       
     }else{
       await AsyncStorage.removeItem("_comments");
@@ -361,7 +363,7 @@ export default function BibleContent({navigation, route}) {
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Comment</Text>
 
-              <View
+              <KeyboardAvoidingView
                 style={{
                   width: '100%',
                   height: '40%',
@@ -371,21 +373,19 @@ export default function BibleContent({navigation, route}) {
                   borderRightWidth: 1,
                   borderRadius: 1,
                   borderColor: '#000',
-                }}>
+                }}
+                behavior="position" 
+                keyboardVerticalOffset={-100}
+                >
                 <TextInput
                   keyboardType="default"
-                  autoFocus={true}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    alignSelf: 'flex-start',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
+                  multiline={true}
                   value={value}
-                  onChangeText={text => onChangedText(text)}
+                  onChangeText={text => onChangeText(text)}
+                  
+                  
                 />
-              </View>
+              </KeyboardAvoidingView>
               <View
                 style={{
                   alignSelf: 'flex-end',
@@ -396,12 +396,12 @@ export default function BibleContent({navigation, route}) {
                   display: 'flex',
                 }}>
                 <CButton
-                  onPress={saveComment(thisbook, thischapter,verse,details,value)}
+                  onPress={()=>saveComment(thisbook, thischapter,verse,details,value)}
                 >Submit</CButton>
               </View>
             </View>
           </View>
-        
+         
       );
     }
   };
@@ -441,7 +441,9 @@ export default function BibleContent({navigation, route}) {
         flex: 1,
       }}>
       <View style={{backgroundColor: '#fff', width: '100%', height: '100%'}}>
-        <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <Modal animationType="slide" transparent={true} visible={modalVisible}
+        presentationStyle="overFullScreen" 
+        >
           <View>{renderModals(bibleActions)}</View>
         </Modal>
         <FlatList
@@ -584,7 +586,7 @@ export default function BibleContent({navigation, route}) {
                                 setVerse(item.verse_id);
                                 setDetails(item.verse_details);
                                 setBibleActions('comment');
-                                setModalVisible(!modalVisible);
+                                setModalVisible(true);
                                 break;
                               case 5:
                                 item.isSelected
@@ -695,7 +697,7 @@ height:"80%",
 width:'95%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '80%',
+    marginTop: '60%',
     marginLeft:10,
     marginRight:10
   },

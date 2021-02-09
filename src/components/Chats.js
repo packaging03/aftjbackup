@@ -4,17 +4,45 @@ import {View, Image, Text, StyleSheet, TextInput, FlatList, TouchableOpacity} fr
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 
-const Chats = ({navigation, accessToken})=> {
+const Chats = ({navigation, accessToken, user, route})=> {
 
     const [userData, setUserData] = useState();
     const [refreshData, setRefreshData] = useState();
+    const [activeState, setActiveState] = useState(true);
+    const [firebaseKeys, setFirebaseKeys] = useState();
+    const [firebaseValues, setFirebaseValues] = useState();
+    const [userRegistration, setUserRegistration] = useState(false);
+    const [firstRegistration, setFirstRegistration] = useState(false);
 
+    var firebaseChats = require("firebase");
+
+    const firebaseChatsConfig = {
+    databaseURL: 'https://aftj-chats-default-rtdb.firebaseio.com/',
+    projectId: 'aftj-chats'
+    };
+
+    if(!firebaseChats.apps.length){
+        firebaseChats.initializeApp(firebaseChatsConfig);
+    }
+
+    function checkIfRegisteredUser(){
+        
+        firebaseChats.database().ref('Users/').once('value').then((snapshot)=>{
+            snapshot.forEach((child)=>{
+                if(child.val().name==JSON.parse(user).name){
+                    setUserRegistration(true)
+                }
+            })   
+            console.log('here rather')
+            
+        })
+    }
 
     useEffect(()=>{
         if(accessToken==null){
             alert('Please Login to access this page')
         }else{
-           
+            
             fetch('https://church.aftjdigital.com/api/users', {
                         method: 'GET',
                         headers: {
@@ -26,12 +54,21 @@ const Chats = ({navigation, accessToken})=> {
                       })
                       .then((response) => response.json())
                       .then((responseJson) =>{
-                          console.log(responseJson)
+                          //console.log(responseJson)
                           setUserData(JSON.stringify(responseJson))
                           setRefreshData(JSON.stringify(responseJson))
+                            
                       })
                       .catch((error) => {
                         alert(error)});
+
+                        checkIfRegisteredUser()
+                        
+                        if(userRegistration==false && firstRegistration==false){
+                            firebaseChats.database().ref('Users/').push({'name': JSON.parse(user).name, 'activeState': '0', 'time':'05:30'})
+                            console.log('no its here')
+                        }  
+                                //setFirebaseKeys(JSON.stringify(Keys))
         }
         
     })
@@ -58,10 +95,18 @@ const Chats = ({navigation, accessToken})=> {
         navigation.navigate('ChatRoom', {'agent_id': item.id, 'image': item.image, 'name':item.name})
     }
 
-    const ChatActivity = ()=>{
+    const ChatActive = ()=>{
         return(
             <View style={styles.activeContainer}>
                 <View style={styles.chatActivity}></View>
+            </View>                   
+        )
+    }
+
+    const ChatInactive = ()=>{
+        return(
+            <View style={styles.activeContainer}>
+                <View style={styles.chatActivity2}></View>
             </View>                   
         )
     }
@@ -96,7 +141,7 @@ const Chats = ({navigation, accessToken})=> {
                                 }
                                 
                             </View>
-                            <ChatActivity/>
+                            {activeState?<ChatActive/>:<ChatInactive/>}
                             <View style = {styles.cardText}>
                                 <Text style = {{fontWeight: 'bold'}}>{item.name}</Text>
                                 <Text>3 minutes ago</Text>
@@ -130,11 +175,19 @@ const styles = StyleSheet.create({
         height: 15,
         backgroundColor: 'white',
         position: 'absolute',
-        right: '80%',
+        right: '82%',
         top: '65%',
         borderRadius:15,
         justifyContent: 'center',
         alignItems:'center'
+    },
+
+    chatActivity2:{
+        width: 10,
+        height: 10,
+        backgroundColor: '#d7d7d7',
+        borderRadius:10
+
     },
 
     profileImage: {

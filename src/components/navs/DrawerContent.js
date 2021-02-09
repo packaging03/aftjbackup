@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Button from '../../components/common/PopupButton';
 import Button2 from '../../components/common/PopupButton2';
 import {BlurView} from '@react-native-community/blur';
+// import { NativeModules } from "react-native";
 import {
   useTheme,
   Avatar,
@@ -19,7 +20,6 @@ import {
   Switch,
 } from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
-
 import Icon from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-simple-toast';
 import {AuthContext} from '../common/context';
@@ -27,6 +27,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
   setUserToken,
   setAccessToken,
+  setLogoutUser,
   setRouteName,
   setUser,
 } from '../../redux/user/user.actions';
@@ -39,7 +40,7 @@ import Dialog, {
   ScaleAnimation,
 } from 'react-native-popup-dialog';
 
-const DrawerContent = ({...props}) => {
+const DrawerContent = ({setUser, setUserToken, setAccessToken, ...props}) => {
   const paperTheme = useTheme();
   const [usermenu, setUsermenu] = useState(false);
   const [userImgp, setPI] = useState('');
@@ -97,9 +98,9 @@ const DrawerContent = ({...props}) => {
         response.json();
       })
       .then(responseJson => {
-        
         setAccessToken(null);
         setUser(null);
+        setLogoutUser(0);
         // setUserToken(3);
         setData();
         goHome();
@@ -111,28 +112,12 @@ const DrawerContent = ({...props}) => {
       });
   };
 
-  const showAlert = () => {
-    setLogout(true);
-  };
-
   hideAlert = () => {
-    setShow(false);
-  };
-
-  const dop = () => {
     setShow(false);
   };
 
   const displayModal = show => {
     setShow(show);
-  };
-
-  //function to hide auth alert
-  const hideLogout = () => {
-    signout();
-    setLogout(false);
-    props.navigation.navigate('HomeStack');
-    setLogout(false);
   };
 
   const closeme = () => {
@@ -445,7 +430,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setAccessToken: token => dispatch(setAccessToken(token)),
+  setLogoutUser: token => dispatch(setLogoutUser(token)),
   setRouteName: name => dispatch(setRouteName(name)),
+
+  setUserToken: token => dispatch(setUserToken(token)),
+  //setAccessToken: token => dispatch(setAccessToken(token)),
+  setUser: user => dispatch(setUser(user)),
 });
 
 export default connect(

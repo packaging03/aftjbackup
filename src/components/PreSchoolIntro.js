@@ -6,7 +6,7 @@ const data=[
   { 
     id:1, 
     topic:'Church Videos', 
-    img: 'https://g.christianbook.com/g/slideshow/0/0772001/main/0772001_1_ftc.jpg', 
+    img: 'https://i.ibb.co/175Syt2/Rectangle-101-2.png', 
     title:"Lesson", 
     details:"Videos",
     link: "PreSchool"
@@ -14,7 +14,7 @@ const data=[
   { 
     id: 2, 
     topic:'School Videos',
-    img: 'https://www.colourbox.com/preview/5188380-noah-ark.jpg', 
+    img: 'https://i.ibb.co/w0D48T4/Rectangle-101-3.png', 
     title:"Lesson", 
     details:"Videos",
     link: "PreSchool"
@@ -44,7 +44,7 @@ export default function PreSchoolIntro({navigation, route}) {
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <TouchableOpacity 
-            onPress={()=> navigation.navigate(item.link, {option: 'School Curriculum'})}> 
+            onPress={()=> navigation.navigate(item.link, {option: 'Pre School'})}> 
 
                   <Text
                     style={{
