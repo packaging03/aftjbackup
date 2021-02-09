@@ -13,7 +13,7 @@ import Alltestimony from '../Alltestimony';
 import EditPassword from '../EditPassword';
 import EditFullname from '../EditFullname';
 import EditEmail from '../EditEmail';
-import EnterAmount from '../giving/EnterAmountPage';
+import Kindergarten from '../Kindergarten';
 import EditOccupation from '../EditOccupation';
 import EditDateofBirth from '../EditDateofBirth';
 import ProfileFetchPrayerReq from '../../components/Profile/ProfileFetchPrayerRequest';
@@ -66,7 +66,6 @@ import PreSchool from '../PreSchool';
 import Kindergarten from '../Kindergarten';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
-import MemoryVerseNew from '../MemoryVerseNew';
 import AddMemoryVerse from '../AddMemoryVerse';
 import ShareMemoryVerse from '../ShareMemoryVerse';
 import Pastorschedule from '../Pastorschedule';
@@ -97,7 +96,7 @@ import NoteDetails from '../NoteDetails';
 import Addnote from '../Addnote';
 import Editnote from '../Editnote';
 import Suggestion from '../suggestion/Suggestion';
-// import MemoryVerseNew from '../MemoryVerseNew';
+import MemoryVerseNew from '../MemoryVerseNew';
 
 import Games from '../games/Games';
 import Quiz from '../games/Quiz';
@@ -845,33 +844,33 @@ const RootStack = ({
         }}
       />
 
-      <Stack.Screen
-        name="NoteDetails"
-        component={NoteDetails}
-        options={{
-          title: 'Note Pad',
-          headerStyle: {
-            backgroundColor: '#fff',
-            headerTintColor: '#000',
-          },
-          // headerRight: () => (
-          //   <View
-          //     style={{
-          //       flexDirection: 'row',
-          //       paddingRight: '30%',
-          //       alignItems: 'center',
-          //     }}>
-          //     <Image
-          //       onPress={() => navigation.navigate('Home')}
-          //       style={{width: 20, height: 20, marginRight: 15}}
-          //       source={require('../../assets/edit.png')}
-          //     />
-          //   </View>
-          // ),
-          headerTitleStyle: styles.headerStyle,
+    <Stack.Screen
+      name="NoteDetails"
+      component={NoteDetails}
+      options={{
+        title: 'Note Pad',
+        headerStyle: {
+          backgroundColor: '#fff',
           
-        }}
-      />
+        },
+        // headerRight: () => (
+        //   <View
+        //     style={{
+        //       flexDirection: 'row',
+        //       paddingRight: '30%',
+        //       alignItems: 'center',
+        //     }}>
+        //     <Image
+        //       onPress={() => navigation.navigate('Home')}
+        //       style={{width: 20, height: 20, marginRight: 15}}
+        //       source={require('../../assets/edit.png')}
+        //     />
+        //   </View>
+        // ),
+        headerTitleStyle: styles.headerStyle,
+        
+      }}
+    />
 
     <Stack.Screen
       name="Editnote"

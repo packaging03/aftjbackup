@@ -428,8 +428,9 @@ const HomeStackScreen = ({navigation}) => (
         headerStyle: {
           backgroundColor: '#fff',
         },
+         headerTitleStyle: styles.headerStyle,
         headerTintColor: '#000',
-        headerTitleStyle: styles.headerStyle,
+       
       }}
     />
 
