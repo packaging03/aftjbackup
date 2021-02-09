@@ -1,17 +1,12 @@
 import React, {useEffect, Component, useState} from 'react';
 import {View, Text, Image, StyleSheet, PanResponder, Dimensions, SafeAreaView} from 'react-native';
 import Svg, {Line} from 'react-native-svg';
-import {ScrollView,
-     TouchableHighlight, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Toast from 'react-native-simple-toast';
-import Dialog from 'react-native-popup-dialog';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {BlurView} from '@react-native-community/blur';
 import DialogContent from 'react-native-popup-dialog/dist/components/DialogContent';
 
-
-var width = Dimensions.get('window').width;
-var height = Dimensions.get('window').height;
 
 
 let first = '';
@@ -137,6 +132,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
+            setVisibility1(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
@@ -155,6 +151,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
+            setVisibility2(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
@@ -173,6 +170,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
+            setVisibility3(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
@@ -191,6 +189,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
+            setVisibility4(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
@@ -209,6 +208,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
+            setVisibility5(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
@@ -227,6 +227,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
+            setVisibility6(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
@@ -245,6 +246,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
+            setVisibility7(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
@@ -263,6 +265,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
+            setVisibility8(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
@@ -281,6 +284,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
+            setVisibility9(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
@@ -299,6 +303,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
+            setVisibility10(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
@@ -317,6 +322,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
+            setVisibility11(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
@@ -335,7 +341,7 @@ const Crosswords = ({route}) => {
                 
             />])
             score = score + 1;
-            
+            setVisibility12(1);
             setStartTouchX(0);
             setStartTouchY(0);
             setEndTouchX(0);
