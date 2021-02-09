@@ -144,7 +144,7 @@ export default class Giving extends Component {
               </Pressable>
             </View>
           </View>
-        </View>
+        </Content>
       </Container>
     );
   }

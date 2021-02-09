@@ -18,9 +18,6 @@ import PayPal from 'react-native-paypal-gateway';
 import {GooglePay} from 'react-native-google-pay';
 import {ApplePay} from 'react-native-apay';
 import {useNavigation} from '@react-navigation/native';
-import {GooglePay} from 'react-native-google-pay';
-import {ApplePay} from 'react-native-apay';
-import {useNavigation} from '@react-navigation/native';
 // import {
 //   requestOneTimePayment,
 //   requestBillingAgreement,
@@ -31,7 +28,6 @@ import {useNavigation} from '@react-navigation/native';
 const allowedCardNetworks = ['VISA', 'MASTERCARD'];
 const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
 // import PaymentRequest from 'react-native-payments';
-import PayPal from 'react-native-paypal-gateway';
 
 // sq0idp-lREoTP6sgS5hXFGUBICUFQ => app_id
 

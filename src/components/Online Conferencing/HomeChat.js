@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import { _ScrollView } from 'react-native';
 import {View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions, FlatList} from 'react-native';
 import {connect} from 'react-redux';
-import 'react-native-get-random-values';
+// import 'react-native-get-random-values';
 import {v4 as uuid} from 'uuid';
 import {PermissionsAndroid} from 'react-native';
 import { Platform } from 'react-native';

@@ -708,7 +708,7 @@ const HomeStackScreen = ({navigation}) => (
         headerTitleStyle: styles.headerStyle,
       }}
     />
-
+     <HomeStack.Screen
       name="Give whole heartedly"
       component={Giving}
       options={{
