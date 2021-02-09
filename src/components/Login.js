@@ -100,8 +100,6 @@ const Login = ({navigation, setUser, setUserToken, setAccessToken}) => {
   };
 
   function loginUser(email, password, setError, setLoading) {
-    // const {signIn} = React.useContext(AuthContext);
-
     setLoading(true);
     setError('');
     if (email == '' || password == '') {

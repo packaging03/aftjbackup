@@ -59,6 +59,26 @@ export class Button2 extends Component {
   }
 }
 
+
+export class Button3 extends Component {
+  render({ onPress } = this.props) {
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <View style={{borderRadius: 5,         // Rounded border
+          borderWidth: 1,           // 2 point border widht
+          borderColor: '#FFFFFF',   // White colored border
+           height:80,
+          paddingVertical: 8,
+          width: 500,
+          alignSelf:'center',
+          alignItems: 'center',}}>
+          <Text style={styles.text}>{this.props.text.toUpperCase()}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
 export default Button;
 
 const styles = StyleSheet.create({

@@ -150,9 +150,13 @@ const About = ({navigation}) => {
         </Text>
 
         <Dialog
-          // onDismiss={() => {
-          //   dop
-          // }}
+          onDismiss={() => {
+            displayModal(false);
+            dop
+          }}
+          onPress={() =>
+            dop
+          }
           width={0.9}
           visible={show}
           rounded
@@ -194,11 +198,9 @@ const About = ({navigation}) => {
                   </TouchableOpacity>
                   <Button
                     style={styles.Mbutton}
-                    text="    SKIP    "
-                    // onPress={() => {
-                    //   dop
-                    // }}
+                    text="    Login    "
                     onPress={() => {
+                      navigation.navigate('Login');
                       displayModal(false);
                     }}
                   />
@@ -218,7 +220,7 @@ const About = ({navigation}) => {
                     <TouchableOpacity onPress={() => hideAlert()}>
                       <Image
                         source={require(closeIcon)}
-                        style={{height: 10, width: 10}}
+                        style={{height: 18, width: 18}}
                       />
                     </TouchableOpacity>
                   </View>

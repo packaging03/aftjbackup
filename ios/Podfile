@@ -95,6 +95,14 @@ target 'JCCI' do
 
   pod 'react-native-progress-bar-android', :path => '../node_modules/@react-native-community/progress-bar-android'
 
+  pod 'RNSquareInAppPayments', :path => '../node_modules/react-native-square-in-app-payments'
+
+  pod 'react-native-payments', :path => '../node_modules/react-native-payments'
+
+  pod 'RNApplePay', :path => '../node_modules/react-native-apay'
+
+  pod 'RNPaypal', :path => '../node_modules/react-native-paypal'
+
   target 'JCCITests' do
     inherit! :complete
     # Pods for testing
