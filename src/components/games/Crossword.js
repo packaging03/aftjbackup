@@ -779,7 +779,7 @@ const Crosswords = ({route}) => {
            </View>
            <View style={{display:'flex', flexDirection:'row',}}> 
                    <Icon name={'md-checkmark-sharp'} style={{opacity:visibility9}} color='#219653' size={17} />
-               <Text style={{width:80, marginRight:5, fontSize:11}}>{sixteenWords[8]}</Text>
+               <Text style={{width:80, marginRight:5, fontSize:11,}}>{sixteenWords[8]}</Text>
            </View>
            <View style={{display:'flex', flexDirection:'row',}}> 
                    <Icon name={'md-checkmark-sharp'} style={{opacity:visibility10}} color='#219653' size={17} />

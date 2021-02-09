@@ -68,7 +68,7 @@ const wordCoords = [];
         crosswordArray.push(array);
 
     });
-    console.log(wordCoords);
+    console.log(sixteenWords);
  }
 
 const pick16Random = () => {
