@@ -62,8 +62,6 @@ import TodaysReading from '../DaysReading';
 import BibleChapters from '../BibleChapters';
 import BibleVerse from '../BibleContent';
 import PreSchool from '../PreSchool';
-
-import Kindergarten from '../Kindergarten';
 import PreschoolVideoPlayer from '../PreschoolVideoPlayer';
 import Grade1 from '../Grade1-2';
 import AddMemoryVerse from '../AddMemoryVerse';
